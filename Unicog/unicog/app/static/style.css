@@ -1,0 +1,558 @@
+/* Sticky footer: 
+    http://stackoverflow.com/a/16679198/2024194
+    Retrieved 2015-11-30
+    http://ryanfait.com/sticky-footer/
+    Retrieved 2015-11-30
+    */
+
+/* Resets */
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+button {  padding: none; 
+          border: none; 
+          margin: none; 
+          /* enables min-width; the default of border-box apparently disables it. Source: http://stackoverflow.com/a/18424189; retrieved 2016-02-12 */
+          box-sizing: content-box; 
+} 
+
+a { padding: none; border: none; margin: none; }
+
+.unstyled_link, .unstyled_link:hover, .unstyled_link:active, .unstyled_link:visited {
+  color: black;
+  text-decoration: none;
+}
+
+ul, li {
+  list-style: none;
+}
+
+
+/* Main elements */
+
+body {
+  width: 80%;
+  margin: 36px auto;
+  font-family: sans-serif; 
+  background: #ffffff;
+}
+
+#content_wrapper {
+  text-align: center;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto 36px;
+}
+
+  .logo_wrapper {
+    margin: 48px 0 18px;
+    text-align: center;
+  }
+
+    .logo {
+      display: inline-block;
+      margin-bottom: 18px;
+      height: 75px;
+    }
+
+      .logo_image {
+        display: inline-block;
+        margin: 0 12px 0 0;
+        height: 75px;
+      }
+
+      .app_title {
+        display: inline-block;
+        font-size: 1.5em;
+        vertical-align: middle;
+        height: 75px;
+        line-height: 25px;
+      }
+
+  .content {
+    display: inline-block;
+  }
+
+  .bottom_menu {
+    display: inline-block;
+    width: 100%;
+    margin-top: 36px;
+    text-align: center;
+  }
+
+    .bottom_menu .submit_button {
+      display: inline-block;
+    }
+
+     .bottom_menu .submit_button:first-child {
+      margin-right: 18px;
+    }
+
+#footer, #push {
+    height: 36px; /* 155px */ /* .push must be the same height as .footer */
+}
+
+#footer {
+  margin: 0 auto;
+  width: 600px;
+  text-align: center;
+}
+
+  #footer p {
+    margin-top: 12px;
+    font-size: 0.7em;
+    color: rgb(128, 128, 128);
+  }
+
+
+/* Lists */
+
+#list_wrapper_wrapper {
+  text-align: center;
+}
+
+  #list_wrapper {
+    display: inline-block;
+  }
+
+    #list_wrapper_wrapper #list_wrapper hr {
+      padding: 0;
+      margin: 6px 0 36px;
+    }
+
+    .list_title {
+      margin-bottom: 6px;
+      text-align: left;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    #list_header {
+      width: 100%;
+    }
+
+      #list_header tr td.left {
+        width: 50%;
+        text-align: left;
+        font-size: 0.75em;
+      }
+
+        #list_header tr td.left input {
+          padding: 2px;
+        }
+
+        #list_header tr td.left input:placeholder {
+          font-style: italic;
+        }
+
+        #list_header tr td.left input::-webkit-input-placeholder {
+          font-style: italic;
+        }
+         
+        #list_header tr td.left input:-moz-placeholder { /* Firefox 18- */
+          font-style: italic;  
+        }
+         
+        #list_header tr td.left input::-moz-placeholder {  /* Firefox 19+ */
+          font-style: italic;
+        }
+         
+        #list_header tr td.left input:-ms-input-placeholder {  
+          font-style: italic;  
+        }
+
+        #list_header tr td.left .submit_button {
+          display: inline-block;
+        }
+
+      #list_header tr td.right {
+        width: 50%;
+        text-align: right;
+        vertical-align: middle;
+        font-size: 0.75em;
+      }
+
+        #list_header tr td.right a.export_as_csv, #list_header tr td.right a.export_as_csv:visited {
+          margin-left: 9px;
+          color: blue;
+          font-weight: bold;
+          text-decoration: none;
+        }
+
+        #list_header tr td.right a.export_as_csv:hover {
+          text-decoration: underline;
+        }
+      
+
+    #list {
+      background-color: rgba(255, 255, 255, 0);
+      margin: 12px 0 36px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75em;
+    }
+
+      #list th, #list td { 
+        padding: 12px 12px; 
+      }
+
+      #list th:first-child, #list tr td.first-child {
+        padding-left: 15px;
+      }
+
+      #list th:last-child, #list tr td.last-child {
+        padding-right: 15px;
+      }
+
+      #list th {
+        padding-top: 9px;
+        border-bottom: 1px solid #3949ab;
+        background-color: #C5CAE9;
+        font-weight: bold;
+      }
+
+      #list th:first-child {
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 6px 0px 0px 0px;
+        border-radius: 6px 0px 0px 0px;
+      }
+
+      #list th:last-child {
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px 6px 0px 0px;
+        border-radius: 0px 6px 0px 0px;
+      }
+
+
+        #list td {
+          margin: 0;
+          background-color: #E8EAF6;
+        }
+
+        #list tr:last-child td {
+          padding-bottom: 9px;
+        }
+
+        #list tr:last-child td:first-child {
+          -moz-border-radius: 0px;
+          -webkit-border-radius: 0px 0px 0px 6px;
+          border-radius: 0px 0px 0px 6px;
+        }
+
+        #list tr:last-child td:last-child {
+          -moz-border-radius: 0px;
+          -webkit-border-radius: 0px 0px 6px 0px;
+          border-radius: 0px 0px 6px 0px;  
+        }
+
+        #list td#none_to_display {
+          -moz-border-radius: 0px;
+          -webkit-border-radius: 0px 0px 6px 6px;
+          border-radius: 0px 0px 6px 6px;  
+          font-style: italic;
+        }
+
+
+/* Forms - This section uses BEM notation. This whole site should use it, but sadly I found out about BEM too late :'( */
+
+.form {
+  display: inline-block;
+  width: 500px;
+  padding: 0;
+  border: none;
+  margin: 27px 0 0 0;
+  text-align: center;
+}
+
+.form__tabs {
+  display: block;
+}
+
+.form__tab {
+  display: inline-block;
+  background-color: #9ed1e6;
+  width: 250px;
+  margin: 0;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.form__tab:hover {
+  background-color: #89c7e1;
+}
+
+.form__tab--selected {
+  background-color: #5c5c5c;
+  color: #9ed1e6;
+  cursor: default;
+}
+
+.form__tab--selected:hover {
+  background-color: #5c5c5c;
+}
+
+.form__tab-link, .form__tab-link:hover, .form__tab-link:active, .form__tab-link:visited {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 12px 0;
+  color: inherit;
+  text-decoration: inherit;
+  cursor: inherit;
+}
+
+.form__body {
+  display: none;
+  background-color: #5c5c5c;
+  width: 392px;
+  padding: 18px 54px 36px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  text-align: center;
+}
+
+.form__body--selected {
+  display: block;
+}
+
+.form__element {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.form__element--radio, .form__element--dropdown {
+  text-align: left;
+  color: white;
+}
+
+.form__element-label {
+  padding-right: 12px;
+}
+
+.form__body input[type="text"], .form__body input[type="password"] {
+  width: 374px;
+  padding: 9px;
+  border: none;
+  vertical-align: middle;
+  font-size: 1em;
+}
+
+.form__body textarea {
+  width: 374px;
+  height: 72px;
+  padding: 9px;
+  border: none;
+  vertical-align: middle;
+  font-size: 1em;
+  font-family: arial;
+}
+
+.form__body select {
+  background: white;
+  padding: 0.1em 0;
+  font-size: 0.8em;
+}
+
+.form__submit, .form__submit:active, .form__submit:visited, .form__button {
+  display: block;
+  background-color: #9ed1e6;
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  outline: 0;
+}
+
+.form__submit:hover {
+  background-color: #89c7e1;
+}
+
+.form__fileUpload{
+  cursor: pointer;
+}
+
+.errors .error {
+  color: rgb(255, 192, 192);
+  margin: 12px 0;
+}
+
+
+.success_flash_wrapper {
+  text-align: center;
+  margin-bottom: 36px;
+}
+  .success_flash {
+    display: inline-block;
+    color: rgb(0, 96, 0);
+  }
+
+
+/* Buttons (modified from http://www.bestcssbuttongenerator.com/) */
+
+.submit_button {
+  background-color: #768d87;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  border-radius:3px;
+  display: inline-block;
+  cursor: pointer;
+  color:#ffffff;
+  font-family: sans-serif;
+  font-size: 1.25em;
+  padding: 16px 16px;
+  min-width: 216px;
+  text-align: center;
+  text-decoration:none;
+}
+
+.mini_submit_button {
+  font-size: 1em;
+  padding: 8px 8px;
+  min-width: 72px;
+
+}
+
+.micro_submit_button {
+  font-size: 1em;
+  padding: 3px 8px;
+  min-width: 28px;
+}
+
+.gray_button {
+  background-color: #768d87;
+  color:#ffffff;
+}
+
+.green_button {
+  background-color: #44c767;
+  color:#ffffff;
+}
+
+.submit_button:hover, .mini_submit_button:hover, .micro_submit_button:hover {
+  background-color: #6c7c7c;
+}
+
+.gray_button:hover {
+  background-color: #6c7c7c;
+}
+
+.green_button:hover {
+  background-color: #5cbf2a;
+}
+
+
+/* Tiles (modified from http://www.bestcssbuttongenerator.com/) */
+
+.category_tile {
+  display: table-cell;
+  vertical-align: middle;
+  -moz-box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 1.5em;
+  width: 200px;
+  height: 200px;
+  padding: 24px 36px;
+  text-decoration: none;
+}
+
+.game_tile {
+  display: table-cell;
+  vertical-align: middle;
+  -moz-box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  box-shadow: inset 0px 1px 0px 0px #dcecfb;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 1.5em;
+  width: 200px;
+  height: 200px;
+  padding: 24px 36px;
+  text-decoration: none;
+}
+
+.colored_tile_test_1 {
+  background-color:#f28c26;
+}
+
+.colored_tile_test_1:hover {
+  background-color:#f1800e;
+}
+
+.colored_tile_test_2 {
+  background-color:#9019b9;
+}
+
+.colored_tile_test_2:hover {
+  background-color:#8400b2;
+}
+
+.colored_tile_test_3 {
+  background-color:#2dcc70;
+}
+
+.colored_tile_test_3:hover {
+  background-color:#08c259;
+}
+
+.colored_tile_test_4 {
+  background-color:#2DCC70;
+}
+
+.colored_tile_test_4:hover {
+  background-color:##00AB00;
+}
+
+.colored_tile_main_1 {
+  background-color: #9ed1e6;
+  color: black;
+}
+
+.colored_tile_main_1:hover {
+  background-color: #89c7e1;
+}
+
+.colored_tile_main_2 {
+  background-color: #548a96;
+}
+
+.colored_tile_main_2:hover {
+  background-color: #4b7b86;
+}
+
+.colored_tile_main_3 {
+  background-color: #2e5375;
+}
+
+.colored_tile_main_3:hover {
+  background-color: #274663;
+}
+
+
+

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Unified Cognitive Data Collection Platform</title>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='jquery-1.11.3.min.js') }}" type="text/javascript"></script>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="content_wrapper">
+            <div class="logo_wrapper">
+                <a class="unstyled_link" href="{{ url_for('login_web') }}">
+                  <div class="logo">
+                    <img class="logo_image" src="{{ url_for('static', filename='UnicogLogo.png') }}" />
+                    <p class="app_title">
+                      Unified Cognitive Data Collection Platform
+                    </p>
+                  </div>
+                </a>
+            </div>
+            <div class="content">
+                {% block body %}
+                {% endblock %}
+            </div>
+            <div id="push">
+        </div>
+        <div id="footer">
+            <!--<hr/>-->
+            <p>&copy; 2016 Service Systems Research Group - University of Alberta</p>
+        </div>
+    </body>
+</html>

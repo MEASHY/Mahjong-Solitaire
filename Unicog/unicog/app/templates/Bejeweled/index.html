@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Bejeweled</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/bejform.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    </head>
+    <div id="bejcolorstrip"/>
+    <h1> Bejeweled </h1>
+
+    <body>
+    	<form id = 'loginForm' method='post' action ='bejeweled_game' >
+    		<p>
+    		<input type='text' placeholder ="Researcher ID"  name='username' required/>
+    		</p>
+    		<p>
+    		<input type='text' placeholder = "User ID"  name='password' required />
+    		</p>
+    		<p>
+    			<input type='submit' name='login' value='Login' />
+    		</p>
+        </form>
+        <form id = 'quickBej' method = 'post' action ='bejeweled_quick'>
+    		<p>
+    			<input type='submit' name='login' value ='QuickTest' />
+    		</p>
+    	</form>
+    </body>
+</html>

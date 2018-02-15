@@ -1,0 +1,708 @@
+from flask import render_template, send_file, request, send_from_directory
+from app import app
+
+SERVER_URL = 'http://162.246.157.204/'
+
+@app.route('/bejeweled_game', methods = ['POST'])
+#@auth.login_required
+def bejeweled_game():
+	return render_template('Bejeweled/game.html',
+							user_id = request.form['password'],
+							r_id = request.form['username'])
+
+@app.route('/wordsearch_game', methods = ['POST'])
+#@auth.login_required
+def wordsearch_game():
+	return render_template('ECAWordSearchV2/game.html',
+							user_id = request.form['password'],
+							r_id = request.form['username'])
+
+@app.route('/')
+@app.route('/bejeweled_index')
+def bej_ind():
+	return render_template('Bejeweled/index.html')
+
+@app.route('/wordsearch_index')
+def word_ind():
+	return render_template('ECAWordSearchV2/index.html')
+
+#too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
+
+@app.route('/js/phaser.min.js')
+def phaser():
+	return send_file('Bejeweled/js/phaser.min.js')
+
+@app.route('/js/menu.js')
+def menu():
+	return send_file('Bejeweled/js/menu.js')
+
+@app.route('/js/stats.js')
+def stats():
+	return send_file('Bejeweled/js/stats.js')
+
+@app.route('/js/event.js')
+def events():
+	return send_file('Bejeweled/js/event.js')
+
+@app.route('/js/timer.js')
+def timer():
+	return send_file('Bejeweled/js/timer.js')
+
+@app.route('/js/counter.js')
+def counter():
+	return send_file('Bejeweled/js/counter.js')
+
+@app.route('/js/game.js')
+def game():
+	return send_file('Bejeweled/js/game.js')
+
+@app.route('/js/tile.js')
+def tile():
+	return send_file('Bejeweled/js/tile.js')
+
+@app.route('/js/board.js')
+def board():
+	return send_file('Bejeweled/js/board.js')
+
+@app.route('/assets/blue1.png')
+def blue1():
+	return send_file('Bejeweled/assets/blue1.png')
+
+@app.route('/assets/blue2.png')
+def blue2():
+	return send_file('Bejeweled/assets/blue2.png')
+
+@app.route('/assets/blueb.png')
+def blueb():
+	return send_file('Bejeweled/assets/blueb.png')
+
+@app.route('/assets/red1.png')
+def red1():
+	return send_file('Bejeweled/assets/red1.png')
+
+@app.route('/assets/redb.png')
+def redb():
+	return send_file('Bejeweled/assets/redb.png')
+
+@app.route('/assets/red2.png')
+def red2():
+	return send_file('Bejeweled/assets/red2.png')
+
+@app.route('/assets/green1.png')
+def green1():
+	return send_file('Bejeweled/assets/green1.png')
+
+@app.route('/assets/greenb.png')
+def greenb():
+	return send_file('Bejeweled/assets/greenb.png')
+
+@app.route('/assets/green2.png')
+def g2():
+	return send_file('Bejeweled/assets/green2.png')
+
+@app.route('/assets/orange1.png')
+def o1():
+	return send_file('Bejeweled/assets/orange1.png')
+
+@app.route('/assets/orangeb.png')
+def ob():
+	return send_file('Bejeweled/assets/orangeb.png')
+
+@app.route('/assets/orange2.png')
+def o2():
+	return send_file('Bejeweled/assets/orange2.png')
+
+@app.route('/assets/yellow1.png')
+def y1():
+	return send_file('Bejeweled/assets/yellow1.png')
+
+@app.route('/assets/yellowb.png')
+def yb():
+	return send_file('Bejeweled/assets/yellowb.png')
+
+@app.route('/assets/yellow2.png')
+def y2():
+	return send_file('Bejeweled/assets/yellow2.png')
+
+@app.route('/assets/purple1.png')
+def p1():
+	return send_file('Bejeweled/assets/purple1.png')
+
+@app.route('/assets/purpleb.png')
+def pb():
+	return send_file('Bejeweled/assets/purpleb.png')
+
+@app.route('/assets/purple2.png')
+def p2():
+	return send_file('Bejeweled/assets/purple2.png')
+
+@app.route('/assets/white1.png')
+def w1():
+	return send_file('Bejeweled/assets/white1.png')
+
+@app.route('/assets/whiteb.png')
+def wb():
+	return send_file('Bejeweled/assets/whiteb.png')
+
+@app.route('/assets/white2.png')
+def w2():
+	return send_file('Bejeweled/assets/white2.png')
+
+@app.route('/assets/two.png')
+def b2():
+	return send_file('Bejeweled/assets/two.png')
+
+@app.route('/assets/three.png')
+def b3():
+	return send_file('Bejeweled/assets/three.png')
+
+@app.route('/assets/four.png')
+def b4():
+	return send_file('Bejeweled/assets/four.png')
+
+@app.route('/assets/five.png')
+def b5():
+	return send_file('Bejeweled/assets/five.png')
+
+@app.route('/assets/six.png')
+def b6():
+	return send_file('Bejeweled/assets/six.png')
+
+@app.route('/assets/seven.png')
+def b7():
+	return send_file('Bejeweled/assets/seven.png')
+
+@app.route('/assets/start.png')
+def bs():
+	return send_file('Bejeweled/assets/start.png')
+
+## Wordsearch stuff
+
+@app.route('/wordsearch/js/phaser.min.js')
+def word_phaser():
+	return send_file('ECAWordSearchV2/js/phaser.min.js')
+
+@app.route('/wordsearch/js/stats.js')
+def word_stats():
+	return send_file('ECAWordSearchV2/js/stats.js')
+
+@app.route('/wordsearch/js/event.js')
+def word_event():
+	return send_file('ECAWordSearchV2/js/event.js')
+
+@app.route('/wordsearch/js/timer.js')
+def word_timer():
+	return send_file('ECAWordSearchV2/js/timer.js')
+
+@app.route('/wordsearch/js/counter.js')
+def word_counter():
+	return send_file('ECAWordSearchV2/js/counter.js')
+
+@app.route('/wordsearch/js/game.js')
+def word_game():
+	return send_file('ECAWordSearchV2/js/game.js')
+
+@app.route('/wordsearch/js/tile.js')
+def word_tile():
+	return send_file('ECAWordSearchV2/js/tile.js')
+
+@app.route('/wordsearch/js/board.js')
+def word_board():
+	return send_file('ECAWordSearchV2/js/board.js')
+
+@app.route('/assets/tile1_268_pixels/tile1_A_268.png')
+def word_a():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_A_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_B_268.png')
+def word_b():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_B_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_C_268.png')
+def word_c():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_C_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_D_268.png')
+def word_d():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_D_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_E_268.png')
+def word_e():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_E_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_F_268.png')
+def word_f():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_F_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_G_268.png')
+def word_g():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_G_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_H_268.png')
+def word_h():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_H_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_I_268.png')
+def word_i():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_I_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_J_268.png')
+def word_j():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_J_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_K_268.png')
+def word_k():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_K_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_L_268.png')
+def word_l():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_L_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_M_268.png')
+def word_m():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_M_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_N_268.png')
+def word_n():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_N_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_O_268.png')
+def word_o():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_O_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_P_268.png')
+def word_p():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_P_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_Q_268.png')
+def word_q():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_Q_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_R_268.png')
+def word_r():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_R_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_S_268.png')
+def word_s():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_S_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_T_268.png')
+def word_t():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_T_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_U_268.png')
+def word_u():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_U_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_V_268.png')
+def word_v():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_V_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_W_268.png')
+def word_w():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_W_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_X_268.png')
+def word_x():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_X_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_Y_268.png')
+def word_y():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_Y_268.png')
+
+@app.route('/assets/tile1_268_pixels/tile1_Z_268.png')
+def word_z():
+	return send_file('ECAWordSearchV2/assets/tile1_268_pixels/tile1_Z_268.png')
+
+@app.route('/assets/tile_select/tile1_A_268.png')
+def sel_a():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_A_268.png')
+
+@app.route('/assets/tile_select/tile1_B_268.png')
+def sel_B():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_B_268.png')
+
+@app.route('/assets/tile_select/tile1_C_268.png')
+def sel_C():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_C_268.png')
+
+@app.route('/assets/tile_select/tile1_D_268.png')
+def sel_D():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_D_268.png')
+
+@app.route('/assets/tile_select/tile1_E_268.png')
+def sel_E():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_E_268.png')
+
+@app.route('/assets/tile_select/tile1_F_268.png')
+def sel_F():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_F_268.png')
+
+@app.route('/assets/tile_select/tile1_G_268.png')
+def sel_G():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_G_268.png')
+
+@app.route('/assets/tile_select/tile1_H_268.png')
+def sel_H():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_H_268.png')
+
+@app.route('/assets/tile_select/tile1_I_268.png')
+def sel_I():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_I_268.png')
+
+@app.route('/assets/tile_select/tile1_J_268.png')
+def sel_J():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_J_268.png')
+
+@app.route('/assets/tile_select/tile1_K_268.png')
+def sel_K():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_K_268.png')
+
+@app.route('/assets/tile_select/tile1_L_268.png')
+def sel_L():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_L_268.png')
+
+@app.route('/assets/tile_select/tile1_M_268.png')
+def sel_M():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_M_268.png')
+
+@app.route('/assets/tile_select/tile1_N_268.png')
+def sel_N():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_N_268.png')
+
+@app.route('/assets/tile_select/tile1_O_268.png')
+def sel_O():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_O_268.png')
+
+@app.route('/assets/tile_select/tile1_P_268.png')
+def sel_P():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_P_268.png')
+
+@app.route('/assets/tile_select/tile1_Q_268.png')
+def sel_Q():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_Q_268.png')
+
+@app.route('/assets/tile_select/tile1_R_268.png')
+def sel_R():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_R_268.png')
+
+@app.route('/assets/tile_select/tile1_S_268.png')
+def sel_S():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_S_268.png')
+
+@app.route('/assets/tile_select/tile1_T_268.png')
+def sel_T():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_T_268.png')
+
+@app.route('/assets/tile_select/tile1_U_268.png')
+def sel_U():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_U_268.png')
+
+@app.route('/assets/tile_select/tile1_V_268.png')
+def sel_V():
+		return send_file('ECAWordSearchV2/assets/tile_select/tile1_V_268.png')
+@app.route('/assets/tile_select/tile1_W_268.png')
+def sel_W():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_W_268.png')
+
+@app.route('/assets/tile_select/tile1_X_268.png')
+def sel_X():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_X_268.png')
+
+@app.route('/assets/tile_select/tile1_Y_268.png')
+def sel_Y():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_Y_268.png')
+
+@app.route('/assets/tile_select/tile1_Z_268.png')
+def sel_Z():
+	return send_file('ECAWordSearchV2/assets/tile_select/tile1_Z_268.png')
+
+@app.route('/assets/tile_lock/tile1_A_268.png')
+def lock_a():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_A_268.png')
+
+@app.route('/assets/tile_lock/tile1_B_268.png')
+def lock_B():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_B_268.png')
+
+@app.route('/assets/tile_lock/tile1_C_268.png')
+def lock_C():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_C_268.png')
+
+@app.route('/assets/tile_lock/tile1_D_268.png')
+def lock_D():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_D_268.png')
+
+@app.route('/assets/tile_lock/tile1_E_268.png')
+def lock_E():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_E_268.png')
+
+@app.route('/assets/tile_lock/tile1_F_268.png')
+def lock_F():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_F_268.png')
+
+@app.route('/assets/tile_lock/tile1_G_268.png')
+def lock_G():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_G_268.png')
+
+@app.route('/assets/tile_lock/tile1_H_268.png')
+def lock_H():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_H_268.png')
+
+@app.route('/assets/tile_lock/tile1_I_268.png')
+def lock_I():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_I_268.png')
+
+@app.route('/assets/tile_lock/tile1_J_268.png')
+def lock_J():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_J_268.png')
+
+@app.route('/assets/tile_lock/tile1_K_268.png')
+def lock_K():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_K_268.png')
+
+@app.route('/assets/tile_lock/tile1_L_268.png')
+def lock_L():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_L_268.png')
+
+@app.route('/assets/tile_lock/tile1_M_268.png')
+def lock_M():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_M_268.png')
+
+@app.route('/assets/tile_lock/tile1_N_268.png')
+def lock_N():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_N_268.png')
+
+@app.route('/assets/tile_lock/tile1_O_268.png')
+def lock_O():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_O_268.png')
+
+@app.route('/assets/tile_lock/tile1_P_268.png')
+def lock_P():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_P_268.png')
+
+@app.route('/assets/tile_lock/tile1_Q_268.png')
+def lock_Q():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_Q_268.png')
+
+@app.route('/assets/tile_lock/tile1_R_268.png')
+def lock_R():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_R_268.png')
+
+@app.route('/assets/tile_lock/tile1_S_268.png')
+def lock_S():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_S_268.png')
+
+@app.route('/assets/tile_lock/tile1_T_268.png')
+def lock_T():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_T_268.png')
+
+@app.route('/assets/tile_lock/tile1_U_268.png')
+def lock_U():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_U_268.png')
+
+@app.route('/assets/tile_lock/tile1_V_268.png')
+def lock_V():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_V_268.png')
+
+@app.route('/assets/tile_lock/tile1_W_268.png')
+def lock_W():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_W_268.png')
+
+@app.route('/assets/tile_lock/tile1_X_268.png')
+def lock_X():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_X_268.png')
+
+@app.route('/assets/tile_lock/tile1_Y_268.png')
+def lock_Y():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_Y_268.png')
+
+@app.route('/assets/tile_lock/tile1_Z_268.png')
+def lock_Z():
+	return send_file('ECAWordSearchV2/assets/tile_lock/tile1_Z_268.png')
+
+@app.route('/assets/level/10/g12')
+def level10():
+	return send_file('ECAWordSearchV2/assets/level/10/g12')
+
+@app.route('/assets/level/5/g1')
+def level1():
+	return send_file('ECAWordSearchV2/assets/level/5/g1')
+
+@app.route('/assets/level/6/g2')
+def level2():
+	return send_file('ECAWordSearchV2/assets/level/6/g2')
+
+@app.route('/assets/level/7/g3')
+def level3():
+	return send_file('ECAWordSearchV2/assets/level/7/g3')
+
+@app.route('/assets/level/8/g4')
+def level4():
+	return send_file('ECAWordSearchV2/assets/level/8/g4')
+
+@app.route('/assets/level/8/g5')
+def level5():
+	return send_file('ECAWordSearchV2/assets/level/8/g5')
+
+@app.route('/assets/level/9/g6')
+def level6():
+	return send_file('ECAWordSearchV2/assets/level/9/g6')
+
+@app.route('/assets/level/9/g7')
+def level7():
+	return send_file('ECAWordSearchV2/assets/level/9/g7')
+
+@app.route('/assets/level/10/g8')
+def level8():
+	return send_file('ECAWordSearchV2/assets/level/10/g8')
+
+@app.route('/assets/level/10/g10')
+def level9():
+	return send_file('ECAWordSearchV2/assets/level/10/g10')
+
+@app.route('/assets/buttons/main_menu.png')
+def wsmmbutton():
+	return send_file('ECAWordSearchV2/assets/buttons/main_menu.png')
+
+@app.route('/assets/buttons/next_level.png')
+def wsnlbutton():
+	return send_file('ECAWordSearchV2/assets/buttons/next_level.png')
+
+@app.route('/assets/buttons/try_again.png')
+def wstabutton():
+	return send_file('ECAWordSearchV2/assets/buttons/try_again.png')
+
+@app.route('/assets/bgame1.png')
+def bg1():
+	return send_file('Bejeweled/assets/bgame1.png')
+
+@app.route('/assets/bgame2.png')
+def bg2():
+	return send_file('Bejeweled/assets/bgame2.png')
+
+@app.route('/assets/bgame3.png')
+def bg3():
+	return send_file('Bejeweled/assets/bgame3.png')
+
+@app.route('/assets/bgame4.png')
+def bg4():
+	return send_file('Bejeweled/assets/bgame4.png')
+
+@app.route('/assets/bgame5.png')
+def bg5():
+	return send_file('Bejeweled/assets/bgame5.png')
+
+@app.route('/assets/bgame6.png')
+def bg6():
+	return send_file('Bejeweled/assets/bgame6.png')
+
+@app.route('/assets/bgame7.png')
+def bg7():
+	return send_file('Bejeweled/assets/bgame7.png')
+
+@app.route('/assets/bgame8.png')
+def bg8():
+	return send_file('Bejeweled/assets/bgame8.png')
+
+@app.route('/assets/bgame9.png')
+def bg9():
+	return send_file('Bejeweled/assets/bgame9.png')
+
+@app.route('/assets/bgame10.png')
+def bg10():
+	return send_file('Bejeweled/assets/bgame10.png')
+
+@app.route('/assets/bgame11.png')
+def bg11():
+	return send_file('Bejeweled/assets/bgame11.png')
+
+@app.route('/assets/bgame12.png')
+def bg12():
+	return send_file('Bejeweled/assets/bgame12.png')
+
+@app.route('/assets/bgame13.png')
+def bg13():
+	return send_file('Bejeweled/assets/bgame13.png')
+
+@app.route('/assets/bgame14.png')
+def bg14():
+	return send_file('Bejeweled/assets/bgame14.png')
+
+@app.route('/assets/bgame15.png')
+def bg15():
+	return send_file('Bejeweled/assets/bgame15.png')
+
+@app.route('/assets/bsessionComplete.png')
+def bgsession():
+	return send_file('Bejeweled/assets/bsessionComplete.png')
+
+@app.route('/assets/buttons/wgame1.png')
+def wg1():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame1.png')
+
+@app.route('/assets/buttons/wgame2.png')
+def wg2():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame2.png')
+
+@app.route('/assets/buttons/wgame3.png')
+def wg3():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame3.png')
+
+@app.route('/assets/buttons/wgame4.png')
+def wg4():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame4.png')
+
+@app.route('/assets/buttons/wgame5.png')
+def wg5():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame5.png')
+
+@app.route('/assets/buttons/wgame6.png')
+def wg6():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame6.png')
+
+@app.route('/assets/buttons/wgame7.png')
+def wg7():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame7.png')
+
+@app.route('/assets/buttons/wgame8.png')
+def wg8():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame8.png')
+
+@app.route('/assets/buttons/wgame9.png')
+def wg9():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame9.png')
+
+@app.route('/assets/buttons/wgame10.png')
+def wg10():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame10.png')
+
+@app.route('/assets/buttons/wgame11.png')
+def wg11():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame11.png')
+
+@app.route('/assets/buttons/wgame12.png')
+def wg12():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame12.png')
+
+@app.route('/assets/buttons/wgame13.png')
+def wg13():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame13.png')
+
+@app.route('/assets/buttons/wgame14.png')
+def wg14():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame14.png')
+
+@app.route('/assets/buttons/wgame15.png')
+def wg15():
+	return send_file('ECAWordSearchV2/assets/buttons/wgame15.png')
+
+@app.route('/assets/buttons/wsessionComplete.png')
+def wgs():
+	return send_file('ECAWordSearchV2/assets/buttons/wsessionComplete.png')
+
+@app.route('/db_view')
+def dbviewer():
+	return send_from_directory(app.static_folder, 'phpliteadmin.php')
+
+

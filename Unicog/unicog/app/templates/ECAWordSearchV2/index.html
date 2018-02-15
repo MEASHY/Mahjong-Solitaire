@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Word Search</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='/wordform.css') }}">
+    </head>
+    <div id="wordcolorstrip"/>
+    <h1> Word Search </h1>
+
+    <body>
+    	<form id = 'loginForm' method='post' action ='wordsearch_game' >
+    		<p>
+    		<input type='text' placeholder ="Researcher ID"  name='username' required />
+    		</p>
+    		<p>
+    		<input type='text' placeholder = "User ID"  name='password' required />
+    		</p>
+    		<p>
+    			<input type='submit' name='login' value='Login' />
+    		</p>
+        </form>
+        <form id = 'quickWord' method = 'post' action = 'wordsearch_quick' >
+    		<p>
+    			<input type='submit' name='login' value ='Quick Test' />
+    		</p>
+    	</form>
+    </body>
+</html>

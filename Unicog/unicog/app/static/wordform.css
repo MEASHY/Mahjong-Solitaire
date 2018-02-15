@@ -1,0 +1,63 @@
+#wordcolorstrip {
+	width: 100%;
+	height: 50px;
+	border-style: solid;
+	border-color: #8400b2;
+	background-color: #8400b2;
+}
+
+h1 {
+	padding-top: 100px;
+	font-size: 34px;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+button {
+	width: 50%;
+	background-color: #8400b2;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input {
+	width: 50%;
+}
+
+input[type="button"] {
+	background-color: #8400b2;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input[type="submit"] {
+	background-color: #8400b2;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input[type="text"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+
+input[type="password"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
