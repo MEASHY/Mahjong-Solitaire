@@ -1,14 +1,12 @@
 var Board = function () {
 
-    var self = this;
-    var tiles = game.add.group();
-
-
-    var tilesSelected = 0;
+    var self = this,
+    var tiles = game.add.group(),
+    var tilesSelected = 0
 
     var init = function () {
         
-        var tile = new Tile(1, 1, 1, "1");
+        var tile = new Tile(1, 1, 1, "1")
         
     };
 
@@ -24,5 +22,5 @@ var Board = function () {
         
     };
 
-    init();
+    init()
 };
