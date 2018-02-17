@@ -1,21 +1,27 @@
-import "phaser.min"
-
 var gameConfig = {
     width: 800,
     height: 600,
     type: Phaser.AUTO,
     parent: 'gameDiv',
+    scene: {
+        preload: preload,
+        create: create
+    },
+    callbacks: {
+        preBoot: function () { console.log('I get called before all of the Game systems are created, but after Device is available')},
+        postBoot: function () { console.log('I get called after all of the Game systems are running, immediately before raf starts')}
+    }
 
-    score: 0
 }
 
 function preload() {
-    game.load.image('1Dot', 'Assets/Tilsets/Test/Mahjong-Dot-1')
-
+    this.load.image('1Dot', '/Assets/Tilesets/Test/Mahjong-Dot-1.jpg')
 }
 
 function create() {
-    game.add.sprite(0, 0, '1Dot')
+    console.log("creating!")
+    this.board = new Board(this)
+    //this.add.sprite(100,100,"1Dot")
 }
 
 function update() {
@@ -23,3 +29,4 @@ function update() {
 }
 
 var game = new Phaser.Game(gameConfig)
+console.log(game)
