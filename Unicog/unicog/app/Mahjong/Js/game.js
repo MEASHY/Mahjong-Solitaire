@@ -1,21 +1,26 @@
-import "phaser.min"
-
 var gameConfig = {
     width: 800,
-    height: 600,
+    height: 800,
     type: Phaser.AUTO,
     parent: 'gameDiv',
+    scene: {
+        preload: preload,
+        create: create
+    }
 
-    score: 0
 }
 
 function preload() {
-    game.load.image('1Dot', 'Assets/Tilsets/Test/Mahjong-Dot-1')
-
+    this.load.image('1Dot', '/Assets/Tilesets/Test/Mahjong-Dot-1.jpg')
+    this.load.json('jsonLayout', '/Assets/Layouts/layout_test_easy.json')
+    console.log("Assets loaded!")
 }
 
 function create() {
-    game.add.sprite(0, 0, '1Dot')
+    console.log("creating!")
+    console.log(this.cache.json.get('jsonLayout'));
+    this.board = new Board(this)
+    console.log("Game created!")
 }
 
 function update() {
@@ -23,3 +28,4 @@ function update() {
 }
 
 var game = new Phaser.Game(gameConfig)
+console.log(game)

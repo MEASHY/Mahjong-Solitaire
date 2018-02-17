@@ -3,14 +3,23 @@
         "name": "test",
         "difficulty": "easy",
         "size": 12,
-        "depth": 1,
+        "depth": 3,
         "uniqueTiles": 6,
         "duplicateTiles": 2
     },
 	"layer1": [
-		[0, 1, 1, 0],
+		[0, 1, 1, 1],
 		[1, 1, 1, 1],
 		[1, 1, 1, 1],
 		[0, 1, 1, 0]
+	],
+    "layer2": [
+		[0, 1, 1],
+		[1, 1, 1],
+		[0, 1, 0]
+	],
+    "layer3": [
+		[ 0, 1],
+		[ 0, 0]
 	]
 }
