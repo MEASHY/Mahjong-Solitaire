@@ -1,3 +1,4 @@
+
 #mahcolorstrip {
 	width: 100%;
 	height: 50px;
@@ -32,18 +33,18 @@ input {
 	width: 50%;
 }
 
-input[type="button"] {
+input[type="login"] {
 	background-color: #f1800e;
-	border: none;
 	text-align: center;
 	padding: 25px 36px;
 	font-size: 24px;
 	color: #ffffff;
+    width: 20%;
+    
 }
 
 input[type="submit"] {
 	background-color: #f1800e;
-	border: none;
 	text-align: center;
 	padding: 25px 36px;
 	font-size: 24px;
@@ -60,4 +61,9 @@ input[type="password"] {
 	font-size: 20px;
 	padding-left: 5px;
 	font-family: Arial;
+}
+#container{
+    text-align: center;
+    top: 50%;
+    left: 50%;
 }
