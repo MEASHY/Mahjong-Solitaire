@@ -98,27 +98,21 @@ class Layout {
             if (upperTiles.length < 1) {
                 this.height--
                 var temporaryArray = []
-                // Removed an object from an array so we need to set i = 0 to avoid skipping objects
-                /*
-                while (i < lowerTiles.length) {
+                for (var i = lowerTiles.length - 1; i >= 0; i--) {
+                    console.log("---------------------")
+                    console.log(lowerTiles[i])
+                    console.log(lowerTiles[i].height)
+                    console.log(this.height)
                     if (lowerTiles[i].height === this.height) {
-                        console.log(lowerTiles[i].height)
-                        console.log(this.height)
-                        temporaryArray.push(lowerTiles[i], 1)[0])
-                        i = 0
-                    }
-                    i++
-                }
-                */
-                
-                for (var i = lowerTiles.length - 1; i > 0; i--) {
-                    console.log(i)
-                    if (lowerTiles[i].height === this.height) {
+                        console.log("accepted")
                         console.log(lowerTiles[i])
-                        console.log(lowerTiles[i].height)
-                        console.log(this.height)
                         upperTiles.push(lowerTiles.splice(i, 1)[0])
+                    } else {
+                        console.log("rejected")
+                        lowerTiles[i]
                     }
+                    
+                    console.log("---------------------")
                 }
                 
             }
@@ -165,29 +159,35 @@ class Layout {
             console.log(pos2)
             //console.log("Pos-----------------")
             
-            var tilesToPush = []
             var childrenToPush = []
             
             
-            //find the new parent positions opened by the assignment of position 1
+            //find the new child positions opened by the assignment of position 1
             for (var i = 0; i < pos1.children.length; i++){
                 if (pos1.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos1.children[i]).length < 2){
                     childrenToPush.push(pos1.children[i])
                 }
             }           
             
-            //find the new parent positions opened by the assignment of position 2
+            //find the new child positions opened by the assignment of position 2
             for (var i = 0; i < pos2.children.length; i++){
                 if (pos2.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos2.children[i]).length < 2){
                     childrenToPush.push(pos2.children[i])
                 }
             }
             
-            var a = this.findEmptyNeighbors(pos1)
-            var b = this.findEmptyNeighbors(pos2)
-            tilesToPush = tilesToPush.concat(a,b)
+            if (pos1.height === this.height) {
+                this.mergeArrays(upperTiles, this.findEmptyNeighbors(pos1))   
+            } else {
+                this.mergeArrays(lowerTiles, this.findEmptyNeighbors(pos1))
+            }
+            if (pos2.height === this.height) {
+                this.mergeArrays(upperTiles, this.findEmptyNeighbors(pos2))   
+            } else {
+                this.mergeArrays(lowerTiles, this.findEmptyNeighbors(pos2))
+            }
             
-            this.mergeArrays(upperTiles, tilesToPush)
+            
             this.mergeArrays(lowerTiles, childrenToPush)
             
             console.log(counts)
