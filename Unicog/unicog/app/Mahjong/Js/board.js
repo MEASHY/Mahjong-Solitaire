@@ -4,9 +4,8 @@ var Board = function (scene) {
 
     var init = function () { 
         this.scene = scene
-        console.log(this.game)
+        //console.log(this.game)
         console.log("new layout!")
-        var layout = new Layout(this.scene, 36, 1)
         //layout.generateTest()
         //var tile = new tileNode(this.scene, 1, 1, 1, "1Dot")
         //console.log(tile.isSet())
@@ -17,13 +16,26 @@ var Board = function (scene) {
         
         
         var json = this.scene.cache.json.get('jsonLayout')
-        var depth = json.header.depth
-        console.log("DEPTH = "+depth)
-        for(var i = 1; i <= depth; i++) {
+        var layout = new Layout(this.scene, json)
+        //layout.numChildren = json.header.numChildren
+        //layout.uniqueTiles = json.header.uniqueTiles
+        //layout.maxDuplicates = json.header.maxDuplicates 
+        
+        
+        
+        var session = new GameSession()
+        session.numChildren = json.header.numChildren
+        var height = json.header.height
+        console.log("height = "+height)
+        for(var i = 1; i <= height; i++) {
             layout.addJsonLayer(json['layer'+i], i)
         }
         console.log(layout.layers)
-        layout.setAll()
+        //layout.generateTiles(layout, json.header)
+        //layout.layers[2][0][1].findChildren(layout, 1)
+        layout.buildHierarchy()
+        layout.generateTiles()
+        //layout.setAll()
         
         
     };

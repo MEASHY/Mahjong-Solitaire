@@ -2,28 +2,25 @@
     "header":{
         "name": "test",
         "difficulty": "easy",
-        "size": 27,
-        "depth": 3,
+        "size": 24,
+        "height": 3,
         "uniqueTiles": 7,
-        "duplicateTiles": 4,
+        "maxDuplicates": 2,
         "numChildren": 4
     },
 	"layer1": [
 		[1, 1, 1, 1],
 		[1, 1, 1, 1],
 		[1, 1, 1, 1],
-		[1, 1, 1, 1]
+		[1, 1, 1, 0]
 	],
     "layer2": [
 		[1, 1, 1],
 		[1, 1, 1],
-		[1, 1, 1],
-		[1, 1, 1]
+		[1, 0, 0]
 	],
     "layer3": [
 		[ 1, 1],
-		[ 1, 1],
-		[ 1, 1],
-		[ 1, 1]
+		[ 0, 0]
 	]
 }
