@@ -83,8 +83,7 @@ class TileNode {
     }
     
     highlightTile() {
-	this.tile.setTint(0xff0000);
-	this.state.tileSelected = this;
+        this.tile.setTint(0xff0000);
     }
     
     unhighlightTile() {
@@ -93,7 +92,8 @@ class TileNode {
     
     setTile(img) {
     this.tile = this.state.add.sprite(this.x, this.y, img).setInteractive();
-	var self = this
+    
+	//var self = this
 	// set onclick for tile
 	this.tile.on('pointerdown', function (pointer) {  
 	    self.highlightTile();
