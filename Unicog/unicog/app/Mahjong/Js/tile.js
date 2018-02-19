@@ -83,18 +83,23 @@ class TileNode {
     }
     
     highlightTile() {
-        this.tile.setTint(0xff0000);
+    if (this.state.tileSelected != null) {
+        this.state.tileSelected.unhighlightTile();
+    }
+    
+	this.tile.setTint(0xff0000);
+	this.state.tileSelected = this;
     }
     
     unhighlightTile() {
         this.tile.clearTint();
     }
+
     
     setTile(img) {
     this.tile = this.state.add.sprite(this.x, this.y, img).setInteractive();
-    
-	//var self = this
 	// set onclick for tile
+    var self = this;
 	this.tile.on('pointerdown', function (pointer) {  
 	    self.highlightTile();
         });
