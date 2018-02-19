@@ -24,7 +24,7 @@ function preload() {
         ]
     session.tileSetName = "Test"
     session.tileSetSize = 7
-    session.layoutName = "layout_test_4_t.json"
+    session.layoutName = "layout_test_4.json"
     
     //load the layout file specified by the lobby for later use
     this.load.json('jsonLayout', '/Assets/Layouts/'+session.layoutName)

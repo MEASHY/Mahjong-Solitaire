@@ -80,47 +80,72 @@ class Layout {
         var possible = [...Array(counts.length).keys()]
         console.log(counts)
         console.log(possible)
-        var openTiles = []
+        var upperTiles = []
+        var lowerTiles = []
         
-        //get the positions available to fill
-        for (var i = 0; i < this.layers[0].length; i++) {
-            for (var j = 0; j < this.layers[0][i].length; j++) {
-                if (this.layers[0][i][j] != null) {
-                    openTiles.push(this.layers[0][i][j])
-                    break
-                }
-            }
-            for (var j = this.layers[0][i].length - 1; j >= 0; j--) {
-                if (this.layers[0][i][j] != null) {
-                    if(this.layers[0][i][j] != openTiles[openTiles.length-1]) {
-                        openTiles.push(this.layers[0][i][j])
-                    }
-                    break
-                }
+        for (var i = 0; i < this.roots.length; i++) {
+            if (this.roots[i].height === this.height) {
+                upperTiles.push(this.roots[i])
+            } else {
+                lowerTiles.push(this.roots[i])
             }
         }
-        console.log(openTiles)
         
         for (var n = 0; n < this.size/2; n++) {
-            //console.log("debug---------------")
-            //console.log(counts)
-            //console.log(possible)
-            //console.log(openTiles)
-            //console.log("debug---------------")
-            
-            
             //get tile
             var randTile = Math.floor(Math.random() * Math.floor(possible.length))
             
-            //get 2 positions that are not the same
-            var randPos1 = Math.floor(Math.random() * Math.floor(openTiles.length))
-            var pos1 = openTiles.splice( randPos1, 1 )[0]
-            var randPos2 = Math.floor(Math.random() * Math.floor(openTiles.length))
-            var pos2 = openTiles.splice( randPos2, 1 )[0]
+            if (upperTiles.length < 1) {
+                this.height--
+                var temporaryArray = []
+                // Removed an object from an array so we need to set i = 0 to avoid skipping objects
+                /*
+                while (i < lowerTiles.length) {
+                    if (lowerTiles[i].height === this.height) {
+                        console.log(lowerTiles[i].height)
+                        console.log(this.height)
+                        temporaryArray.push(lowerTiles[i], 1)[0])
+                        i = 0
+                    }
+                    i++
+                }
+                */
+                
+                for (var i = lowerTiles.length - 1; i > 0; i--) {
+                    console.log(i)
+                    if (lowerTiles[i].height === this.height) {
+                        console.log(lowerTiles[i])
+                        console.log(lowerTiles[i].height)
+                        console.log(this.height)
+                        upperTiles.push(lowerTiles.splice(i, 1)[0])
+                    }
+                }
+                
+            }
+                
             
+            if (lowerTiles.length < 3) {
+                var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length))
+                var pos1 = upperTiles.splice(randPos1, 1)[0]
+            } else {
+                
+                // May need a +1 if we die
+                var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length + lowerTiles.length))
+                if (randPos1 > upperTiles.length - 1) {
+                    var pos1 = lowerTiles.splice(randPos1 - upperTiles.length, 1)[0]
+                } else {
+                    var pos1 = upperTiles.splice(randPos1, 1)[0]
+                }
+            }
             
-            //console.log(n)
-            //console.log(this.size/2)
+            // May need a +1 if we die
+            var randPos2 = Math.floor(Math.random() * Math.floor(upperTiles.length + lowerTiles.length))
+            if (randPos2 > upperTiles.length - 1) {
+                var pos2 = lowerTiles.splice(randPos2 - upperTiles.length, 1)[0]
+            } else {
+                var pos2 = upperTiles.splice(randPos2, 1)[0]
+            }
+            
             
             
             //assign the tile to the two selected positions
@@ -129,8 +154,7 @@ class Layout {
             
             //if we have placed as many pairs of this tile as possible remove from list
             if (++counts[possible[randTile]] == this.maxDuplicates) {
-                possible.splice( randTile, 1 )
-                //console.log(possible)
+                possible.splice(randTile, 1)
             }
             
             //console.log(counts)
@@ -142,52 +166,56 @@ class Layout {
             //console.log("Pos-----------------")
             
             var tilesToPush = []
+            var childrenToPush = []
             
             
-            //find the new positions opened by the assignment of position 1
-            for (var i = 0; i < pos1.parents.length; i++){
-                //console.log(pos1.parents)
-                if (pos1.parents[i].allChildrenGenerated() &&  this.findEmptyNeighbors(pos1.parents[i]).length < 2){
-                    console.log("valid parent")
-                    tilesToPush.push(pos1.parents[i])
+            //find the new parent positions opened by the assignment of position 1
+            for (var i = 0; i < pos1.children.length; i++){
+                if (pos1.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos1.children[i]).length < 2){
+                    childrenToPush.push(pos1.children[i])
+                }
+            }           
+            
+            //find the new parent positions opened by the assignment of position 2
+            for (var i = 0; i < pos2.children.length; i++){
+                if (pos2.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos2.children[i]).length < 2){
+                    childrenToPush.push(pos2.children[i])
                 }
             }
-          
-            
-            //find the new positions opened by the assignment of position 2
-            for (var i = 0; i < pos2.parents.length; i++){
-                if (pos2.parents[i].allChildrenGenerated() && this.findEmptyNeighbors(pos1.parents[i]).length < 2){
-                    console.log("valid parent")
-                    tilesToPush.push(pos2.parents[i])
-                }
-            }
-           
-            
             
             var a = this.findEmptyNeighbors(pos1)
             var b = this.findEmptyNeighbors(pos2)
             tilesToPush = tilesToPush.concat(a,b)
             
-            var tilesPushed = []
-            for (i = 0; i < tilesToPush.length; i++) {
-                var duplicate = false
-                for (j = 0; j < openTiles.length; j++){
-                    if (tilesToPush[i] === openTiles[j]) {
-                        console.log("duplicate")
-                        console.log(openTiles[j])
-                        duplicate = true
+            this.mergeArrays(upperTiles, tilesToPush)
+            this.mergeArrays(lowerTiles, childrenToPush)
+            
+            console.log(counts)
+            console.log(possible)
+        }
+    }
+    
+    mergeArrays(array, newObjects) {
+        for (var i = 0; i < newObjects.length; i++) {
+            var invalidTile = false
+            //Check all children are generated for the tile
+            if (!newObjects[i].allParentsGenerated()) {
+                invalidTile = true
+            } else {
+                //Ensure a duplicate is not pushed into open tiles
+                for (var j = 0; j < array.length; j++){
+                    if (newObjects[i] === array[j]) {
+                        invalidTile = true
                         break
                     }
                 }
-                if (!duplicate) {
-                    tilesPushed.push(tilesToPush[i])
-                    openTiles.push(tilesToPush[i])
-                }
             }
-        }
-        
+            // Good to go - push it
+            if (!invalidTile) {
+                array.push(newObjects[i])
+            }
+        }   
     }
-   
     
     setAll() {
         
@@ -211,6 +239,7 @@ class Layout {
         }
     }
 }
+
 
 
 class TileNode {
@@ -250,6 +279,17 @@ class TileNode {
     allChildrenGenerated() {
         for (var i = 0; i < this.children.length; i++) {
             if (!this.children[i].isSet()){
+                console.log(this.children[i])
+                return false
+            }            
+        }
+        return true
+    }
+    
+    allParentsGenerated() {
+        for (var i = 0; i < this.parents.length; i++) {
+            if (!this.parents[i].isSet()){
+                console.log(this.parents[i])
                 return false
             }            
         }
