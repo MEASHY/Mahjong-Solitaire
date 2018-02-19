@@ -76,14 +76,28 @@ class TileNode {
         this.tile = null
         //console.log(x + " : " + y)
         //this.tile = state.add.sprite(this.x, this.y, img)
-        //console.log(this.tile)
+	//console.log(this.tile)
         
         //this.tile.setInteractive()
         
     }
     
+    highlightTile() {
+	this.tile.setTint(0xff0000);
+	this.state.tileSelected = this;
+    }
+    
+    unhighlightTile() {
+        this.tile.clearTint();
+    }
+    
     setTile(img) {
-        this.tile = this.state.add.sprite(this.x, this.y, img)
+    this.tile = this.state.add.sprite(this.x, this.y, img).setInteractive();
+	var self = this
+	// set onclick for tile
+	this.tile.on('pointerdown', function (pointer) {  
+	    self.highlightTile();
+        });
     }
     
     isSet() {

@@ -20,6 +20,7 @@ function create() {
     console.log("creating!")
     console.log(this.cache.json.get('jsonLayout'));
     this.board = new Board(this)
+    this.currentSelection = 10;  // hold the currently selected tile
     console.log("Game created!")
 }
 

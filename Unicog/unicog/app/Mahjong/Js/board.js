@@ -1,6 +1,6 @@
 var Board = function (scene) {
 
-    var tilesSelected = 0
+    var tilesSelected = null
 
     var init = function () { 
         this.scene = scene
