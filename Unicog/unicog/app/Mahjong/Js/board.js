@@ -1,12 +1,12 @@
-var Board = function (scene) {
-
-    var tilesSelected = null
-
-    var init = function () { 
+class Board {
+    constructor(scene) { 
         this.scene = scene
-        console.log(this.game)
+        //console.log(this.game)
         console.log("new layout!")
-        var layout = new Layout(this.scene, 36, 1)
+        this.layout = new Layout(this.scene, 36, 1)
+        this.currentSelection = null
+        this.tilesSelected = null
+        
         //layout.generateTest()
         //var tile = new tileNode(this.scene, 1, 1, 1, "1Dot")
         //console.log(tile.isSet())
@@ -20,25 +20,29 @@ var Board = function (scene) {
         var depth = json.header.depth
         console.log("DEPTH = "+depth)
         for(var i = 1; i <= depth; i++) {
-            layout.addJsonLayer(json['layer'+i], i)
+            this.layout.addJsonLayer(json['layer'+i], i)
         }
-        console.log(layout.layers)
-        layout.setAll()
-        
-        
-    };
+        console.log(this.layout.layers)
+        this.layout.setAll()
+    }
+    
+    selectTile(tile) {
+        if (this.currentSelection != null) {
+            this.currentSelection.unhighlightTile()
+        }
+        this.currentSelection = tile
+        this.currentSelection.highlightTile()
+    }
 
-    var checkMatch = function (){
+    checkMatch(){
         
-    };
+    }
 
-    var checkAvailableMoves = function() {
+    checkAvailableMoves() {
        
-    };
+    }
 
-    var shuffle = function (){
+    shuffle(){
         
-    };
-
-    init()
-};
+    }
+}

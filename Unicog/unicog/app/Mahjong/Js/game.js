@@ -20,12 +20,10 @@ function create() {
     console.log("creating!")
     console.log(this.cache.json.get('jsonLayout'));
     this.board = new Board(this)
-    this.currentSelection = null;  // hold the currently selected tile
     console.log("Game created!")
 }
 
 function update() {
-
 }
 
 var game = new Phaser.Game(gameConfig)
