@@ -47,7 +47,7 @@ class Layout {
         console.log(this.roots)
     }
     
-    findNeighbors(tile, findEmpty = false) {
+    findNeighbours(tile, findEmpty = false) {
         if (tile == null) {return false}
         var neighbors = []
         for (var i = tile.x - 1; i > 0; i--) {
@@ -83,12 +83,16 @@ class Layout {
         //add children to root and make selectable if applicable
         for (var i = 0; i < tile.children.length; i++) {
             this.roots.push(tile.children[i])
-            if (this.findNeighbors(tile.children[i]).length < 2) {
+            if (this.findNeighbours(tile.children[i]).length < 2) {
                 tile.children[i].selectable = true
             }
         }
         //set the adjacent tile to be selectable
-        this.findNeighbors(tile)[0].selectable = true
+        var neighbour = this.findNeighbours(tile)
+        if (neighbour.length > 0) {
+            this.findNeighbours(tile)[0].selectable = true
+        }
+        tile.tile.destroy()
         tile = null
     }
     
@@ -102,7 +106,7 @@ class Layout {
         var lowerTiles = []
         
         for (var i = 0; i < this.roots.length; i++) {
-            if (this.findNeighbors(this.roots[i], true) < 2) {
+            if (this.findNeighbours(this.roots[i], true) < 2) {
                 this.roots[i].selectable = true
                 if (this.roots[i].height === this.height) {
                     upperTiles.push(this.roots[i])
@@ -185,27 +189,27 @@ class Layout {
             
             //find the new child positions opened by the assignment of position 1
             for (var i = 0; i < pos1.children.length; i++){
-                if (pos1.children[i].allParentsGenerated() && this.findNeighbors(pos1.children[i], true).length < 2){
+                if (pos1.children[i].allParentsGenerated() && this.findNeighbours(pos1.children[i], true).length < 2){
                     childrenToPush.push(pos1.children[i])
                 }
             }           
             
             //find the new child positions opened by the assignment of position 2
             for (var i = 0; i < pos2.children.length; i++){
-                if (pos2.children[i].allParentsGenerated() && this.findNeighbors(pos2.children[i], true).length < 2){
+                if (pos2.children[i].allParentsGenerated() && this.findNeighbours(pos2.children[i], true).length < 2){
                     childrenToPush.push(pos2.children[i])
                 }
             }
             
             if (pos1.height === this.height) {
-                this.mergeArrays(upperTiles, this.findNeighbors(pos1, true))   
+                this.mergeArrays(upperTiles, this.findNeighbours(pos1, true))   
             } else {
-                this.mergeArrays(lowerTiles, this.findNeighbors(pos1, true))
+                this.mergeArrays(lowerTiles, this.findNeighbours(pos1, true))
             }
             if (pos2.height === this.height) {
-                this.mergeArrays(upperTiles, this.findNeighbors(pos2, true))   
+                this.mergeArrays(upperTiles, this.findNeighbours(pos2, true))   
             } else {
-                this.mergeArrays(lowerTiles, this.findNeighbors(pos2, true))
+                this.mergeArrays(lowerTiles, this.findNeighbours(pos2, true))
             }
             
             
@@ -278,7 +282,7 @@ class TileNode {
     }
     
     highlightTile() {  
-        this.tile.setTint(0xff0000)
+        this.tile.setTint(0xFFFD9A)
     }
     
     unhighlightTile() {
