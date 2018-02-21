@@ -50,7 +50,7 @@ class Layout {
     findNeighbours(tile, findEmpty = false) {
         if (tile == null) {return false}
         var neighbors = []
-        for (var i = tile.x - 1; i > 0; i--) {
+        for (var i = tile.x - 1; i >= 0; i--) {
             if (this.layers[tile.z][tile.y][i] != null) {
                if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
@@ -85,6 +85,8 @@ class Layout {
             this.roots.push(tile.children[i])
             if (this.findNeighbours(tile.children[i]).length < 2) {
                 tile.children[i].selectable = true
+                console.log(tile.children[i])
+                console.log(this.findNeighbours(tile.children[i]))
             }
         }
         //set the adjacent tile to be selectable
@@ -106,7 +108,8 @@ class Layout {
         var lowerTiles = []
         
         for (var i = 0; i < this.roots.length; i++) {
-            if (this.findNeighbours(this.roots[i], true) < 2) {
+            console.log(this.findNeighbours(this.roots[i], true))
+            if (this.findNeighbours(this.roots[i], true).length < 2) {
                 this.roots[i].selectable = true
                 if (this.roots[i].height === this.height) {
                     upperTiles.push(this.roots[i])
@@ -286,6 +289,7 @@ class TileNode {
     }
     
     unhighlightTile() {
+        console.log("Clearing tint")
         this.tile.clearTint()
     }
 

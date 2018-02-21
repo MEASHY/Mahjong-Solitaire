@@ -28,8 +28,10 @@ class Board {
             // This tile has already been selected
             for (var i = 0; i < this.tilesSelected.length; i++) {
                 if (this.currentSelection === this.tilesSelected[i]) {
-                    this.tilesSelected.shift()
+                    console.log("Deselect")
+                    console.log(this.currentSelection)
                     this.currentSelection.unhighlightTile()
+                    this.tilesSelected.shift()
                 }
             }
             // Tile has not been selected yet
