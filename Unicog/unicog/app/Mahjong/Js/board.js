@@ -42,10 +42,7 @@ class Board {
 
     checkMatch(){
         // The two tiles match, remove them
-        console.log(this.tileSelected.tile.texture.key)
-        console.log(this.currentSelection.tile.texture.key)
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
-            console.log("Match")
             this.layout.removeTile(this.tileSelected)
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null

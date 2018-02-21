@@ -60,7 +60,7 @@ class Layout {
                }
             }
         }
-        for (var i = tile.x + 1; i < this.layers[tile.z][tile.y].length - 1; i++) {
+        for (var i = tile.x + 1; i < this.layers[tile.z][tile.y].length; i++) {
             if (this.layers[tile.z][tile.y][i] != null) {
                if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
@@ -82,20 +82,23 @@ class Layout {
         } 
         //add children to root and make selectable if applicable
         for (var i = 0; i < tile.children.length; i++) {
-            this.roots.push(tile.children[i])
-            if (this.findNeighbours(tile.children[i]).length < 2) {
-                tile.children[i].selectable = true
-                console.log(tile.children[i])
-                console.log(this.findNeighbours(tile.children[i]))
+            if (tile.children[i].parents.length < 2)
+            {
+                this.roots.push(tile.children[i])
+                if (this.findNeighbours(tile.children[i]).length < 2) {
+                    tile.children[i].selectable = true
+                }
             }
+            tile.children[i].removeParent(tile)
         }
         //set the adjacent tile to be selectable
         var neighbour = this.findNeighbours(tile)
+        console.log(neighbour)
         if (neighbour.length > 0) {
             this.findNeighbours(tile)[0].selectable = true
         }
         tile.tile.destroy()
-        tile = null
+        this.layers[tile.z][tile.y][tile.x] = null
     }
     
     generateTiles() {
@@ -289,10 +292,6 @@ class TileNode {
     }
     
     unhighlightTile() {
-        console.log("Clearing tint")
-        console.log(this)
-        console.log(this.tile)
-        console.log(this.tile.clearTint())
         this.tile.clearTint()
     }
 
@@ -311,6 +310,14 @@ class TileNode {
             return false
         }
         return true
+    }
+    
+    removeParent(tile) {
+        for( var i = 0; i < this.parents.length; i++) {
+            if (tile === this.parents[i]) {
+                this.parents.splice(i,1)
+            }
+        }
     }
     
     //Checks if the Tiles for all the child nodes are set
