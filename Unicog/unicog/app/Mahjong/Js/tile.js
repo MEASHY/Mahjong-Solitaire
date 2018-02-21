@@ -47,12 +47,12 @@ class Layout {
         console.log(this.roots)
     }
     
-    findEmptyNeighbors(tile) {
+    findNeighbors(tile, findEmpty = false) {
         if (tile == null) {return false}
         var neighbors = []
         for (var i = tile.x - 1; i > 0; i--) {
             if (this.layers[tile.z][tile.y][i] != null) {
-               if (this.layers[tile.z][tile.y][i].isSet()) {
+               if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
                    neighbors.push(this.layers[tile.z][tile.y][i]) 
@@ -62,7 +62,7 @@ class Layout {
         }
         for (var i = tile.x + 1; i < this.layers[tile.z][tile.y].length - 1; i++) {
             if (this.layers[tile.z][tile.y][i] != null) {
-               if (this.layers[tile.z][tile.y][i].isSet()) {
+               if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
                     neighbors.push(this.layers[tile.z][tile.y][i])
@@ -74,7 +74,22 @@ class Layout {
     }
     
     removeTile(tile) {
-        
+        //remove from root
+        for (var i = 0; i < this.roots.length; i++) {
+            if (this.roots[i] === tile) {
+                this.roots.splice(i, 1)
+            }
+        } 
+        //add children to root and make selectable if applicable
+        for (var i = 0; i < tile.children.length; i++) {
+            this.roots.push(tile.children[i])
+            if (this.findNeighbors(tile.children[i]).length < 2) {
+                tile.children[i].selectable = true
+            }
+        }
+        //set the adjacent tile to be selectable
+        this.findNeighbors(tile)[0].selectable = true
+        tile = null
     }
     
     generateTiles() {
@@ -87,10 +102,13 @@ class Layout {
         var lowerTiles = []
         
         for (var i = 0; i < this.roots.length; i++) {
-            if (this.roots[i].height === this.height) {
-                upperTiles.push(this.roots[i])
-            } else {
-                lowerTiles.push(this.roots[i])
+            if (this.findNeighbors(this.roots[i], true) < 2) {
+                this.roots[i].selectable = true
+                if (this.roots[i].height === this.height) {
+                    upperTiles.push(this.roots[i])
+                } else {
+                    lowerTiles.push(this.roots[i])
+                }
             }
         }
         
@@ -167,27 +185,27 @@ class Layout {
             
             //find the new child positions opened by the assignment of position 1
             for (var i = 0; i < pos1.children.length; i++){
-                if (pos1.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos1.children[i]).length < 2){
+                if (pos1.children[i].allParentsGenerated() && this.findNeighbors(pos1.children[i], true).length < 2){
                     childrenToPush.push(pos1.children[i])
                 }
             }           
             
             //find the new child positions opened by the assignment of position 2
             for (var i = 0; i < pos2.children.length; i++){
-                if (pos2.children[i].allParentsGenerated() && this.findEmptyNeighbors(pos2.children[i]).length < 2){
+                if (pos2.children[i].allParentsGenerated() && this.findNeighbors(pos2.children[i], true).length < 2){
                     childrenToPush.push(pos2.children[i])
                 }
             }
             
             if (pos1.height === this.height) {
-                this.mergeArrays(upperTiles, this.findEmptyNeighbors(pos1))   
+                this.mergeArrays(upperTiles, this.findNeighbors(pos1, true))   
             } else {
-                this.mergeArrays(lowerTiles, this.findEmptyNeighbors(pos1))
+                this.mergeArrays(lowerTiles, this.findNeighbors(pos1, true))
             }
             if (pos2.height === this.height) {
-                this.mergeArrays(upperTiles, this.findEmptyNeighbors(pos2))   
+                this.mergeArrays(upperTiles, this.findNeighbors(pos2, true))   
             } else {
-                this.mergeArrays(lowerTiles, this.findEmptyNeighbors(pos2))
+                this.mergeArrays(lowerTiles, this.findNeighbors(pos2, true))
             }
             
             
@@ -255,7 +273,8 @@ class TileNode {
         this.height = height,
         this.parents = [], 
         this.children = [],
-        this.tile = null        
+        this.tile = null,
+        this.selectable = false
     }
     
     highlightTile() {  
