@@ -1,11 +1,12 @@
-var Board = function (scene) {
-
-    var tilesSelected = 0
-
-    var init = function () { 
+class Board {
+    constructor(scene) { 
         this.scene = scene
         //console.log(this.game)
         console.log("new layout!")
+        this.layout = new Layout(this.scene, 36, 1)
+        this.currentSelection = null
+        this.tilesSelected = null
+        
         //layout.generateTest()
         //var tile = new tileNode(this.scene, 1, 1, 1, "1Dot")
         //console.log(tile.isSet())
@@ -39,18 +40,24 @@ var Board = function (scene) {
         
         
     };
+   
+    selectTile(tile) {
+        if (this.currentSelection != null) {
+            this.currentSelection.unhighlightTile()
+        }
+        this.currentSelection = tile
+        this.currentSelection.highlightTile()
+    }
 
-    var checkMatch = function (){
+    checkMatch(){
         
-    };
+    }
 
-    var checkAvailableMoves = function() {
+    checkAvailableMoves() {
        
-    };
+    }
 
-    var shuffle = function (){
+    shuffle(){
         
-    };
-
-    init()
-};
+    }
+}

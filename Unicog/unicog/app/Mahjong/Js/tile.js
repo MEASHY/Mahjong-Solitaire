@@ -258,9 +258,22 @@ class TileNode {
         this.tile = null        
     }
     
+    highlightTile() {  
+        this.tile.setTint(0xff0000)
+    }
+    
+    unhighlightTile() {
+        this.tile.clearTint()
+    }
+
+    
     setTile(img) {
-        this.tile = this.state.add.sprite(this.xPos, this.yPos, img)
+        this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
         this.tile.setDepth(this.height*1000 + this.y)
+    var self = this;
+	this.tile.on('pointerdown', function () {  
+	    self.state.board.selectTile(self)
+        });
     }
     
     isSet() {

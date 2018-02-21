@@ -46,7 +46,6 @@ function create() {
 }
 
 function update() {
-
 }
 
 var game = new Phaser.Game(gameConfig)
