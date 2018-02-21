@@ -2,7 +2,7 @@ class Board {
     constructor(scene) { 
         this.scene = scene
         
-        this.tilesSelected = []
+        this.tileSelected = null
         this.currentSelection = null
         
         var json = this.scene.cache.json.get('jsonLayout')
@@ -24,40 +24,36 @@ class Board {
         // The tile can be selected
         if (tile.selectable) {
             this.currentSelection = tile
-            // This tile has already been selected
-            for (var i = 0; i < this.tilesSelected.length; i++) {
-                if (this.currentSelection === this.tilesSelected[i]) {
-                    console.log("Deselect")
-                    console.log(this.currentSelection)
-                    this.currentSelection.unhighlightTile()
-                    this.tilesSelected.shift()
-                }
-            }
-            // Tile has not been selected yet
-            this.tilesSelected.push(this.currentSelection)
-            this.currentSelection.highlightTile()
             
-            // Have selected 2 tiles
-            if (this.tilesSelected.length === 2) {
-                console.log("Test")
-                this.checkMatch();
-            }  
+            if (this.tileSelected != null) {
+                if (this.tileSelected == this.currentSelection) {
+                    this.currentSelection.unhighlightTile()
+                    this.tileSelected = null
+                } else {
+                    this.checkMatch();
+                }
+            } else {
+                // Tile has not been selected yet
+                this.currentSelection.highlightTile()
+                this.tileSelected = this.currentSelection
+            }
         }
     }
 
     checkMatch(){
         // The two tiles match, remove them
-        console.log(this.tilesSelected[0].tile.texture.key)
-        console.log(this.tilesSelected[1].tile.texture.key)
-        if (this.tilesSelected[0].tile.texture.key === this.tilesSelected[1].tile.texture.key) {
+        console.log(this.tileSelected.tile.texture.key)
+        console.log(this.currentSelection.tile.texture.key)
+        if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             console.log("Match")
-            this.layout.removeTile(this.tilesSelected[0])
-            this.layout.removeTile(this.tilesSelected[1])
-            this.tilesSelected = []
+            this.layout.removeTile(this.tileSelected)
+            this.layout.removeTile(this.currentSelection)
+            this.tileSelected = null
+            this.currentSelection = null
         } else {
             // The two tiles don't match so only select the most recent tile
-            this.tilesSelected[0].unhighlightTile()
-            this.tilesSelected.shift()
+            this.tileSelected.unhighlightTile()
+            this.tileSelected = null
         }        
     }
 
