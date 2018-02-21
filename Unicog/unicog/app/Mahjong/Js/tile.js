@@ -290,6 +290,9 @@ class TileNode {
     
     unhighlightTile() {
         console.log("Clearing tint")
+        console.log(this)
+        console.log(this.tile)
+        console.log(this.tile.clearTint())
         this.tile.clearTint()
     }
 

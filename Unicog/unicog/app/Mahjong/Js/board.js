@@ -21,7 +21,6 @@ class Board {
     };
    
     selectTile(tile) {
-        
         // The tile can be selected
         if (tile.selectable) {
             this.currentSelection = tile
