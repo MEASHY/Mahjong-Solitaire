@@ -12,10 +12,9 @@ class Layout {
         this.roots = []
     }
     
+    //add a single layer to the layout 
     addJsonLayer(layer, height) {
         var generated = []
-        console.log("tile layer!")
-        //console.log(layer.length)
         for (var i = 0; i < layer.length; i++) {
             var row = []
             for (var j = 0; j < layer[i].length; j++) {
@@ -30,6 +29,7 @@ class Layout {
         this.layers.push(generated)
     }
     
+    //constructs the tree structure between tileNodes within the layers array 
     buildHierarchy() {
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
@@ -38,7 +38,6 @@ class Layout {
                         continue
                     }
                     if (this.layers[i][j][k].parents.length < 1){
-                        //console.log(i, j, k)
                         this.roots.push(this.layers[i][j][k].findChildren(this, this.numChildren))
                     }
                 }
@@ -72,6 +71,10 @@ class Layout {
             }
         }
         return neighbors
+    }
+    
+    removeTile(tile) {
+        
     }
     
     generateTiles() {
@@ -228,10 +231,8 @@ class Layout {
     }
     
     setLayer(layer) {
-        //console.log("setting layer")
         for (var i = 0; i < layer.length; i++) {
             for (var j = 0; j < layer[i].length; j++) {
-                //console.log(layer[i][j])
                 if (layer[i][j] != null) {
                     layer[i][j].setTile("tile0")
                 }
@@ -244,7 +245,6 @@ class Layout {
 
 class TileNode {
     constructor(state, x, y, height){
-        //console.log("tile constructor")
         var session = new GameSession()
         this.state = state,
         this.x = x,
@@ -255,13 +255,7 @@ class TileNode {
         this.height = height,
         this.parents = [], 
         this.children = [],
-        this.tile = null
-        //console.log(x + " : " + y)
-        //this.tile = state.add.sprite(this.x, this.y, img)
-        //console.log(this.tile)
-        
-        //this.tile.setInteractive()
-        
+        this.tile = null        
     }
     
     setTile(img) {
@@ -276,6 +270,7 @@ class TileNode {
         return true
     }
     
+    //Checks if the Tiles for all the child nodes are set
     allChildrenGenerated() {
         for (var i = 0; i < this.children.length; i++) {
             if (!this.children[i].isSet()){
@@ -286,6 +281,7 @@ class TileNode {
         return true
     }
     
+    //Checks if the Tiles for all the parent nodes are set
     allParentsGenerated() {
         for (var i = 0; i < this.parents.length; i++) {
             if (!this.parents[i].isSet()){
@@ -301,6 +297,7 @@ class TileNode {
             return this
         }
         
+        //get the children for the current position
         var children = []
         if (numChildren == 1) {
             children.push(layout.layers[this.z-1][this.y][this.x])
@@ -315,13 +312,10 @@ class TileNode {
             children.push(layout.layers[this.z-1][this.y+1][this.x])
             children.push(layout.layers[this.z-1][this.y+1][this.x+1])
         }
-        //console.log("children:")
-        //console.log(children)
+        
         for (var i = 0; i < children.length; i++) {
-            //console.log("before line")
-            //console.log(this)
-            if (children[i].children.length < 1) {
-                //console.log("i have no children")
+            //If the child hasn't already already been looked at and isn't a leaf recursively call findChildren 
+            if (children[i].children.length < 1 && children[i].height > 1) {
                 this.children.push(children[i].findChildren(layout, numChildren))
             } else {
                 this.children.push(children[i])
@@ -329,7 +323,6 @@ class TileNode {
             children[i].parents.push(this)
         }
         
-        //console.log(this)
         return this  
     }
     

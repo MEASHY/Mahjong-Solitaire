@@ -2,11 +2,11 @@
     "header":{
         "name": "test",
         "difficulty": "easy",
-        "size": 27,
-        "depth": 3,
+        "size": 36,
+        "height": 3,
         "uniqueTiles": 7,
-        "duplicateTiles": 4,
-        "numChildren": 4
+        "maxDuplicates": 5,
+        "numChildren": 2
     },
 	"layer1": [
 		[1, 1, 1, 1],
@@ -21,9 +21,9 @@
 		[1, 1, 1]
 	],
     "layer3": [
-		[ 1, 1],
-		[ 1, 1],
-		[ 1, 1],
-		[ 1, 1]
+		[1, 1],
+		[1, 1],
+		[1, 1],
+		[1, 1]
 	]
 }
