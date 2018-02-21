@@ -1,9 +1,6 @@
 class Board {
     constructor(scene) { 
         this.scene = scene
-        //console.log(this.game)
-        console.log("new layout!")
-        this.layout = new Layout(this.scene, 36, 1)
         this.currentSelection = null
         this.tilesSelected = null
         
