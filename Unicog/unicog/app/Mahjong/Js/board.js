@@ -1,44 +1,64 @@
-var Board = function (scene) {
-
-    var tilesSelected = 0
-
-    var init = function () { 
+class Board {
+    constructor(scene) { 
         this.scene = scene
-        console.log(this.game)
-        console.log("new layout!")
-        var layout = new Layout(this.scene, 36, 1)
-        //layout.generateTest()
-        //var tile = new tileNode(this.scene, 1, 1, 1, "1Dot")
-        //console.log(tile.isSet())
-        //var tile = new TileNode(this.scene, 1, 1, 1)
-        //tile.setTile("1Dot")
         
-        
-        
+        this.tileSelected = null
+        this.currentSelection = null
         
         var json = this.scene.cache.json.get('jsonLayout')
-        var depth = json.header.depth
-        console.log("DEPTH = "+depth)
-        for(var i = 1; i <= depth; i++) {
-            layout.addJsonLayer(json['layer'+i], i)
+        this.layout = new Layout(this.scene, json)
+        
+        var session = new GameSession()
+        session.numChildren = json.header.numChildren
+        var height = json.header.height
+        
+        for(var i = 1; i <= height; i++) {
+            this.layout.addJsonLayer(json['layer'+i], i)
         }
-        console.log(layout.layers)
-        layout.setAll()
         
-        
+        this.layout.buildHierarchy()
+        this.layout.generateTiles()        
     };
+   
+    selectTile(tile) {
+        // The tile can be selected
+        if (tile.selectable) {
+            this.currentSelection = tile
+            
+            if (this.tileSelected != null) {
+                if (this.tileSelected == this.currentSelection) {
+                    this.currentSelection.unhighlightTile()
+                    this.tileSelected = null
+                } else {
+                    this.checkMatch();
+                }
+            } else {
+                // Tile has not been selected yet
+                this.currentSelection.highlightTile()
+                this.tileSelected = this.currentSelection
+            }
+        }
+    }
 
-    var checkMatch = function (){
-        
-    };
+    checkMatch(){
+        // The two tiles match, remove them
+        if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
+            this.layout.removeTile(this.tileSelected)
+            this.layout.removeTile(this.currentSelection)
+            this.tileSelected = null
+            this.currentSelection = null
+        } else {
+            // The two tiles don't match so only select the most recent tile
+            this.tileSelected.unhighlightTile()
+            this.tileSelected = null
+        }        
+    }
 
-    var checkAvailableMoves = function() {
+    checkAvailableMoves() {
        
-    };
+    }
 
-    var shuffle = function (){
+    shuffle(){
         
-    };
-
-    init()
-};
+    }
+}

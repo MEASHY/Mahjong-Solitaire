@@ -1,0 +1,15 @@
+{
+    "name": "Test",
+    "size": 7,
+    "main": [
+        "Mahjong-Dot-1.jpg",
+        "Mahjong-Dot-2.jpg",
+        "Mahjong-Dot-3.jpg",
+        "Mahjong-Dot-4.jpg",
+        "Mahjong-Bamboo-2.jpg",
+        "Mahjong-Bamboo-3.jpg",
+        "Mahjong-Character-1.jpg"
+        ],
+    "alt": [],
+    "effects": []
+}
