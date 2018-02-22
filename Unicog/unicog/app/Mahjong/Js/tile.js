@@ -298,7 +298,9 @@ class TileNode {
     
     setTile(img) {
         this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
-        this.tile.setDepth(this.height*1000 + this.y)
+        // this.tile.setDepth(this.height*1000 + this.y)
+        // Assures each tile has a unique depth per layout
+        this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
         var self = this;
         this.tile.on('pointerdown', function () {  
             self.state.board.selectTile(self)

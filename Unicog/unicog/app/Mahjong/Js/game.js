@@ -14,15 +14,15 @@ function preload() {
     //In theory at this point we should have out tileset selected but for now we don't
     var session = new GameSession();
     session.tiles.main = [
-        "Mahjong-Dot-1.jpg",
-        "Mahjong-Dot-2.jpg",
-        "Mahjong-Dot-3.jpg",
-        "Mahjong-Dot-4.jpg",
-        "Mahjong-Bamboo-2.jpg",
-        "Mahjong-Bamboo-3.jpg",
-        "Mahjong-Character-1.jpg"
+        "bamboo2.png",
+        "bamboo3.png",
+        "circle1.png",
+        "circle2.png",
+        "circle3.png",
+        "circle4.png",
+        "character1.png"
         ]
-    session.tileSetName = "Test"
+    session.tileSetName = "Testv3"
     session.tileSetSize = 7
     session.layoutName = "layout_test_4.json"
     
