@@ -30,7 +30,7 @@ class Board {
                     this.currentSelection.unhighlightTile()
                     this.tileSelected = null
                 } else {
-                    this.checkMatch();
+                    this.checkMatch()
                 }
             } else {
                 // Tile has not been selected yet
@@ -50,7 +50,8 @@ class Board {
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
-            this.tileSelected = null
+            this.tileSelected = this.currentSelection
+            this.currentSelection.highlightTile()
         }        
     }
 

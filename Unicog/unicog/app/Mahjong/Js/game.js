@@ -1,5 +1,5 @@
 var gameConfig = {
-    width: 800,
+    width: 1600,
     height: 1000,
     type: Phaser.AUTO,
     parent: 'gameDiv',
@@ -14,17 +14,21 @@ function preload() {
     //In theory at this point we should have out tileset selected but for now we don't
     var session = new GameSession();
     session.tiles.main = [
-        "Mahjong-Dot-1.jpg",
-        "Mahjong-Dot-2.jpg",
-        "Mahjong-Dot-3.jpg",
-        "Mahjong-Dot-4.jpg",
-        "Mahjong-Bamboo-2.jpg",
-        "Mahjong-Bamboo-3.jpg",
-        "Mahjong-Character-1.jpg"
+        "Mahjong-Dot-1.png",
+        "Mahjong-Dot-2.png",
+        "Mahjong-Dot-3.png",
+        "Mahjong-Dot-4.png",
+        "Mahjong-Bamboo-2.png",
+        "Mahjong-Bamboo-3.png",
+        "1.png"
         ]
-    session.tileSetName = "Test"
+    session.tileSetName = "Testv2"
     session.tileSetSize = 7
-    session.layoutName = "layout_test_4.json"
+    session.layoutName = "layout_test_2.json"
+    session.tileFaceX = 100,
+    session.tileFaceY = 160,
+    session.tileX = 110,
+    session.tileY = 169,
     
     //load the layout file specified by the lobby for later use
     this.load.json('jsonLayout', '/Assets/Layouts/'+session.layoutName)

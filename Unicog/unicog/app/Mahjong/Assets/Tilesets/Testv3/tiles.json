@@ -1,0 +1,15 @@
+{
+    "name": "Testv3",
+    "size": 7,
+    "main": [
+        "bamboo2.png",
+        "bamboo3.png",
+        "circle1.png",
+        "circle2.png",
+        "circle3.png",
+        "circle4.png",
+        "character1.png"
+        ],
+    "alt": [],
+    "effects": []
+}

@@ -2,9 +2,14 @@ class Layout {
     constructor(state, json){
         console.log("layout constructor")
         console.log(json)
+        var session = new GameSession();
         this.state = state,
         this.size = json.header.size,
         this.height = json.header.height,
+        this.tileFaceX = session.tileFaceX,
+        this.tileFaceY = session.tileFaceY,
+        this.tileX = session.tileX,
+        this.tileY = session.tileY,
         this.uniqueTiles = json.header.uniqueTiles,
         this.maxDuplicates = json.header.maxDuplicates,
         this.numChildren = json.header.numChildren,
@@ -19,7 +24,7 @@ class Layout {
             var row = []
             for (var j = 0; j < layer[i].length; j++) {
                 if(layer[i][j] == 1) {
-                    row.push(new TileNode(this.state, j, i, height))
+                    row.push(new TileNode(this.state, j, i, height, this.numChildren))
                 }else {
                     row.push(null)
                 }
@@ -171,12 +176,14 @@ class Layout {
                 var pos2 = upperTiles.splice(randPos2, 1)[0]
             }
             
-            
+            // Adjust the offset for this tile
+            pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
+            pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
             
             //assign the tile to the two selected positions
             pos1.setTile("tile"+possible[randTile])
             pos2.setTile("tile"+possible[randTile])
-            
+                        
             //if we have placed as many pairs of this tile as possible remove from list
             if (++counts[possible[randTile]] == this.maxDuplicates) {
                 possible.splice(randTile, 1)
@@ -184,10 +191,10 @@ class Layout {
             
             //console.log(counts)
             //console.log(randTile, randPos1, randPos2)
-            console.log(n)
-            console.log("tile"+possible[randTile])
-            console.log(pos1)
-            console.log(pos2)
+            //console.log(n)
+            //console.log("tile"+possible[randTile])
+            //console.log(pos1)
+            //console.log(pos2)
             //console.log("Pos-----------------")
             
             var childrenToPush = []
@@ -269,17 +276,15 @@ class Layout {
     }
 }
 
-
-
 class TileNode {
-    constructor(state, x, y, height){
+    constructor(state, x, y, height, numChildren){
         var session = new GameSession()
         this.state = state,
         this.x = x,
         this.y = y,
         this.z = height-1,
-        this.xPos = x*100 + 50*height,
-        this.yPos = y*160 + 80*height + 10,
+        this.xPos = null,
+        this.yPos = null,
         this.height = height,
         this.parents = [], 
         this.children = [],
@@ -294,15 +299,51 @@ class TileNode {
     unhighlightTile() {
         this.tile.clearTint()
     }
-
+    
+    unselectableTile() {
+        this.tile.setTint(0xCCCCCC)
+    }
+    
+    setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY) {
+        console.log(tileFaceX)
+        console.log(tileFaceY)
+        console.log("++++++++++++++")
+        // Sets to the faces of the tile
+        this.xPos = tileFaceX * this.x + 100
+        this.yPos = tileFaceY * this.y + 100
+        
+        // For two and four children
+        if (numChildren === 2) {
+            this.xPos += ((tileFaceX / 2) * (this.z + 1))
+            this.yPos += (tileFaceY / 2)
+        } else if (numChildren === 4) {
+            this.xPos += (tileFaceX / 2) * (this.z + 1)
+            this.yPos += (tileFaceY / 2) * (this.z + 1)
+        } else if (numChildren === 1) {
+            this.xPos += (tileFaceX / 2)
+            this.yPos += (tileFaceY / 2)
+        }
+        
+        // Adjusts center point of tile to the center of the face 
+        this.xPos += ((tileX - tileFaceX) / 2) 
+        this.yPos += ((tileY - tileFaceY) / 2) 
+        this.yPos -= ((tileY - tileFaceY)) * this.z
+        this.xPos -= ((tileX - tileFaceX)) * this.z
+    }
     
     setTile(img) {
+        console.log(this.xPos)
+        console.log(this.yPos)
+        console.log("=================")
+        
         this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
-        this.tile.setDepth(this.height*1000 + this.y)
+        // this.tile.setDepth(this.height*1000 + this.y)
+        // Assures each tile has a unique depth per layout
+        this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
         var self = this;
         this.tile.on('pointerdown', function () {  
             self.state.board.selectTile(self)
-        });
+        })
     }
     
     isSet() {
@@ -335,7 +376,7 @@ class TileNode {
     allParentsGenerated() {
         for (var i = 0; i < this.parents.length; i++) {
             if (!this.parents[i].isSet()){
-                console.log(this.parents[i])
+                //console.log(this.parents[i])
                 return false
             }            
         }
