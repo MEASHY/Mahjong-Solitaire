@@ -110,8 +110,8 @@ class Layout {
         var session = new GameSession()
         var counts = new Array(Math.min(this.uniqueTiles, session.tileSetSize)).fill(0)
         var possible = [...Array(counts.length).keys()]
-        console.log(counts)
-        console.log(possible)
+        //console.log(counts)
+        //console.log(possible)
         var upperTiles = []
         var lowerTiles = []
         
@@ -128,6 +128,8 @@ class Layout {
         }
         
         for (var n = 0; n < this.size/2; n++) {
+            console.log(counts)
+            console.log(possible)
             //get tile
             var randTile = Math.floor(Math.random() * Math.floor(possible.length))
             
@@ -135,26 +137,26 @@ class Layout {
                 this.height--
                 var temporaryArray = []
                 for (var i = lowerTiles.length - 1; i >= 0; i--) {
-                    console.log("---------------------")
-                    console.log(lowerTiles[i])
-                    console.log(lowerTiles[i].height)
-                    console.log(this.height)
+                    //console.log("---------------------")
+                    //console.log(lowerTiles[i])
+                    //console.log(lowerTiles[i].height)
+                    //console.log(this.height)
                     if (lowerTiles[i].height === this.height) {
-                        console.log("accepted")
-                        console.log(lowerTiles[i])
+                        //console.log("accepted")
+                        //console.log(lowerTiles[i])
                         upperTiles.push(lowerTiles.splice(i, 1)[0])
                     } else {
-                        console.log("rejected")
+                        //console.log("rejected")
                         lowerTiles[i]
                     }
                     
-                    console.log("---------------------")
+                    //console.log("---------------------")
                 }
                 
             }
                 
             
-            if (lowerTiles.length < 3) {
+            if (lowerTiles.length < 3 || upperTiles.length < 2) {
                 var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length))
                 var pos1 = upperTiles.splice(randPos1, 1)[0]
             } else {
@@ -176,14 +178,26 @@ class Layout {
                 var pos2 = upperTiles.splice(randPos2, 1)[0]
             }
             
-            // Adjust the offset for this tile
-            pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
-            pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
-            
-            //assign the tile to the two selected positions
-            pos1.setTile("tile"+possible[randTile])
-            pos2.setTile("tile"+possible[randTile])
-                        
+            try {
+                // Adjust the offset for this tile
+                pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
+                pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
+                
+                //assign the tile to the two selected positions
+                pos1.setTile("tile"+possible[randTile])
+                pos2.setTile("tile"+possible[randTile])
+            }
+            catch (err) {
+                console.log("critical failure!")
+                console.log(counts)
+                console.log(possible)
+                console.log(upperTiles)
+                console.log(lowerTiles)
+                console.log(pos1)
+                console.log(pos2)
+                throw("TypeError")
+            }
+                            
             //if we have placed as many pairs of this tile as possible remove from list
             if (++counts[possible[randTile]] == this.maxDuplicates) {
                 possible.splice(randTile, 1)
@@ -305,9 +319,9 @@ class TileNode {
     }
     
     setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY) {
-        console.log(tileFaceX)
-        console.log(tileFaceY)
-        console.log("++++++++++++++")
+        //console.log(tileFaceX)
+        //console.log(tileFaceY)
+        //console.log("++++++++++++++")
         // Sets to the faces of the tile
         this.xPos = tileFaceX * this.x + 100
         this.yPos = tileFaceY * this.y + 100
@@ -332,9 +346,9 @@ class TileNode {
     }
     
     setTile(img) {
-        console.log(this.xPos)
-        console.log(this.yPos)
-        console.log("=================")
+        //console.log(this.xPos)
+        //console.log(this.yPos)
+        //console.log("=================")
         
         this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
         // this.tile.setDepth(this.height*1000 + this.y)

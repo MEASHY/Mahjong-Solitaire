@@ -24,7 +24,7 @@ function preload() {
         ]
     session.tileSetName = "Testv2"
     session.tileSetSize = 7
-    session.layoutName = "Demo1.json"
+    session.layoutName = "Demo2_break.json"
     session.tileFaceX = 100,
     session.tileFaceY = 160,
     session.tileX = 110,
