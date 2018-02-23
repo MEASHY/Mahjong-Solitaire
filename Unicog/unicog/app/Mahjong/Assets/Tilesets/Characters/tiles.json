@@ -1,0 +1,24 @@
+{
+    "name": "zodiac",
+    "size": 12,
+    "main": [
+        "rat.png",
+        "ox.png",
+        "tiger.png",
+        "rabbit.png",
+        "dragon.png",
+        "snake.png",
+        "horse.png",
+        "goat.png",
+        "monkey.png",
+        "rooster.png",
+        "dog.png",
+        "pig.png"
+        ],
+    "alt": [],
+    "effects": [],
+    "tileFaceX": 110,
+    "tileFaceY": 120,
+    "tileX": 110,
+    "tileY": 120
+}
