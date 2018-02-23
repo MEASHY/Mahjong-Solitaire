@@ -110,8 +110,6 @@ class Layout {
         var session = new GameSession()
         var counts = new Array(Math.min(this.uniqueTiles, session.tileSetSize)).fill(0)
         var possible = [...Array(counts.length).keys()]
-        //console.log(counts)
-        //console.log(possible)
         var upperTiles = []
         var lowerTiles = []
         
@@ -137,16 +135,9 @@ class Layout {
                 this.height--
                 var temporaryArray = []
                 for (var i = lowerTiles.length - 1; i >= 0; i--) {
-                    //console.log("---------------------")
-                    //console.log(lowerTiles[i])
-                    //console.log(lowerTiles[i].height)
-                    //console.log(this.height)
                     if (lowerTiles[i].height === this.height) {
-                        //console.log("accepted")
-                        //console.log(lowerTiles[i])
                         upperTiles.push(lowerTiles.splice(i, 1)[0])
                     } else {
-                        //console.log("rejected")
                         lowerTiles[i]
                     }
                     
@@ -170,7 +161,6 @@ class Layout {
                 }
             }
             
-            // May need a +1 if we die
             var randPos2 = Math.floor(Math.random() * Math.floor(upperTiles.length + lowerTiles.length))
             if (randPos2 > upperTiles.length - 1) {
                 var pos2 = lowerTiles.splice(randPos2 - upperTiles.length, 1)[0]
@@ -203,13 +193,6 @@ class Layout {
                 possible.splice(randTile, 1)
             }
             
-            //console.log(counts)
-            //console.log(randTile, randPos1, randPos2)
-            //console.log(n)
-            //console.log("tile"+possible[randTile])
-            //console.log(pos1)
-            //console.log(pos2)
-            //console.log("Pos-----------------")
             
             var childrenToPush = []
             
@@ -346,12 +329,8 @@ class TileNode {
     }
     
     setTile(img) {
-        //console.log(this.xPos)
-        //console.log(this.yPos)
-        //console.log("=================")
         
         this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
-        // this.tile.setDepth(this.height*1000 + this.y)
         // Assures each tile has a unique depth per layout
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
         var self = this;
