@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Mahjong</title>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' type='text/css' href='mahform.css'>
+        <script>
+        /*
+        var difficulty = 1
+        var tileset = 1
+        var background = 1
+        var layout = 1
+        */
+        
+        function changeDifficulty (value) {
+            //difficulty = value
+            if (value == '1') {
+                document.getElementById('difficulty_text').innerHTML = 'Difficulty 1'
+            } else if (value == '2') {
+                document.getElementById('difficulty_text').innerHTML = 'Difficulty 2'
+            } else if (value == '3') {
+                document.getElementById('difficulty_text').innerHTML = 'Difficulty 3'
+            }
+        }
+        
+        function changeTileset (value) {
+            //tileset = value
+            if (value == '1') {
+                document.getElementById('tileset_text').innerHTML = 'Tileset 1'
+            } else if (value == '2') {
+                document.getElementById('tileset_text').innerHTML = 'Tileset 2'
+            } else if (value == '3') {
+                document.getElementById('tileset_text').innerHTML = 'Tileset 3'
+            }
+        }
+        
+        function changeBackground (value) {
+            //background = value
+            if (value == '1') {
+                document.getElementById('background_text').innerHTML = 'Background 1'
+            } else if (value == '2') {
+                document.getElementById('background_text').innerHTML = 'Background 2'
+            } else if (value == '3') {
+                document.getElementById('background_text').innerHTML = 'Background 3'
+            }
+        }
+        
+        function changeLayout (value) {
+            //layout = value
+            if (value == '1') {
+                document.getElementById('layout_text').innerHTML = 'Layout 1'
+            } else if (value == '2') {
+                document.getElementById('layout_text').innerHTML = 'Layout 2'
+            } else if (value == '3') {
+                document.getElementById('layout_text').innerHTML = 'Layout 3'
+            }
+        }
+        </script>
+        <style>
+
+#mahcolorstrip {
+	width: 100%;
+	height: 50px;
+	border-style: solid;
+	border-color: #f1800e;
+	background-color: #f1800e;
+}
+
+h1 {
+	padding-top: 100px;
+	font-size: 34px;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+button {
+	width: 50%;
+	background-color: #f1800e;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input {
+	width: 50%;
+}
+
+input[type="login"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 20%;
+    
+}
+
+input[type="submit"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input[type="text"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+
+input[type="password"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+#container{
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #f1800e;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+
+}
+
+/* Links inside */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/*color of dropdown links on hover*/
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu*/
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when hovering*/
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+</style>
+
+
+    
+    </head>
+    
+    <div id='colorstrip'/>
+    <h1>Welcome to Mahjong</h1>
+    </div>
+
+    <body>
+        <div class='game'>
+        </div>
+        <div class='lobby'>
+        <form id='loginForm' method='post' action='' >
+        <div class = 'grid'>
+            <p>
+            <div class='dropdown'>
+                <h3 id='difficulty_text'>Difficulty</h3>
+                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()' >
+                    <option value='1'>Difficulty 1</option>
+                    <option value='2'>Difficulty 2</option>
+                    <option value='3'>Difficulty 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='tileset_text'>Tileset</h3>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset()' >
+                    <option value='1'>Tileset 1</option>
+                    <option value='2'>Tileset 2</option>
+                    <option value='3'>Tileset 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='background_text'>Background</h3>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground()' >
+                    <option value='1'>Background 1</option>
+                    <option value='2'>Background 2</option>
+                    <option value='3'>Background 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='layout_text'>Layout</h3>
+                <select type='text' id='layoutDropBox' onchange='changeLayout()' >
+                    <option value='1'>Layout 1</option>
+                    <option value='2'>Layout 2</option>
+                    <option value='3'>Layout 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+    			<input type='submit' name='researcher' value='Submit' />
+    		</p>
+        </div>
+        </form>
+        </div>
+    </body>
+</html>
