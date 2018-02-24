@@ -134,3 +134,35 @@ def mahjong_tile():
 @app.route('/mahjong/js/board.js')
 def mahjong_board():
 	return send_file('Mahjong/js/board.js')
+
+@app.route('/Assets/Layouts/Demo1.json')
+def layout_demo1():
+	return send_file('Mahjong/Assets/Layouts/Demo1.json')
+
+@app.route('/Assets/Tilesets/Testv2/1.png')
+def tile_1():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/1.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Bamboo-2.png')
+def tile_bamboo_2():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Bamboo-2.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Bamboo-3.png')
+def tile_bamboo_3():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Bamboo-3.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-1.png')
+def tile_dot_1():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-1.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-2.png')
+def tile_dot_2():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-2.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-3.png')
+def tile_dot_3():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-3.png')
+
+@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-4.png')
+def tile_dot_4():
+	return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-4.png')
