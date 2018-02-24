@@ -3,8 +3,13 @@
 	<head>
 		<title>Mahjong</title>
         <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
         <link rel='stylesheet' type='text/css' href='mahform.css'>
+        <script src='js/phaser.js'></script>
+        <script src='js/gameSession.js'></script>
+        <script src='js/game.js'></script>        
+        <script src='js/tile.js'></script>
+        <script src='js/board.js'></script>
         <script>
         /*
         var difficulty = 1
@@ -13,49 +18,63 @@
         var layout = 1
         */
         
+        function showLobby() {
+            document.getElementById('colorstrip').style.display = 'block'
+            document.getElementById('lobbyDiv').style.display = 'block'
+            document.getElementById('gameDiv').style.display = 'none'
+        }
+        
+        function showGame () {
+            document.getElementById('colorstrip').style.display = 'none'
+            document.getElementById('lobbyDiv').style.display = 'none'
+            document.getElementById('gameDiv').style.display = 'block'
+        }
+        
         function changeDifficulty (value) {
             //difficulty = value
             if (value == '1') {
-                document.getElementById('difficulty_text').innerHTML = 'Difficulty 1'
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 1'
             } else if (value == '2') {
-                document.getElementById('difficulty_text').innerHTML = 'Difficulty 2'
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 2'
             } else if (value == '3') {
-                document.getElementById('difficulty_text').innerHTML = 'Difficulty 3'
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 3'
             }
         }
         
         function changeTileset (value) {
             //tileset = value
             if (value == '1') {
-                document.getElementById('tileset_text').innerHTML = 'Tileset 1'
+                document.getElementById('tilesetText').innerHTML = 'Tileset 1'
             } else if (value == '2') {
-                document.getElementById('tileset_text').innerHTML = 'Tileset 2'
+                document.getElementById('tilesetText').innerHTML = 'Tileset 2'
             } else if (value == '3') {
-                document.getElementById('tileset_text').innerHTML = 'Tileset 3'
+                document.getElementById('tilesetText').innerHTML = 'Tileset 3'
             }
         }
         
         function changeBackground (value) {
             //background = value
             if (value == '1') {
-                document.getElementById('background_text').innerHTML = 'Background 1'
+                document.getElementById('backgroundText').innerHTML = 'Background 1'
             } else if (value == '2') {
-                document.getElementById('background_text').innerHTML = 'Background 2'
+                document.getElementById('backgroundText').innerHTML = 'Background 2'
             } else if (value == '3') {
-                document.getElementById('background_text').innerHTML = 'Background 3'
+                document.getElementById('backgroundText').innerHTML = 'Background 3'
             }
         }
         
         function changeLayout (value) {
             //layout = value
             if (value == '1') {
-                document.getElementById('layout_text').innerHTML = 'Layout 1'
+                document.getElementById('layoutText').innerHTML = 'Layout 1'
             } else if (value == '2') {
-                document.getElementById('layout_text').innerHTML = 'Layout 2'
+                document.getElementById('layoutText').innerHTML = 'Layout 2'
             } else if (value == '3') {
-                document.getElementById('layout_text').innerHTML = 'Layout 3'
+                document.getElementById('layoutText').innerHTML = 'Layout 3'
             }
         }
+        
+        window.onload = showLobby
         </script>
         <style>
 
@@ -190,15 +209,16 @@ input[type="password"] {
     </div>
 
     <body>
-        <div class='game'>
+        <div class='game' id='gameDiv'>
         </div>
-        <div class='lobby'>
-        <form id='loginForm' method='post' action='' >
+        
+        <div class='lobby', id='lobbyDiv'>
+        <form id='loginForm'>
         <div class = 'grid'>
             <p>
             <div class='dropdown'>
-                <h3 id='difficulty_text'>Difficulty</h3>
-                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()' >
+                <h3 id='difficultyText'>Difficulty</h3>
+                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()'>
                     <option value='1'>Difficulty 1</option>
                     <option value='2'>Difficulty 2</option>
                     <option value='3'>Difficulty 3</option>
@@ -207,8 +227,8 @@ input[type="password"] {
             </p>
             <p>
             <div class='dropdown'>
-                <h3 id='tileset_text'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' onchange='changeTileset()' >
+                <h3 id='tilesetText'>Tileset</h3>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset()'>
                     <option value='1'>Tileset 1</option>
                     <option value='2'>Tileset 2</option>
                     <option value='3'>Tileset 3</option>
@@ -217,8 +237,8 @@ input[type="password"] {
             </p>
             <p>
             <div class='dropdown'>
-                <h3 id='background_text'>Background</h3>
-                <select type='text' id='backgroundDropBox' onchange='changeBackground()' >
+                <h3 id='backgroundText'>Background</h3>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground()'>
                     <option value='1'>Background 1</option>
                     <option value='2'>Background 2</option>
                     <option value='3'>Background 3</option>
@@ -227,8 +247,8 @@ input[type="password"] {
             </p>
             <p>
             <div class='dropdown'>
-                <h3 id='layout_text'>Layout</h3>
-                <select type='text' id='layoutDropBox' onchange='changeLayout()' >
+                <h3 id='layoutText'>Layout</h3>
+                <select type='text' id='layoutDropBox' onchange='changeLayout()'>
                     <option value='1'>Layout 1</option>
                     <option value='2'>Layout 2</option>
                     <option value='3'>Layout 3</option>
@@ -236,7 +256,7 @@ input[type="password"] {
             </div>
             </p>
             <p>
-    			<input type='submit' name='researcher' value='Submit' />
+    			<input type='button' name='startGame' value='Start Game' onclick='showGame()' />
     		</p>
         </div>
         </form>
