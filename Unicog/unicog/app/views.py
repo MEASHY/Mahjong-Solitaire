@@ -37,6 +37,10 @@ def bej_ind():
 def word_ind():
 	return render_template('ECAWordSearchV2/index.html')
 
+@app.route('/mahjong_index')
+def mahjong_ind():
+	return render_template('Mahjong/game.html')
+
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
 
 @app.route('/js/phaser.min.js')
@@ -108,3 +112,25 @@ def word_tile():
 @app.route('/wordsearch/js/board.js')
 def word_board():
 	return send_file('ECAWordSearchV2/js/board.js')
+
+## Mahjong stuff
+
+@app.route('/mahjong/js/phaser.js')
+def mahjong_phaser():
+	return send_file('Mahjong/js/phaser.js')
+
+@app.route('/mahjong/js/gameSession.js')
+def mahjong_gameSession():
+	return send_file('Mahjong/js/gameSession.js')
+
+@app.route('/mahjong/js/game.js')
+def mahjong_game():
+	return send_file('Mahjong/js/game.js')
+
+@app.route('/mahjong/js/tile.js')
+def mahjong_tile():
+	return send_file('Mahjong/js/tile.js')
+
+@app.route('/mahjong/js/board.js')
+def mahjong_board():
+	return send_file('Mahjong/js/board.js')
