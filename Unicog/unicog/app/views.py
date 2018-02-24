@@ -1,7 +1,7 @@
 from flask import render_template, send_file, request, send_from_directory
 from app import app
 
-SERVER_URL = 'http://162.246.156.143/'
+SERVER_URL = 'http://199.116.235.91/'
 
 @app.route('/bejeweled_game', methods = ['POST'])
 #@auth.login_required
