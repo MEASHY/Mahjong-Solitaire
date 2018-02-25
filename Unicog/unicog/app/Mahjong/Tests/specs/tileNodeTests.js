@@ -132,11 +132,8 @@ function runTests(state) {
             expect(tileNode4.parents[3] != parent2).toBe(true)
         })
         
-        var layout = {"layers": [[[[]]]]}
-        layout.layers[0][0][0].push(child1)
-        layout.layers[0][0][1].push(child2)
-        layout.layers[0][1][0].push(child3)
-        layout.layers[0][1][1].push(child4)
+        var layout = {"layers": []}
+        layout.layers.push([[child1, child2],[child3,child4]])
         
         tileNode4.findChildren(layout, 4)
         
@@ -155,35 +152,3 @@ function runTests(state) {
     })
     
 }
-    
-   /* 
-function runTests(state) {
-    console.log("derp")
-    describe('tileNodeSuite', function(){
-        it("TileNode constructs correctly", function() {
-            expect(state.tileNode1).toBeDefined()
-            expect(state.tileNode1).not.toBeNull()
-            expect(state.tileNode1.state).not.toBeNull()
-            expect(state.tileNode1.x).toEqual(1)
-            expect(state.tileNode1.y).toEqual(1)
-            expect(state.tileNode1.z).toEqual(0)
-        })
-        
-        
-        it("TileNode tile is set properly", function() {
-            expect(state.tileNode1.tile).toBeDefined()
-            expect(state.tileNode1.tile).not.toBeNull()
-            expect(state.tileNode1.tile.depth).toEqual(1001001)
-            expect(state.tileNode1.tile)
-        })
-        
-        
-        it("highlightTile() should set the tile tint to 0xFFFD9A", function() {
-            
-            //var tileNode1 = new tileNode1(null, 5, 5, 2, 4)
-            var i = 3
-            expect(i).toEqual(3);
-        })
-    })
-}
-*/
