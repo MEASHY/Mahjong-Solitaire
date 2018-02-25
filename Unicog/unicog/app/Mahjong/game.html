@@ -28,6 +28,7 @@
             document.getElementById('colorstrip').style.display = 'none'
             document.getElementById('lobbyDiv').style.display = 'none'
             document.getElementById('gameDiv').style.display = 'block'
+            startGame()
         }
         
         function changeDifficulty (value) {
@@ -205,7 +206,7 @@ input[type="password"] {
     </head>
     
     <div id='colorstrip'/>
-    <h1>Welcome to Mahjong</h1>
+    <h1>Mahjong-Solitaire Lobby</h1>
     </div>
 
     <body>
@@ -258,8 +259,10 @@ input[type="password"] {
             <p>
     			<input type='button' name='startGame' value='Start Game' onclick='showGame()' />
     		</p>
+            
         </div>
         </form>
         </div>
+        
     </body>
 </html>

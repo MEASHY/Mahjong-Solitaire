@@ -52,5 +52,7 @@ function create() {
 function update() {
 }
 
-var game = new Phaser.Game(gameConfig)
-console.log(game)
+function startGame() {
+    var game = new Phaser.Game(gameConfig)
+    console.log(game)
+}
