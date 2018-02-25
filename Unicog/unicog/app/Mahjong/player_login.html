@@ -11,7 +11,7 @@
     <h1> Mahjong </h1>
 
     <body>
-    	<form id='loginForm' method='post' action ='player_login.php'>
+    	<form id='loginForm' method='get' action ='player_login.php'>
     		<p>
     		<input type='text' placeholder ='Researcher ID'  name='researcher' required/>
     		</p>
@@ -20,12 +20,12 @@
     		</p>
     	</form>
         <div id='container'>
-        <form id='cancelLogin' method='post' action ='index.html'>
+        <form id='cancelLogin' method='get' action ='index.html'>
             <p>
                 <input type='submit' name='cancel' value='Cancel' />
     		</p>
         </form>
-        <form id='submitLogin' method='post' action ='game.html'>
+        <form id='submitLogin' method='get' action ='game.html'>
             <p>
     			<input type='submit' name='login' value='Login' />
     		</p>
