@@ -1,0 +1,17 @@
+{
+    "header":{
+        "name": "test",
+        "difficulty": "easy",
+        "size": 24,
+        "height": 1,
+        "uniqueTiles": 12,
+        "maxDuplicates": 2,
+        "numChildren": 4
+    },
+	"layer1": [
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1]
+	]
+}

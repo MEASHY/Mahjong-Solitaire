@@ -1,6 +1,7 @@
 var gameConfig = {
     width: 1600,
     height: 1000,
+     backgroundColor: '#00422c',
     type: Phaser.AUTO,
     parent: 'gameDiv',
     scene: {
