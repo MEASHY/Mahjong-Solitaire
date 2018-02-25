@@ -56,3 +56,9 @@ function startGame() {
     var game = new Phaser.Game(gameConfig)
     console.log(game)
 }
+
+function endGame() {
+    // This will have to close the game when that is implemented, it's a placeholder for now.
+    // This shouldn't be called when game.html is first loaded.
+    // When this function is implemented that check should be done there or in this function, whatever works best.
+}

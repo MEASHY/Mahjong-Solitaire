@@ -22,6 +22,10 @@
             document.getElementById('colorstrip').style.display = 'block'
             document.getElementById('lobbyDiv').style.display = 'block'
             document.getElementById('gameDiv').style.display = 'none'
+            
+            // This shouldn't be called when game.html is first loaded.
+            // When the function is implemented that check should be done here or in the function, whatever works best.
+            endGame()
         }
         
         function showGame () {
