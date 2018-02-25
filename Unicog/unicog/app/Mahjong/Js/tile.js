@@ -289,16 +289,16 @@ class TileNode {
         this.selectable = false
     }
     
-    highlightTile() {  
-        this.tile.setTint(0xFFFD9A)
+    highlightTile(tint = 0xFFFD9A) {  
+        this.tile.setTint(tint)
     }
     
     unhighlightTile() {
         this.tile.clearTint()
     }
     
-    unselectableTile() {
-        this.tile.setTint(0xCCCCCC)
+    dimTile(dim = 0xCCCCCC) {
+        this.tile.setTint(dim)
     }
     
     setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY) {
@@ -346,9 +346,9 @@ class TileNode {
         return true
     }
     
-    removeParent(tile) {
+    removeParent(tileNode) {
         for( var i = 0; i < this.parents.length; i++) {
-            if (tile === this.parents[i]) {
+            if (tileNode === this.parents[i]) {
                 this.parents.splice(i,1)
             }
         }
