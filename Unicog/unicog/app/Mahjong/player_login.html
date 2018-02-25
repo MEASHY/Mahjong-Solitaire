@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Mahjong</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="mahform.css">
+
+    </head>
+    <div id="colorstrip"/>
+    <h1> Mahjong </h1>
+
+    <body>
+    	<form id='loginForm' method='get' action ='player_login.php'>
+    		<p>
+    		<input type='text' placeholder ='Researcher ID'  name='researcher' required/>
+    		</p>
+    		<p>
+    		<input type='text' placeholder='Player ID' name='player' required/>
+    		</p>
+    	</form>
+        <div id='container'>
+        <form id='cancelLogin' method='get' action ='index.html'>
+            <p>
+                <input type='submit' name='cancel' value='Cancel' />
+    		</p>
+        </form>
+        <form id='submitLogin' method='get' action ='game.html'>
+            <p>
+    			<input type='submit' name='login' value='Login' />
+    		</p>
+        </form>
+        </div>
+    </body>
+</html>
