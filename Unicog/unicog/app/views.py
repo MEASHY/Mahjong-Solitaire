@@ -37,9 +37,21 @@ def bej_ind():
 def word_ind():
 	return render_template('ECAWordSearchV2/index.html')
 
+@app.route('/mahjong_game')
+def mahjong_game_ind():
+	return render_template('Mahjong/game.html')
+
 @app.route('/mahjong_index')
 def mahjong_ind():
-	return render_template('Mahjong/game.html')
+	return render_template('Mahjong/index.html')
+
+@app.route('/mahjong_player_login')
+def mahjong_player_login():
+	return render_template('/Mahjong/player_login.html')
+
+@app.route('/mahjong_research_login')
+def mahjong_research_login():
+	return render_template('/Mahjong/research_login.html')
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
 
