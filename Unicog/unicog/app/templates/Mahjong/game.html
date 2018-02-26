@@ -2,18 +2,271 @@
 <html>
     <head>
         <title>Mahjong</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <script src="mahjong/js/phaser.js"></script>
-        <script src="mahjong/js/gameSession.js"></script>
-        <script src="mahjong/js/game.js"></script>        
-        <script src="mahjong/js/tile.js"></script>
-        <script src="mahjong/js/board.js"></script>
-
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+        <link rel='stylesheet' type='text/css' href='mahform.css'>
+        <script src='mahjong/js/phaser.js'></script>
+        <script src='mahjong/js/gameSession.js'></script>
+        <script src='mahjong/js/game.js'></script>        
+        <script src='mahjong/js/tile.js'></script>
+        <script src='mahjong/js/board.js'></script>
+        <script>
+        /*
+        var difficulty = 1
+        var tileset = 1
+        var background = 1
+        var layout = 1
+        */
         
+        function showLobby () {
+            document.getElementById('colorstrip').style.display = 'block'
+            document.getElementById('lobbyDiv').style.display = 'block'
+            document.getElementById('gameDiv').style.display = 'none'
+            
+            // This shouldn't be called when game.html is first loaded.
+            // When the function is implemented that check should be done here or in the function, whatever works best.
+            endGame()
+        }
+        
+        function showGame () {
+            document.getElementById('colorstrip').style.display = 'none'
+            document.getElementById('lobbyDiv').style.display = 'none'
+            document.getElementById('gameDiv').style.display = 'block'
+            startGame()
+        }
+        
+        function changeDifficulty (value) {
+            //difficulty = value
+            if (value == '1') {
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 1'
+            } else if (value == '2') {
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 2'
+            } else if (value == '3') {
+                document.getElementById('difficultyText').innerHTML = 'Difficulty 3'
+            }
+        }
+        
+        function changeTileset (value) {
+            //tileset = value
+            if (value == '1') {
+                document.getElementById('tilesetText').innerHTML = 'Tileset 1'
+            } else if (value == '2') {
+                document.getElementById('tilesetText').innerHTML = 'Tileset 2'
+            } else if (value == '3') {
+                document.getElementById('tilesetText').innerHTML = 'Tileset 3'
+            }
+        }
+        
+        function changeBackground (value) {
+            //background = value
+            if (value == '1') {
+                document.getElementById('backgroundText').innerHTML = 'Background 1'
+            } else if (value == '2') {
+                document.getElementById('backgroundText').innerHTML = 'Background 2'
+            } else if (value == '3') {
+                document.getElementById('backgroundText').innerHTML = 'Background 3'
+            }
+        }
+        
+        function changeLayout (value) {
+            //layout = value
+            if (value == '1') {
+                document.getElementById('layoutText').innerHTML = 'Layout 1'
+            } else if (value == '2') {
+                document.getElementById('layoutText').innerHTML = 'Layout 2'
+            } else if (value == '3') {
+                document.getElementById('layoutText').innerHTML = 'Layout 3'
+            }
+        }
+        
+        window.onload = showLobby
+        </script>
+        <style>
 
+#mahcolorstrip {
+    width: 100%;
+    height: 50px;
+    border-style: solid;
+    border-color: #f1800e;
+    background-color: #f1800e;
+}
+
+h1 {
+    padding-top: 100px;
+    font-size: 34px;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+button {
+    width: 50%;
+    background-color: #f1800e;
+    border: none;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+input {
+    width: 50%;
+}
+
+input[type="login"] {
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
+    width: 20%;
+    
+}
+
+input[type="submit"] {
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+input[type="text"] {
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
+}
+
+input[type="password"] {
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
+}
+#container{
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #f1800e;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+
+}
+
+/* Links inside */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/*color of dropdown links on hover*/
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu*/
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when hovering*/
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+</style>
+
+
+    
     </head>
+    
+    <div id='colorstrip'/>
+    <h1>Mahjong-Solitaire Lobby</h1>
+    </div>
+
     <body>
-        <div id="gameDiv"> </div>
+        <div class='game' id='gameDiv'>
+        </div>
+        
+        <div class='lobby', id='lobbyDiv'>
+        <form id='gameSetup'>
+        <div class = 'grid'>
+            <p>
+            <div class='dropdown'>
+                <h3 id='difficultyText'>Difficulty</h3>
+                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()'>
+                    <option value='1'>Difficulty 1</option>
+                    <option value='2'>Difficulty 2</option>
+                    <option value='3'>Difficulty 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='tilesetText'>Tileset</h3>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset()'>
+                    <option value='1'>Tileset 1</option>
+                    <option value='2'>Tileset 2</option>
+                    <option value='3'>Tileset 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='backgroundText'>Background</h3>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground()'>
+                    <option value='1'>Background 1</option>
+                    <option value='2'>Background 2</option>
+                    <option value='3'>Background 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='layoutText'>Layout</h3>
+                <select type='text' id='layoutDropBox' onchange='changeLayout()'>
+                    <option value='1'>Layout 1</option>
+                    <option value='2'>Layout 2</option>
+                    <option value='3'>Layout 3</option>
+                </select>
+            </div>
+            </p>
+            <p>
+                <input type='button' name='startGame' value='Start Game' onclick='showGame()' />
+            </p>
+            
+        </div>
+        </form>
+        </div>
+        
     </body>
 </html>
