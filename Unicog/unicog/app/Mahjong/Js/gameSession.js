@@ -23,7 +23,7 @@ var GameSession = function() {
             tileSetName: null,
             tileSetSize: null,
             layoutName: null,
-            numCildren: null,
+            numChildren: null,
             tiles: {
                 "main": [],
                 "alt": [],
