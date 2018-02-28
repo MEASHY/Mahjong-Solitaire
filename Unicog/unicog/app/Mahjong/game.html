@@ -7,80 +7,10 @@
         <link rel='stylesheet' type='text/css' href='mahform.css'>
         <script src='js/phaser.js'></script>
         <script src='js/gameSession.js'></script>
+        <script src='js/lobby.js'></script>
         <script src='js/game.js'></script>        
         <script src='js/tile.js'></script>
         <script src='js/board.js'></script>
-        <script>
-        /*
-        var difficulty = 1
-        var tileset = 1
-        var background = 1
-        var layout = 1
-        */
-        
-        function showLobby () {
-            document.getElementById('colorstrip').style.display = 'block'
-            document.getElementById('lobbyDiv').style.display = 'block'
-            document.getElementById('gameDiv').style.display = 'none'
-            
-            // This shouldn't be called when game.html is first loaded.
-            // When the function is implemented that check should be done here or in the function, whatever works best.
-            endGame()
-        }
-        
-        function showGame () {
-            document.getElementById('colorstrip').style.display = 'none'
-            document.getElementById('lobbyDiv').style.display = 'none'
-            document.getElementById('gameDiv').style.display = 'block'
-            startGame()
-        }
-        
-        function changeDifficulty (value) {
-            //difficulty = value
-            if (value == '1') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 1'
-            } else if (value == '2') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 2'
-            } else if (value == '3') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 3'
-            }
-        }
-        
-        function changeTileset (value) {
-            //tileset = value
-            if (value == '1') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 1'
-            } else if (value == '2') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 2'
-            } else if (value == '3') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 3'
-            }
-        }
-        
-        function changeBackground (value) {
-            //background = value
-            if (value == '1') {
-                document.getElementById('backgroundText').innerHTML = 'Background 1'
-            } else if (value == '2') {
-                document.getElementById('backgroundText').innerHTML = 'Background 2'
-            } else if (value == '3') {
-                document.getElementById('backgroundText').innerHTML = 'Background 3'
-            }
-        }
-        
-        function changeLayout (value) {
-            //layout = value
-            if (value == '1') {
-                document.getElementById('layoutText').innerHTML = 'Layout 1'
-            } else if (value == '2') {
-                document.getElementById('layoutText').innerHTML = 'Layout 2'
-            } else if (value == '3') {
-                document.getElementById('layoutText').innerHTML = 'Layout 3'
-            }
-        }
-        
-        window.onload = showLobby
-        </script>
         <style>
 
 #mahcolorstrip {
