@@ -25,14 +25,10 @@ function preload () {
         ]
     session.tileSetName = "Testv2"
     session.tileSetSize = 7
-    session.layoutName = "Demo1.json"
-    session.tileFaceX = 100,
-    session.tileFaceY = 160,
-    session.tileX = 110,
-    session.tileY = 169,
-    
-    //load the layout file specified by the lobby for later use
-    this.load.json('jsonLayout', '/Assets/Layouts/'+session.layoutName)
+    session.tileFaceX = 100
+    session.tileFaceY = 160
+    session.tileX = 110
+    session.tileY = 169
     
     //load all of the main tiles specified in the game lobby
     var tiles = session.tiles.main

@@ -6,11 +6,13 @@
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
         <link rel='stylesheet' type='text/css' href='mahform.css'>
         <script src='js/phaser.js'></script>
+        <script src='js/jquery-3.3.1.js'></script>
         <script src='js/gameSession.js'></script>
         <script src='js/lobby.js'></script>
         <script src='js/game.js'></script>        
         <script src='js/tile.js'></script>
         <script src='js/board.js'></script>
+        <script>window.onload=initLobby</script>
         <style>
 
 #mahcolorstrip {
@@ -153,40 +155,28 @@ input[type="password"] {
             <p>
             <div class='dropdown'>
                 <h3 id='difficultyText'>Difficulty</h3>
-                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()'>
-                    <option value='1'>Difficulty 1</option>
-                    <option value='2'>Difficulty 2</option>
-                    <option value='3'>Difficulty 3</option>
-                </select>
-            </div>
-            </p>
-            <p>
-            <div class='dropdown'>
-                <h3 id='tilesetText'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' onchange='changeTileset()'>
-                    <option value='1'>Tileset 1</option>
-                    <option value='2'>Tileset 2</option>
-                    <option value='3'>Tileset 3</option>
-                </select>
-            </div>
-            </p>
-            <p>
-            <div class='dropdown'>
-                <h3 id='backgroundText'>Background</h3>
-                <select type='text' id='backgroundDropBox' onchange='changeBackground()'>
-                    <option value='1'>Background 1</option>
-                    <option value='2'>Background 2</option>
-                    <option value='3'>Background 3</option>
-                </select>
+                <select type='text' id='difficultyDropBox' onchange='changeDifficulty(this.value)'></select>
             </div>
             </p>
             <p>
             <div class='dropdown'>
                 <h3 id='layoutText'>Layout</h3>
-                <select type='text' id='layoutDropBox' onchange='changeLayout()'>
-                    <option value='1'>Layout 1</option>
-                    <option value='2'>Layout 2</option>
-                    <option value='3'>Layout 3</option>
+                <select type='text' id='layoutDropBox' onchange='changeLayout(this.value)'></select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='tilesetText'>Tileset</h3>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset(this.value)'></select>
+            </div>
+            </p>
+            <p>
+            <div class='dropdown'>
+                <h3 id='backgroundText'>Background</h3>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground(this.value)'>
+                    <option value='1'>Background 1</option>
+                    <option value='2'>Background 2</option>
+                    <option value='3'>Background 3</option>
                 </select>
             </div>
             </p>

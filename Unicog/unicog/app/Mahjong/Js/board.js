@@ -5,10 +5,10 @@ class Board {
         this.tileSelected = null
         this.currentSelection = null
         
-        var json = this.scene.cache.json.get('jsonLayout')
+        var session = new GameSession()
+        var json = session.layoutSelected.json
         this.layout = new Layout(this.scene, json)
         
-        var session = new GameSession()
         session.numChildren = json.header.numChildren
         var height = json.header.height
         

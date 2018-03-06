@@ -1,7 +1,7 @@
 {
     "header":{
-        "name": "test",
-        "difficulty": "easy",
+        "name": "Demo 4",
+        "difficulty": "Easy",
         "size": 48,
         "height": 4,
         "uniqueTiles": 7,
