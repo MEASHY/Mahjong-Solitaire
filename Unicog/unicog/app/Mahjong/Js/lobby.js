@@ -10,6 +10,7 @@ function initLobby () {
     //$.getJSON('/Assets/Themes/?.json', initBackgrounds)
 }
 
+// json is the returned JSON from the list of layouts file
 function initLayouts (json) {
     var session = new GameSession()
     session.layoutFiles = json
@@ -17,12 +18,14 @@ function initLayouts (json) {
     session.layoutTotal = json.length
     session.layoutSelected = null
     
-    if (session.layoutTotal>0) {
+    if (session.layoutTotal > 0) {
         $.getJSON('/Assets/Layouts/'+session.layoutFiles[0]+'.json', checkLayout)
     }
 }
 
+// json is the returned JSON from a layout file
 function checkLayout (json) {
+    // Generate an object based on the JSON and add it to GameSession
     var session = new GameSession()
     var layout = {
         json: json,
@@ -32,23 +35,27 @@ function checkLayout (json) {
     }
     session.layoutList.push(layout)
     
+    // layoutSelected should only be null if this is the first layout in the list
     if (session.layoutSelected === null) {
         session.layoutSelected = layout
     }
     
+    // Add name or difficulty of layout to the selection boxes in the lobby
     addLayout(layout, session.layoutSelected, false)
     
-    // Keep going till we've looked through all the layouts
+    // Recurse till we've looked through all the layouts
     if (session.layoutList.length !== session.layoutTotal) {
         $.getJSON('/Assets/Layouts/'+session.layoutFiles[session.layoutList.length]+'.json', checkLayout)
     }
 }
 
 function addLayout ( layout, selected, justAddLayoutNames ) {
-    // Difficulty does match selected, so add new layout to selection
-    if (layout.difficulty.toUpperCase() === selected.difficulty.toUpperCase()) {
+    var matchingDifficulty = layout.difficulty.toUpperCase() === selected.difficulty.toUpperCase()
+    
+    // Difficulty does match selected layout's, so add new layout to selection
+    if (matchingDifficulty) {
         var layoutDropBox = document.getElementById('layoutDropBox').options
-        layoutDropBox.add(new Option (layout.name, layout.name), layoutDropBox.length)
+        layoutDropBox.add(new Option (layout.name, layout.index), layout.index)
     }
     
     // We only need to add layout names if the difficulty drop box is already populated
@@ -56,18 +63,20 @@ function addLayout ( layout, selected, justAddLayoutNames ) {
         return
     }
     
-    // Difficulty doesn't match selected, or layout is same as selected, so add new difficulty to selection
-    if (layout.difficulty.toUpperCase() !== selected.difficulty.toUpperCase() || layout.index === selected.index) {
+    // Difficulty doesn't match selected layout's, or layout is same as selected, so add new difficulty to selection
+    if (!matchingDifficulty || layout.index === selected.index) {
         var difficultyDropBox = document.getElementById('difficultyDropBox').options
-        difficultyDropBox.add(new Option (layout.difficulty, layout.difficulty), difficultyDropBox.length)
+        difficultyDropBox.add(new Option (layout.difficulty, layout.index), layout.index)
     }
 }
 
+// json is the returned JSON from the list of tilesets file
 function initTilesets (json) {
     var tilesetDropBox = document.getElementById('tilesetDropBox').options
     for (i = 0; i < json.length; i++) {
         tilesetDropBox.add(new Option (json[i], json[i]), i)
     }
+    changeTileset(json[0])
 }
 
 function showLobby () {
@@ -84,14 +93,9 @@ function showGame () {
     startGame()
 }
 
-function changeDifficulty (difficulty) {
+function changeDifficulty (index) {
     var session = new GameSession()
-    for (i = 0; i < session.layoutList.length; i++) {
-        if (difficulty.toUpperCase() === session.layoutList[i].difficulty.toUpperCase()) {
-            session.layoutSelected = session.layoutList[i]
-            break
-        }
-    }
+    session.layoutSelected = session.layoutList[index]
     
     // Empty layout selection
     var layoutDropBox = document.getElementById('layoutDropBox').options
@@ -105,24 +109,24 @@ function changeDifficulty (difficulty) {
     }
 }
 
-function changeLayout (name) {
+function changeLayout (index) {
     var session = new GameSession()
-    for (i = 0; i < session.layoutList.length; i++) {
-        if (name === session.layoutList[i].name) {
-            session.layoutSelected = session.layoutList[i]
-            break
-        }
-    }
+    session.layoutSelected = session.layoutList[index]
 }
 
-function changeTileset (value) {
-    if (value == '1') {
-        document.getElementById('tilesetText').innerHTML = 'Tileset 1'
-    } else if (value == '2') {
-        document.getElementById('tilesetText').innerHTML = 'Tileset 2'
-    } else if (value == '3') {
-        document.getElementById('tilesetText').innerHTML = 'Tileset 3'
-    }
+function changeTileset (name) {
+    var session = new GameSession()
+    session.tilesetName = name
+    session.tilesetPath = '/Assets/Tilesets/'+name+'/'
+    
+    // Load the tileset info file ahead of time here so it's ready for use in the Phaser preload function
+    $.getJSON(session.tilesetPath+'tiles.json', storeTilesetJson)
+}
+
+// json is the returned JSON from the tileset info file
+function storeTilesetJson (json) {
+    var session = new GameSession()
+    session.tilesetJson = json
 }
 
 function changeBackground (value) {

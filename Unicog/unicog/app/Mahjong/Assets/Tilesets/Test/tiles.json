@@ -11,5 +11,10 @@
         "Mahjong-Character-1.jpg"
         ],
     "alt": [],
-    "effects": []
+    "effects": [],
+    
+    "tileFaceX": 100,
+    "tileFaceY": 160,
+    "tileX": 100,
+    "tileY": 180
 }
