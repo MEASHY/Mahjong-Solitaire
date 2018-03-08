@@ -41,5 +41,10 @@
         
         ],
     "alt": [],
-    "effects": []
+    "effects": [],
+    
+    "tileFaceX": 100,
+    "tileFaceY": 160,
+    "tileX": 110,
+    "tileY": 170
 }
