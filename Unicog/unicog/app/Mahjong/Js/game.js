@@ -15,6 +15,9 @@ function preload () {
     var session = new GameSession();
     var json = session.tilesetJson
     
+    // Load the layout file specified by the lobby for later use
+    this.load.json('jsonLayout', '/Assets/Layouts/'+session.packageSelected+'/'+session.layoutSelected+'.json')
+    
     // Put all the information in GameSession
     session.tiles.main = json.main
     session.tilesetSize = json.size

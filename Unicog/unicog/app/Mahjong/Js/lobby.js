@@ -1,6 +1,6 @@
 function initLobby () {
-    // Difficulty and Layout selections
-    $.getJSON('/Assets/Layouts/LayoutList.json', initLayouts)
+    // Package and Layout selections
+    $.getJSON('/Assets/Layouts/PackageList.json', initPackages)
     
     // Tileset selection
     $.getJSON('/Assets/Tilesets/SetList.json', initTilesets)
@@ -10,64 +10,84 @@ function initLobby () {
     //$.getJSON('/Assets/Themes/?.json', initBackgrounds)
 }
 
-// json is the returned JSON from the list of layouts file
-function initLayouts (json) {
+// json is the returned JSON from the list of packages file
+function initPackages (json) {
     var session = new GameSession()
-    session.layoutFiles = json
-    session.layoutList = []
-    session.layoutTotal = json.length
+    session.packageList = json
+    session.packageSelected = null
     session.layoutSelected = null
     
-    if (session.layoutTotal > 0) {
-        $.getJSON('/Assets/Layouts/'+session.layoutFiles[0]+'.json', checkLayout)
+    // Create the packageList from the json
+    var packageDropBox = document.getElementById('packageDropBox').options
+    for (i = 0; i < session.packageList.length; i++) {
+        session.packageList[i] = {
+            name: session.packageList[i],
+            layouts: null
+        }
+        // Add option to selection in lobby
+        packageDropBox.add(new Option (session.packageList[i].name, i), i)
+    }
+    
+    if (session.packageList.length > 0) {
+        $.getJSON('/Assets/Layouts/'+session.packageList[0].name+'/layouts.json', initLayouts)
     }
 }
 
-// json is the returned JSON from a layout file
-function checkLayout (json) {
-    // Generate an object based on the JSON and add it to GameSession
+// json is the returned JSON from a list of layouts file
+function initLayouts (json) {
     var session = new GameSession()
-    var layout = {
-        json: json,
-        name: json.header.name,
-        difficulty: json.header.difficulty,
-        index: session.layoutList.length
-    }
-    session.layoutList.push(layout)
+    layoutIndex = 0
+    nextPackage = 0
     
-    // layoutSelected should only be null if this is the first layout in the list
+    // Iterate through packageList till we find the current package
+    for (pIndex = 0; pIndex < session.packageList.length; pIndex++) {
+        if (session.packageList[pIndex].layouts === null) {
+            // Create and add the list of layouts to the package
+            session.packageList[pIndex].layouts = []
+            for (jIndex = 0; jIndex < json.length; jIndex++) {
+                var layout = {
+                    name: json[jIndex],
+                    index: layoutIndex
+                }
+                session.packageList[pIndex].layouts.push(layout)
+                layoutIndex++
+            }
+            nextPackage = pIndex + 1
+            break
+        } else {
+            layoutIndex += session.packageList[pIndex].layouts.length
+        }
+    }
+    
+    // layoutSelected should only be null if this is the first package's layouts
     if (session.layoutSelected === null) {
-        session.layoutSelected = layout
+        // Set to first layout in package, then populate layout selection in lobby
+        setLayoutSelected(session, 0, 0)
+        addLayouts(session.packageList[0].layouts)
     }
     
-    // Add name or difficulty of layout to the selection boxes in the lobby
-    addLayout(layout, session.layoutSelected, false)
-    
-    // Recurse till we've looked through all the layouts
-    if (session.layoutList.length !== session.layoutTotal) {
-        $.getJSON('/Assets/Layouts/'+session.layoutFiles[session.layoutList.length]+'.json', checkLayout)
+    // Keep recursing till we've gone through all the packages
+    if (nextPackage < session.packageList.length) {
+        $.getJSON('/Assets/Layouts/'+session.packageList[nextPackage].name+'/layouts.json', initLayouts)
     }
 }
 
-function addLayout ( layout, selected, justAddLayoutNames ) {
-    var matchingDifficulty = layout.difficulty.toUpperCase() === selected.difficulty.toUpperCase()
-    
-    // Difficulty does match selected layout's, so add new layout to selection
-    if (matchingDifficulty) {
-        var layoutDropBox = document.getElementById('layoutDropBox').options
-        layoutDropBox.add(new Option (layout.name, layout.index), layout.index)
+function addLayouts (layoutList) {
+    // Empty layout selection if necessary
+    var layoutDropBox = document.getElementById('layoutDropBox').options
+    while (layoutDropBox.length !== 0) {
+        layoutDropBox.remove(0)
     }
     
-    // We only need to add layout names if the difficulty drop box is already populated
-    if (justAddLayoutNames) {
-        return
+    // Add all layouts to selection
+    for (i = 0; i < layoutList.length; i++) {
+        layoutDropBox.add(new Option (layoutList[i].name, layoutList[i].index), layoutList[i].index)
     }
-    
-    // Difficulty doesn't match selected layout's, or layout is same as selected, so add new difficulty to selection
-    if (!matchingDifficulty || layout.index === selected.index) {
-        var difficultyDropBox = document.getElementById('difficultyDropBox').options
-        difficultyDropBox.add(new Option (layout.difficulty, layout.index), layout.index)
-    }
+}
+
+function setLayoutSelected ( session, pIndex, layoutIndex) {
+    session.packageSelected = session.packageList[pIndex].name
+    session.layoutSelected = session.packageList[pIndex].layouts[layoutIndex].name
 }
 
 // json is the returned JSON from the list of tilesets file
@@ -93,25 +113,26 @@ function showGame () {
     startGame()
 }
 
-function changeDifficulty (index) {
+function changePackage (pIndex) {
     var session = new GameSession()
-    session.layoutSelected = session.layoutList[index]
     
-    // Empty layout selection
-    var layoutDropBox = document.getElementById('layoutDropBox').options
-    while (layoutDropBox.length !== 0) {
-        layoutDropBox.remove(0)
-    }
-    
-    // Fill layout selection with layouts matching newly selected difficulty
-    for (i = 0; i < session.layoutList.length; i++) {
-        addLayout(session.layoutList[i], session.layoutSelected, true)
-    }
+    // Set to first layout in package, then populate layout selection in lobby
+    setLayoutSelected(session, pIndex, 0)
+    addLayouts(session.packageList[pIndex].layouts)
 }
 
-function changeLayout (index) {
+function changeLayout (layoutIndex) {
     var session = new GameSession()
-    session.layoutSelected = session.layoutList[index]
+    
+    // Search through packages until the layout matching the index is found
+    for (pIndex = 0; pIndex < session.packageList.length; pIndex++) {
+        if (layoutIndex < session.packageList[pIndex].layouts.length) {
+            setLayoutSelected(session, pIndex, layoutIndex)
+            return
+        } else {
+            layoutIndex -= session.packageList[pIndex].layouts.length
+        }
+    }
 }
 
 function changeTileset (name) {

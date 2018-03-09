@@ -6,7 +6,7 @@ class Board {
         this.currentSelection = null
         
         var session = new GameSession()
-        var json = session.layoutSelected.json
+        var json = this.scene.cache.json.get('jsonLayout')
         this.layout = new Layout(this.scene, json)
         
         session.numChildren = json.header.numChildren
