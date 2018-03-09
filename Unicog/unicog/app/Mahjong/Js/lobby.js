@@ -19,15 +19,16 @@ function initPackages (json) {
     
     // Create the packageList from the json
     var packageDropBox = document.getElementById('packageDropBox').options
-    for (i = 0; i < session.packageList.length; i++) {
-        session.packageList[i] = {
-            name: session.packageList[i],
+    for (jIndex = 0; jIndex < json.length; jIndex++) {
+        session.packageList[jIndex] = {
+            name: json[jIndex],
             layouts: null
         }
         // Add option to selection in lobby
-        packageDropBox.add(new Option (session.packageList[i].name, i), i)
+        packageDropBox.add(new Option (session.packageList[jIndex].name, jIndex), jIndex)
     }
     
+    // Start initializing all the layouts
     if (session.packageList.length > 0) {
         $.getJSON('/Assets/Layouts/'+session.packageList[0].name+'/layouts.json', initLayouts)
     }
@@ -43,13 +44,12 @@ function initLayouts (json) {
     for (pIndex = 0; pIndex < session.packageList.length; pIndex++) {
         if (session.packageList[pIndex].layouts === null) {
             // Create and add the list of layouts to the package
-            session.packageList[pIndex].layouts = []
+            session.packageList[pIndex].layouts = json
             for (jIndex = 0; jIndex < json.length; jIndex++) {
-                var layout = {
+                session.packageList[pIndex].layouts[jIndex] = {
                     name: json[jIndex],
                     index: layoutIndex
                 }
-                session.packageList[pIndex].layouts.push(layout)
                 layoutIndex++
             }
             nextPackage = pIndex + 1
@@ -85,18 +85,30 @@ function addLayouts (layoutList) {
     }
 }
 
-function setLayoutSelected ( session, pIndex, layoutIndex) {
+function setLayoutSelected ( session, pIndex, layoutIndex ) {
     session.packageSelected = session.packageList[pIndex].name
     session.layoutSelected = session.packageList[pIndex].layouts[layoutIndex].name
 }
 
 // json is the returned JSON from the list of tilesets file
 function initTilesets (json) {
+    var session = new GameSession()
+    session.tilesetList = json
+    session.tilesetSelected = null
+    
+    // Create the tilesetList from the json
     var tilesetDropBox = document.getElementById('tilesetDropBox').options
-    for (i = 0; i < json.length; i++) {
-        tilesetDropBox.add(new Option (json[i], json[i]), i)
+    for (jIndex = 0; jIndex < json.length; jIndex++) {
+        session.tilesetList[jIndex] = {
+            name: json[jIndex],
+            json: null,
+            index: jIndex
+        }
+        // Add option to selection in lobby
+        tilesetDropBox.add(new Option (session.tilesetList[jIndex].name, jIndex), jIndex)
     }
-    changeTileset(json[0])
+    
+    changeTileset(0)
 }
 
 function showLobby () {
@@ -135,19 +147,21 @@ function changeLayout (layoutIndex) {
     }
 }
 
-function changeTileset (name) {
+function changeTileset (tIndex) {
     var session = new GameSession()
-    session.tilesetName = name
-    session.tilesetPath = '/Assets/Tilesets/'+name+'/'
+    session.tilesetSelected = session.tilesetList[tIndex]
     
     // Load the tileset info file ahead of time here so it's ready for use in the Phaser preload function
-    $.getJSON(session.tilesetPath+'tiles.json', storeTilesetJson)
+    if (session.tilesetSelected.json === null) {
+        $.getJSON('/Assets/Tilesets/'+session.tilesetSelected.name+'/tiles.json', storeTilesetJson)
+    }
 }
 
 // json is the returned JSON from the tileset info file
 function storeTilesetJson (json) {
     var session = new GameSession()
-    session.tilesetJson = json
+    session.tilesetSelected.json = json
+    session.tilesetList[session.tilesetSelected.index] = session.tilesetSelected
 }
 
 function changeBackground (value) {

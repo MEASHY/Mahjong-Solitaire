@@ -13,7 +13,7 @@ var gameConfig = {
 
 function preload () {
     var session = new GameSession();
-    var json = session.tilesetJson
+    var json = session.tilesetSelected.json
     
     // Load the layout file specified by the lobby for later use
     this.load.json('jsonLayout', '/Assets/Layouts/'+session.packageSelected+'/'+session.layoutSelected+'.json')
@@ -29,7 +29,7 @@ function preload () {
     // Load all of the main tiles specified in the tileset info file
     var tiles = session.tiles.main
     for (var i = 0; i < tiles.length; i++) {
-        this.load.image('tile'+i, session.tilesetPath+tiles[i])
+        this.load.image('tile'+i, '/Assets/Tilesets/'+session.tilesetSelected.name+'/'+tiles[i])
     }
     
     console.log('Assets loaded!')
