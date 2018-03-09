@@ -37,6 +37,8 @@ def bej_ind():
 def word_ind():
     return render_template('ECAWordSearchV2/index.html')
 
+# Mahjong Stuff
+
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/',filename)
@@ -53,23 +55,6 @@ def send_layout(filename):
 def send_tile(filename):
     return send_from_directory('Mahjong/Assets/Tilesets/Testv2/',filename)
 
-"""
-@app.route('/mahjong_game')
-def mahjong_game_ind():
-    return render_template('Mahjong/game.html')
-
-@app.route('/mahjong_index')
-def mahjong_ind():
-    return render_template('Mahjong/index.html')
-
-@app.route('/mahjong_player_login')
-def mahjong_player_login():
-    return render_template('/Mahjong/player_login.html')
-
-@app.route('/mahjong_research_login')
-def mahjong_research_login():
-    return render_template('/Mahjong/research_login.html')
-"""
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
 
@@ -143,64 +128,3 @@ def word_tile():
 def word_board():
     return send_file('ECAWordSearchV2/js/board.js')
 
-## Mahjong stuff
-
-@app.route('/mahjong/js/<path:filename>')
-def mahjong_js_file(filename):
-    return send_from_directory('Mahjong/js/',filename)
-
-# Below is old Mahjong Stuff that just no
-"""
-@app.route('/mahjong/js/phaser.js')
-def mahjong_phaser():
-    return send_file('Mahjong/js/phaser.js')
-
-@app.route('/mahjong/js/gameSession.js')
-def mahjong_gameSession():
-    return send_file('Mahjong/js/gameSession.js')
-
-@app.route('/mahjong/js/game.js')
-def mahjong_game():
-    return send_file('Mahjong/js/game.js')
-
-@app.route('/mahjong/js/tile.js')
-def mahjong_tile():
-    return send_file('Mahjong/js/tile.js')
-
-@app.route('/mahjong/js/board.js')
-def mahjong_board():
-    return send_file('Mahjong/js/board.js')
-
-@app.route('/Assets/Layouts/Demo1.json')
-def layout_demo1():
-    return send_file('Mahjong/Assets/Layouts/Demo1.json')
-
-@app.route('/Assets/Tilesets/Testv2/1.png')
-def tile_1():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/1.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Bamboo-2.png')
-def tile_bamboo_2():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Bamboo-2.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Bamboo-3.png')
-def tile_bamboo_3():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Bamboo-3.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-1.png')
-def tile_dot_1():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-1.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-2.png')
-def tile_dot_2():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-2.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-3.png')
-def tile_dot_3():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-3.png')
-
-@app.route('/Assets/Tilesets/Testv2/Mahjong-Dot-4.png')
-def tile_dot_4():
-    return send_file('Mahjong/Assets/Tilesets/Testv2/Mahjong-Dot-4.png')
-
-"""
