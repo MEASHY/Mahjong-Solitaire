@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Mahjong</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="mahform.css">
+        <style>
+
+#mahcolorstrip {
+	width: 100%;
+	height: 50px;
+	border-style: solid;
+	border-color: #f1800e;
+	background-color: #f1800e;
+}
+
+h1 {
+	padding-top: 100px;
+	font-size: 34px;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+button {
+	width: 50%;
+	background-color: #f1800e;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input {
+	width: 50%;
+}
+
+input[type="login"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 20%;
+    
+}
+
+input[type="submit"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input[type="text"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+
+input[type="password"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+#container{
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+</style>
+
+    </head>
+    <div id="colorstrip"/>
+    <h1> Statistics </h1>
+    <h3> Current Researcher:</h3>
+    <h3> Bobby </h3>
+    <form id='log_out' method='get' action ='index.html'>
+        <p>
+            <input type='submit' name='logout' value='Logout' />
+        </p>
+    </form>
+    
+
+    <body>
+    	<form id='player_filter' method='get' action ='filter'>
+    		<p>
+                <h3> Filter by: </h3>
+                <input type='filter' name='player' value='Player' />
+    		</p>
+        </form>
+        
+        <form id='export_csv' method='get' action =''>
+            <p>
+                <input type='submit' name='csv' value='Export to Excel' />
+            </p>
+        </form>
+    	
+        <table style="width:100%">
+            <tr>
+                <th>GameID</th>
+                <th>PlayerID</th> 
+                <th>ResearcherID</th>
+                <th># selections</th> 
+                <th># correct match</th>
+                <th># incorrect match</th>
+            </tr>
+            <tr>
+                <td>58845</td>
+                <td>Bill</td> 
+                <td>Janny</td>
+                <td>80</td>
+                <td>60</td> 
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>25686</td>
+                <td>Will</td> 
+                <td>Janny</td>
+                <td>100</td>
+                <td>60</td> 
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>25686</td>
+                <td>Mill</td> 
+                <td>Janny</td>
+                <td>120</td>
+                <td>60</td> 
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>25686</td>
+                <td>Frill</td> 
+                <td>Janny</td>
+                <td>60</td>
+                <td>60</td> 
+                <td>0</td>
+            </tr>
+        </table>
+        
+        
+    </body>
+</html>
