@@ -8,18 +8,21 @@
 
 
     </head>
+    
+    <body>
     <div id="colorstrip"/>
     <h1> Statistics </h1>
-    <h3> Current Researcher:</h3>
-    <h3> Bobby </h3>
-    <form id='log_out' method='get' action ='index.html'>
-        <p>
-            <input type='submit' name='logout' value='Logout' />
-        </p>
-    </form>
+    <div id = "login_status" >
+        <h3> Current Researcher: Bobby</h3>
+        <form id='log_out' method='get' action ='index.html'>
+            <p>
+                <input type='submit' name='logout' value='Logout' />
+            </p>
+        </form>
+    </div>
+   
     
-
-    <body>
+    <div id = "top" >
     	<form id='player_filter' method='get' action ='filter'>
     		<p>
                 <h3> Filter by: </h3>
@@ -32,6 +35,7 @@
                 <input type='submit' name='csv' value='Export to Excel' />
             </p>
         </form>
+    </div>
     	
         <table style="width:100%" border="1">
             <tr>
