@@ -196,7 +196,7 @@ function showGame (gameType) {
     
     resumeTimer()
     // Timer can only be edited at the start of a session, so hiding it everytime a game starts ensures it can't be accessed again
-    document.getElementById('timer').style.display = 'none'
+    document.getElementById('timerDiv').style.display = 'none'
     
     startGame(gameType)
 }
