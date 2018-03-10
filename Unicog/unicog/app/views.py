@@ -43,17 +43,13 @@ def word_ind():
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/',filename)
 
-@app.route('/mahjong_static/mahjong_js/<path:filename>')
-def mahjong_js(filename):
-    return send_from_directory('Mahjong/js/',filename)
-
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
     return send_from_directory('Mahjong/Assets/Layouts/',filename)
 
-@app.route('/Assets/Tilesets/Testv2/<path:filename>')
-def send_tile(filename):
-    return send_from_directory('Mahjong/Assets/Tilesets/Testv2/',filename)
+@app.route('/Assets/Tilesets/<path:filename>')
+def send_tiles(filename):
+    return send_from_directory('Mahjong/Assets/Tilesets/',filename)
 
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
