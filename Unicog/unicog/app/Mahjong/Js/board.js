@@ -5,19 +5,22 @@ class Board {
         this.tileSelected = null
         this.currentSelection = null
         
+        var session = new GameSession()
         var json = this.scene.cache.json.get('jsonLayout')
         this.layout = new Layout(this.scene, json)
         
-        var session = new GameSession()
         session.numChildren = json.header.numChildren
         var height = json.header.height
         
-        for(var i = 1; i <= height; i++) {
+        for (var i = 1; i <= height; i++) {
             this.layout.addJsonLayer(json['layer'+i], i)
         }
         
         this.layout.buildHierarchy()
-        this.layout.generateTiles()        
+        this.layout.generateTiles() 
+        if (session.beginnerMode) {
+            this.layout.InitializeBeginnerMode()
+        }
     };
    
     selectTile(tile) {

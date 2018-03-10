@@ -1,151 +1,97 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Mahjong</title>
+    <head>
+        <title>Mahjong</title>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
         <link rel='stylesheet' type='text/css' href='mahform.css'>
-        <script src='mahjong_js/phaser.js'></script>
-        <script src='mahjong_js/gameSession.js'></script>
-        <script src='mahjong_js/game.js'></script>        
-        <script src='mahjong_js/tile.js'></script>
-        <script src='mahjong_js/board.js'></script>
-        <script>
-        /*
-        var difficulty = 1
-        var tileset = 1
-        var background = 1
-        var layout = 1
-        */
-        
-        function showLobby () {
-            document.getElementById('colorstrip').style.display = 'block'
-            document.getElementById('lobbyDiv').style.display = 'block'
-            document.getElementById('gameDiv').style.display = 'none'
-            
-            // This shouldn't be called when game.html is first loaded.
-            // When the function is implemented that check should be done here or in the function, whatever works best.
-            endGame()
-        }
-        
-        function showGame () {
-            document.getElementById('colorstrip').style.display = 'none'
-            document.getElementById('lobbyDiv').style.display = 'none'
-            document.getElementById('gameDiv').style.display = 'block'
-            startGame()
-        }
-        
-        function changeDifficulty (value) {
-            //difficulty = value
-            if (value == '1') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 1'
-            } else if (value == '2') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 2'
-            } else if (value == '3') {
-                document.getElementById('difficultyText').innerHTML = 'Difficulty 3'
-            }
-        }
-        
-        function changeTileset (value) {
-            //tileset = value
-            if (value == '1') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 1'
-            } else if (value == '2') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 2'
-            } else if (value == '3') {
-                document.getElementById('tilesetText').innerHTML = 'Tileset 3'
-            }
-        }
-        
-        function changeBackground (value) {
-            //background = value
-            if (value == '1') {
-                document.getElementById('backgroundText').innerHTML = 'Background 1'
-            } else if (value == '2') {
-                document.getElementById('backgroundText').innerHTML = 'Background 2'
-            } else if (value == '3') {
-                document.getElementById('backgroundText').innerHTML = 'Background 3'
-            }
-        }
-        
-        function changeLayout (value) {
-            //layout = value
-            if (value == '1') {
-                document.getElementById('layoutText').innerHTML = 'Layout 1'
-            } else if (value == '2') {
-                document.getElementById('layoutText').innerHTML = 'Layout 2'
-            } else if (value == '3') {
-                document.getElementById('layoutText').innerHTML = 'Layout 3'
-            }
-        }
-        
-        window.onload = showLobby
-        </script>
+
+        <script src='js/phaser.js'></script>
+        <script src='js/jquery-3.3.1.js'></script>
+        <script src='js/gameSession.js'></script>
+        <script src='js/lobby.js'></script>
+        <script src='js/game.js'></script>        
+        <script src='js/tile.js'></script>
+        <script src='js/board.js'></script>
+        <script>window.onload=initLobby</script>
         <style>
 
 #mahcolorstrip {
-	width: 100%;
-	height: 50px;
-	border-style: solid;
-	border-color: #f1800e;
-	background-color: #f1800e;
+    width: 100%;
+    height: 50px;
+    border-style: solid;
+    border-color: #f1800e;
+    background-color: #f1800e;
 }
 
 h1 {
-	padding-top: 100px;
-	font-size: 34px;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
+    padding-top: 100px;
+    font-size: 34px;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
 }
 
 p {
-	text-align: center;
+    text-align: center;
 }
 
 button {
-	width: 50%;
-	background-color: #f1800e;
-	border: none;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    width: 50%;
+    background-color: #f1800e;
+    border: none;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
 }
 
 input {
-	width: 50%;
+    width: 50%;
 }
 
 input[type="login"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
     width: 20%;
     
 }
 
 input[type="submit"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
 }
 
 input[type="text"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
 }
 
 input[type="password"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
 }
+
+input[type="number"] {
+    font-size: 16px;
+    padding-left: 5px;
+    font-family: Arial;
+    width: 3em;
+}
+
+input[type="button"] {
+    float: left;
+}
+
+
 #container{
     text-align: center;
     top: 50%;
@@ -203,6 +149,27 @@ input[type="password"] {
     background-color: #3e8e41;
 }
 
+.timer {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
+.beginner {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
+.buttons {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
 </style>
 
 
@@ -214,56 +181,43 @@ input[type="password"] {
     </div>
 
     <body>
+    
         <div class='game' id='gameDiv'>
         </div>
         
         <div class='lobby', id='lobbyDiv'>
         <form id='gameSetup'>
         <div class = 'grid'>
-            <p>
-            <div class='dropdown'>
-                <h3 id='difficultyText'>Difficulty</h3>
-                <select type='text' id='difficultyDropBox' onchange='changeDifficulty()'>
-                    <option value='1'>Difficulty 1</option>
-                    <option value='2'>Difficulty 2</option>
-                    <option value='3'>Difficulty 3</option>
-                </select>
+            <p><div class='dropdown'>
+                <h3 id='packageText'>Layout Package</h3>
+                <select type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
             </div>
-            </p>
-            <p>
-            <div class='dropdown'>
-                <h3 id='tilesetText'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' onchange='changeTileset()'>
-                    <option value='1'>Tileset 1</option>
-                    <option value='2'>Tileset 2</option>
-                    <option value='3'>Tileset 3</option>
-                </select>
-            </div>
-            </p>
-            <p>
-            <div class='dropdown'>
-                <h3 id='backgroundText'>Background</h3>
-                <select type='text' id='backgroundDropBox' onchange='changeBackground()'>
-                    <option value='1'>Background 1</option>
-                    <option value='2'>Background 2</option>
-                    <option value='3'>Background 3</option>
-                </select>
-            </div>
-            </p>
-            <p>
-            <div class='dropdown'>
+            <p><div class='dropdown'>
                 <h3 id='layoutText'>Layout</h3>
-                <select type='text' id='layoutDropBox' onchange='changeLayout()'>
-                    <option value='1'>Layout 1</option>
-                    <option value='2'>Layout 2</option>
-                    <option value='3'>Layout 3</option>
-                </select>
+                <select type='text' id='layoutDropBox' onchange='changeLayout(this.value)' ></select>
             </div>
-            </p>
-            <p>
-    			<input type='button' name='startGame' value='Start Game' onclick='showGame()' />
-    		</p>
-            
+            <p><div class='dropdown'>
+                <h3 id='tilesetText'>Tileset</h3>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset(this.value)' ></select>
+            </div>
+            <p><div class='dropdown'>
+                <h3 id='backgroundText'>Background</h3>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground(this.value)' ></select>
+            </div>
+            <p><div class='timer' id='timerDiv'>
+                <h3 id='timerText'>Session Time Limit</h3>
+                <label for='timerMinuteField'>Minutes:</label>
+                <input type='number' id='timerMinuteField' >
+                <label for='timerSecondField'>Seconds:</label>
+                <input type='number' id='timerSecondField' >
+            </div>
+            <p><div class='beginner' id='beginnerDiv'>
+                <h3 id='beginnerText'>Enable Beginner Mode</h3>
+                <input type='checkbox' id='beginnerCheck' onchange='changeBeginnerMode(this.checked)'>
+            </div>
+            <p><div class='buttons'>
+                <input type='button' name='startGame' onclick='showGame()' value='Start Game' >
+            </div>
         </div>
         </form>
         </div>

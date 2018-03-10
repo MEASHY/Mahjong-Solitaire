@@ -17,13 +17,10 @@ var GameSession = function() {
         var name = null
         var size = null
         var difficulty = null
+        var beginnerMode = false
         
         var public_members = {
             text: 'public',
-            tileSetName: null,
-            tileSetSize: null,
-            layoutName: null,
-            numChildren: null,
             tiles: {
                 "main": [],
                 "alt": [],
@@ -50,7 +47,7 @@ var GameSession = function() {
         return public_members;
     }
     else {
-        console.warn("Singleton already has an instance, here it is: " + GameSession.instance);
+        //console.warn("Singleton already has an instance, here it is: " + GameSession.instance);
         return GameSession.instance;
     }
 };
