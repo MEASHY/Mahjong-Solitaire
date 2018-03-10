@@ -172,11 +172,6 @@ class Layout {
                 //assign the tile to the two selected positions
                 pos1.setTile("tile"+possible[randTile])
                 pos2.setTile("tile"+possible[randTile])
-                
-                // Adjust the offset for this tile
-                pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY,200,200)
-                pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY,200,200)
-                
        
             }
             catch (err) {
@@ -333,6 +328,9 @@ class TileNode {
         var yPos = tileFaceY * scale * this.y + offsetY
         this.tile.setPosition(xPos,yPos)
         this.tile.setScale(scale)
+        
+        //console.log(offsetX)
+        //console.log(offsetY)
         
         /*
         // For two and four children

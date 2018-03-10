@@ -20,8 +20,8 @@ var GameSession = function() {
         var sizeX = null
         var sizeY = null
         var scale = null
-        var offsetX = null
-        var offsetY = null
+        var offsetX = 0
+        var offsetY = 0
         
         var public_members = {
             text: 'public',
