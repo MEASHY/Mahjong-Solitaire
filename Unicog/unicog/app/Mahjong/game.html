@@ -90,6 +90,7 @@ input[type="button"] {
     float: left;
 }
 
+
 #container{
     text-align: center;
     top: 50%;
@@ -154,6 +155,13 @@ input[type="button"] {
     left: 45%;
 }
 
+.beginner {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
 .buttons {
     position: relative;
     width: 20%;
@@ -202,9 +210,12 @@ input[type="button"] {
                 <label for='timerSecondField'>Seconds:</label>
                 <input type='number' id='timerSecondField' >
             </div>
+            <p><div class='beginner' id='beginnerDiv'>
+                <h3 id='beginnerText'>Enable Beginner Mode</h3>
+                <input type='checkbox' id='beginnerCheck' onchange='changeBeginnerMode(this.checked)'>
+            </div>
             <p><div class='buttons'>
-                <input type='button' name='startGame' onclick='showGame("beginner")' value='Beginner Mode' >
-                <input type='button' name='startGame' onclick='showGame("normal")' value='Start Game' >
+                <input type='button' name='startGame' onclick='showGame()' value='Start Game' >
             </div>
         </div>
         </form>

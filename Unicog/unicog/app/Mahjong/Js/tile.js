@@ -1,5 +1,5 @@
 class Layout {
-    constructor(state, json){
+    constructor (state, json) {
         console.log("layout constructor")
         console.log(json)
         var session = new GameSession();
@@ -18,14 +18,14 @@ class Layout {
     }
     
     //add a single layer to the layout 
-    addJsonLayer(layer, height) {
+    addJsonLayer (layer, height) {
         var generated = []
         for (var i = 0; i < layer.length; i++) {
             var row = []
             for (var j = 0; j < layer[i].length; j++) {
-                if(layer[i][j] == 1) {
+                if (layer[i][j] == 1) {
                     row.push(new TileNode(this.state, j, i, height, this.numChildren))
-                }else {
+                } else {
                     row.push(null)
                 }
             }
@@ -35,14 +35,14 @@ class Layout {
     }
     
     //constructs the tree structure between tileNodes within the layers array 
-    buildHierarchy() {
+    buildHierarchy () {
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    if (this.layers[i][j][k].parents.length < 1){
+                    if (this.layers[i][j][k].parents.length < 1) {
                         this.roots.push(this.layers[i][j][k].findChildren(this, this.numChildren))
                     }
                 }
@@ -52,7 +52,7 @@ class Layout {
         console.log(this.roots)
     }
     
-    findNeighbours(tile, findEmpty = false) {
+    findNeighbours (tile, findEmpty = false) {
         if (tile == null) {return false}
         var neighbors = []
         for (var i = tile.x - 1; i >= 0; i--) {
@@ -78,7 +78,8 @@ class Layout {
         return neighbors
     }
     
-    removeTile(tile) {
+    removeTile (tile) {
+        var session = new GameSession()
         //remove from root
         for (var i = 0; i < this.roots.length; i++) {
             if (this.roots[i] === tile) {
@@ -87,26 +88,33 @@ class Layout {
         } 
         //add children to root and make selectable if applicable
         for (var i = 0; i < tile.children.length; i++) {
-            if (tile.children[i].parents.length < 2)
-            {
+            if (tile.children[i].parents.length < 2) {
                 this.roots.push(tile.children[i])
                 if (this.findNeighbours(tile.children[i]).length < 2) {
                     tile.children[i].selectable = true
+                    if (session.beginnerMode) {
+                        console.log("undimming")
+                        tile.children[i].unhighlightTile()
+                    }
                 }
             }
             tile.children[i].removeParent(tile)
         }
         //set the adjacent tile to be selectable
-        var neighbour = this.findNeighbours(tile)
-        console.log(neighbour)
-        if (neighbour.length > 0) {
-            this.findNeighbours(tile)[0].selectable = true
+        var neighbours = this.findNeighbours(tile)
+        if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
+            neighbours[0].selectable = true
+            if (session.beginnerMode) {
+                console.log("undimming")
+                neighbours[0].unhighlightTile()
+            }
+            
         }
         tile.tile.destroy()
         this.layers[tile.z][tile.y][tile.x] = null
     }
     
-    generateTiles() {
+    generateTiles () {
         var session = new GameSession()
         var counts = new Array(Math.min(this.uniqueTiles, session.tilesetSize)).fill(0)
         var possible = [...Array(counts.length).keys()]
@@ -198,8 +206,8 @@ class Layout {
             
             
             //find the new child positions opened by the assignment of position 1
-            for (var i = 0; i < pos1.children.length; i++){
-                if (pos1.children[i].allParentsGenerated() && this.findNeighbours(pos1.children[i], true).length < 2){
+            for (var i = 0; i < pos1.children.length; i++) {
+                if (pos1.children[i].allParentsGenerated() && this.findNeighbours(pos1.children[i], true).length < 2) {
                     childrenToPush.push(pos1.children[i])
                 }
             }           
@@ -230,7 +238,7 @@ class Layout {
         }
     }
     
-    mergeArrays(array, newObjects) {
+    mergeArrays (array, newObjects) {
         for (var i = 0; i < newObjects.length; i++) {
             var invalidTile = false
             //Check all children are generated for the tile
@@ -252,21 +260,30 @@ class Layout {
         }   
     }
     
-    setAll() {
+    setAll () {
         
-        //console.log("set all!")
         for (var i = 0; i < this.layers.length; i++) {
-            //console.log("layer to set")
-            //console.log(this.layers[i])
             this.setLayer(this.layers[i])
         }
     }
     
-    setLayer(layer) {
+    setLayer (layer) {
         for (var i = 0; i < layer.length; i++) {
             for (var j = 0; j < layer[i].length; j++) {
                 if (layer[i][j] != null) {
                     layer[i][j].setTile("tile0")
+                }
+            }
+        }
+    }
+    
+    InitializeBeginnerMode () {
+        for (var i = this.layers.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].length; k++) {
+                    if(!this.layers[i][j][k].selectable) {
+                        this.layers[i][j][k].dimTile()
+                    }                    
                 }
             }
         }
@@ -289,15 +306,15 @@ class TileNode {
         this.selectable = false
     }
     
-    highlightTile(tint = 0xFFFD9A) {  
+    highlightTile (tint = 0xFFFD9A) {  
         this.tile.setTint(tint)
     }
     
-    unhighlightTile() {
+    unhighlightTile () {
         this.tile.clearTint()
     }
     
-    dimTile(dim = 0xCCCCCC) {
+    dimTile (dim = 0x808080) {
         this.tile.setTint(dim)
     }
     
@@ -328,7 +345,7 @@ class TileNode {
         this.xPos -= ((tileX - tileFaceX)) * this.z
     }
     
-    setTile(img) {
+    setTile (img) {
         
         this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
         // Assures each tile has a unique depth per layout
@@ -339,14 +356,14 @@ class TileNode {
         })
     }
     
-    isSet() {
+    isSet () {
         if (this.tile == null) {
             return false
         }
         return true
     }
     
-    removeParent(tileNode) {
+    removeParent (tileNode) {
         for( var i = 0; i < this.parents.length; i++) {
             if (tileNode === this.parents[i]) {
                 this.parents.splice(i,1)
@@ -355,7 +372,7 @@ class TileNode {
     }
     
     //Checks if the Tiles for all the child nodes are set
-    allChildrenGenerated() {
+    allChildrenGenerated () {
         for (var i = 0; i < this.children.length; i++) {
             if (!this.children[i].isSet()){
                 console.log(this.children[i])
@@ -366,7 +383,7 @@ class TileNode {
     }
     
     //Checks if the Tiles for all the parent nodes are set
-    allParentsGenerated() {
+    allParentsGenerated () {
         for (var i = 0; i < this.parents.length; i++) {
             if (!this.parents[i].isSet()){
                 //console.log(this.parents[i])
@@ -376,8 +393,8 @@ class TileNode {
         return true
     }
     
-    findChildren(layout, numChildren) {
-        if (this.height == 1){
+    findChildren (layout, numChildren) {
+        if (this.height == 1) {
             return this
         }
         
