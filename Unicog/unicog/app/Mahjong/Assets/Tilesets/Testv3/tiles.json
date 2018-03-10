@@ -11,5 +11,10 @@
         "character1.png"
         ],
     "alt": [],
-    "effects": []
+    "effects": [],
+    
+    "tileFaceX": 100,
+    "tileFaceY": 160,
+    "tileX": 115,
+    "tileY": 174
 }

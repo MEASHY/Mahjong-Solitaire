@@ -20,10 +20,6 @@ var GameSession = function() {
         
         var public_members = {
             text: 'public',
-            tileSetName: null,
-            tileSetSize: null,
-            layoutName: null,
-            numChildren: null,
             tiles: {
                 "main": [],
                 "alt": [],

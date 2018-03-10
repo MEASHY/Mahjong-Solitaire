@@ -108,7 +108,7 @@ class Layout {
     
     generateTiles() {
         var session = new GameSession()
-        var counts = new Array(Math.min(this.uniqueTiles, session.tileSetSize)).fill(0)
+        var counts = new Array(Math.min(this.uniqueTiles, session.tilesetSize)).fill(0)
         var possible = [...Array(counts.length).keys()]
         var upperTiles = []
         var lowerTiles = []

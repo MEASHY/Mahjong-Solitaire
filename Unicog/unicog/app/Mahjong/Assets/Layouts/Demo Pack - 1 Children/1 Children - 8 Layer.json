@@ -1,7 +1,5 @@
 {
     "header":{
-        "name": "test",
-        "difficulty": "easy",
         "size": 72,
         "height": 8,
         "uniqueTiles": 7,
