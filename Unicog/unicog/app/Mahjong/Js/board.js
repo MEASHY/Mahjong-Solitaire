@@ -17,7 +17,10 @@ class Board {
         }
         
         this.layout.buildHierarchy()
-        this.layout.generateTiles()        
+        this.layout.generateTiles() 
+        if(session.beginnerMode) {
+            this.layout.InitializeBeginnerMode()
+        }
     };
    
     selectTile(tile) {

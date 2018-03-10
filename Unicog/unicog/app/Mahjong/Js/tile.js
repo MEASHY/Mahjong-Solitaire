@@ -79,6 +79,7 @@ class Layout {
     }
     
     removeTile(tile) {
+        var session = new GameSession()
         //remove from root
         for (var i = 0; i < this.roots.length; i++) {
             if (this.roots[i] === tile) {
@@ -92,15 +93,23 @@ class Layout {
                 this.roots.push(tile.children[i])
                 if (this.findNeighbours(tile.children[i]).length < 2) {
                     tile.children[i].selectable = true
+                    if(session.beginnerMode) {
+                        console.log("undimming")
+                        tile.children[i].unhighlightTile()
+                    }
                 }
             }
             tile.children[i].removeParent(tile)
         }
         //set the adjacent tile to be selectable
-        var neighbour = this.findNeighbours(tile)
-        console.log(neighbour)
-        if (neighbour.length > 0) {
-            this.findNeighbours(tile)[0].selectable = true
+        var neighbours = this.findNeighbours(tile)
+        if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
+            neighbours[0].selectable = true
+            if(session.beginnerMode) {
+                console.log("undimming")
+                 neighbours[0].unhighlightTile()
+            }
+            
         }
         tile.tile.destroy()
         this.layers[tile.z][tile.y][tile.x] = null
@@ -254,10 +263,7 @@ class Layout {
     
     setAll() {
         
-        //console.log("set all!")
         for (var i = 0; i < this.layers.length; i++) {
-            //console.log("layer to set")
-            //console.log(this.layers[i])
             this.setLayer(this.layers[i])
         }
     }
@@ -267,6 +273,18 @@ class Layout {
             for (var j = 0; j < layer[i].length; j++) {
                 if (layer[i][j] != null) {
                     layer[i][j].setTile("tile0")
+                }
+            }
+        }
+    }
+    
+    InitializeBeginnerMode() {
+        for (var i = this.layers.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].length; k++) {
+                    if(!this.layers[i][j][k].selectable) {
+                        this.layers[i][j][k].dimTile()
+                    }                    
                 }
             }
         }
@@ -297,7 +315,7 @@ class TileNode {
         this.tile.clearTint()
     }
     
-    dimTile(dim = 0xCCCCCC) {
+    dimTile(dim = 0x808080) {
         this.tile.setTint(dim)
     }
     

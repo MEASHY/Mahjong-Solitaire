@@ -189,7 +189,7 @@ function showLobby () {
 }
 
 // gameType is 'beginner' or 'normal' from game.html
-function showGame (gameType) {
+function showGame () {
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
@@ -198,7 +198,7 @@ function showGame (gameType) {
     // Timer can only be edited at the start of a session, so hiding it everytime a game starts ensures it can't be accessed again
     document.getElementById('timerDiv').style.display = 'none'
     
-    startGame(gameType)
+    startGame()
 }
 
 function changePackage (pIndex) {
@@ -262,4 +262,9 @@ function changeTimer () {
     }
     
     session.timerRemaining = parseInt(minutes) * 60 + parseInt(seconds)
+}
+
+function changeBeginnerMode (value) {
+    var session = new GameSession()
+    session.beginnerMode = value
 }

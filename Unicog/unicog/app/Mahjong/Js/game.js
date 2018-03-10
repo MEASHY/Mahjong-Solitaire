@@ -45,16 +45,8 @@ function update () {
 }
 
 // gameType is 'beginner' or 'normal' from game.html
-function startGame (gameType) {
-    if (gameType === 'beginner') {
-        console.log('Beginner Mode activate!')
-        // TODO
-        // We correctly get here from lobby depending on the button pressed
-        // This just needs implementation
-    }
-    
+function startGame () {    
     var game = new Phaser.Game(gameConfig)
-    console.log(game)
 }
 
 function endGame () {
