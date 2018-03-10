@@ -17,7 +17,9 @@ class Board {
         }
         
         this.layout.buildHierarchy()
-        this.layout.generateTiles()        
+        this.layout.generateTiles()   
+        session.sizeX = this.layout.layers[0][0].length
+        session.sizeY = this.layout.layers[0].length
     };
    
     selectTile(tile) {
@@ -54,7 +56,7 @@ class Board {
             this.currentSelection.highlightTile()
         }        
     }
-
+    
     checkAvailableMoves() {
        
     }

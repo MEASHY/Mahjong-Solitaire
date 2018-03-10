@@ -169,13 +169,15 @@ class Layout {
             }
             
             try {
-                // Adjust the offset for this tile
-                pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
-                pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY)
-                
                 //assign the tile to the two selected positions
                 pos1.setTile("tile"+possible[randTile])
                 pos2.setTile("tile"+possible[randTile])
+                
+                // Adjust the offset for this tile
+                pos1.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY,200,200)
+                pos2.setSpritePosition(this.numChildren, this.tileFaceX, this.tileFaceY, this.tileX, this.tileY,200,200)
+                
+       
             }
             catch (err) {
                 console.log("critical failure!")
@@ -185,6 +187,7 @@ class Layout {
                 console.log(lowerTiles)
                 console.log(pos1)
                 console.log(pos2)
+                console.log(err)
                 throw("TypeError")
             }
                             
@@ -271,6 +274,20 @@ class Layout {
             }
         }
     }
+    
+    positionSprites() {
+        var s = new GameSession()
+        for (var i = this.layers.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].length; k++) {
+                    if (this.layers[i][j][k] == null) {
+                        continue
+                    }
+                    this.layers[i][j][k].setSpritePosition(this.numChildren, s.tileFaceX, s.tileFaceY, s.tileX, s.tileY, s.offsetX, s.offsetY, s.scale)
+                }
+            }
+        }
+    }
 }
 
 class TileNode {
@@ -279,9 +296,7 @@ class TileNode {
         this.state = state,
         this.x = x,
         this.y = y,
-        this.z = height-1,
-        this.xPos = null,
-        this.yPos = null,
+        this.z = height-1,  
         this.height = height,
         this.parents = [], 
         this.children = [],
@@ -301,14 +316,25 @@ class TileNode {
         this.tile.setTint(dim)
     }
     
-    setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY) {
-        //console.log(tileFaceX)
-        //console.log(tileFaceY)
-        //console.log("++++++++++++++")
-        // Sets to the faces of the tile
-        this.xPos = tileFaceX * this.x + 100
-        this.yPos = tileFaceY * this.y + 100
+    //this function should set the position of the sprite for the node
+    //the node needs no information about the tileset that should be contained somewhere else 
+    //the scale should be known beforehand we could calculate it outside but its easier to pass a global scale value 
+    //this value can be stored in the game session so that on rescale we can set it.
+    //multiple rescales is slow though...
+    //button to initiate a rescale?
+    //we should be offsetting the tile by every tileface so that the faces line up next to eachother.
+    //the overlap should automatically be covered by the tile above it. 
+    //if we move up a level however we need to move the tile up a little since the overlap bit at the bottom shouldnt cover that bellow it
+    //this means we need to know the actual tilesize...
+    //offset will be used to center the layout to the gamescreen
+    setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY, offsetX=0, offsetY=0,  scale=1) {
         
+        var xPos = tileFaceX * scale * this.x + offsetX
+        var yPos = tileFaceY * scale * this.y + offsetY
+        this.tile.setPosition(xPos,yPos)
+        this.tile.setScale(scale)
+        
+        /*
         // For two and four children
         if (numChildren === 2) {
             this.xPos += ((tileFaceX / 2) * (this.z + 1))
@@ -320,17 +346,30 @@ class TileNode {
             this.xPos += (tileFaceX / 2)
             this.yPos += (tileFaceY / 2)
         }
-        
+        */
+        /*
         // Adjusts center point of tile to the center of the face 
-        this.xPos += ((tileX - tileFaceX) / 2) 
-        this.yPos += ((tileY - tileFaceY) / 2) 
+        this.xPos += ((tileX - tileFaceX) / 2) + offsetX
+        this.yPos += ((tileY - tileFaceY) / 2) + offsetY
         this.yPos -= ((tileY - tileFaceY)) * this.z
         this.xPos -= ((tileX - tileFaceX)) * this.z
+        */
     }
     
+    /**
+     * Initializes a sprite with a given image for this tile at the origin.
+     * The img argument must specify a preloaded Phaser Sprite
+     * <p>
+     * We set the depth of the tile based on its position in the layout array.
+     * This ensures that each tile overlaps each other correctly
+     * This method works for 999x999x999 tiles
+     *
+     * @param img A string denoting a preloaded Phaser Sprite
+     * @return None
+     * @see TileNode
+     */
     setTile(img) {
-        
-        this.tile = this.state.add.sprite(this.xPos, this.yPos, img).setInteractive()
+        this.tile = this.state.add.sprite(0, 0, img).setInteractive()
         // Assures each tile has a unique depth per layout
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
         var self = this;

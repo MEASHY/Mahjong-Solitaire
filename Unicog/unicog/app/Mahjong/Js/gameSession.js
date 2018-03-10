@@ -17,6 +17,11 @@ var GameSession = function() {
         var name = null
         var size = null
         var difficulty = null
+        var sizeX = null
+        var sizeY = null
+        var scale = null
+        var offsetX = null
+        var offsetY = null
         
         var public_members = {
             text: 'public',
