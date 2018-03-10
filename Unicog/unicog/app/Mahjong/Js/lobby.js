@@ -1,4 +1,6 @@
 function initLobby () {
+    var session = new GameSession()
+    
     // Package and Layout selections
     $.getJSON('/Assets/Layouts/PackageList.json', initPackages)
     
@@ -7,7 +9,37 @@ function initLobby () {
     
     // Background selection
     // TODO
-    //$.getJSON('/Assets/Themes/?.json', initBackgrounds)
+    //$.getJSON('/Assets/???.json', initBackgrounds)
+    
+    // In seconds, how often a check to tick down the timer occurs
+    session.timerTickCheck = 1
+    
+    // Ranges are [Min,Max]
+    session.minuteField = document.getElementById('timerMinuteField')
+    session.minuteMin = 1
+    session.minuteMax = 59
+    session.minuteDefault = 15
+    session.secondField = document.getElementById('timerSecondField')
+    session.secondMin = 0
+    session.secondMax = 59
+    session.secondDefault = 0
+    
+    // Set up HTML
+    session.minuteField.min = session.minuteMin
+    session.minuteField.max = session.minuteMax
+    session.minuteField.value = session.minuteDefault
+    session.minuteField.addEventListener('input', changeTimer)
+    session.secondField.min = session.secondMin
+    session.secondField.max = session.secondMax
+    session.secondField.value = session.secondDefault
+    session.secondField.addEventListener('input', changeTimer)
+    
+    // session.timerRemaining is, in seconds, the amount of time remaining until the session ends
+    changeTimer()
+    
+    // First set timer to paused since we're in the lobby, then start the background function
+    pauseTimer()
+    setInterval(runTimer, session.timerTickCheck*1000, session, session.timerTickCheck)
 }
 
 // json is the returned JSON from the list of packages file
@@ -69,6 +101,8 @@ function initLayouts (json) {
     // Keep recursing till we've gone through all the packages
     if (nextPackage < session.packageList.length) {
         $.getJSON('/Assets/Layouts/'+session.packageList[nextPackage].name+'/layouts.json', initLayouts)
+    } else {
+        console.log('Package and layout selection loaded successfully!')
     }
 }
 
@@ -109,20 +143,62 @@ function initTilesets (json) {
     }
     
     changeTileset(0)
+    console.log('Tileset selection loaded successfully!')
+}
+
+// 
+function initBackgrounds (json) {
+    // TODO
+    // Placeholder until Backgrounds are implemented on the Phaser side of things
+    
+    //console.log('Background selection loaded successfully!')
+}
+
+// Function that runs every amount seconds to tick the timer down, calls endTimer when time is out
+function runTimer ( session, amount ) {
+    if (session.timerRunning) {
+        session.timerRemaining -= amount
+        if (session.timerRemaining <= 0) {
+            endTimer()
+        }
+    }
+}
+
+function pauseTimer () {
+    var session = new GameSession()
+    session.timerRunning = false
+}
+
+function resumeTimer () {
+    var session = new GameSession()
+    session.timerRunning = true
+}
+
+function endTimer () {
+    // TODO
+    // Do some sort of end screen
+    // Take them back to player login?
 }
 
 function showLobby () {
     document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
+    
     endGame()
 }
 
-function showGame () {
+// gameType is 'beginner' or 'normal' from game.html
+function showGame (gameType) {
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
-    startGame()
+    
+    resumeTimer()
+    // Timer can only be edited at the start of a session, so hiding it everytime a game starts ensures it can't be accessed again
+    document.getElementById('timer').style.display = 'none'
+    
+    startGame(gameType)
 }
 
 function changePackage (pIndex) {
@@ -165,11 +241,25 @@ function storeTilesetJson (json) {
 }
 
 function changeBackground (value) {
-    if (value == '1') {
-        document.getElementById('backgroundText').innerHTML = 'Background 1'
-    } else if (value == '2') {
-        document.getElementById('backgroundText').innerHTML = 'Background 2'
-    } else if (value == '3') {
-        document.getElementById('backgroundText').innerHTML = 'Background 3'
+    // TODO
+}
+
+function changeTimer () {
+    var session = new GameSession()
+    
+    // Constrain minutes to [Min,Max] and set to Default if outside range
+    var minutes = session.minuteField.value
+    if (!minutes || minutes < session.minuteMin || minutes > session.minuteMax) {
+        minutes = session.minuteDefault
+        session.minuteField.value = minutes
     }
+    
+    // Constrain seconds to [Min,Max] and set to Default if outside range
+    var seconds = session.secondField.value
+    if (!seconds || seconds < session.secondMin || seconds > session.secondMax) {
+        seconds = session.secondDefault
+        session.secondField.value = seconds
+    }
+    
+    session.timerRemaining = parseInt(minutes) * 60 + parseInt(seconds)
 }

@@ -78,6 +78,18 @@ input[type="password"] {
     padding-left: 5px;
     font-family: Arial;
 }
+
+input[type="number"] {
+    font-size: 16px;
+    padding-left: 5px;
+    font-family: Arial;
+    width: 3em;
+}
+
+input[type="button"] {
+    float: left;
+}
+
 #container{
     text-align: center;
     top: 50%;
@@ -135,6 +147,20 @@ input[type="password"] {
     background-color: #3e8e41;
 }
 
+.timer {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
+.buttons {
+    position: relative;
+    width: 20%;
+    top: 50%;
+    left: 45%;
+}
+
 </style>
 
 
@@ -146,44 +172,40 @@ input[type="password"] {
     </div>
 
     <body>
+    
         <div class='game' id='gameDiv'>
         </div>
         
         <div class='lobby', id='lobbyDiv'>
         <form id='gameSetup'>
         <div class = 'grid'>
-            <p>
-            <div class='dropdown'>
+            <p><div class='dropdown'>
                 <h3 id='packageText'>Layout Package</h3>
-                <select type='text' id='packageDropBox' onchange='changePackage(this.value)'></select>
+                <select type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
             </div>
-            </p>
-            <p>
-            <div class='dropdown'>
+            <p><div class='dropdown'>
                 <h3 id='layoutText'>Layout</h3>
-                <select type='text' id='layoutDropBox' onchange='changeLayout(this.value)'></select>
+                <select type='text' id='layoutDropBox' onchange='changeLayout(this.value)' ></select>
             </div>
-            </p>
-            <p>
-            <div class='dropdown'>
+            <p><div class='dropdown'>
                 <h3 id='tilesetText'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' onchange='changeTileset(this.value)'></select>
+                <select type='text' id='tilesetDropBox' onchange='changeTileset(this.value)' ></select>
             </div>
-            </p>
-            <p>
-            <div class='dropdown'>
+            <p><div class='dropdown'>
                 <h3 id='backgroundText'>Background</h3>
-                <select type='text' id='backgroundDropBox' onchange='changeBackground(this.value)'>
-                    <option value='1'>Background 1</option>
-                    <option value='2'>Background 2</option>
-                    <option value='3'>Background 3</option>
-                </select>
+                <select type='text' id='backgroundDropBox' onchange='changeBackground(this.value)' ></select>
             </div>
-            </p>
-            <p>
-                <input type='button' name='startGame' value='Start Game' onclick='showGame()' />
-            </p>
-            
+            <p><div class='timer'>
+                <h3 id='timerText'>Session Time Limit</h3>
+                <label for='timerMinuteField'>Minutes:</label>
+                <input type='number' id='timerMinuteField' >
+                <label for='timerSecondField'>Seconds:</label>
+                <input type='number' id='timerSecondField' >
+            </div>
+            <p><div class='buttons'>
+                <input type='button' name='startGame' onclick='showGame("beginner")' value='Beginner Mode' >
+                <input type='button' name='startGame' onclick='showGame("normal")' value='Start Game' >
+            </div>
         </div>
         </form>
         </div>
