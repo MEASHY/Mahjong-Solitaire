@@ -39,6 +39,10 @@ def word_ind():
 
 # Mahjong Stuff
 
+@app.route('/mahjong_static/mahform.css')
+def send_mahjong_css():
+    return send_file('static/mahform.css')
+
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/',filename)
