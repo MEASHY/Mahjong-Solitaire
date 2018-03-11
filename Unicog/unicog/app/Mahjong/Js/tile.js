@@ -140,8 +140,6 @@ class Layout {
                     } else {
                         lowerTiles[i]
                     }
-                    
-                    //console.log("---------------------")
                 }
                 
             }
@@ -269,7 +267,13 @@ class Layout {
             }
         }
     }
-    
+    /**
+     * Repositions every Sprite in the layout
+     * <p>
+     * traverses the layout linearly reseting the position of each TileNode
+     *
+     * @see TileNode
+     */
     positionSprites() {
         var s = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
@@ -278,7 +282,7 @@ class Layout {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    this.layers[i][j][k].setSpritePosition(this.numChildren, s.tileFaceX, s.tileFaceY, s.tileX, s.tileY, s.offsetX, s.offsetY, s.scale)
+                    this.layers[i][j][k].setSpritePosition(this.numChildren)
                 }
             }
         }
@@ -311,47 +315,41 @@ class TileNode {
         this.tile.setTint(dim)
     }
     
-    //this function should set the position of the sprite for the node
-    //the node needs no information about the tileset that should be contained somewhere else 
-    //the scale should be known beforehand we could calculate it outside but its easier to pass a global scale value 
-    //this value can be stored in the game session so that on rescale we can set it.
-    //multiple rescales is slow though...
-    //button to initiate a rescale?
-    //we should be offsetting the tile by every tileface so that the faces line up next to eachother.
-    //the overlap should automatically be covered by the tile above it. 
-    //if we move up a level however we need to move the tile up a little since the overlap bit at the bottom shouldnt cover that bellow it
-    //this means we need to know the actual tilesize...
-    //offset will be used to center the layout to the gamescreen
-    setSpritePosition(numChildren, tileFaceX, tileFaceY, tileX, tileY, offsetX=0, offsetY=0,  scale=1) {
+    /**
+     * Sets the sprite position of the TileNode to be cenetered on the screen in the correct layout position.
+     * The sprite is also scaled to the session scale parameter 
+     * <p>
+     * Tile position is determined by the size of the tile and its position in the layout
+     * after determining its base position the position is further offset to be centered on its children
+     *
+     * @param numChildren The number of children a given TileNode has
+     * @see TileNode
+     * @see Layout
+     */
+    setSpritePosition(numChildren) {
+        var s = new GameSession()
         
-        var xPos = tileFaceX * scale * this.x + offsetX
-        var yPos = tileFaceY * scale * this.y + offsetY
-        this.tile.setPosition(xPos,yPos)
-        this.tile.setScale(scale)
+        var xPos = s.tileFaceX * s.scale * this.x + s.offsetX
+        var yPos = s.tileFaceY * s.scale * this.y + s.offsetY
         
-        //console.log(offsetX)
-        //console.log(offsetY)
-        
-        /*
         // For two and four children
         if (numChildren === 2) {
-            this.xPos += ((tileFaceX / 2) * (this.z + 1))
-            this.yPos += (tileFaceY / 2)
+            xPos += (((s.tileFaceX * s.scale) / 2) * (this.z))
+            //yPos += ((tileFaceY * scale) / 2) * (this.z)
         } else if (numChildren === 4) {
-            this.xPos += (tileFaceX / 2) * (this.z + 1)
-            this.yPos += (tileFaceY / 2) * (this.z + 1)
+            xPos += ((s.tileFaceX * s.scale) / 2) * (this.z)
+            yPos += ((s.tileFaceY * s.scale) / 2) * (this.z)
         } else if (numChildren === 1) {
-            this.xPos += (tileFaceX / 2)
-            this.yPos += (tileFaceY / 2)
+            xPos += ((s.tileX - s.tileFaceX) * s.scale) * (s.height / 2)
+            yPos += ((s.tileY - s.tileFaceY) * s.scale) * (s.height / 2)
         }
-        */
-        /*
-        // Adjusts center point of tile to the center of the face 
-        this.xPos += ((tileX - tileFaceX) / 2) + offsetX
-        this.yPos += ((tileY - tileFaceY) / 2) + offsetY
-        this.yPos -= ((tileY - tileFaceY)) * this.z
-        this.xPos -= ((tileX - tileFaceX)) * this.z
-        */
+        
+        // Adjusts tile to the center of its children
+        yPos -= ((s.tileY - s.tileFaceY) * s.scale) * this.z
+        xPos -= ((s.tileX - s.tileFaceX) * s.scale) * this.z
+        
+        this.tile.setPosition(xPos,yPos)
+        this.tile.setScale(scale)
     }
     
     /**
@@ -363,7 +361,6 @@ class TileNode {
      * This method works for 999x999x999 tiles
      *
      * @param img A string denoting a preloaded Phaser Sprite
-     * @return None
      * @see TileNode
      */
     setTile(img) {

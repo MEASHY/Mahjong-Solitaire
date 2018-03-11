@@ -1,5 +1,3 @@
-
-//determine aspect ratio
 var game
 
 var gameConfig = {
@@ -13,18 +11,7 @@ var gameConfig = {
         create: create
     }
 }
-/*
-if(window.innerWidth < window.innerHeight) {
-    console.log("tall")
-    gameConfig.width = window.innerWidth-16
-    gameConfig.height = window.innerWidth * (0.75) - 16
-} 
-else{
-    console.log("wide")
-    gameConfig.width = Math.min(window.innerHeight * (4/3), window.innerWidth) -16
-    gameConfig.height = gameConfig.width * (3/4) - 16
-}
-*/
+
 function preload () {
     console.log("width: "+window.innerWidth)
     console.log("height: "+window.innerWidth*(3/4))
@@ -41,16 +28,12 @@ function preload () {
         ]
     session.tileSetName = "Testv2"
     session.tileSetSize = 7
-    session.layoutName = "Demo5.json"
+    session.layoutName = "Demo3.json"
     session.tileFaceX = 100,
     session.tileFaceY = 160,
     session.tileX = 110,
-    session.tileY = 169
-    
-    //calculate the game scale/offset settings
-    //session.offsetX = 
-    //session.offsetY = 
-    //session.scale = 1
+    session.tileY = 169,
+    session.height = 8
     
     //load the layout file specified by the lobby for later use
     this.load.json('jsonLayout', '/Assets/Layouts/'+session.layoutName)
@@ -76,14 +59,6 @@ function create () {
         resizeGame()
         game.scene.scenes[0].board.layout.positionSprites()
     }
-
-    this.input.on('pointerdown', function (pointer) {
-        if (pointer.isDown) {
-            //this.add.image(pointer.x, pointer.y, 'tile1', Phaser.Math.Between(0, 5));
-            console.log(pointer.x+" "+ pointer.y)
-        }
-    }, this);
-
 }
 
 function update () {
@@ -94,6 +69,7 @@ function resizeGame() {
     var width
     var height
 
+    //determine maximum games size while maintaining a 4:3 ratio
     if (window.innerWidth < window.innerHeight) {
         width = window.innerWidth-16
         height = window.innerWidth * (0.75) - 16
@@ -102,20 +78,19 @@ function resizeGame() {
         width = Math.min(window.innerHeight * (4/3), window.innerWidth) -16
         height = width * (3/4) - 16
     }
+    
     game.renderer.resize(width, height, 1);
     game.config.width = width
     game.config.height = height
 
+    //calculate the overall size of the layout
     layoutWidth = (session.sizeX-1) * session.tileFaceX + session.tileX
     layoutHeight = (session.sizeY-1) * session.tileFaceY + session.tileY
     
-    console.log('LX', layoutWidth)
-    console.log ('LY', layoutHeight)
-    
+    //calculate the optimal tile scaling and necessary offset to center
     scale = Math.min((height * 0.9) / Math.max(layoutWidth, layoutHeight), 1)
-    session.scale = scale
-    
-    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) + (session.tileFaceX * scale / 2)
+    session.scale = scale   
+    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) + (session.tileFaceX * scale / 2) 
     session.offsetY = (height / 2) - ((layoutHeight * scale) / 2) + (session.tileFaceY * scale / 2)
 }
 
