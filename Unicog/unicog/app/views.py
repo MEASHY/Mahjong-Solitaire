@@ -36,12 +36,17 @@ def bej_ind():
 @app.route('/wordsearch_index')
 def word_ind():
     return render_template('ECAWordSearchV2/index.html')
-
+    
 # Mahjong Stuff
-
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
+    
+@app.route('/mahjong_static/game.html')
+def mahjong_game():
+    return send_file('Mahjong/game.html',  
+        user_id = request.form['password'],
+        r_id = request.form['username'])
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
