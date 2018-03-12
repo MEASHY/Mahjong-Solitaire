@@ -45,7 +45,7 @@ def send_mahjong_css():
 @app.route('/mahjong_static/game.html', methods = ['POST'])
 def mahjong_game():
     return render_template('Mahjong/game.html',  
-        user_id= 1, r_id = 1)#request.form['player'], r_id = request.form['researcher'])
+        user_id=request.form['player'], r_id = request.form['researcher'])
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
