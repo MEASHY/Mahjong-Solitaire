@@ -42,15 +42,15 @@ def word_ind():
 def send_mahjong_css():
     return send_file('static/mahform.css')
     
-@app.route('/mahjong_static/game.html')
+@app.route('/mahjong_static/game.html', methods = ['POST'])
 def mahjong_game():
-    return send_file('Mahjong/game.html',  
-        user_id = request.form['password'],
-        r_id = request.form['username'])
+    return render_template('Mahjong/game.html',  
+        user_id= 1, r_id = 1)#request.form['player'], r_id = request.form['researcher'])
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/',filename)
+
 
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
