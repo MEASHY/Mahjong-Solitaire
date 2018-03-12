@@ -6,14 +6,13 @@ class Board {
         this.currentSelection = null
         
         var session = new GameSession()
-        var json = this.scene.cache.json.get('jsonLayout')
-        this.layout = new Layout(this.scene, json)
+        this.layout = new Layout(this.scene, session.layout)
         
-        session.numChildren = json.header.numChildren
-        var height = json.header.height
+        session.numChildren = session.layout.header.numChildren
+        var height = session.layout.header.height
         
         for (var i = 1; i <= height; i++) {
-            this.layout.addJsonLayer(json['layer'+i], i)
+            this.layout.addJsonLayer(session.layout['layer'+i], i)
         }
         
         this.layout.buildHierarchy()

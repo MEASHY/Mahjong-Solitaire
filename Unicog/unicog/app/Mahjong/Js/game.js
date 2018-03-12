@@ -13,10 +13,7 @@ var gameConfig = {
 
 function preload () {
     var session = new GameSession();
-    var json = session.tilesetSelected.json
-    
-    // Load the layout file specified by the lobby for later use
-    this.load.json('jsonLayout', '/Assets/Layouts/'+session.packageSelected+'/'+session.layoutSelected+'.json')
+    var json = session.tileset
     
     // Put all the information in GameSession
     session.tiles.main = json.main
@@ -29,7 +26,7 @@ function preload () {
     // Load all of the main tiles specified in the tileset info file
     var tiles = session.tiles.main
     for (var i = 0; i < tiles.length; i++) {
-        this.load.image('tile'+i, '/Assets/Tilesets/'+session.tilesetSelected.name+'/'+tiles[i])
+        this.load.image('tile'+i, '/Assets/Tilesets/'+json.name+'/'+tiles[i])
     }
     
     console.log('Assets loaded!')
@@ -44,7 +41,6 @@ function create () {
 function update () {
 }
 
-// gameType is 'beginner' or 'normal' from game.html
 function startGame () {    
     var game = new Phaser.Game(gameConfig)
 }
@@ -52,4 +48,5 @@ function startGame () {
 function endGame () {
     // TODO
     // This will have to close the game when that is implemented, it's a placeholder for now
+    showLobby()
 }
