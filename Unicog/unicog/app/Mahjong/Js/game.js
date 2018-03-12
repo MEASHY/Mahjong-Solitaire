@@ -31,15 +31,30 @@ function preload () {
     for (var i = 0; i < tiles.length; i++) {
         this.load.image('tile'+i, '/Assets/Tilesets/'+session.tilesetSelected.name+'/'+tiles[i])
     }
+
+    // Load all of the button images
+    var quitButton
+    this.load.image('quitButton','/Assets/Tilesets/Buttons/Button.png')
+    this.load.image('overlay','/Assets/Tilesets/Buttons/Overlay.png')
     
     console.log('Assets loaded!')
 }
-
 function create () {
     console.log('creating!')
     this.board = new Board(this)
     console.log('Game created!')
+    var test = this.add.sprite(300, 50, 'quitButton').setInteractive()
+    test.on('pointerdown', function() {
+        var overlay = this.add.sprite(500, 50, 'overlay').setInteractive()
+        overlay.setDepth(20000000000)
+        console.log('hello')
+    },this)
 }
+
+function triggerQuit() {
+    console.log('quit triggered!')
+}
+
 
 function update () {
 }
