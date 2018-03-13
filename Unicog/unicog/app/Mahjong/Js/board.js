@@ -17,7 +17,7 @@ class Board {
         this.layout.buildHierarchy()
         this.layout.generateTiles() 
         if (session.beginnerMode) {
-            this.layout.InitializeBeginnerMode()
+            this.layout.initializeBeginnerMode()
         } 
     }
    
@@ -48,6 +48,15 @@ class Board {
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null
             this.currentSelection = null
+            // Keeps the layout updated
+            this.layout.size -= 2
+            
+            if(!this.layout.validMatchAvailable())
+            {
+                console.log("no matches")
+                this.layout.shuffle()
+            }
+            
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
@@ -58,9 +67,5 @@ class Board {
     
     checkAvailableMoves () {
        
-    }
-
-    shuffle () {
-        
     }
 }
