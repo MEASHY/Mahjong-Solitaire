@@ -5,6 +5,8 @@ class Board {
         this.tileSelected = null
         this.currentSelection = null
         
+        this.failedMatches = 0
+        
         var session = new GameSession()
         this.layout = new Layout(this.scene)
         
@@ -48,6 +50,8 @@ class Board {
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null
             this.currentSelection = null
+            this.failedMatches = 0
+          
             // Keeps the layout updated
             this.layout.size -= 2
             
@@ -62,7 +66,12 @@ class Board {
             this.tileSelected.unhighlightTile()
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
-        }        
+            
+            if (++this.failedMatches === 3) {
+                this.layout.giveHint()
+                this.failedMatches = 0
+            }
+        }
     }
     
     checkAvailableMoves () {

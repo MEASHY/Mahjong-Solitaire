@@ -304,6 +304,28 @@ class Layout {
         }
     }
     
+    giveHint() {
+        var nodeList = []
+        
+        console.log("Giving hint")
+        
+        for (var i = 0; i < this.roots.length; i++) {
+            
+            if (!this.roots[i].selectable) {
+                continue
+            }
+            
+            for (var j = 0; j < nodeList.length; j++) {
+                if (nodeList[j].tile.texture.key === this.roots[i].tile.texture.key) {
+                    console.log("Found match")
+                    nodeList[j].highlightTile(0x5c95f2)
+                    this.roots[i].highlightTile(0x5c95f2)
+                    return
+                } 
+            }
+            nodeList.push(this.roots[i])
+        }
+    }
     // Checks that player can make at least one match
     // Used to see if a shuffle is needed
     validMatchAvailable () {
@@ -359,7 +381,6 @@ class Layout {
         
         this.generateTiles(counts, possible)
         this.positionSprites()
-        
     }
 }
 
