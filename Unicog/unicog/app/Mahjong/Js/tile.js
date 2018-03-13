@@ -115,7 +115,12 @@ class Layout {
             var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
         }
         if (possible == null) {
-            var possible = [...Array(counts.length).keys()]
+            var possible = []
+            while(possible.length < this.uniqueTiles){
+                var randomnumber = Math.floor(Math.random() * session.tileset.size);
+                if(possible.indexOf(randomnumber) > -1) continue;
+                possible[possible.length] = randomnumber;
+            }
         }
         
         var upperTiles = []
