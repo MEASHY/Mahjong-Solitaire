@@ -1,7 +1,7 @@
 from __future__ import print_function
 from app import app, db
 from flask import jsonify, abort, make_response, request, Response
-from .models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions
 from sqlalchemy.sql.expression import func
 import sys
 import json
