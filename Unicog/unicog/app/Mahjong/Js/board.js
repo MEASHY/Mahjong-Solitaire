@@ -19,7 +19,9 @@ class Board {
         this.layout.generateTiles() 
         if (session.beginnerMode) {
             this.layout.InitializeBeginnerMode()
-        }
+        } 
+        session.sizeX = this.layout.layers[0][0].length
+        session.sizeY = this.layout.layers[0].length
     };
    
     selectTile(tile) {
@@ -56,7 +58,7 @@ class Board {
             this.currentSelection.highlightTile()
         }        
     }
-
+    
     checkAvailableMoves() {
        
     }
