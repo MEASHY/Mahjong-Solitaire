@@ -21,9 +21,13 @@ function preload () {
     }
 
     // Load all of the button images
-    var quitButton
-    this.load.image('quitButton','/Assets/Tilesets/Buttons/Button.png')
+    //loadButtons()
+    this.load.image('quit','/Assets/Tilesets/Buttons/Quit.png')
     this.load.image('overlay','/Assets/Tilesets/Buttons/Overlay.png')
+    this.load.image('quit-blue','/Assets/Tilesets/Buttons/Quit-Blue.png')
+    this.load.image('cancel','/Assets/Tilesets/Buttons/Cancel.png')
+    this.load.image('finish','/Assets/Tilesets/Buttons/Finish.png')
+    this.load.image('continue','/Assets/Tilesets/Buttons/Continue.png')
     
     console.log('Assets loaded!')
 }
@@ -40,14 +44,35 @@ function create () {
         game.scene.scenes[0].board.layout.positionSprites()
     }
 
-
-    var test = this.add.sprite(300, 50, 'quitButton').setInteractive()
+    //placing buttons. This will need cleaning up later on
+    var test = this.add.sprite(100, 50, 'quit').setInteractive()
+    var overlay = null
+    var cancel = null
+    var quit = null
     test.on('pointerdown', function() {
-        var overlay = this.add.sprite(500, 50, 'overlay').setInteractive()
+        overlay = this.add.sprite(500, 500, 'overlay').setInteractive()
+        overlay.setScale(10)
         overlay.setDepth(20000000000)
-        console.log('hello')
+
+        cancel = this.add.sprite(400, 500, 'cancel').setInteractive()
+        cancel.setDepth(20000000001)
+        cancel.on('pointerdown', function() {
+            overlay.destroy()
+            quit.destroy()
+            cancel.destroy()
+        },this)
+
+        quit = this.add.sprite(700, 500, 'quit-blue').setInteractive()
+        quit.setDepth(20000000001)
+        quit.on('pointerdown', function() {
+            endGame()
+        },this)
     },this)
+
+    
+    
 }
+
 
 function triggerQuit() {
     console.log('quit triggered!')
