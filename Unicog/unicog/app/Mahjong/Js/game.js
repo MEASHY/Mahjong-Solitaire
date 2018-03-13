@@ -121,4 +121,5 @@ function endGame () {
     // TODO
     // This will have to close the game when that is implemented, it's a placeholder for now
     showLobby()
+
 }

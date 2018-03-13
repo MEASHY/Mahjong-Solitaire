@@ -7,6 +7,9 @@ class Board {
         
         var session = new GameSession()
         this.layout = new Layout(this.scene)
+        session.numChildren = json.header.numChildren
+        var height = json.header.height
+        this.size = json.header.size
         
         for (var i = 1; i <= this.layout.height; i++) {
             this.layout.addJsonLayer(session.layout['layer'+i], i)
@@ -48,6 +51,12 @@ class Board {
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null
             this.currentSelection = null
+            this.size -= 2
+            console.log(this.size)
+            if (this.size === 0) {
+                //we want to end the game here
+                showLobby()
+            }
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
