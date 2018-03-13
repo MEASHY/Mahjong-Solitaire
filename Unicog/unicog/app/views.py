@@ -52,7 +52,6 @@ def mahjong_stats():
     #check that researcher id exists
     #check DB for r_id?
     r_id = request.form['researcher']
-    print(r_id)
     
     return render_template('Mahjong/statistics.html',  
         r_id = request.form['researcher'])
