@@ -1,17 +1,10 @@
 class Layout {
     constructor (state) {
         var session = new GameSession()
-        console.log("Layout constructor:")
-        console.log(session.layout)
         
         this.state = state
         this.size = session.layout.header.size
         this.height = session.layout.header.height
-        this.tilesetSize = session.tileset.size
-        this.tileFaceX = session.tileset.tileFaceX
-        this.tileFaceY = session.tileset.tileFaceY
-        this.tileX = session.tileset.tileX
-        this.tileY = session.tileset.tileY
         this.uniqueTiles = session.layout.header.uniqueTiles
         this.maxDuplicates = session.layout.header.maxDuplicates
         this.numChildren = session.layout.header.numChildren
@@ -38,6 +31,7 @@ class Layout {
     
     //constructs the tree structure between tileNodes within the layers array 
     buildHierarchy () {
+        var session = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
@@ -50,8 +44,6 @@ class Layout {
                 }
             }
         }
-        console.log("roots")
-        console.log(this.roots)
     }
     
     findNeighbours (tile, findEmpty = false) {
@@ -118,10 +110,8 @@ class Layout {
     
     generateTiles () {
         var session = new GameSession()
-        var counts = new Array(Math.min(this.uniqueTiles, this.tilesetSize)).fill(0)
+        var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(0)
         var possible = [...Array(counts.length).keys()]
-        console.log(counts)
-        console.log(possible)
         var upperTiles = []
         var lowerTiles = []
         
@@ -207,14 +197,6 @@ class Layout {
                 possible.splice(randTile, 1)
             }
             
-            //console.log(counts)
-            //console.log(randTile, randPos1, randPos2)
-            //console.log(n)
-            //console.log("tile"+possible[randTile])
-            //console.log(pos1)
-            //console.log(pos2)
-            //console.log("Pos-----------------")
-            
             var childrenToPush = []
             
             
@@ -246,8 +228,8 @@ class Layout {
             
             this.mergeArrays(lowerTiles, childrenToPush)
             
-            console.log(counts)
-            console.log(possible)
+            //console.log(counts)
+            //console.log(possible)
         }
     }
     
@@ -304,7 +286,7 @@ class Layout {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    this.layers[i][j][k].setSpritePosition(this.numChildren)
+                    this.layers[i][j][k].setSpritePosition(s.layout.header.numChildren)
                 }
             }
         }
@@ -325,7 +307,6 @@ class Layout {
 
 class TileNode {
     constructor(state, x, y, height, numChildren){
-        var session = new GameSession()
         this.state = state,
         this.x = x,
         this.y = y,
@@ -363,24 +344,26 @@ class TileNode {
     setSpritePosition(numChildren) {
         var s = new GameSession()
         
-        var xPos = s.tileFaceX * s.scale * this.x + s.offsetX
-        var yPos = s.tileFaceY * s.scale * this.y + s.offsetY
+        var xPos = s.tileset.tileFaceX * s.scale * this.x + s.offsetX
+        var yPos = s.tileset.tileFaceY * s.scale * this.y + s.offsetY
         
         // For two and four children
         if (numChildren === 2) {
-            xPos += (((s.tileFaceX * s.scale) / 2) * (this.z))
+            xPos += (((s.tileset.tileFaceX * s.scale) / 2) * (this.z))
             //yPos += ((tileFaceY * scale) / 2) * (this.z)
         } else if (numChildren === 4) {
-            xPos += ((s.tileFaceX * s.scale) / 2) * (this.z)
-            yPos += ((s.tileFaceY * s.scale) / 2) * (this.z)
+            xPos += ((s.tileset.tileFaceX * s.scale) / 2) * (this.z)
+            yPos += ((s.tileset.tileFaceY * s.scale) / 2) * (this.z)
         } else if (numChildren === 1) {
-            xPos += ((s.tileX - s.tileFaceX) * s.scale) * (s.height / 2)
-            yPos += ((s.tileY - s.tileFaceY) * s.scale) * (s.height / 2)
+            xPos += ((s.tileset.tileX - s.tileset.tileFaceX) * s.scale) 
+                    * (s.layout.header.height / 2)
+            yPos += ((s.tileset.tileY - s.tileset.tileFaceY) * s.scale) 
+                    * (s.layout.header.height / 2)
         }
         
         // Adjusts tile to the center of its children
-        yPos -= ((s.tileY - s.tileFaceY) * s.scale) * this.z
-        xPos -= ((s.tileX - s.tileFaceX) * s.scale) * this.z
+        yPos -= ((s.tileset.tileY - s.tileset.tileFaceY) * s.scale) * this.z
+        xPos -= ((s.tileset.tileX - s.tileset.tileFaceX) * s.scale) * this.z
         
         this.tile.setPosition(xPos,yPos)
         this.tile.setScale(scale)

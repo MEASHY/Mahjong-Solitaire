@@ -1,5 +1,5 @@
 class Board {
-    constructor(scene) { 
+    constructor (scene) { 
         this.scene = scene
         
         this.tileSelected = null
@@ -8,23 +8,20 @@ class Board {
         var session = new GameSession()
         this.layout = new Layout(this.scene)
         
-        session.numChildren = session.layout.header.numChildren
-        var height = session.layout.header.height
-        
-        for (var i = 1; i <= height; i++) {
+        for (var i = 1; i <= this.layout.height; i++) {
             this.layout.addJsonLayer(session.layout['layer'+i], i)
         }
+        session.sizeX = this.layout.layers[0][0].length
+        session.sizeY = this.layout.layers[0].length
         
         this.layout.buildHierarchy()
         this.layout.generateTiles() 
         if (session.beginnerMode) {
             this.layout.InitializeBeginnerMode()
         } 
-        session.sizeX = this.layout.layers[0][0].length
-        session.sizeY = this.layout.layers[0].length
-    };
+    }
    
-    selectTile(tile) {
+    selectTile (tile) {
         // The tile can be selected
         if (tile.selectable) {
             this.currentSelection = tile
@@ -44,7 +41,7 @@ class Board {
         }
     }
 
-    checkMatch(){
+    checkMatch () {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             this.layout.removeTile(this.tileSelected)
@@ -59,11 +56,11 @@ class Board {
         }        
     }
     
-    checkAvailableMoves() {
+    checkAvailableMoves () {
        
     }
 
-    shuffle(){
+    shuffle () {
         
     }
 }

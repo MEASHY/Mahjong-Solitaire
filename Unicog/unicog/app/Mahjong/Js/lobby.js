@@ -67,6 +67,8 @@ function showGame () {
     $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( json ) {
         var session = new GameSession()
         session.tileset = json
+        console.log("tileset loaded")
+        console.log(session.tileset)
     })
     
     session.background = document.getElementById('backgroundDropBox').value

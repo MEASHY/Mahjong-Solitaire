@@ -1,8 +1,8 @@
 var game
 
 var gameConfig = {
-    width: 1000,//window.innerWidth,
-    height: 1000,//window.innerWidth*(3/4),
+    width: 1400,
+    height: 1000,
     backgroundColor: '#00422c',
     type: Phaser.AUTO,
     parent: 'gameDiv',
@@ -59,14 +59,16 @@ function resizeGame() {
     game.config.height = height
 
     //calculate the overall size of the layout
-    layoutWidth = (session.sizeX-1) * session.tileFaceX + session.tileX
-    layoutHeight = (session.sizeY-1) * session.tileFaceY + session.tileY
+    layoutWidth = (session.sizeX-1) * session.tileset.tileFaceX + session.tileset.tileX
+    layoutHeight = (session.sizeY-1) * session.tileset.tileFaceY + session.tileset.tileY
     
     //calculate the optimal tile scaling and necessary offset to center
     scale = Math.min((height * 0.9) / Math.max(layoutWidth, layoutHeight), 1)
     session.scale = scale   
-    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) + (session.tileFaceX * scale / 2) 
-    session.offsetY = (height / 2) - ((layoutHeight * scale) / 2) + (session.tileFaceY * scale / 2)
+    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) 
+                        + (session.tileset.tileFaceX * scale / 2) 
+    session.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
+                        + (session.tileset.tileFaceY * scale / 2)
 }
 
 
