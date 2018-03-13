@@ -8,7 +8,8 @@ class Board {
         var session = new GameSession()
         this.layout = new Layout(this.scene)
         
-        //this.size = json.header.size
+        
+        this.size = session.layout.header.size
         
         for (var i = 1; i <= this.layout.height; i++) {
             this.layout.addJsonLayer(session.layout['layer'+i], i)
