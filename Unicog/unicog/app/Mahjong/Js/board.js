@@ -70,7 +70,13 @@ class Board {
             if(!this.layout.validMatchAvailable())
             {
                 console.log("no matches")
-                this.layout.shuffle()
+                var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                shuffleButton.setDepth(20000000001)
+                shuffle.on('pointerdown', function() {
+                    this.layout.shuffle()
+                    shuffleButton.destroy()
+                },this)
+                
             }
         } else {
             // The two tiles don't match so only select the most recent tile
@@ -79,8 +85,13 @@ class Board {
             this.currentSelection.highlightTile()
             
             if (++this.failedMatches === 3) {
-                this.layout.giveHint()
-                this.failedMatches = 0
+                var hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+                hintButton.setDepth(20000000001)
+                hintButton.on('pointerdown', function() {
+                    this.layout.giveHint()
+                    this.failedMatches = 0
+                    hintButton.destroy()
+                },this)
             }
         }
     }

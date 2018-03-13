@@ -28,6 +28,8 @@ function preload () {
     this.load.image('cancel','/Assets/Tilesets/Buttons/Cancel.png')
     this.load.image('finish','/Assets/Tilesets/Buttons/Finish.png')
     this.load.image('continue','/Assets/Tilesets/Buttons/Continue.png')
+    this.load.image('hint','/Assets/Tilesets/Buttons/Hint.png')
+    this.load.image('shuffle','/Assets/Tilesets/Buttons/Shuffle.png')
     
     console.log('Assets loaded!')
 
