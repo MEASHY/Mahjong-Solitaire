@@ -17,7 +17,14 @@ function preload () {
     
     var tiles = session.tileset.main
     for (var i = 0; i < tiles.length; i++) {
-        this.load.image('tile'+i, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
+        var index 
+        if(i < 10) {
+            var index = '0'+i.toString()
+        } else {
+            var index = i.toString()
+        }
+        this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
+        console.log('tile'+index)
     }
     
     console.log('Assets loaded!')
