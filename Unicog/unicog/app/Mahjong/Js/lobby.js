@@ -50,7 +50,7 @@ function changeTimer () {
 function showLobby () {
     document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
-    document.getElementById('gameDiv').style.display = 'none'
+    document.getElementById('gameDiv').remove()
 }
 
 function showGame () {
@@ -82,7 +82,15 @@ function showGame () {
     
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
-    document.getElementById('gameDiv').style.display = 'block'
+    if(document.getElementById('gameDiv') === null) {
+        var div = document.createElement("div");
+        div.id = "gameDiv"
+        div.style.display = 'block'
+        document.body.appendChild(div);
+    } else {
+        document.getElementById('gameDiv').style.display = 'block'
+    }
+    
     
     // Timer can only be edited at the start of a session, so hiding it everytime a game starts ensures it can't be accessed again
     document.getElementById('timerDiv').style.display = 'none'
