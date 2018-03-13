@@ -46,9 +46,6 @@ function create () {
 
     //placing buttons. This will need cleaning up later on
     var test = this.add.sprite(100, 50, 'quit').setInteractive()
-    var overlay = null
-    var cancel = null
-    var quit = null
     test.on('pointerdown', function() {
         overlay = this.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
