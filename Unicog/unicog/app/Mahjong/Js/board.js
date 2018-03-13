@@ -57,7 +57,15 @@ class Board {
             this.layout.size -= 2
             if (this.layout.size === 0) {
                 //we want to end the game here
-                showLobby()
+                var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
+                overlay.setScale(10)
+                overlay.setDepth(20000000000)
+
+                var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
+                continueButton.setDepth(20000000001)
+                continueButton.on('pointerdown', function() {
+                    endGame()
+                },this)
             }
             if(!this.layout.validMatchAvailable())
             {

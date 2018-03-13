@@ -30,7 +30,9 @@ function preload () {
     this.load.image('continue','/Assets/Tilesets/Buttons/Continue.png')
     
     console.log('Assets loaded!')
+
 }
+
 function create () {
     console.log('creating!')
     this.board = new Board(this)
@@ -64,12 +66,8 @@ function create () {
         quit.on('pointerdown', function() {
             endGame()
         },this)
-    },this)
-
-    
-    
+    },this)   
 }
-
 
 function triggerQuit() {
     console.log('quit triggered!')
