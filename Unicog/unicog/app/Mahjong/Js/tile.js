@@ -310,8 +310,10 @@ class Layout {
         var textureList = []
         
         for (var i = 0; i < this.roots.length; i++) {
-            if (textureList.indexOf(this.roots[i].tile.texture.key) > -1) {
-                
+            if (!this.roots[i].selectable) {
+                continue
+            }
+            if (textureList.indexOf(this.roots[i].tile.texture.key) > -1 ) {
                 return true
             } else {
                 textureList.push(this.roots[i].tile.texture.key)
