@@ -3,6 +3,7 @@ class Timer {
         this.paused = false
         this.duration = duration
         
+        // tickAmount is, in seconds, how often the timer should update
         var tickAmount = 1
         setInterval(this.runTimer, tickAmount*1000, this, tickAmount)
     }
