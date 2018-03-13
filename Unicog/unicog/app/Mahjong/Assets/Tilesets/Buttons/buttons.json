@@ -1,0 +1,13 @@
+{
+    "name": "MahjongButtons",
+    "size": 6,
+    "main": [
+        "Cancel.png",
+        "Continue.png",
+        "Finish.png",
+        "Overlay.png",
+        "Quit-Blue.png",
+        "Quit.png"
+    ]
+
+}
