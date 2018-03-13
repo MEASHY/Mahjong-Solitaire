@@ -67,12 +67,12 @@ class Board {
                     endGame()
                 },this)
             }
-            if(!this.layout.validMatchAvailable())
+            if(!this.layout.validMatchAvailable() && (!this.layout.size === 0))
             {
                 console.log("no matches")
                 var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
                 shuffleButton.setDepth(20000000001)
-                shuffle.on('pointerdown', function() {
+                shuffleButton.on('pointerdown', function() {
                     this.layout.shuffle()
                     shuffleButton.destroy()
                 },this)
