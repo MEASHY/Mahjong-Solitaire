@@ -108,15 +108,21 @@ class Layout {
         this.layers[tile.z][tile.y][tile.x] = null
     }
     
-    generateTiles () {
+    generateTiles (counts = null, possible = null) {
         var session = new GameSession()
-        var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(0)
-        var possible = [...Array(counts.length).keys()]
+        
+        if (counts == null) {
+            var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
+        }
+        if (possible == null) {
+            var possible = [...Array(counts.length).keys()]
+        }
+        
         var upperTiles = []
         var lowerTiles = []
         
         for (var i = 0; i < this.roots.length; i++) {
-            console.log(this.findNeighbours(this.roots[i], true))
+            //console.log(this.findNeighbours(this.roots[i], true))
             if (this.findNeighbours(this.roots[i], true).length < 2) {
                 this.roots[i].selectable = true
                 if (this.roots[i].height === this.height) {
@@ -135,22 +141,14 @@ class Layout {
                 this.height--
                 var temporaryArray = []
                 for (var i = lowerTiles.length - 1; i >= 0; i--) {
-                    console.log("---------------------")
-                    console.log(lowerTiles[i])
-                    console.log(lowerTiles[i].height)
-                    console.log(this.height)
                     if (lowerTiles[i].height === this.height) {
-                        console.log("accepted")
-                        console.log(lowerTiles[i])
                         upperTiles.push(lowerTiles.splice(i, 1)[0])
                     } else {
-                        console.log("rejected")
                         lowerTiles[i]
                     }
                 }
                 
             }
-                
             
             if (lowerTiles.length < 3) {
                 var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length))
@@ -189,12 +187,14 @@ class Layout {
                 console.log(pos1)
                 console.log(pos2)
                 console.log(err)
+                alert("This game is now unsolvable")
                 throw("TypeError")
             }
                             
             //if we have placed as many pairs of this tile as possible remove from list
-            if (++counts[possible[randTile]] == this.maxDuplicates) {
+            if (--counts[randTile] == 0) {
                 possible.splice(randTile, 1)
+                counts.splice(randTile, 1)
             }
             
             var childrenToPush = []
@@ -292,7 +292,7 @@ class Layout {
         }
     }
     
-    InitializeBeginnerMode () {
+    initializeBeginnerMode () {
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
@@ -325,6 +325,62 @@ class Layout {
             }
             nodeList.push(this.roots[i])
         }
+    }
+    // Checks that player can make at least one match
+    // Used to see if a shuffle is needed
+    validMatchAvailable () {
+        var textureList = []
+        
+        for (var i = 0; i < this.roots.length; i++) {
+            if (!this.roots[i].selectable) {
+                continue
+            }
+            if (textureList.indexOf(this.roots[i].tile.texture.key) > -1 ) {
+                return true
+            } else {
+                textureList.push(this.roots[i].tile.texture.key)
+            }
+        }
+        return false
+    }
+    
+    shuffle () {
+        // Number of times you can have a tile and type of tile
+        var counts = []
+        var possible = []
+        
+        // Go through every tile on the board
+        for (var i = this.layers.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].length; k++) {
+                    if(this.layers[i][j][k] !== null) {
+                        
+                        // Takes what textures are currently on the board 
+                        var temp = parseInt(this.layers[i][j][k].tile.texture.key.slice(-1))
+                        if (possible.indexOf(temp) > -1) {
+                            counts[possible.indexOf(temp)] += 1
+                        } else {
+                            possible.push(temp)
+                            counts.push(1)
+                        }                 
+                        // Destroys the tile 
+                        this.layers[i][j][k].tile.destroy()
+                        this.layers[i][j][k].tile = null
+                    }                    
+                }
+            }
+        }
+        console.log("Counts")
+        console.log(counts)
+        console.log("Possible")
+        console.log(possible)
+        
+        for (var i = 0; i < counts.length; i++) {
+            counts[i] /= 2
+        }
+        
+        this.generateTiles(counts, possible)
+        this.positionSprites()
     }
 }
 
