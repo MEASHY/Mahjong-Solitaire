@@ -6,7 +6,7 @@ class Board {
         this.currentSelection = null
         
         var session = new GameSession()
-        this.layout = new Layout(this.scene, session.layout)
+        this.layout = new Layout(this.scene)
         
         session.numChildren = session.layout.header.numChildren
         var height = session.layout.header.height

@@ -26,11 +26,11 @@ var GameSession = function () {
                 'alt': [],
                 'effects': []
             },
-            timer: null,
             layout: null,
             tileset: null,
             background: null,
             beginnerMode: null,
+            timer: null,
         
             logText: function () {
             	// Console log the public member variable

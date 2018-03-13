@@ -1,19 +1,21 @@
 class Layout {
-    constructor (state, json) {
-        console.log("layout constructor")
-        console.log(json)
-        var session = new GameSession();
-        this.state = state,
-        this.size = json.header.size,
-        this.height = json.header.height,
-        this.tileFaceX = session.tileFaceX,
-        this.tileFaceY = session.tileFaceY,
-        this.tileX = session.tileX,
-        this.tileY = session.tileY,
-        this.uniqueTiles = json.header.uniqueTiles,
-        this.maxDuplicates = json.header.maxDuplicates,
-        this.numChildren = json.header.numChildren,
-        this.layers = [],
+    constructor (state) {
+        var session = new GameSession()
+        console.log("Layout constructor:")
+        console.log(session.layout)
+        
+        this.state = state
+        this.size = session.layout.header.size
+        this.height = session.layout.header.height
+        this.tilesetSize = session.tileset.size
+        this.tileFaceX = session.tileset.tileFaceX
+        this.tileFaceY = session.tileset.tileFaceY
+        this.tileX = session.tileset.tileX
+        this.tileY = session.tileset.tileY
+        this.uniqueTiles = session.layout.header.uniqueTiles
+        this.maxDuplicates = session.layout.header.maxDuplicates
+        this.numChildren = session.layout.header.numChildren
+        this.layers = []
         this.roots = []
     }
     
@@ -116,7 +118,7 @@ class Layout {
     
     generateTiles () {
         var session = new GameSession()
-        var counts = new Array(Math.min(this.uniqueTiles, session.tilesetSize)).fill(0)
+        var counts = new Array(Math.min(this.uniqueTiles, this.tilesetSize)).fill(0)
         var possible = [...Array(counts.length).keys()]
         console.log(counts)
         console.log(possible)
