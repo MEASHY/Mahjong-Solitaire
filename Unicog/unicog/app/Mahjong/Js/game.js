@@ -120,13 +120,14 @@ function resizeGame() {
 
 
 function startGame () {
-    game = new Phaser.Game(gameConfig)
+    game = new Phaser.Game(gameConfig, "NL")
     console.log(game)
 }
 
 function endGame () {
     // TODO
     // This will have to close the game when that is implemented, it's a placeholder for now
+    this.game.destroy(true)
     showLobby()
 
 }

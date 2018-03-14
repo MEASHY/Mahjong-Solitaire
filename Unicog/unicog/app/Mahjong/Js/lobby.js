@@ -50,7 +50,8 @@ function changeTimer () {
 function showLobby () {
     document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
-    document.getElementById('gameDiv').remove()
+    document.getElementById('gameDiv').style.display = 'none'
+    //document.getElementById('gameDiv').remove()
 }
 
 function showGame () {
@@ -61,6 +62,8 @@ function showGame () {
     
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
+    document.getElementById('gameDiv').style.display = 'block'
+    /*
     if(document.getElementById('gameDiv') === null) {
         var div = document.createElement("div");
         div.id = "gameDiv"
@@ -69,6 +72,7 @@ function showGame () {
     } else {
         document.getElementById('gameDiv').style.display = 'block'
     }
+    */
     
     
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
