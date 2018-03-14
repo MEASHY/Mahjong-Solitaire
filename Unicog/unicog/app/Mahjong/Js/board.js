@@ -75,6 +75,9 @@ class Board {
                 shuffleButton.on('pointerdown', function() {
                     this.layout.shuffle()
                     shuffleButton.destroy()
+                    // we have to set this to 0 because we have to reset the failed matches
+                    // if they still try to match when there are no valid matches
+                    this.failedMatches = 0
                 },this)
                 
             }
@@ -84,7 +87,7 @@ class Board {
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
             
-            if (++this.failedMatches === 3) {
+            if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
                 var hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
                 hintButton.setDepth(20000000001)
                 hintButton.on('pointerdown', function() {
