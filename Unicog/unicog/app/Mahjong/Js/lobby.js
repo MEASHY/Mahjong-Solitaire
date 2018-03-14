@@ -56,29 +56,8 @@ function showLobby () {
 function showGame () {
     var session = new GameSession()
     
-    var package = document.getElementById('packageDropBox').value
-    var layout = document.getElementById('layoutDropBox').value
-    $.getJSON('/Assets/Layouts/'+package+'/'+layout+'.json', function ( json ) {
-        var session = new GameSession()
-        session.layout = json
-    })
-    
-    var tileset = document.getElementById('tilesetDropBox').value
-    $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( json ) {
-        var session = new GameSession()
-        session.tileset = json
-        console.log("tileset loaded")
-        console.log(session.tileset)
-    })
-    
     session.background = document.getElementById('backgroundDropBox').value
     session.beginnerMode = document.getElementById('beginnerCheck').checked
-    
-    if (session.timer === null) {
-        var minutes = document.getElementById('timerMinuteField').value
-        var seconds = document.getElementById('timerSecondField').value
-        session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-    }
     
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
@@ -92,8 +71,27 @@ function showGame () {
     }
     
     
-    // Timer can only be edited at the start of a session, so hiding it everytime a game starts ensures it can't be accessed again
-    document.getElementById('timerDiv').style.display = 'none'
-    
-    startGame()
+    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
+    var packageName = document.getElementById('packageDropBox').value
+    var layoutName = document.getElementById('layoutDropBox').value
+    $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
+        var session = new GameSession()
+        session.layout = layout
+        
+        var tileset = document.getElementById('tilesetDropBox').value
+        $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
+            var session = new GameSession()
+            session.tileset = tileset
+            console.log("Tileset loaded")
+            console.log(session.tileset)
+            
+            if (session.timer === null) {
+                var minutes = document.getElementById('timerMinuteField').value
+                var seconds = document.getElementById('timerSecondField').value
+                session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                document.getElementById('timerDiv').style.display = 'none'
+            }
+            startGame()
+        })
+    })
 }
