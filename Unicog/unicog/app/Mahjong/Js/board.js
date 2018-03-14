@@ -1,28 +1,29 @@
 class Board {
-    constructor(scene) { 
+    constructor (scene) { 
         this.scene = scene
         
         this.tileSelected = null
         this.currentSelection = null
         
+        this.failedMatches = 0
+        
         var session = new GameSession()
         this.layout = new Layout(this.scene)
         
-        session.numChildren = session.layout.header.numChildren
-        var height = session.layout.header.height
-        
-        for (var i = 1; i <= height; i++) {
+        for (var i = 1; i <= this.layout.height; i++) {
             this.layout.addJsonLayer(session.layout['layer'+i], i)
         }
+        session.sizeX = this.layout.layers[0][0].length
+        session.sizeY = this.layout.layers[0].length
         
         this.layout.buildHierarchy()
         this.layout.generateTiles() 
         if (session.beginnerMode) {
-            this.layout.InitializeBeginnerMode()
-        }
-    };
+            this.layout.initializeBeginnerMode()
+        } 
+    }
    
-    selectTile(tile) {
+    selectTile (tile) {
         // The tile can be selected
         if (tile.selectable) {
             this.currentSelection = tile
@@ -42,26 +43,38 @@ class Board {
         }
     }
 
-    checkMatch(){
+    checkMatch () {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             this.layout.removeTile(this.tileSelected)
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null
             this.currentSelection = null
+            this.failedMatches = 0
+          
+            // Keeps the layout updated
+            this.layout.size -= 2
+            
+            if(!this.layout.validMatchAvailable())
+            {
+                console.log("no matches")
+                this.layout.shuffle()
+            }
+            
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
-        }        
+            
+            if (++this.failedMatches === 3) {
+                this.layout.giveHint()
+                this.failedMatches = 0
+            }
+        }
     }
-
-    checkAvailableMoves() {
+    
+    checkAvailableMoves () {
        
-    }
-
-    shuffle(){
-        
     }
 }
