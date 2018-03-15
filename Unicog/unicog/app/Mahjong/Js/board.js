@@ -50,26 +50,51 @@ class Board {
             this.layout.removeTile(this.currentSelection)
             this.tileSelected = null
             this.currentSelection = null
+            
             this.failedMatches = 0
           
             // Keeps the layout updated
             this.layout.size -= 2
-            
-            if(!this.layout.validMatchAvailable())
+            if (this.layout.size === 0) {
+                //we want to end the game here
+                var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
+                overlay.setScale(10)
+                overlay.setDepth(20000000000)
+
+                var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
+                continueButton.setDepth(20000000001)
+                continueButton.on('pointerdown', function() {
+                    endGame()
+                },this)
+            }
+            if(!this.layout.validMatchAvailable() && this.layout.size !== 0)
             {
                 console.log("no matches")
-                this.layout.shuffle()
+                var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                shuffleButton.setDepth(20000000001)
+                shuffleButton.on('pointerdown', function() {
+                    this.layout.shuffle()
+                    shuffleButton.destroy()
+                    // we have to set this to 0 because we have to reset the failed matches
+                    // if they still try to match when there are no valid matches
+                    this.failedMatches = 0
+                },this)
+                
             }
-            
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
             
-            if (++this.failedMatches === 3) {
-                this.layout.giveHint()
-                this.failedMatches = 0
+            if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
+                var hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+                hintButton.setDepth(20000000001)
+                hintButton.on('pointerdown', function() {
+                    this.layout.giveHint()
+                    this.failedMatches = 0
+                    hintButton.destroy()
+                },this)
             }
         }
     }

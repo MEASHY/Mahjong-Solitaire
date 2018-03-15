@@ -40,6 +40,11 @@ def word_ind():
     return render_template('ECAWordSearchV2/index.html')
     
 # Mahjong Stuff
+
+@app.route('/Assets/Buttons/<path:filename>')
+def send_buttons(filename):
+    return send_from_directory('Mahjong/Assets/Buttons/', filename)
+
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
@@ -77,16 +82,17 @@ def mahjong_stats():
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
-    return send_from_directory('Mahjong/',filename)
+    return send_from_directory('Mahjong/', filename)
 
 
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
-    return send_from_directory('Mahjong/Assets/Layouts/',filename)
+    return send_from_directory('Mahjong/Assets/Layouts/', filename)
 
 @app.route('/Assets/Tilesets/<path:filename>')
 def send_tiles(filename):
-    return send_from_directory('Mahjong/Assets/Tilesets/',filename)
+    return send_from_directory('Mahjong/Assets/Tilesets/', filename)
+
 
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask

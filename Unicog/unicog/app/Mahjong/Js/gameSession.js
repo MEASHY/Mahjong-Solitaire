@@ -28,6 +28,7 @@ var GameSession = function () {
             },
             layout: null,
             tileset: null,
+            buttons: null,
             background: null,
             beginnerMode: null,
             timer: null,
