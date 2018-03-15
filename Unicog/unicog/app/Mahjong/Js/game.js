@@ -26,14 +26,22 @@ function preload () {
         this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
         console.log('tile'+index)
     }
+
+    // Load all of the button images
+    var buttonList = session.buttons.main
+    for (var i = 0; i < buttonList.length; i++) {
+        this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
+        console.log(buttonList[i].name)
+    }
     
     console.log('Assets loaded!')
 }
 
 function create () {
-    console.log('creating!')
+    console.log('Creating!')
     this.board = new Board(this)
-    console.log("Game created!")
+
+    console.log('Game created!')
     
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
@@ -41,9 +49,36 @@ function create () {
         resizeGame()
         game.scene.scenes[0].board.layout.positionSprites()
     }
+
+    //placing buttons. This will need cleaning up later on
+    loadButtons(this)
 }
 
-function update () {
+function triggerQuit () {
+    console.log('Quit triggered!')
+}
+
+function loadButtons (scope) {
+    var test = scope.add.sprite(100, 50, 'quit').setInteractive()
+    test.on('pointerdown', function() {
+        overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
+        overlay.setScale(10)
+        overlay.setDepth(20000000000)
+
+        cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
+        cancel.setDepth(20000000001)
+        cancel.on('pointerdown', function() {
+            overlay.destroy()
+            quit.destroy()
+            cancel.destroy()
+        },scope)
+
+        quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
+        quit.setDepth(20000000001)
+        quit.on('pointerdown', function () {
+            endGame()
+        }, scope)
+    }, scope)  
 }
 
 function resizeGame() {
@@ -80,12 +115,11 @@ function resizeGame() {
 
 
 function startGame () {
-    game = new Phaser.Game(gameConfig)
+    game = new Phaser.Game(gameConfig, 'NL')
     console.log(game)
 }
 
 function endGame () {
-    // TODO
-    // This will have to close the game when that is implemented, it's a placeholder for now
+    this.game.destroy(true)
     showLobby()
 }
