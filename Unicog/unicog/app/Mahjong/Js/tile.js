@@ -119,6 +119,9 @@ class Layout {
             while(possible.length < this.uniqueTiles){
                 var randomnumber = Math.floor(Math.random() * session.tileset.size);
                 if(possible.indexOf(randomnumber) > -1) continue;
+                if(randomnumber  < 10) {
+                    randomnumber = "0" + randomnumber.toString()
+                }
                 possible[possible.length] = randomnumber;
             }
         }
@@ -353,15 +356,17 @@ class Layout {
         // Number of times you can have a tile and type of tile
         var counts = []
         var possible = []
-        
+        alert("there are no further moves and we will now shuffle! This is a development only message.")
         // Go through every tile on the board
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
                     if(this.layers[i][j][k] !== null) {
-                        
+                        if(this.layers[i][j][k].height > this.height) {
+                            this.height = this.layers[i][j][k].height
+                        }
                         // Takes what textures are currently on the board 
-                        var temp = parseInt(this.layers[i][j][k].tile.texture.key.slice(-1))
+                        var temp = this.layers[i][j][k].tile.texture.key.slice(-2)
                         if (possible.indexOf(temp) > -1) {
                             counts[possible.indexOf(temp)] += 1
                         } else {
