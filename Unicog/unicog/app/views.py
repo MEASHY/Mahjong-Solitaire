@@ -47,9 +47,13 @@ def send_mahjong_css():
 @app.route('/mahjong_static/game.html', methods = ['POST'])
 def mahjong_game():
     id = request.form['researcher']
-    valid = db.session.query(Researchers.r_id, id).filter_by(r_id = id).first()
+    valid = None
+    if (id.isdigit()):
+        valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+        
     if (valid == None):
         return send_file('Mahjong/player_login.html') #invalid case
+        
     return render_template('Mahjong/game.html',  
         user_id=request.form['player'], r_id = id)
         
@@ -61,12 +65,15 @@ def mahjong_stats():
     #db.session.add(testlogin)
     #db.session.commit()  
     id = request.form['researcher']
-    valid = db.session.query(Researchers.r_id, id).filter_by(r_id = id).first()
+    valid = None
+    if (id.isdigit()):
+        valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+        
     if (valid == None):
         return send_file('Mahjong/research_login.html') #invalid case
-    else:
-        return render_template('Mahjong/research_stats.html',  
-            r_id = id)
+
+    return render_template('Mahjong/research_stats.html',  
+        r_id = id)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
