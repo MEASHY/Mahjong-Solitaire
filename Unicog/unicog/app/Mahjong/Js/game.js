@@ -52,30 +52,35 @@ function create () {
     }
 
     //placing buttons. This will need cleaning up later on
-    var test = this.add.sprite(100, 50, 'quit').setInteractive()
+    loadButtons(this)
+    
+}
+
+function triggerQuit() {
+    console.log('quit triggered!')
+}
+
+function loadButtons(scope) {
+    var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
-        overlay = this.add.sprite(500, 500, 'overlay').setInteractive()
+        overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
         overlay.setDepth(20000000000)
 
-        cancel = this.add.sprite(400, 500, 'cancel').setInteractive()
+        cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
         cancel.setDepth(20000000001)
         cancel.on('pointerdown', function() {
             overlay.destroy()
             quit.destroy()
             cancel.destroy()
-        },this)
+        },scope)
 
-        quit = this.add.sprite(700, 500, 'quit-blue').setInteractive()
+        quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
         quit.setDepth(20000000001)
         quit.on('pointerdown', function() {
             endGame()
-        },this)
-    },this)   
-}
-
-function triggerQuit() {
-    console.log('quit triggered!')
+        },scope)
+    },scope)  
 }
 
 
