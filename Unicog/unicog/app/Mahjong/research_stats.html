@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Mahjong</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="mahform.css">
+
+<script type="text/javascript">//<![CDATA[
+window.onload=function(){
+function csv_export(csv, filename) {
+    var csv_file;
+    var download_link;
+
+    csv_file = new Blob([csv], {type: "text/csv"});
+
+    download_link = document.createElement("a");
+    download_link.download = filename;
+    download_link.href = window.URL.createObjectURL(csv_file);
+    download_link.style.display = "none";
+    document.body.appendChild(download_link);
+    download_link.click();
+}
+
+function export_table(html, filename) {
+	var csv = [];
+	var rows = document.querySelectorAll("table tr");
+	
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+		
+        for (var j = 0; j < cols.length; j++) 
+            row.push(cols[j].innerText);
+        
+		csv.push(row.join(","));		
+	}
+
+    // Download CSV
+    csv_export(csv.join("\n"), filename);
+}
+
+document.querySelector("button").addEventListener("click", function () {
+    var html = document.querySelector("table").outerHTML;
+	export_table(html, "table.csv");
+});
+}//]]> 
+</script>
+
+    </head>
+    
+    <body>
+    <div id="colorstrip"/>
+    <h1> Statistics </h1>
+    <div id = "login_status" >
+        <h3> Current Researcher: Bobby</h3>
+        <form id='log_out' method='get' action ='index.html'>
+            <p>
+                <input type='submit' name='logout' value='Logout' />
+            </p>
+        </form>
+    </div>
+   
+    
+    <div id = "top" >
+    	<form id='player_filter' method='get' action ='filter'>
+    		<p>
+                <h3> Filter by: </h3>
+                <input type='filter' name='player' value='Player' />
+    		</p>
+        </form>
+        
+        <button>Export to Excel</button>
+
+    </div>
+    	
+        <table style="width:100%" border="1">
+            <tr>
+                <th>GameID</th>
+                <th>PlayerID</th> 
+                <th>ResearcherID</th>
+                <th># selections</th> 
+                <th># correct match</th>
+                <th># incorrect match</th>
+                <th> package</th> 
+                <th># hint</th>
+                <th># shuffle</th>
+            </tr>
+            <tr>
+                <td>58845</td>
+                <td>Bill</td> 
+                <td>Janny</td>
+                <td>80</td>
+                <td>60</td> 
+                <td>20</td>
+                <td>basic</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>74686</td>
+                <td>Will</td> 
+                <td>Janny</td>
+                <td>100</td>
+                <td>60</td> 
+                <td>40</td>
+                <td>basic</td>
+                <td>2</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>12354</td>
+                <td>Mill</td> 
+                <td>Janny</td>
+                <td>120</td>
+                <td>60</td> 
+                <td>60</td>
+                <td>basic</td>
+                <td>7</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>96854</td>
+                <td>Frill</td> 
+                <td>Janny</td>
+                <td>60</td>
+                <td>60</td> 
+                <td>0</td>
+                <td>basic</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </table>
+        
+        
+    </body>
+</html>
