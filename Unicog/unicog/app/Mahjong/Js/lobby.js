@@ -9,6 +9,10 @@ function initLobby () {
     $.getJSON('/Assets/Tilesets/SetList.json', function ( tilesets ) {
         fillDropBox(tilesets, 'tilesetDropBox')
     })
+
+    $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
+        
+    })
     
     // TODO
     //$.getJSON('/Assets/Themes/???.json', initBackgrounds)

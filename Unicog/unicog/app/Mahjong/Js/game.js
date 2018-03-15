@@ -29,15 +29,29 @@ function preload () {
 
     // Load all of the button images
     //loadButtons()
-    this.load.image('quit','/Assets/Tilesets/Buttons/Quit.png')
-    this.load.image('overlay','/Assets/Tilesets/Buttons/Overlay.png')
-    this.load.image('quit-blue','/Assets/Tilesets/Buttons/Quit-Blue.png')
-    this.load.image('cancel','/Assets/Tilesets/Buttons/Cancel.png')
-    this.load.image('finish','/Assets/Tilesets/Buttons/Finish.png')
-    this.load.image('continue','/Assets/Tilesets/Buttons/Continue.png')
-    this.load.image('hint','/Assets/Tilesets/Buttons/Hint.png')
-    this.load.image('shuffle','/Assets/Tilesets/Buttons/Shuffle.png')
+    // for development purposes 
+
+    /*
+    this.load.image('quit','/Assets/Buttons/Quit.png')
+    this.load.image('overlay','/Assets/Buttons/Overlay.png')
+    this.load.image('quit-blue','/Assets/Buttons/Quit-Blue.png')
+    this.load.image('cancel','/Assets/Buttons/Cancel.png')
+    this.load.image('finish','/Assets/Buttons/Finish.png')
+    this.load.image('continue','/Assets/Buttons/Continue.png')
+    this.load.image('hint','/Assets/Buttons/Hint.png')
+    this.load.image('shuffle','/Assets/Buttons/Shuffle.png')
+    */
+
     
+    $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
+        console.log(buttons)
+        for (var i = 0; i < buttons.size; i++) {
+            var buttonFile = buttons.main[i]
+            this.load.image(buttonFile.name, '/Assets/Buttons/' + buttonFile.file)
+        }
+    })
+    
+
     console.log('Assets loaded!')
 
 }
