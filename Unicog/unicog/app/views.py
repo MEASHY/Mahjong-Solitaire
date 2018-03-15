@@ -53,7 +53,7 @@ def mahjong_game():
     return render_template('Mahjong/game.html',  
         user_id=request.form['player'], r_id = id)
         
-@app.route('/mahjong_static/statistics.html', methods = ['POST'])
+@app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
     #check DB for r_id?   
@@ -66,7 +66,7 @@ def mahjong_stats():
     if (valid == None):
         return send_file('Mahjong/research_login.html') #invalid case
     else:
-        return render_template('Mahjong/statistics.html',  
+        return render_template('Mahjong/research_stats.html',  
             r_id = id)
 
 @app.route('/mahjong_static/<path:filename>')
