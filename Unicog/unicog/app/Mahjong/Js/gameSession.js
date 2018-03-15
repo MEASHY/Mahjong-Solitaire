@@ -26,9 +26,9 @@ var GameSession = function () {
                 'alt': [],
                 'effects': []
             },
-            button: null,
             layout: null,
             tileset: null,
+            buttons: null,
             background: null,
             beginnerMode: null,
             timer: null,

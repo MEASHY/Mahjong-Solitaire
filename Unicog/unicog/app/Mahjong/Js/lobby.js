@@ -9,10 +9,6 @@ function initLobby () {
     $.getJSON('/Assets/Tilesets/SetList.json', function ( tilesets ) {
         fillDropBox(tilesets, 'tilesetDropBox')
     })
-
-    $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-        
-    })
     
     // TODO
     //$.getJSON('/Assets/Themes/???.json', initBackgrounds)
@@ -93,13 +89,18 @@ function showGame () {
             console.log("Tileset loaded")
             console.log(session.tileset)
             
-            if (session.timer === null) {
-                var minutes = document.getElementById('timerMinuteField').value
-                var seconds = document.getElementById('timerSecondField').value
-                session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                document.getElementById('timerDiv').style.display = 'none'
-            }
-            startGame()
+            $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
+                var session = new GameSession()
+                session.buttons = buttons
+                
+                if (session.timer === null) {
+                    var minutes = document.getElementById('timerMinuteField').value
+                    var seconds = document.getElementById('timerSecondField').value
+                    session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                    document.getElementById('timerDiv').style.display = 'none'
+                }
+                startGame()
+            })
         })
     })
 }

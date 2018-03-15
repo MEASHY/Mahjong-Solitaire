@@ -41,19 +41,13 @@ function preload () {
     this.load.image('hint','/Assets/Buttons/Hint.png')
     this.load.image('shuffle','/Assets/Buttons/Shuffle.png')
     */
-
     
-    $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-        console.log(buttons)
-        for (var i = 0; i < buttons.size; i++) {
-            var buttonFile = buttons.main[i]
-            this.load.image(buttonFile.name, '/Assets/Buttons/' + buttonFile.file)
-        }
-    })
+    var buttonList = session.buttons.main
+    for (var i = 0; i < buttonList.length; i++) {
+        this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
+    }
     
-
     console.log('Assets loaded!')
-
 }
 
 function create () {
