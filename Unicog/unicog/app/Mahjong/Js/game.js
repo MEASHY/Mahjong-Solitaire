@@ -28,7 +28,6 @@ function preload () {
     }
 
     // Load all of the button images
-    //loadButtons()
     var buttonList = session.buttons.main
     for (var i = 0; i < buttonList.length; i++) {
         this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
@@ -39,10 +38,10 @@ function preload () {
 }
 
 function create () {
-    console.log('creating!')
+    console.log('Creating!')
     this.board = new Board(this)
 
-    console.log("Game created!")
+    console.log('Game created!')
     
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
@@ -53,14 +52,13 @@ function create () {
 
     //placing buttons. This will need cleaning up later on
     loadButtons(this)
-    
 }
 
-function triggerQuit() {
-    console.log('quit triggered!')
+function triggerQuit () {
+    console.log('Quit triggered!')
 }
 
-function loadButtons(scope) {
+function loadButtons (scope) {
     var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
         overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
@@ -77,14 +75,10 @@ function loadButtons(scope) {
 
         quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
         quit.setDepth(20000000001)
-        quit.on('pointerdown', function() {
+        quit.on('pointerdown', function () {
             endGame()
-        },scope)
-    },scope)  
-}
-
-
-function update () {
+        }, scope)
+    }, scope)  
 }
 
 function resizeGame() {
@@ -121,14 +115,11 @@ function resizeGame() {
 
 
 function startGame () {
-    game = new Phaser.Game(gameConfig, "NL")
+    game = new Phaser.Game(gameConfig, 'NL')
     console.log(game)
 }
 
 function endGame () {
-    // TODO
-    // This will have to close the game when that is implemented, it's a placeholder for now
     this.game.destroy(true)
     showLobby()
-
 }

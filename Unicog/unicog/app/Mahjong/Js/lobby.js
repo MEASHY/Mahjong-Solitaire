@@ -63,7 +63,6 @@ function showGame () {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
-    
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value

@@ -6,7 +6,4 @@ class Button {
 		this.y = y,
 		this.button = null
 	}
-
-
-
 }
