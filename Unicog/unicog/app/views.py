@@ -1,5 +1,7 @@
 from flask import render_template, send_file, request, send_from_directory
-from app import app
+from app import app, db
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers
+#from sqlalchemy.sql.expression import func
 
 SERVER_URL = 'http://199.116.235.91/'
 
@@ -50,13 +52,18 @@ def mahjong_game():
 @app.route('/mahjong_static/statistics.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
-    #check DB for r_id?
-    r_id = request.form['researcher']
-    if (r_id != "testlogin"):
+    #check DB for r_id?   
+    #testlogin = Researchers(r_id = 12345678)
+    #db.session.add(testlogin)
+    #db.session.commit()  
+    id = request.form['researcher']
+    valid = db.session.query(Researchers.r_id, id).filter_by(r_id = id).first()
+    #print(valid)
+    if (valid == None):
         return send_file('Mahjong/research_login.html') #invaid case
-    
-    return render_template('Mahjong/statistics.html',  
-        r_id = request.form['researcher'])
+    else:
+        return render_template('Mahjong/statistics.html',  
+            r_id = id)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):

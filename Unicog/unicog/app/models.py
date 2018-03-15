@@ -59,6 +59,11 @@ class Mole_Sessions(db.Model):
 
 	sessions = db.relationship(Sessions)
 
+class Researchers(db.Model):
+    __tablename__ = 'researchers'
+    r_id = db.Column(db.Integer, db.ForeignKey('sessions.r_id'), primary_key = True)
+    
+    sessions = db.relationship(Sessions)
 
 
 
