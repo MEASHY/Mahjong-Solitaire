@@ -1,5 +1,7 @@
 from flask import render_template, send_file, request, send_from_directory
-from app import app
+from app import app, db
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers
+#from sqlalchemy.sql.expression import func
 
 SERVER_URL = 'http://199.116.235.91/'
 
@@ -36,7 +38,7 @@ def bej_ind():
 @app.route('/wordsearch_index')
 def word_ind():
     return render_template('ECAWordSearchV2/index.html')
-
+    
 # Mahjong Stuff
 
 @app.route('/Assets/Buttons/<path:filename>')
@@ -46,10 +48,42 @@ def send_buttons(filename):
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
+    
+@app.route('/mahjong_static/game.html', methods = ['POST'])
+def mahjong_game():
+    id = request.form['researcher']
+    valid = None
+    if (id.isdigit()):
+        valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+        
+    if (valid == None):
+        return send_file('Mahjong/player_login.html') #invalid case
+        
+    return render_template('Mahjong/game.html',  
+        user_id=request.form['player'], r_id = id)
+        
+@app.route('/mahjong_static/research_stats.html', methods = ['POST'])
+def mahjong_stats():
+    #check that researcher id exists
+    #check DB for r_id?   
+    #testlogin = Researchers(r_id = 12345678)
+    #db.session.add(testlogin)
+    #db.session.commit()  
+    id = request.form['researcher']
+    valid = None
+    if (id.isdigit()):
+        valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+        
+    if (valid == None):
+        return send_file('Mahjong/research_login.html') #invalid case
+
+    return render_template('Mahjong/research_stats.html',  
+        r_id = id)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/', filename)
+
 
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
