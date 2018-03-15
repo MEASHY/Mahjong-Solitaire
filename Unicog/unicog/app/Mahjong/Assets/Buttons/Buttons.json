@@ -2,14 +2,14 @@
     "name": "MahjongButtons",
     "size": 8,
     "main": [
-        {"name": "Cancel","file": "Cancel.png"},
-        {"name": "Continue", "file": "Continue.png"},
-        {"name": "Finish", "file": "Finish.png"},
-        {"name": "Overlay", "file": "Overlay.png"},
-        {"name": "Quit-Blue", "file": "Quit-Blue.png"},
-        {"name": "Quit", "file": "Quit.png"},
-        {"name": "Hint", "file": "Hint.png"},
-        {"name": "Shuffle", "file": "Shuffle.png"}
+        {"name": "cancel", "file": "Cancel.png"},
+        {"name": "continue", "file": "Continue.png"},
+        {"name": "finish", "file": "Finish.png"},
+        {"name": "overlay", "file": "Overlay.png"},
+        {"name": "quit-blue", "file": "Quit-Blue.png"},
+        {"name": "quit", "file": "Quit.png"},
+        {"name": "hint", "file": "Hint.png"},
+        {"name": "shuffle", "file": "Shuffle.png"}
     ]
 
 }

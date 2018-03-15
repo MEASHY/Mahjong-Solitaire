@@ -45,6 +45,7 @@ function preload () {
     var buttonList = session.buttons.main
     for (var i = 0; i < buttonList.length; i++) {
         this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
+        console.log(buttonList[i].name)
     }
     
     console.log('Assets loaded!')
