@@ -29,19 +29,6 @@ function preload () {
 
     // Load all of the button images
     //loadButtons()
-    // for development purposes 
-
-    /*
-    this.load.image('quit','/Assets/Buttons/Quit.png')
-    this.load.image('overlay','/Assets/Buttons/Overlay.png')
-    this.load.image('quit-blue','/Assets/Buttons/Quit-Blue.png')
-    this.load.image('cancel','/Assets/Buttons/Cancel.png')
-    this.load.image('finish','/Assets/Buttons/Finish.png')
-    this.load.image('continue','/Assets/Buttons/Continue.png')
-    this.load.image('hint','/Assets/Buttons/Hint.png')
-    this.load.image('shuffle','/Assets/Buttons/Shuffle.png')
-    */
-    
     var buttonList = session.buttons.main
     for (var i = 0; i < buttonList.length; i++) {
         this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
