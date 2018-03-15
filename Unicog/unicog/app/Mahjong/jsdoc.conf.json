@@ -1,0 +1,8 @@
+{
+    "source": {
+        "include": ["JS/"],
+        "exclude": ["JS/phaser.js","JS/phaser.min.js","JS/jquery-3.3.1.js","JS/button.js"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    }
+}

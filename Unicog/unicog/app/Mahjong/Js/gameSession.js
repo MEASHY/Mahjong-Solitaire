@@ -1,5 +1,4 @@
-//JavaScript singleton design pattern
-
+/** JavaScript singleton design pattern for storing game session data */
 var GameSession = function () {
     'use strict'
     
