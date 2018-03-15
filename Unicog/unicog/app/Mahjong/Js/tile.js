@@ -391,6 +391,11 @@ class Layout {
         
         this.generateTiles(counts, possible)
         this.positionSprites()
+        var s = new GameSession()
+        if (s.beginnerMode) {
+            this.initializeBeginnerMode()
+            console.log("starting beginner mode")
+        }
     }
 }
 
