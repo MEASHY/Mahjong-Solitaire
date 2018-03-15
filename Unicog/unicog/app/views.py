@@ -62,7 +62,6 @@ def mahjong_stats():
     #db.session.commit()  
     id = request.form['researcher']
     valid = db.session.query(Researchers.r_id, id).filter_by(r_id = id).first()
-    #print(valid)
     if (valid == None):
         return send_file('Mahjong/research_login.html') #invalid case
     else:
