@@ -97,7 +97,7 @@ class Board {
                 this.hintButton.on('pointerdown', function() {
                     this.layout.giveHint()
                     this.failedMatches = 0
-                    hintButton.destroy()
+                    this.hintButton.destroy()
                 },this)
             }
         }
