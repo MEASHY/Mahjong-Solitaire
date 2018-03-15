@@ -74,11 +74,11 @@ class Timer {
         this.paused = false
     }
     /**
-     * a function of duration - time elapsed
+     * a function of duration - time left
      * @return {number} time elapsed (seconds)
      */
     timeElapsed () {
-        return this.duration - this.timeElapsed
+        return this.duration - this.timeLeft
     }
     /**
      * when the timer runs down to 0 trigger and of session
