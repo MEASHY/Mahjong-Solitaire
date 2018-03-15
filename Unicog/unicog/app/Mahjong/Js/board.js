@@ -17,6 +17,7 @@ class Board {
         
         var session = new GameSession()
         this.layout = new Layout(this.scene)
+        this.hintButton = null
         
         for (var i = 1; i <= this.layout.height; i++) {
             this.layout.addJsonLayer(session.layout['layer'+i], i)
@@ -74,6 +75,11 @@ class Board {
           
             // Keeps the layout updated
             this.layout.size -= 2
+            
+            if (this.hintButton !== null) {
+                this.hintButton.destroy()
+                this.hintButton = null
+            }
             if (this.layout.size === 0) {
                 //we want to end the game here
                 var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
@@ -94,8 +100,6 @@ class Board {
                 shuffleButton.on('pointerdown', function() {
                     this.layout.shuffle()
                     shuffleButton.destroy()
-                    // we have to set this to 0 because we have to reset the failed matches
-                    // if they still try to match when there are no valid matches
                     this.failedMatches = 0
                 },this)
                 
@@ -107,12 +111,12 @@ class Board {
             this.currentSelection.highlightTile()
             
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
-                var hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-                hintButton.setDepth(20000000001)
-                hintButton.on('pointerdown', function() {
+                this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+                this.hintButton.setDepth(20000000001)
+                this.hintButton.on('pointerdown', function() {
                     this.layout.giveHint()
                     this.failedMatches = 0
-                    hintButton.destroy()
+                    this.hintButton.destroy()
                 },this)
             }
         }
