@@ -40,7 +40,7 @@ function export_table(html, filename) {
     csv_export(csv.join("\n"), filename);
 }
 
-document.querySelector("button").addEventListener("click", function () {
+document.querySelector("#export").addEventListener("click", function () {
     var html = document.querySelector("table").outerHTML;
 	export_table(html, "table.csv");
 });
