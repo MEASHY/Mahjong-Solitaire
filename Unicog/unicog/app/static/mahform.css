@@ -18,7 +18,7 @@ p {
 	text-align: center;
 }
 
-button {
+mainbutton {
 	width: 50%;
 	background-color: #f1800e;
 	border: none;
@@ -120,17 +120,7 @@ input[type="password"] {
     background-size: cover;
 }
 
-#export {
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    float: left;
-}
+
 
 #player_filter {
     float: left;
@@ -140,11 +130,10 @@ input[type="password"] {
 
 #filter_text {
     float: left;
-    vertical-align: middle;
 }
 
 
-#logout {
+button {
     background-color: #f1800e;
     border: none;
     color: white;
