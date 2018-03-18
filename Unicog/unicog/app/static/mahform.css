@@ -113,3 +113,44 @@ input[type="password"] {
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+/* set background for mainpage*/
+#main {
+    background-image: url('Assets/Backgrounds/mainpage.jpg');
+    background-size: cover;
+}
+
+#export {
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    float: left;
+}
+
+#player_filter {
+    float: left;
+    vertical-align: middle;
+    
+}
+
+#filter_text {
+    float: left;
+    vertical-align: middle;
+}
+
+
+#logout {
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
