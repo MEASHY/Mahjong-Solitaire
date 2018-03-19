@@ -19,14 +19,16 @@
         <script src='js/timer.js'></script>
         <script>window.onload=initLobby</script>
 
-  
+<style>
+</style>
+
     </head>
     
     <div id='colorstrip'/>
     <h1>Mahjong-Solitaire Lobby</h1>
     </div>
 
-    <body>
+    <body class = 'main'>
     
         <div class='game' id='gameDiv'>
         </div>
@@ -50,19 +52,19 @@
                 <h3 id='backgroundText'>Game Background</h3>
                 <select type='text' id='backgroundDropBox' ></select>
             </div>
-            <p><div class='timer' id='timerDiv'>
+            <p><div class='option' id='timerDiv'>
                 <h3 id='timerText'>Session Time Limit</h3>
                 <label for='timerMinuteField'>Minutes:</label>
                 <input type='number' id='timerMinuteField' min='1' max='59' value='15' >
                 <label for='timerSecondField'>Seconds:</label>
                 <input type='number' id='timerSecondField' min='0' max='59' value='0' >
             </div>
-            <p><div class='beginner' id='beginnerDiv'>
+            <p><div class='option' id='beginnerDiv'>
                 <h3 id='beginnerText'>Enable Beginner Mode</h3>
                 <input type='checkbox' id='beginnerCheck' >
             </div>
-            <p><div class='buttons'>
-                <input type='button' name='startGame' onclick='showGame()' value='Start Game' >
+            <p><div class='option'>
+                <input class = 'start' type='button' name='startGame' onclick='showGame()' value='Start Game' >
             </div>
         </div>
         </form>
