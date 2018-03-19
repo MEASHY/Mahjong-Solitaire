@@ -48,6 +48,210 @@ document.querySelector("#export").addEventListener("click", function () {
 </script>
 
 <style>
+#mahcolorstrip {
+	width: 100%;
+	height: 50px;
+	border-style: solid;
+	border-color: #f1800e;
+	background-color: #f1800e;
+}
+
+h1 {
+	padding-top: 100px;
+	font-size: 60px;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+mainbutton {
+	width: 50%;
+	background-color: #f1800e;
+	border: none;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input {
+	width: 50%;
+}
+
+input[type="login"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 20%;
+    
+}
+
+input[type="submit"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+}
+
+input[type="text"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+
+input[type="password"] {
+	font-size: 20px;
+	padding-left: 5px;
+	font-family: Arial;
+}
+#container{
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+
+/* Change the background color of the dropdown button when hovering*/
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* set background*/
+.main {
+    background-image: url('Assets/Backgrounds/mainpage.jpg');
+    background-size: cover;
+}
+
+#player_filter {
+    float: left;
+    vertical-align: middle;
+    width: 60%;
+   
+}
+
+#filter_text {
+    float: left;
+}
+
+button {
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.lobby {
+    border-radius: 25px;
+    background: white;
+    padding: 20px 20px 20px 20px;
+    width: 60%;
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+
+   /* NOTE: Only works for non-floated block elements */
+   display: block;
+   float: none;
+}
+
+.statspage {
+    border-radius: 25px;
+    background: white;
+    padding: 20px 20px 20px 20px;
+    width: 60%;
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+   /* NOTE: Only works for non-floated block elements */
+   display: block;
+   float: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    padding: 10px;
+    margin-top:auto;
+    margin-bottom:auto;
+    
+}
+
+.option {
+    width: 22%;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    float: left;
+   
+}
+
+
+.start {
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+.gridoption{
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 60%;
+    float: right;
+}
+
+.largeLabel{
+	font-size: 32px;
+	font-family: Arial;
+	font-weight: bold;
+    text-align: right;
+    display: inline-block;
+    width: 300px;
+}
+
+.startgame{
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 100%;
+}
+
+.bottom{
+    align: center;
+    margin-left: 12%;
+    text-align:center;
+}
+
+input[type="checkbox"] {
+  transform:scale(2, 2);
+}
+
+.logout{
+}
 </style>
 
     </head>
@@ -57,11 +261,13 @@ document.querySelector("#export").addEventListener("click", function () {
     <div class = 'statspage'>
     <div id = "login_status" >
         <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
-        <form id='log_out' method='get' action ='index.html'>
-            <p>
-                <button id = 'logout' >Log the Out</button>
-            </p>
-        </form>
+        <div class = 'logout'>
+            <form id='log_out' method='get' action ='index.html'>
+                <p>
+                    <button id = 'logout' >Log the Out</button>
+                </p>
+            </form>
+        </div>
     </div>
    
     
@@ -80,59 +286,79 @@ document.querySelector("#export").addEventListener("click", function () {
     	
         <table style="width:100%" border="1">
             <tr>
-                <th>GameID</th>
+                <th>SessionID</th>
+                <th>Game #</th>
                 <th>PlayerID</th> 
                 <th>ResearcherID</th>
-                <th># selections</th> 
+                <th># selections</th>
+                <th># deselections</th>
                 <th># correct match</th>
                 <th># incorrect match</th>
-                <th> package</th> 
+                <th>package</th> 
                 <th># hint</th>
                 <th># shuffle</th>
+                <th>completion</th>
+                <th>time taken</th>
             </tr>
             <tr>
                 <td>58845</td>
+                <td>1</td>
                 <td>Bill</td> 
                 <td>Janny</td>
                 <td>80</td>
+                <td>5</td>
                 <td>60</td> 
                 <td>20</td>
                 <td>basic</td>
                 <td>1</td>
                 <td>1</td>
+                <td>finished</td>
+                <td>2:04</td>
             </tr>
             <tr>
                 <td>74686</td>
+                <td>1</td>
                 <td>Will</td> 
                 <td>Janny</td>
                 <td>100</td>
+                <td>1</td>
                 <td>60</td> 
                 <td>40</td>
                 <td>basic</td>
                 <td>2</td>
                 <td>11</td>
+                <td>timer end</td>
+                <td>4:27</td>
             </tr>
             <tr>
                 <td>12354</td>
+                <td>1</td>
                 <td>Mill</td> 
                 <td>Janny</td>
                 <td>120</td>
+                <td>17</td>
                 <td>60</td> 
                 <td>60</td>
                 <td>basic</td>
                 <td>7</td>
                 <td>3</td>
+                <td>quit</td>
+                <td>0:43</td>
             </tr>
             <tr>
                 <td>96854</td>
+                <td>1</td>
                 <td>Frill</td> 
                 <td>Janny</td>
                 <td>60</td>
+                <td>5</td>
                 <td>60</td> 
                 <td>0</td>
                 <td>basic</td>
                 <td>0</td>
                 <td>0</td>
+                <td>finished</td>
+                <td>1:56</td>
             </tr>
         </table>
     </div>

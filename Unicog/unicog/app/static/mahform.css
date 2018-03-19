@@ -81,6 +81,7 @@ input[type="password"] {
 #player_filter {
     float: left;
     vertical-align: middle;
+    width: 60%;
    
 }
 
@@ -128,11 +129,10 @@ button {
    float: none;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
     padding: 10px;
-    margin-top:auto;
-    margin-bottom:auto;
+    margin-top:5%;
+    margin-bottom:5%;
     
 }
 
@@ -169,6 +169,7 @@ button {
     font-size: 16px;
     width: 60%;
     float: right;
+    margin-left: 30px;
 }
 
 .largeLabel{
@@ -178,6 +179,7 @@ button {
     text-align: right;
     display: inline-block;
     width: 300px;
+    float: right;
 }
 
 .startgame{
@@ -191,12 +193,13 @@ button {
 
 .bottom{
     align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 12%;
     text-align:center;
-    margin:auto;
 }
 
 input[type="checkbox"] {
   transform:scale(2, 2);
+}
+
+.logout{
 }
