@@ -20,12 +20,13 @@
         <script>window.onload=initLobby</script>
 
 <style>
+
 </style>
 
     </head>
     
     <div id='colorstrip'/>
-    <h1>Mahjong-Solitaire Lobby</h1>
+    <h1>Mahjong Lobby</h1>
     </div>
 
     <body class = 'main'>
@@ -34,37 +35,44 @@
         </div>
         
         <div class='lobby', id='lobbyDiv'>
+        <h2>Game Configuration</h1>
         <form id='gameSetup'>
         <div class = 'grid'>
-            <p><div class='dropdown'>
-                <h3 id='packageText'>Layout Package</h3>
-                <select type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
+            <div class='dropdown'>
+                <label class = 'largeLabel' for='packageDropBox'>Layout Package:</label>
+                <select class = 'gridoption' type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='layoutText'>Layout</h3>
-                <select type='text' id='layoutDropBox' ></select>
+            <div class='dropdown'>
+                <label class = 'largeLabel' for='layoutDropBox'>Layout:</label>
+                <select class = 'gridoption' type='text' id='layoutDropBox' ></select>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='tilesetText'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' ></select>
+            <div class='dropdown'>
+                <label class = 'largeLabel' for='tilesetDropBox'>Tileset:</label>
+                <select class = 'gridoption' type='text' id='tilesetDropBox' ></select>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='backgroundText'>Game Background</h3>
-                <select type='text' id='backgroundDropBox' ></select>
+            <div class='dropdown'>
+                <label class = 'largeLabel' for='backgroundDropBox'>Game Background:</label>
+                <select class = 'gridoption' type='text' id='backgroundDropBox' ></select>
             </div>
-            <p><div class='option' id='timerDiv'>
-                <h3 id='timerText'>Session Time Limit</h3>
-                <label for='timerMinuteField'>Minutes:</label>
-                <input type='number' id='timerMinuteField' min='1' max='59' value='15' >
-                <label for='timerSecondField'>Seconds:</label>
-                <input type='number' id='timerSecondField' min='0' max='59' value='0' >
+            <div class = 'bottom'>
+                <p><div class='option' id='timerDiv'>
+                    <h3 id='timerText'>Session Time Limit</h3>
+                    <label for='timerMinuteField'>Minutes:</label>
+                    <input type='number' id='timerMinuteField' min='1' max='59' value='15' >
+                    <label for='timerSecondField'>Seconds:</label>
+                    <input type='number' id='timerSecondField' min='0' max='59' value='0' >
+                </div>
+                <p><div class='option' id='beginnerDiv'>
+                    <h3 id='beginnerText'>Enable Beginner Mode</h3>
+                    <input type='checkbox' id='beginnerCheck' >
+                </div>
+                <div class='option' id='hintDiv'>
+                    <h3 id='hintText'>Enable Hints</h3>
+                    <input type='checkbox' id='hintCheck' >
+                </div>
             </div>
-            <p><div class='option' id='beginnerDiv'>
-                <h3 id='beginnerText'>Enable Beginner Mode</h3>
-                <input type='checkbox' id='beginnerCheck' >
-            </div>
-            <p><div class='option'>
-                <input class = 'start' type='button' name='startGame' onclick='showGame()' value='Start Game' >
+            <div>
+                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Start Game' >
             </div>
         </div>
         </form>

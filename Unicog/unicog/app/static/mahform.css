@@ -8,7 +8,7 @@
 
 h1 {
 	padding-top: 100px;
-	font-size: 34px;
+	font-size: 60px;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
@@ -107,6 +107,7 @@ button {
     align: center;
     margin-left: auto;
     margin-right: auto;
+    text-align:center;
 
    /* NOTE: Only works for non-floated block elements */
    display: block;
@@ -129,24 +130,20 @@ button {
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-    position: relative;
-    top: 50%;
-    box-sizing: border-box;
     padding: 10px;
-    float: left;
-    width: 50%;
-    height: 50%;
     margin-top:auto;
     margin-bottom:auto;
-    text-align:center;
+    
 }
 
 .option {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
-    
+    width: 22%;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    float: left;
+   
 }
 
 
@@ -160,4 +157,46 @@ button {
     display: inline-block;
     font-size: 16px;
 
+}
+
+.gridoption{
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 60%;
+    float: right;
+}
+
+.largeLabel{
+	font-size: 32px;
+	font-family: Arial;
+	font-weight: bold;
+    text-align: right;
+    display: inline-block;
+    width: 300px;
+}
+
+.startgame{
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 100%;
+}
+
+.bottom{
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+    margin:auto;
+}
+
+input[type="checkbox"] {
+  transform:scale(2, 2);
 }
