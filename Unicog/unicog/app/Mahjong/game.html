@@ -36,6 +36,7 @@ h1 {
 	text-align: center;
 }
 
+
 p {
 	text-align: center;
 }
@@ -220,10 +221,16 @@ button {
 }
 
 input[type="checkbox"] {
-  transform:scale(2, 2);
+    transform:scale(3, 3);
 }
 
 .logout{
+}
+
+.time{
+    width:20%;
+    padding: 8px 8px;
+
 }
 </style>
 
@@ -239,7 +246,7 @@ input[type="checkbox"] {
         </div>
         
         <div class='lobby', id='lobbyDiv'>
-        <h2>Game Configuration</h1>
+        <h2>Game Configuration</h2>
         <form id='gameSetup'>
             <div class='dropdown'>
                 <select class = 'gridoption' type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
@@ -260,10 +267,10 @@ input[type="checkbox"] {
             <div class = 'bottom'>
                 <p><div class='option' id='timerDiv'>
                     <h3 id='timerText'>Session Time Limit</h3>
-                    <label for='timerMinuteField'>Minutes:</label>
-                    <input type='number' id='timerMinuteField' min='1' max='59' value='15' >
-                    <label for='timerSecondField'>Seconds:</label>
-                    <input type='number' id='timerSecondField' min='0' max='59' value='0' >
+                    <label for='timerMinuteField'>MM:</label>
+                    <input class = 'time' type='number' id='timerMinuteField' min='1' max='59' value='15' >
+                    <label for='timerSecondField'>SS:</label>
+                    <input class = 'time' type='number' id='timerSecondField' min='0' max='59' value='0' >
                 </div>
                 <p><div class='option' id='beginnerDiv'>
                     <h3 id='beginnerText'>Enable Beginner Mode</h3>
