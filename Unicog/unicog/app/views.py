@@ -57,7 +57,8 @@ def mahjong_game():
         valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
         
     if (valid == None):
-        return send_file('Mahjong/player_login.html') #invalid case
+        return render_template('Mahjong/player_login.html', error_message =
+            'The Researcher ID you submitted does not exist') #invalid case
         
     return render_template('Mahjong/game.html',  
         user_id=request.form['player'], r_id = id)
@@ -67,15 +68,14 @@ def mahjong_stats():
     #check that researcher id exists
     #check DB for r_id?   
     #testlogin = Researchers(r_id = 12345678)
-    #db.session.add(testlogin)
-    #db.session.commit()  
     id = request.form['researcher']
     valid = None
     if (id.isdigit()):
         valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
         
     if (valid == None):
-        return send_file('Mahjong/research_login.html') #invalid case
+        return render_template('Mahjong/research_login.html', error_message =
+            'The Researcher ID you submitted does not exist') #invalid case
 
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
