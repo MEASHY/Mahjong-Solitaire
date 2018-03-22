@@ -18,211 +18,57 @@
         <script src='js/board.js'></script>
         <script src='js/timer.js'></script>
         <script>window.onload=initLobby</script>
-        <style>
 
-#mahcolorstrip {
-    width: 100%;
-    height: 50px;
-    border-style: solid;
-    border-color: #f1800e;
-    background-color: #f1800e;
-}
-
-h1 {
-    padding-top: 100px;
-    font-size: 34px;
-    font-family: Arial;
-    font-weight: bold;
-    text-align: center;
-}
-
-p {
-    text-align: center;
-}
-
-button {
-    width: 50%;
-    background-color: #f1800e;
-    border: none;
-    text-align: center;
-    padding: 25px 36px;
-    font-size: 24px;
-    color: #ffffff;
-}
-
-input {
-    width: 50%;
-}
-
-input[type="login"] {
-    background-color: #f1800e;
-    text-align: center;
-    padding: 25px 36px;
-    font-size: 24px;
-    color: #ffffff;
-    width: 20%;
-    
-}
-
-input[type="submit"] {
-    background-color: #f1800e;
-    text-align: center;
-    padding: 25px 36px;
-    font-size: 24px;
-    color: #ffffff;
-}
-
-input[type="text"] {
-    font-size: 20px;
-    padding-left: 5px;
-    font-family: Arial;
-}
-
-input[type="password"] {
-    font-size: 20px;
-    padding-left: 5px;
-    font-family: Arial;
-}
-
-input[type="number"] {
-    font-size: 16px;
-    padding-left: 5px;
-    font-family: Arial;
-    width: 3em;
-}
-
-input[type="button"] {
-    float: left;
-}
-
-
-#container{
-    text-align: center;
-    top: 50%;
-    left: 50%;
-}
-
-/* Dropdown Button */
-.dropbtn {
-    background-color: #f1800e;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-
-}
-
-/* Links inside */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/*color of dropdown links on hover*/
-.dropdown-content a:hover {background-color: #ddd}
-
-/* Show the dropdown menu*/
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Change the background color of the dropdown button when hovering*/
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-.timer {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
-}
-
-.beginner {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
-}
-
-.buttons {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
-}
-
-</style>
-
-
-    
     </head>
     
     <div id='colorstrip'/>
-    <h1>Mahjong-Solitaire Lobby</h1>
+    <h1>Mahjong Lobby</h1>
     </div>
 
-    <body>
+    <body class = 'main'>
     
         <div class='game' id='gameDiv'>
         </div>
         
         <div class='lobby', id='lobbyDiv'>
+        <h2>Game Configuration</h2>
         <form id='gameSetup'>
-        <div class = 'grid'>
-            <p><div class='dropdown'>
-                <h3 id='packageText'>Layout Package</h3>
-                <select type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
+            <div class='dropdown'>
+                <select class = 'gridoption' type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
+                <label class = 'largeLabel' for='packageDropBox'>Layout Package:</label>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='layoutText'>Layout</h3>
-                <select type='text' id='layoutDropBox' ></select>
+            <div class='dropdown'>
+                <select class = 'gridoption' type='text' id='layoutDropBox' ></select>
+                <label class = 'largeLabel' for='layoutDropBox'>Layout:</label>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='tilesetText'>Tileset</h3>
-                <select type='text' id='tilesetDropBox' ></select>
+            <div class='dropdown'>
+                <select class = 'gridoption' type='text' id='tilesetDropBox' ></select>
+                <label class = 'largeLabel' for='tilesetDropBox'>Tileset:</label>
             </div>
-            <p><div class='dropdown'>
-                <h3 id='backgroundText'>Game Background</h3>
-                <select type='text' id='backgroundDropBox' ></select>
+            <div class='dropdown'>
+                <select class = 'gridoption' type='text' id='backgroundDropBox' ></select>
+                <label class = 'largeLabel' for='backgroundDropBox'>Game Background:</label>
             </div>
-            <p><div class='timer' id='timerDiv'>
-                <h3 id='timerText'>Session Time Limit</h3>
-                <label for='timerMinuteField'>Minutes:</label>
-                <input type='number' id='timerMinuteField' min='1' max='59' value='15' >
-                <label for='timerSecondField'>Seconds:</label>
-                <input type='number' id='timerSecondField' min='0' max='59' value='0' >
+            <div class = 'bottom'>
+                <p><div class='option' id='timerDiv'>
+                    <h3 id='timerText'>Session Time Limit</h3>
+                    <label for='timerMinuteField'>MM:</label>
+                    <input class = 'time' type='number' id='timerMinuteField' min='1' max='59' value='15' >
+                    <label for='timerSecondField'>SS:</label>
+                    <input class = 'time' type='number' id='timerSecondField' min='0' max='59' value='0' >
+                </div>
+                <p><div class='option' id='beginnerDiv'>
+                    <h3 id='beginnerText'>Enable Beginner Mode</h3>
+                    <input type='checkbox' id='beginnerCheck' >
+                </div>
+                <div class='option' id='hintDiv'>
+                    <h3 id='hintText'>Enable Hints</h3>
+                    <input type='checkbox' id='hintCheck' >
+                </div>
             </div>
-            <p><div class='beginner' id='beginnerDiv'>
-                <h3 id='beginnerText'>Enable Beginner Mode</h3>
-                <input type='checkbox' id='beginnerCheck' >
+            <div>
+                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Start Game' >
             </div>
-            <p><div class='buttons'>
-                <input type='button' name='startGame' onclick='showGame()' value='Start Game' >
-            </div>
-        </div>
         </form>
         </div>
         
