@@ -64,6 +64,7 @@ h1 {
 	text-align: center;
 }
 
+
 p {
 	text-align: center;
 }
@@ -124,7 +125,7 @@ input[type="password"] {
 
 /* set background*/
 .main {
-    background-image: url('Assets/Backgrounds/mainpage.jpg');
+    background: #D3D3D3;
     background-size: cover;
 }
 
@@ -154,7 +155,7 @@ button {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 60%;
+    width: 80%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -169,7 +170,7 @@ button {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 60%;
+    width: 80%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -179,11 +180,10 @@ button {
    float: none;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
     padding: 10px;
-    margin-top:auto;
-    margin-bottom:auto;
+    margin-top:5%;
+    margin-bottom:5%;
     
 }
 
@@ -220,6 +220,7 @@ button {
     font-size: 16px;
     width: 60%;
     float: right;
+    margin-left: 30px;
 }
 
 .largeLabel{
@@ -229,6 +230,7 @@ button {
     text-align: right;
     display: inline-block;
     width: 300px;
+    float: right;
 }
 
 .startgame{
@@ -247,10 +249,19 @@ button {
 }
 
 input[type="checkbox"] {
-  transform:scale(2, 2);
+    transform:scale(3, 3);
 }
 
-.logout{
+#logout{
+    float: right;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.time{
+    width:20%;
+    padding: 8px 8px;
+
 }
 </style>
 
@@ -259,15 +270,13 @@ input[type="checkbox"] {
     <body class = 'main'>
     <h1> Statistics </h1>
     <div class = 'statspage'>
-    <div id = "login_status" >
+    <div class = "top" >
+        <form method='get' action ='index.html'>
         <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
-        <div class = 'logout'>
-            <form id='log_out' method='get' action ='index.html'>
-                <p>
-                    <button id = 'logout' >Log the Out</button>
-                </p>
-            </form>
-        </div>
+            <p>
+                <button id = 'logout' >Log Out</button>
+            </p>
+        </form>
     </div>
    
     

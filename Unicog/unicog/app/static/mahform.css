@@ -75,7 +75,7 @@ input[type="password"] {
 
 /* set background*/
 .main {
-    background-image: url('Assets/Backgrounds/mainpage.jpg');
+    background: #D3D3D3;
     background-size: cover;
 }
 
@@ -105,7 +105,7 @@ button {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 60%;
+    width: 80%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -120,7 +120,7 @@ button {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 60%;
+    width: 80%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -202,7 +202,10 @@ input[type="checkbox"] {
     transform:scale(3, 3);
 }
 
-.logout{
+#logout{
+    float: right;
+    vertical-align: top;
+    display: inline-block;
 }
 
 .time{
