@@ -25,6 +25,16 @@ input {
 	width: 50%;
 }
 
+input[type="login"] {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 20%;
+    
+}
+
 input[type="submit"] {
 	background-color: #f1800e;
 	text-align: center;
@@ -56,6 +66,10 @@ input[type="password"] {
     vertical-align: middle;
     width: 60%;
    
+}
+
+#filter_text {
+    float: left;
 }
 
 button {
