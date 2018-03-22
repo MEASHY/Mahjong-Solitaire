@@ -1,4 +1,4 @@
-h1 {
+        h1 {
 	padding-top: 100px;
 	font-size: 60px;
 	font-family: Arial;
@@ -63,8 +63,6 @@ input[type="password"] {
 
 #player_filter {
     float: left;
-    vertical-align: middle;
-    width: 60%;
    
 }
 
@@ -188,10 +186,20 @@ input[type="checkbox"] {
     float: right;
     vertical-align: top;
     display: inline-block;
+    border-radius: 10px;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-size: 24px;
 }
 
 .time{
     width:20%;
     padding: 8px 8px;
 
+}
+
+#export{
+    transform:scale(0.8, 0.8);
+    border-radius: 10px;
 }
