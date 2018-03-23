@@ -203,3 +203,12 @@ input[type="checkbox"] {
     transform:scale(0.8, 0.8);
     border-radius: 10px;
 }
+
+#outergame{
+    width: 100%;
+    text-align: center;
+}
+
+.game{
+    margin: 0 auto;
+}
