@@ -56,3 +56,5 @@ var GameSession = function () {
         return GameSession.instance
     }
 };
+
+gameSession = new GameSession()
