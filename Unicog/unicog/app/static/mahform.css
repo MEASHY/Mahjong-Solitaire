@@ -1,6 +1,5 @@
-        h1 {
-	padding-top: 12px;
-	font-size: 56px;
+h1 {
+	font-size: 48px;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
@@ -112,8 +111,8 @@ button {
 
 .dropdown {
     padding: 10px;
-    margin-top:5%;
-    margin-bottom:5%;
+    margin-top:3%;
+    margin-bottom:3%;
     
 }
 
@@ -144,11 +143,11 @@ button {
     background-color: #f1800e;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 16px 16px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    width: 60%;
+    width: 50%;
     float: right;
     margin-left: 30px;
 }
