@@ -297,7 +297,7 @@ class Layout {
      * @see TileNode
      */
     positionSprites() {
-        var s = new GameSession()
+        var s = gameSession
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
