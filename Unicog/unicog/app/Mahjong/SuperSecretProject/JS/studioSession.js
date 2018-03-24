@@ -56,4 +56,6 @@ var StudioSession = function () {
         //console.warn("Singleton already has an instance, here it is: " + StudioSession.instance);
         return StudioSession.instance
     }
-};
+}
+
+gameSession = StudioSession

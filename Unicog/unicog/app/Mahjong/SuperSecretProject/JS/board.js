@@ -15,19 +15,19 @@ class Board {
         
         this.failedMatches = 0
         
-        var session = new GameSession()
+        var gameSession = new GameSession()
         this.layout = new Layout(this.scene)
         this.hintButton = null
         
         for (var i = 1; i <= this.layout.height; i++) {
-            this.layout.addJsonLayer(session.layout['layer'+i], i)
+            this.layout.addJsonLayer(gameSession.layout['layer'+i], i)
         }
-        session.sizeX = this.layout.layers[0][0].length
-        session.sizeY = this.layout.layers[0].length
+        gameSession.sizeX = this.layout.layers[0][0].length
+        gameSession.sizeY = this.layout.layers[0].length
         
         this.layout.buildHierarchy()
         this.layout.generateTiles() 
-        if (session.beginnerMode) {
+        if (gameSession.beginnerMode) {
             this.layout.initializeBeginnerMode()
         } 
     }

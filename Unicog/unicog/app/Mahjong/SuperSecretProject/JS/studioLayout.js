@@ -14,6 +14,7 @@ class StudioLayout {
         this.maxDuplicates = 99
         this.numChildren = session.layout.header.numChildren
         this.layers = []
+        this.studioLayers = []
         this.roots = []
     }
     
@@ -26,7 +27,7 @@ class StudioLayout {
                 layer[i].push(new StudioTileNode(this.state, j, i, 1, this.numChildren))
             }
         }
-        this.layers.push(layer)  
+        this.studioLayers.push(layer)  
     }
     /**
      * Adds a layer to the layers array.
