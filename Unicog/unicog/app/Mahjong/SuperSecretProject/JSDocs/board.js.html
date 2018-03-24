@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: board.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: board.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Class representing a Mahjong board. */
+class Board {
+    /**
+     * Create a Board 
+     * &lt;p>
+     * Also initializes a layout
+     * @param {context} scene - The scene in which the sprite resides.
+     * @see Layout
+     */
+    constructor (scene) { 
+        this.scene = scene
+        
+        this.tileSelected = null
+        this.currentSelection = null
+        
+        this.failedMatches = 0
+        
+        var session = new GameSession()
+        this.layout = new Layout(this.scene)
+        
+        for (var i = 1; i &lt;= this.layout.height; i++) {
+            this.layout.addJsonLayer(session.layout['layer'+i], i)
+        }
+        session.sizeX = this.layout.layers[0][0].length
+        session.sizeY = this.layout.layers[0].length
+        
+        this.layout.buildHierarchy()
+        this.layout.generateTiles() 
+        if (session.beginnerMode) {
+            this.layout.initializeBeginnerMode()
+        } 
+    }
+    /**
+     * Selects a given TileNode
+     * &lt;p>
+     * If a tile was previously selected check for a match
+     * @param {TileNode} tile - The hexadecimal value used to tint the sprite
+     */
+    selectTile (tile) {
+        // The tile can be selected
+        if (tile.selectable) {
+            this.currentSelection = tile
+            
+            if (this.tileSelected != null) {
+                if (this.tileSelected == this.currentSelection) {
+                    this.currentSelection.unhighlightTile()
+                    this.tileSelected = null
+                } else {
+                    this.checkMatch()
+                }
+            } else {
+                // Tile has not been selected yet
+                this.currentSelection.highlightTile()
+                this.tileSelected = this.currentSelection
+            }
+        }
+    }
+    /**
+     * Checks if the player has made a successful match
+     * &lt;p>
+     * In the case of a match the TileNode will be removed along with the previously selected TileNode
+     * In the case of The TileNode already being selected it will be deselected
+     * In the case of a mismatch The TileNode will be highlighted and the previous deselected
+     */
+    checkMatch () {
+        // The two tiles match, remove them
+        if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
+            this.layout.removeTile(this.tileSelected)
+            this.layout.removeTile(this.currentSelection)
+            this.tileSelected = null
+            this.currentSelection = null
+            
+            this.failedMatches = 0
+          
+            // Keeps the layout updated
+            this.layout.size -= 2
+            if (this.layout.size === 0) {
+                //we want to end the game here
+                var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
+                overlay.setScale(10)
+                overlay.setDepth(20000000000)
+
+                var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
+                continueButton.setDepth(20000000001)
+                continueButton.on('pointerdown', function() {
+                    endGame()
+                },this)
+            }
+            if(!this.layout.validMatchAvailable() &amp;&amp; this.layout.size !== 0)
+            {
+                console.log("no matches")
+                var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                shuffleButton.setDepth(20000000001)
+                shuffleButton.on('pointerdown', function() {
+                    this.layout.shuffle()
+                    shuffleButton.destroy()
+                    // we have to set this to 0 because we have to reset the failed matches
+                    // if they still try to match when there are no valid matches
+                    this.failedMatches = 0
+                },this)
+                
+            }
+        } else {
+            // The two tiles don't match so only select the most recent tile
+            this.tileSelected.unhighlightTile()
+            this.tileSelected = this.currentSelection
+            this.currentSelection.highlightTile()
+            
+            if (++this.failedMatches === 3 &amp; this.layout.validMatchAvailable()) {
+                var hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+                hintButton.setDepth(20000000001)
+                hintButton.on('pointerdown', function() {
+                    this.layout.giveHint()
+                    this.failedMatches = 0
+                    hintButton.destroy()
+                },this)
+            }
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="Layout.html">Layout</a></li><li><a href="TileNode.html">TileNode</a></li><li><a href="Timer.html">Timer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#changePackage">changePackage</a></li><li><a href="global.html#changeTimer">changeTimer</a></li><li><a href="global.html#Create">Create</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#fillDropBox">fillDropBox</a></li><li><a href="global.html#GameSession">GameSession</a></li><li><a href="global.html#initLobby">initLobby</a></li><li><a href="global.html#loadButtons">loadButtons</a></li><li><a href="global.html#Preload">Preload</a></li><li><a href="global.html#resizeGame">resizeGame</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLobby">showLobby</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#triggerQuit">triggerQuit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Mar 15 2018 10:48:42 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
