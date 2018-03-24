@@ -16,9 +16,8 @@ var gameConfig = {
  * @function Preload
  */
 function preload () {
-    var session = new GameSession();
     
-    var tiles = session.tileset.main
+    var tiles = gameSession.tileset.main
     for (var i = 0; i < tiles.length; i++) {
         var index 
         if(i < 10) {
@@ -26,12 +25,12 @@ function preload () {
         } else {
             var index = i.toString()
         }
-        this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
+        this.load.image('tile'+index, '/Assets/Tilesets/'+gameSession.tileset.name+'/'+tiles[i])
         console.log('tile'+index)
     }
 
     // Load all of the button images
-    var buttonList = session.buttons.main
+    var buttonList = gameSession.buttons.main
     for (var i = 0; i < buttonList.length; i++) {
         this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
         console.log(buttonList[i].name)
@@ -98,7 +97,7 @@ function loadButtons (scope) {
  * @function resizeGame
  */
 function resizeGame() {
-    var session = new GameSession()
+    var s = gameSession
     var width
     var height
 
@@ -117,16 +116,16 @@ function resizeGame() {
     game.config.height = height
 
     //calculate the overall size of the layout
-    layoutWidth = (session.sizeX-1) * session.tileset.tileFaceX + session.tileset.tileX
-    layoutHeight = (session.sizeY-1) * session.tileset.tileFaceY + session.tileset.tileY
+    layoutWidth = (s.sizeX-1) * s.tileset.tileFaceX + s.tileset.tileX
+    layoutHeight = (s.sizeY-1) * s.tileset.tileFaceY + s.tileset.tileY
     
     //calculate the optimal tile scaling and necessary offset to center
     scale = Math.min((height * 0.9) / Math.max(layoutWidth, layoutHeight), 1)
-    session.scale = scale   
-    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) 
-                        + (session.tileset.tileFaceX * scale / 2) 
-    session.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
-                        + (session.tileset.tileFaceY * scale / 2)
+    s.scale = scale   
+    s.offsetX = (width / 2) - ((layoutWidth * scale) / 2) 
+                        + (s.tileset.tileFaceX * scale / 2) 
+    s.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
+                        + (s.tileset.tileFaceY * scale / 2)
 }
 
 /**
