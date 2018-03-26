@@ -62,8 +62,7 @@ class TileNode {
      * @see Layout
      */
     setSpritePosition(numChildren) {
-        var s = new GameSession()
-        
+        var s = gameSession
         var xPos = s.tileset.tileFaceX * s.scale * this.x + s.offsetX
         var yPos = s.tileset.tileFaceY * s.scale * this.y + s.offsetY
         

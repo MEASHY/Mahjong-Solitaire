@@ -15,19 +15,19 @@ class Board {
         
         this.failedMatches = 0
         
-        var session = new GameSession()
+        var gameSession = new GameSession()
         this.layout = new Layout(this.scene)
         this.hintButton = null
         
         for (var i = 1; i <= this.layout.height; i++) {
-            this.layout.addJsonLayer(session.layout['layer'+i], i)
+            this.layout.addJsonLayer(gameSession.layout['layer'+i], i)
         }
-        session.sizeX = this.layout.layers[0][0].length
-        session.sizeY = this.layout.layers[0].length
+        gameSession.sizeX = this.layout.layers[0][0].length
+        gameSession.sizeY = this.layout.layers[0].length
         
         this.layout.buildHierarchy()
         this.layout.generateTiles() 
-        if (session.beginnerMode) {
+        if (gameSession.beginnerMode) {
             this.layout.initializeBeginnerMode()
         } 
     }
@@ -46,6 +46,11 @@ class Board {
                 if (this.tileSelected == this.currentSelection) {
                     this.currentSelection.unhighlightTile()
                     this.tileSelected = null
+                    
+                    // Statistics for deselections
+                    gameStats.deselections += 1
+                    console.log("Deselect: ",gameStats.deselections)
+                    
                 } else {
                     this.checkMatch()
                 }
@@ -53,6 +58,10 @@ class Board {
                 // Tile has not been selected yet
                 this.currentSelection.highlightTile()
                 this.tileSelected = this.currentSelection
+                
+                // Statistics for selections
+                gameStats.selections += 1
+                console.log("Select: ",gameStats.selections)
             }
         }
     }
@@ -64,6 +73,8 @@ class Board {
      * In the case of a mismatch The TileNode will be highlighted and the previous deselected
      */
     checkMatch () {
+        const UIDepth = 20000000001
+        
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             this.layout.removeTile(this.tileSelected)
@@ -72,7 +83,11 @@ class Board {
             this.currentSelection = null
             
             this.failedMatches = 0
-          
+            
+            // Statistics for correct match
+            gameStats.correctMatches += 1
+            console.log("CM: ",gameStats.correctMatches)
+            
             // Keeps the layout updated
             this.layout.size -= 2
             
@@ -81,14 +96,19 @@ class Board {
                 this.hintButton = null
             }
             if (this.layout.size === 0) {
-                //we want to end the game here
+                // End the game here
                 var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
                 overlay.setScale(10)
-                overlay.setDepth(20000000000)
-
+                overlay.setDepth(UIDepth - 1)
+                
+                // Statistics for time taken to complete game
+                gameStats.endGameTime = gameSession.timer.timeLeft
+                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+                
                 var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
-                continueButton.setDepth(20000000001)
+                continueButton.setDepth(UIDepth)
                 continueButton.on('pointerdown', function() {
+                    gameStats.completion = true
                     endGame()
                 },this)
             }
@@ -96,11 +116,17 @@ class Board {
             {
                 console.log("no matches")
                 var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
-                shuffleButton.setDepth(20000000001)
+                shuffleButton.setDepth(UIDepth)
+                
+                // Shuffle is happening
                 shuffleButton.on('pointerdown', function() {
                     this.layout.shuffle()
                     shuffleButton.destroy()
                     this.failedMatches = 0
+                    
+                    // Statistics for shuffling
+                    gameStats.timesShuffled += 1
+                    console.log("Shuffle: ",gameStats.timesShuffled)
                 },this)
                 
             }
@@ -110,13 +136,30 @@ class Board {
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
             
+            // Statistics for incorrect match 
+            gameStats.incorrectMatches += 1
+            console.log("ICM: ",gameStats.incorrectMatches)
+            
+            // Statistics for selections
+            gameStats.selections += 1
+            console.log("Select: ",gameStats.selections)
+            
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
+                
+                // Hint button appears
                 this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-                this.hintButton.setDepth(20000000001)
+                this.hintButton.setDepth(UIDepth)
+                
+                // Hint is being given
                 this.hintButton.on('pointerdown', function() {
                     this.layout.giveHint()
                     this.failedMatches = 0
                     this.hintButton.destroy()
+                    
+                    // Statistics for giving hint
+                    gameStats.hintsUsed += 1
+                    console.log("Hint: ",gameStats.hintsUsed)
+                    
                 },this)
             }
         }
