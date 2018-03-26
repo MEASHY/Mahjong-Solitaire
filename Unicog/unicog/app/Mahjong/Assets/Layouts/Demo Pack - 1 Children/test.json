@@ -1,15 +1,15 @@
 {
     "header":{
-        "size": 14,
+        "size": 6,
         "height": 6,
         "uniqueTiles": 7,
         "maxDuplicates": 6,
         "numChildren": 1
     },
 	"layer1": [
-		[1, 1, 1],
-		[1, 1, 1],
-		[1, 1, 1]
+		[0, 1, 0],
+		[0, 0, 0],
+		[0, 0, 0]
 	],
 	"layer2": [
 		[0, 1, 0],

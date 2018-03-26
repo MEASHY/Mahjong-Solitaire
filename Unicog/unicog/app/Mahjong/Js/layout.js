@@ -152,11 +152,6 @@ class Layout {
         var originalPossible = []
         if (counts == null) {
             var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
-        } else {
-            for (var i = 0; i < counts.length; i++) {
-                originalCounts.push(counts[i])
-                originalPossible.push(possible[i])
-            }
         }
         if (possible == null) {
             var possible = []
@@ -168,6 +163,11 @@ class Layout {
                 }
                 possible[possible.length] = randomnumber;
             }
+        }
+         
+        for (var i = 0; i < counts.length; i++) {
+            originalCounts.push(counts[i])
+            originalPossible.push(possible[i])
         }
         
         var upperTiles = []
@@ -288,7 +288,7 @@ class Layout {
                 tilenode.children[0].removeParent(tilenode)
                 this.roots.push(tilenode.children[0])
                 this.layers[tilenode.z][tilenode.y][tilenode.x] = null
-                if(this.roots.length > 1) {
+                if(this.roots.length > 3) {
                     var randIndex
                     do {
                         randIndex = Math.floor(Math.random() * this.roots.length)
@@ -303,12 +303,13 @@ class Layout {
                     do {
                         var randX = Math.floor(Math.random() * 3) + (tilenode.x - 1) 
                         var randY = Math.floor(Math.random() * 3) + (tilenode.y - 1) 
-                    } while (randX === tilenode.x || randY === tilenode.y ||
-                             randX <= 0 || randY <= 0 ||
+                    } while ((randX === tilenode.x && randY === tilenode.y) ||
+                             randX < 0 || randY < 0 ||
                              randX >= this.layers[0][0].length || 
-                             randY >= this.layers[0].length
+                             randY >= this.layers[0].length ||
+                             this.layers[0][randY][randX] != null
                             )
-                    var newTile = new TileNode(this.state, randX, randY, 0, this.numChildren)
+                    var newTile = new TileNode(this.state, randX, randY, 1, this.numChildren)
                     
                     this.layers[0][randY][randX] = newTile
                     this.roots.push(newTile)
