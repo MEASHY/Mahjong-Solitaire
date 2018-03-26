@@ -88,6 +88,11 @@ function loadButtons (scope) {
         quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
         quit.setDepth(20000000001)
         quit.on('pointerdown', function () {
+            
+            // Statistics for time taken to complete game
+            gameStats.endGameTime = gameSession.timer.timeLeft
+            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            
             endGame()
         }, scope)
     }, scope)  
