@@ -67,7 +67,6 @@ function changeTimer () {
  * @function showLobby
  */
 function showLobby () {
-    document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
 }
@@ -81,7 +80,6 @@ function showGame () {
     gameSession.background = document.getElementById('backgroundDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     
-    document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
@@ -104,7 +102,8 @@ function showGame () {
                     var minutes = document.getElementById('timerMinuteField').value
                     var seconds = document.getElementById('timerSecondField').value
                     gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                    document.getElementById('timerDiv').style.display = 'none'
+                    document.getElementById('timerMinuteField').disabled = true
+                    document.getElementById('timerSecondField').disabled = true
                 }
                 startGame()
             })
