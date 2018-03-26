@@ -134,6 +134,8 @@ function resizeGame() {
  */
 function startGame () {
     game = new Phaser.Game(gameConfig, 'NL')
+    console.log("Game: ", gameStats.gameNumber)
+    gameStats.startGameTime = gameSession.timer.timeLeft
     console.log(game)
 }
 /**
@@ -142,5 +144,6 @@ function startGame () {
  */
 function endGame () {
     this.game.destroy(true)
+    gameStats.resetGameStats()
     showLobby()
 }
