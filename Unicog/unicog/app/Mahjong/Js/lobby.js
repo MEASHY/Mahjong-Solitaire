@@ -106,7 +106,8 @@ function showGame () {
                     var minutes = document.getElementById('timerMinuteField').value
                     var seconds = document.getElementById('timerSecondField').value
                     session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                    document.getElementById('timerDiv').style.display = 'none'
+                    document.getElementById('timerMinuteField').disabled = true
+                    document.getElementById('timerSecondField').disabled = true
                 }
                 startGame()
             })
