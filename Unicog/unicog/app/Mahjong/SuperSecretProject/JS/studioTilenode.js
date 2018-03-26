@@ -19,10 +19,18 @@ class StudioTileNode extends TileNode{
         this.tile = this.state.add.sprite(0, 0, img).setInteractive()
         // Assures each tile has a unique depth per layout
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
-        this.tile.setAlpha(0.2)
-        this.tile.on('pointerdown', function (pointer) {  
-            if (pointer.leftButton.isDown) {
-                this.setAlpha(1);
+        this.tile.setAlpha(0.6)
+        this.dimTile()
+        var self = this;
+        this.tile.on('pointerdown', function (pointer,tilenode) {  
+            if (pointer.buttons === 1) {
+                if (!self.placed) {
+                    self.state.board.placeTile(self)
+                }
+                
+            }
+            else if (pointer.buttons === 2) {
+                self.state.board.removeTile(self)
             }
         })
     }

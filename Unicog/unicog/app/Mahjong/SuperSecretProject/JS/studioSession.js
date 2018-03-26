@@ -12,11 +12,10 @@ var StudioSession = function () {
             'effects': []
         }
         
-        //tileset config details
-        var layoutX = null
-        var layoutY = null
         
         var public_members = {
+            layoutX: null,
+            layoutY: null,
             tiles: {
                 'main': [],
                 'alt': [],
@@ -58,4 +57,4 @@ var StudioSession = function () {
     }
 }
 
-gameSession = StudioSession
+var gameSession = StudioSession

@@ -7,11 +7,12 @@ class Layout {
      */
     constructor (state) {
         this.state = state
-        this.size = gameSession.layout.header.size
-        this.height = gameSession.layout.header.height
-        this.uniqueTiles = gameSession.layout.header.uniqueTiles
-        this.maxDuplicates = gameSession.layout.header.maxDuplicates
-        this.numChildren = gameSession.layout.header.numChildren
+        var s = new gameSession
+        this.size = s.layout.header.size
+        this.height = s.layout.header.height
+        this.uniqueTiles = s.layout.header.uniqueTiles
+        this.maxDuplicates = s.layout.header.maxDuplicates
+        this.numChildren = s.layout.header.numChildren
         this.layers = []
         this.roots = []
     }
@@ -297,7 +298,7 @@ class Layout {
      * @see TileNode
      */
     positionSprites() {
-        var s = new GameSession()
+        var s = new gameSession
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {

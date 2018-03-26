@@ -89,7 +89,7 @@ function showGame () {
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
-        gameSession.layout = layout
+        //gameSession.layout = layout
         
         var tileset = document.getElementById('tilesetDropBox').value
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
@@ -98,7 +98,7 @@ function showGame () {
             console.log(gameSession.tileset)
             
             $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-                gameSession.buttons = buttons
+                //gameSession.buttons = buttons
                 
                 if (gameSession.timer === null) {
                     var minutes = document.getElementById('timerMinuteField').value

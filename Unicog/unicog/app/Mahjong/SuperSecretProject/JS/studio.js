@@ -17,7 +17,7 @@ $.getJSON('/Assets/Tilesets/MahjongTiles1/tiles.json', function ( tileset ) {
     session.tileset = tileset
 })
 var session = new StudioSession()
-session.layout.header.numChildren = 1
+session.layout.header.numChildren = 2
 session.layoutX = 4
 session.layoutY = 4
 
@@ -37,7 +37,7 @@ function preload () {
             var index = i.toString()
         }
         this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
-        console.log('tile'+index)
+        //console.log('tile'+index)
     }
     
     console.log('Assets loaded!')
@@ -99,7 +99,7 @@ function loadButtons (scope) {
  * @function resizeGame
  */
 function resizeGame() {
-    var session = new StudioSession()
+    var session = new gameSession
     var width
     var height
 
@@ -118,8 +118,8 @@ function resizeGame() {
     game.config.height = height
 
     //calculate the overall size of the layout
-    layoutWidth = (session.sizeX-1) * session.tileset.tileFaceX + session.tileset.tileX
-    layoutHeight = (session.sizeY-1) * session.tileset.tileFaceY + session.tileset.tileY
+    layoutWidth = (session.layoutX-1) * session.tileset.tileFaceX + session.tileset.tileX
+    layoutHeight = (session.layoutY-1) * session.tileset.tileFaceY + session.tileset.tileY
     
     //calculate the optimal tile scaling and necessary offset to center
     scale = Math.min((height * 0.9) / Math.max(layoutWidth, layoutHeight), 1)
