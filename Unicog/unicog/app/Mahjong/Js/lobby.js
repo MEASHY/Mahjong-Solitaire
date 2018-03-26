@@ -77,10 +77,9 @@ function showLobby () {
  * @see GameSession
  */
 function showGame () {
-    var session = new GameSession()
     
-    session.background = document.getElementById('backgroundDropBox').value
-    session.beginnerMode = document.getElementById('beginnerCheck').checked
+    gameSession.background = document.getElementById('backgroundDropBox').value
+    gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     
     document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
@@ -90,24 +89,21 @@ function showGame () {
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
-        var session = new GameSession()
-        session.layout = layout
+        gameSession.layout = layout
         
         var tileset = document.getElementById('tilesetDropBox').value
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
-            var session = new GameSession()
-            session.tileset = tileset
+            gameSession.tileset = tileset
             console.log("Tileset loaded")
-            console.log(session.tileset)
+            console.log(gameSession.tileset)
             
             $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-                var session = new GameSession()
-                session.buttons = buttons
+                gameSession.buttons = buttons
                 
-                if (session.timer === null) {
+                if (gameSession.timer === null) {
                     var minutes = document.getElementById('timerMinuteField').value
                     var seconds = document.getElementById('timerSecondField').value
-                    session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                    gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
                     document.getElementById('timerDiv').style.display = 'none'
                 }
                 startGame()

@@ -6,13 +6,12 @@ class Layout {
      * @see TileNode
      */
     constructor (state) {
-        var session = new GameSession()
         this.state = state
-        this.size = session.layout.header.size
-        this.height = session.layout.header.height
-        this.uniqueTiles = session.layout.header.uniqueTiles
-        this.maxDuplicates = session.layout.header.maxDuplicates
-        this.numChildren = session.layout.header.numChildren
+        this.size = gameSession.layout.header.size
+        this.height = gameSession.layout.header.height
+        this.uniqueTiles = gameSession.layout.header.uniqueTiles
+        this.maxDuplicates = gameSession.layout.header.maxDuplicates
+        this.numChildren = gameSession.layout.header.numChildren
         this.layers = []
         this.roots = []
     }
@@ -47,7 +46,6 @@ class Layout {
      * initializes that structure    
      */
     buildHierarchy () {
-        var session = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
@@ -106,7 +104,6 @@ class Layout {
      * @param {TileNode} tilenode - The TileNode we are removing.
      */
     removeTile (tilenode) {
-        var session = new GameSession()
         //remove from root
         for (var i = 0; i < this.roots.length; i++) {
             if (this.roots[i] === tilenode) {
@@ -120,7 +117,7 @@ class Layout {
                 this.roots.push(tilenode.children[i])
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
-                    if (session.beginnerMode) {
+                    if (gameSession.beginnerMode) {
                         tilenode.children[i].unhighlightTile()
                     }
                 }
@@ -130,7 +127,7 @@ class Layout {
         var neighbours = this.findNeighbours(tilenode)
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
-            if (session.beginnerMode) {
+            if (gameSession.beginnerMode) {
                 neighbours[0].unhighlightTile()
             }
             
@@ -147,15 +144,14 @@ class Layout {
      * @param {array} possible - An array of possible tiles sprites to place.
      */
     generateTiles (counts = null, possible = null) {
-        var session = new GameSession()
         
         if (counts == null) {
-            var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
+            var counts = new Array(Math.min(this.uniqueTiles, gameSession.tileset.size)).fill(this.maxDuplicates)
         }
         if (possible == null) {
             var possible = []
             while(possible.length < this.uniqueTiles){
-                var randomnumber = Math.floor(Math.random() * session.tileset.size);
+                var randomnumber = Math.floor(Math.random() * gameSession.tileset.size);
                 if(possible.indexOf(randomnumber) > -1) continue;
                 if(randomnumber  < 10) {
                     randomnumber = "0" + randomnumber.toString()
@@ -301,7 +297,7 @@ class Layout {
      * @see TileNode
      */
     positionSprites() {
-        var s = new GameSession()
+        var s = gameSession
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
