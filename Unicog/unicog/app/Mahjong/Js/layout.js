@@ -148,9 +148,15 @@ class Layout {
      */
     generateTiles (counts = null, possible = null) {
         var session = new GameSession()
-        
+        var originalCounts = []
+        var originalPossible = []
         if (counts == null) {
             var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
+        } else {
+            for (var i = 0; i < counts.length; i++) {
+                originalCounts.push(counts[i])
+                originalPossible.push(possible[i])
+            }
         }
         if (possible == null) {
             var possible = []
@@ -191,8 +197,12 @@ class Layout {
                     } 
                 }
             }
+            var numLower = 0
+            for (var index in lowerTiles) {
+                numLower += lowerTiles[index].height
+            }
             
-            if (lowerTiles.length < 3) {
+            if (lowerTiles.length <= 2 || numLower <= upperTiles[0].height) {
                 var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length))
                 var pos1 = upperTiles.splice(randPos1, 1)[0]
             } else {
@@ -216,16 +226,11 @@ class Layout {
                 pos2.setTile("tile"+possible[randTile])
             }
             catch (err) {
-                console.log("critical failure!")
-                console.log(counts)
-                console.log(possible)
-                console.log(upperTiles)
-                console.log(lowerTiles)
-                console.log(pos1)
-                console.log(pos2)
-                console.log(err)
-                alert("This game is now unsolvable")
-                throw("TypeError")
+                //melt the layout here
+                this.clearTiles()
+                this.meltLayout()
+                this.generateTiles(originalCounts, originalPossible)
+                return
             }
                             
             //if we have placed as many pairs of this tile as possible remove from list
@@ -264,6 +269,56 @@ class Layout {
             this.mergeArrays(lowerTiles, childrenToPush)
         }
     }
+    /**
+     * rearranges the tilenodes into a solvable formation.
+     * <p>
+     * High layer tilenodes will be moved down to lower layers until the layout becomes solvable
+     * This function should only apply to 1 children layouts
+     * @param {array} array - An array of TileNodes that can be initializedin the next iteration
+     * @param {array} newObjects - An array TileNodes we may be adding to the array
+     */
+    meltLayout () {
+        if(this.numChildren > 1) {
+            alert("The layout provided is unsolvable")
+            return
+        }
+        for (var i = 0; i < this.roots.length;  i++) {
+            if (this.roots[i].height === this.height) {
+                var tilenode = this.roots.splice(i, 1)[0]
+                tilenode.children[0].removeParent(tilenode)
+                this.roots.push(tilenode.children[0])
+                this.layers[tilenode.z][tilenode.y][tilenode.x] = null
+                if(this.roots.length > 1) {
+                    var randIndex
+                    do {
+                        randIndex = Math.floor(Math.random() * this.roots.length)
+                    } while (this.roots[randIndex].height >= this.height - 1)
+                    var lowTile = this.roots.splice(randIndex,1)[0]
+                    var newTile = new TileNode(this.state, lowTile.x, lowTile.y, lowTile.height+1, this.numChildren)
+                    newTile.children.push(lowTile)
+                    lowTile.parents.push(newTile)
+                    this.roots.push(newTile)
+                    this.layers[newTile.z][newTile.y][newTile.x] = newTile
+                } else {
+                    do {
+                        var randX = Math.floor(Math.random() * 3) + (tilenode.x - 1) 
+                        var randY = Math.floor(Math.random() * 3) + (tilenode.y - 1) 
+                    } while (randX === tilenode.x || randY === tilenode.y ||
+                             randX <= 0 || randY <= 0 ||
+                             randX >= this.layers[0][0].length || 
+                             randY >= this.layers[0].length
+                            )
+                    var newTile = new TileNode(this.state, randX, randY, 0, this.numChildren)
+                    
+                    this.layers[0][randY][randX] = newTile
+                    this.roots.push(newTile)
+                }
+                i = 0
+            }
+        }
+        this.height--
+    }
+    
     /**
      * adds TileNodes to an array.
      * <p>
@@ -417,4 +472,25 @@ class Layout {
             console.log("starting beginner mode")
         }
     }
+    
+    clearTiles () {
+        for (var i = this.layers.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].length; k++) {
+                    if(this.layers[i][j][k] !== null) {
+                        if(this.layers[i][j][k].height > this.height) {
+                            this.height = this.layers[i][j][k].height
+                        }       
+                        // Destroys the tile if set
+                        if (this.layers[i][j][k].isSet()) {
+                            this.layers[i][j][k].tile.destroy()
+                            this.layers[i][j][k].tile = null
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+    
+    
 }
