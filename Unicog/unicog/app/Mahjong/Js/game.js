@@ -3,7 +3,7 @@ var game
 var gameConfig = {
     width: 1400,
     height: 1000,
-    backgroundColor: '#00422c',
+    backgroundColor: '#000000',
     type: Phaser.AUTO,
     parent: 'gameDiv',
     scene: {
@@ -16,6 +16,7 @@ var gameConfig = {
  * @function Preload
  */
 function preload () {
+    this.load.image(gameSession.background, '/Assets/Themes/'+gameSession.background)
     
     var tiles = gameSession.tileset.main
     for (var i = 0; i < tiles.length; i++) {
@@ -44,14 +45,15 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
+    var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
     this.board = new Board(this)
 
     console.log('Game created!')
     
-    resizeGame()
+    resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
     window.onresize = function () {
-        resizeGame()
+        resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
     }
 
@@ -101,7 +103,7 @@ function loadButtons (scope) {
  * resizes the game by editing the game renderer.
  * @function resizeGame
  */
-function resizeGame() {
+function resizeGame (background) {
     var s = gameSession
     var width
     var height
@@ -131,6 +133,9 @@ function resizeGame() {
                         + (s.tileset.tileFaceX * scale / 2) 
     s.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
                         + (s.tileset.tileFaceY * scale / 2)
+    
+    background.scaleX = width / background.width
+    background.scaleY = height / background.height
 }
 
 /**

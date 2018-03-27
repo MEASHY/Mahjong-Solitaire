@@ -4,18 +4,19 @@
  */
 function initLobby () {
     $.getJSON('/Assets/Layouts/PackageList.json', function ( packages ) {
-        fillDropBox(packages, 'packageDropBox')
+        fillDropBox(packages, 'packageDropBox', 0)
         $.getJSON('/Assets/Layouts/'+packages[0]+'/layouts.json', function ( layouts ) {
-            fillDropBox(layouts, 'layoutDropBox')
+            fillDropBox(layouts, 'layoutDropBox', 0)
         })
     })
     
     $.getJSON('/Assets/Tilesets/SetList.json', function ( tilesets ) {
-        fillDropBox(tilesets, 'tilesetDropBox')
+        fillDropBox(tilesets, 'tilesetDropBox', 0)
     })
     
-    // TODO
-    //$.getJSON('/Assets/Themes/???.json', initBackgrounds)
+    $.getJSON('/Assets/Themes/BackgroundList.json', function ( backgrounds ) {
+        fillDropBox(backgrounds, 'backgroundDropBox', 4)
+    })
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
     document.getElementById('timerSecondField').addEventListener('input', changeTimer)
@@ -26,10 +27,10 @@ function initLobby () {
  * @param {json[]} json - json array of options 
  * @param {string} elementId - element to modify
  */
-function fillDropBox ( json, elementId ) {
+function fillDropBox ( json, elementId, removeFromNameEnd ) {
     var dropBox = document.getElementById(elementId).options
     for (i = 0; i < json.length; i++) {
-        dropBox.add(new Option (json[i], json[i]), i)
+        dropBox.add(new Option (json[i].slice(0, json[i].length-removeFromNameEnd), json[i]), i)
     }
 }
 /**
@@ -40,7 +41,7 @@ function fillDropBox ( json, elementId ) {
 function changePackage (name) {
     $('#layoutDropBox').empty()
     $.getJSON('/Assets/Layouts/'+name+'/layouts.json', function ( layouts ) {
-        fillDropBox(layouts, 'layoutDropBox')
+        fillDropBox(layouts, 'layoutDropBox', 0)
     })
 }
 /**
@@ -76,7 +77,6 @@ function showLobby () {
  * @see GameSession
  */
 function showGame () {
-    
     gameSession.background = document.getElementById('backgroundDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     gameSession.enabledHints = document.getElementById('hintCheck').checked
