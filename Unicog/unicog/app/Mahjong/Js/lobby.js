@@ -79,6 +79,7 @@ function showGame () {
     
     gameSession.background = document.getElementById('backgroundDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
+    gameSession.enabledHints = document.getElementById('hintCheck').checked
     
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'

@@ -144,7 +144,7 @@ class Board {
             gameStats.selections += 1
             console.log("Select: ",gameStats.selections)
             
-            if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
+            if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
                 
                 // Hint button appears
                 this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()

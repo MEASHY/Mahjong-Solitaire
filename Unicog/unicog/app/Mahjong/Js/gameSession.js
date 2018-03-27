@@ -6,31 +6,25 @@ var GameSession = function () {
         console.log('Singleton.instance is undefined. Creating singleton...')
 
         var _text = 'private'
-        var tiles = {
-            'main': [],
-            'alt': [],
-            'effects': []
-        }
-        
-        //tileset config details
-        var name = null
-        var size = null
-        var difficulty = null
-        var beginnerMode = false
         
         var public_members = {
             text: 'public',
-            tiles: {
-                'main': [],
-                'alt': [],
-                'effects': []
-            },
+            
+            // Game information
             layout: null,
             tileset: null,
             buttons: null,
             background: null,
-            beginnerMode: null,
+            beginnerMode: false,
+            enabledHints: false,
             timer: null,
+            
+            // Layout information
+            sizeX: 0,
+            sizeY: 0,
+            scale: 0,
+            offsetX: 0,
+            offsetY: 0,
         
             logText: function () {
             	// Console log the public member variable
