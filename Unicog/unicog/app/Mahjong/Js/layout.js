@@ -144,7 +144,6 @@ class Layout {
      * @param {array} possible - An array of possible tiles sprites to place.
      */
     generateTiles (counts = null, possible = null) {
-        var session = new GameSession()
         var originalCounts = []
         var originalPossible = []
         if (counts == null) {
@@ -464,8 +463,7 @@ class Layout {
         
         this.generateTiles(counts, possible)
         this.positionSprites()
-        var s = new GameSession()
-        if (s.beginnerMode) {
+        if (gameSession.beginnerMode) {
             this.initializeBeginnerMode()
             console.log("starting beginner mode")
         }
