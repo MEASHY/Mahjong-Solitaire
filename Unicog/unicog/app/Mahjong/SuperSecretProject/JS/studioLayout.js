@@ -38,10 +38,12 @@ class StudioLayout extends Layout{
             case 1:
                 break
             case 2:
-                x - this.height
+                x -= this.height
+                break
             case 4:
-                x - this.height
-                y - this.height
+                x -= this.height
+                y -= this.height
+                break
         }
         if (x === 0 || y === 0) {
             return false
@@ -77,10 +79,10 @@ class StudioLayout extends Layout{
                 break
             case 2:
                 if (x-1 >= 0) {
-                    var left = this.layers[z][x-1][y]
+                    var left = this.layers[z][y][x-1]
                     if (left !== null && left.placed) {
                         var tile = new StudioTileNode(this.state, x-1, y, z+2, this.numChildren)
-                        this.layers[z+1][x-1][y] = tile
+                        this.layers[z+1][y][x-1] = tile
                         tile.setTile('tile01')
                         tilenode.parents.push(tile)
                         left.parents.push(tile)
@@ -90,10 +92,10 @@ class StudioLayout extends Layout{
                     }
                 }
                 if (x+1 < this.layers[z][x].length) {
-                    var right = this.layers[z][x+1][y]
+                    var right = this.layers[z][y][x+1]
                     if (right !== null && right.placed) {
                         var tile = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
-                        this.layers[z+1][x][y] = tile
+                        this.layers[z+1][y][x] = tile
                         tile.setTile('tile01')
                         tilenode.parents.push(tile)
                         right.parents.push(tile)
@@ -104,6 +106,108 @@ class StudioLayout extends Layout{
                 }
                 break
             case 4:
+                //avoid out of index error...
+                if (x-1 < 0) {
+                    var w = null
+                    var nw = null
+                    var sw = null
+                } else {
+                    var w = this.layers[z][y][x-1]
+                }
+                if (x+1 >= this.layers[z][0].length) {
+                    var e = null
+                    var ne = null
+                    var se = null
+                } else {
+                    var e = this.layers[z][y][x+1]
+                }
+                if (y-1 < 0) {
+                    var n = null
+                    var nw = null
+                    var ne = null
+                } else {
+                    var n = this.layers[z][y-1][x]
+                    if (w) {
+                        var nw = this.layers[z][y-1][x-1]
+                    }
+                    if (e) {
+                        var ne = this.layers[z][y-1][x+1]
+                    }
+                }
+                if (y+1 >= this.layers[z].length) {
+                    var s = null
+                    var sw = null
+                    var se = null
+                } else {
+                    var s = this.layers[z][y+1][x]
+                    if (w) {
+                        var sw = this.layers[z][y+1][x-1]
+                    }
+                    if (e) {
+                        var se = this.layers[z][y+1][x+1]
+                    }
+                }
+                //actual check
+                //top left
+                if ((w && nw && n) && (w.placed && nw.placed && n.placed)) {
+                    var tile = new StudioTileNode(this.state, x-1, y-1, z+2, this.numChildren)
+                    this.layers[z+1][y-1][x-1] = tile
+                    tile.setTile('tile01')
+                    tilenode.parents.push(tile)
+                    w.parents.push(tile)
+                    nw.parents.push(tile)
+                    n.parents.push(tile)
+                    tile.children.push(tilenode)
+                    tile.children.push(w)
+                    tile.children.push(nw)
+                    tile.children.push(n)
+                    tile.setSpritePosition(this.numChildren)
+                }
+                //top right
+                if ((n && ne && e) && (n.placed && ne.placed && e.placed)) {
+                    var tile = new StudioTileNode(this.state, x, y-1, z+2, this.numChildren)
+                    this.layers[z+1][y-1][x] = tile
+                    tile.setTile('tile01')
+                    tilenode.parents.push(tile)
+                    n.parents.push(tile)
+                    ne.parents.push(tile)
+                    e.parents.push(tile)
+                    tile.children.push(tilenode)
+                    tile.children.push(n)
+                    tile.children.push(ne)
+                    tile.children.push(e)
+                    tile.setSpritePosition(this.numChildren)
+                }
+                //bottom left
+                if ((w && sw && s) && (w.placed && sw.placed && s.placed)) {
+                    var tile = new StudioTileNode(this.state, x-1, y, z+2, this.numChildren)
+                    this.layers[z+1][y][x-1] = tile
+                    tile.setTile('tile01')
+                    tilenode.parents.push(tile)
+                    w.parents.push(tile)
+                    sw.parents.push(tile)
+                    s.parents.push(tile)
+                    tile.children.push(tilenode)
+                    tile.children.push(w)
+                    tile.children.push(sw)
+                    tile.children.push(s)
+                    tile.setSpritePosition(this.numChildren)
+                }
+                //bottom right
+                if ((s && se && e) && (s.placed && se.placed && e.placed)) {
+                    var tile = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
+                    this.layers[z+1][y][x] = tile
+                    tile.setTile('tile01')
+                    tilenode.parents.push(tile)
+                    s.parents.push(tile)
+                    se.parents.push(tile)
+                    e.parents.push(tile)
+                    tile.children.push(tilenode)
+                    tile.children.push(s)
+                    tile.children.push(se)
+                    tile.children.push(e)
+                    tile.setSpritePosition(this.numChildren)
+                }
                 break
         }
         this.size++
@@ -124,11 +228,18 @@ class StudioLayout extends Layout{
             for (var i = 0; i < tilenode.children.length; i++) {
                 tilenode.children[i].removeParent(tilenode)
                 if ( tilenode.children[i].parents.length === 0) {
-                   this.removeStudioNode(tilenode.children[i]) 
+                    this.removeStudioNode(tilenode.children[i]) 
+                    tilenode.children.splice(i--,1)
                 }
             }
-            tilenode.tile.destroy()
-            this.layers[tilenode.z][tilenode.y][tilenode.x] = null
+            if (tilenode.children.length < this.numChildren) {
+                tilenode.tile.destroy()
+                this.layers[tilenode.z][tilenode.y][tilenode.x] = null 
+            } else {
+                for (var index in tilenode.children) {
+                    tilenode.children[index].parents.push(tilenode)
+                }
+            }
         }
     }
     

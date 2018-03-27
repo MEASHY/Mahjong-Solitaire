@@ -17,7 +17,7 @@ $.getJSON('/Assets/Tilesets/MahjongTiles1/tiles.json', function ( tileset ) {
     session.tileset = tileset
 })
 var session = new StudioSession()
-session.layout.header.numChildren = 2
+session.layout.header.numChildren = 4
 session.layoutX = 4
 session.layoutY = 4
 
