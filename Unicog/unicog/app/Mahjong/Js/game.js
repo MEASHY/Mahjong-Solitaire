@@ -75,6 +75,10 @@ function triggerQuit () {
 function loadButtons (scope) {
     var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameSession.timer.pauseTimer()
+        }
+        
         overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
         overlay.setDepth(20000000000)
@@ -82,6 +86,10 @@ function loadButtons (scope) {
         cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
         cancel.setDepth(20000000001)
         cancel.on('pointerdown', function() {
+            if (!gameSession.practiceGame) {
+                gameSession.timer.resumeTimer()
+            }
+            
             overlay.destroy()
             quit.destroy()
             cancel.destroy()
@@ -91,9 +99,11 @@ function loadButtons (scope) {
         quit.setDepth(20000000001)
         quit.on('pointerdown', function () {
             
-            // Statistics for time taken to complete game
-            gameStats.endGameTime = gameSession.timer.timeLeft
-            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            if (!gameSession.practiceGame) {
+                // Statistics for time taken to complete game
+                gameStats.endGameTime = gameSession.timer.timeLeft
+                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            }
             
             endGame()
         }, scope)
@@ -144,8 +154,10 @@ function resizeGame (background) {
  */
 function startGame () {
     game = new Phaser.Game(gameConfig, 'NL')
-    console.log("Game: ", gameStats.gameNumber)
-    gameStats.startGameTime = gameSession.timer.timeLeft
+    if (!gameSession.practiceGame) {
+        console.log("Game: ", gameStats.gameNumber)
+        gameStats.startGameTime = gameSession.timer.timeLeft
+    }
     console.log(game)
 }
 /**
@@ -154,6 +166,9 @@ function startGame () {
  */
 function endGame () {
     this.game.destroy(true)
-    gameStats.resetGameStats()
+    if (!gameSession.practiceGame) {
+        gameSession.timer.pauseTimer()
+        gameStats.resetGameStats()
+    }
     showLobby()
 }

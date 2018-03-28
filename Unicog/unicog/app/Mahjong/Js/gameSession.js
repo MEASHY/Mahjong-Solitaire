@@ -17,6 +17,7 @@ var GameSession = function () {
             background: null,
             beginnerMode: false,
             enabledHints: false,
+            practiceGame: false,
             timer: null,
             
             // Layout information

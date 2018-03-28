@@ -47,9 +47,11 @@ class Board {
                     this.currentSelection.unhighlightTile()
                     this.tileSelected = null
                     
-                    // Statistics for deselections
-                    gameStats.deselections += 1
-                    console.log("Deselect: ",gameStats.deselections)
+                    if (!gameSession.practiceGame) {
+                        // Statistics for deselections
+                        gameStats.deselections += 1
+                        console.log("Deselect: ",gameStats.deselections)
+                    }
                     
                 } else {
                     this.checkMatch()
@@ -59,9 +61,11 @@ class Board {
                 this.currentSelection.highlightTile()
                 this.tileSelected = this.currentSelection
                 
-                // Statistics for selections
-                gameStats.selections += 1
-                console.log("Select: ",gameStats.selections)
+                if (!gameSession.practiceGame) {
+                    // Statistics for selections
+                    gameStats.selections += 1
+                    console.log("Select: ",gameStats.selections)
+                }
             }
         }
     }
@@ -84,9 +88,11 @@ class Board {
             
             this.failedMatches = 0
             
-            // Statistics for correct match
-            gameStats.correctMatches += 1
-            console.log("CM: ",gameStats.correctMatches)
+            if (!gameSession.practiceGame) {
+                // Statistics for correct match
+                gameStats.correctMatches += 1
+                console.log("CM: ",gameStats.correctMatches)
+            }
             
             // Keeps the layout updated
             this.layout.size -= 2
@@ -101,14 +107,19 @@ class Board {
                 overlay.setScale(10)
                 overlay.setDepth(UIDepth - 1)
                 
-                // Statistics for time taken to complete game
-                gameStats.endGameTime = gameSession.timer.timeLeft
-                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+                if (!gameSession.practiceGame) {
+                    // Statistics for time taken to complete game
+                    gameSession.timer.pauseTimer()
+                    gameStats.endGameTime = gameSession.timer.timeLeft
+                    console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+                }
                 
                 var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
                 continueButton.setDepth(UIDepth)
                 continueButton.on('pointerdown', function() {
-                    gameStats.completion = true
+                    if (!gameSession.practiceGame) {
+                        gameStats.completion = true
+                    }
                     endGame()
                 },this)
             }
@@ -124,9 +135,11 @@ class Board {
                     shuffleButton.destroy()
                     this.failedMatches = 0
                     
-                    // Statistics for shuffling
-                    gameStats.timesShuffled += 1
-                    console.log("Shuffle: ",gameStats.timesShuffled)
+                    if (!gameSession.practiceGame) {
+                        // Statistics for shuffling
+                        gameStats.timesShuffled += 1
+                        console.log("Shuffle: ",gameStats.timesShuffled)
+                    }
                 },this)
                 
             }
@@ -136,13 +149,15 @@ class Board {
             this.tileSelected = this.currentSelection
             this.currentSelection.highlightTile()
             
-            // Statistics for incorrect match 
-            gameStats.incorrectMatches += 1
-            console.log("ICM: ",gameStats.incorrectMatches)
-            
-            // Statistics for selections
-            gameStats.selections += 1
-            console.log("Select: ",gameStats.selections)
+            if (!gameSession.practiceGame) {
+                // Statistics for incorrect match 
+                gameStats.incorrectMatches += 1
+                console.log("ICM: ",gameStats.incorrectMatches)
+                
+                // Statistics for selections
+                gameStats.selections += 1
+                console.log("Select: ",gameStats.selections)
+            }
             
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
                 
@@ -156,9 +171,11 @@ class Board {
                     this.failedMatches = 0
                     this.hintButton.destroy()
                     
-                    // Statistics for giving hint
-                    gameStats.hintsUsed += 1
-                    console.log("Hint: ",gameStats.hintsUsed)
+                    if (!gameSession.practiceGame) {
+                        // Statistics for giving hint
+                        gameStats.hintsUsed += 1
+                        console.log("Hint: ",gameStats.hintsUsed)
+                    }
                     
                 },this)
             }
