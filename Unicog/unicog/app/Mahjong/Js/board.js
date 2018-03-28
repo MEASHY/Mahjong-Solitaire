@@ -107,6 +107,9 @@ class Board {
             }
             if (this.layout.size === 0) {
                 this.scoreScreen(false)
+
+                var music = this.scene.sound.add('finishGame')
+                music.play()
             }
             if(!this.layout.validMatchAvailable() && this.layout.size !== 0)
             {
@@ -119,6 +122,10 @@ class Board {
                     this.layout.shuffle()
                     shuffleButton.destroy()
                     this.failedMatches = 0
+
+                    //gives audio feedback to the player
+                    var music = this.scene.sound.add('shuffle')
+                    music.play()
                     
                     if (!gameSession.practiceGame) {
                         // Statistics for shuffling
@@ -155,6 +162,10 @@ class Board {
                 // Hint button appears
                 this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
                 this.hintButton.setDepth(UIDepth)
+
+                //gives audio feedback to the player
+                var music = this.scene.sound.add('hint')
+                music.play()
                 
                 // Hint is being given
                 this.hintButton.on('pointerdown', function() {
