@@ -2,12 +2,13 @@
 <html>
     <style>
 .alert {
-    padding: 20px;
+    position: relative;
+    left:25%;
     background-color: #f44336;
     color: white;
     text-align: center;
-    width: 50%;
-    border-style: solid;
+    padding: 25px 36px;
+    width: 45%;
 }
     </style>
 	<head>
@@ -19,14 +20,15 @@
     </head>
     <div id="colorstrip"/>
     <h1> Mahjong </h1>
-    <div class='alert' id='loginAlert'>{{error_message}}</div>
-    <script>
-    if (document.getElementById('loginAlert').textContent === ""){
-        document.getElementById('loginAlert').style.display = 'none'
-    }
-    </script>
-  
     <body>
+        <p>
+            <div class='alert' id='loginAlert'>{{error_message}}</div>
+            <script>
+                if (document.getElementById('loginAlert').textContent === ""){
+                    document.getElementById('loginAlert').style.display = 'none'
+                }
+            </script>
+        </p>
     	<form id='loginForm' method='post' action ='game.html'>
     		<p>
                 <input type='text' placeholder ='Researcher ID'  name='researcher'/>
