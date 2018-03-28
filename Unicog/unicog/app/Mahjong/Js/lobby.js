@@ -4,18 +4,19 @@
  */
 function initLobby () {
     $.getJSON('/Assets/Layouts/PackageList.json', function ( packages ) {
-        fillDropBox(packages, 'packageDropBox')
+        fillDropBox(packages, 'packageDropBox', 0)
         $.getJSON('/Assets/Layouts/'+packages[0]+'/layouts.json', function ( layouts ) {
-            fillDropBox(layouts, 'layoutDropBox')
+            fillDropBox(layouts, 'layoutDropBox', 0)
         })
     })
     
     $.getJSON('/Assets/Tilesets/SetList.json', function ( tilesets ) {
-        fillDropBox(tilesets, 'tilesetDropBox')
+        fillDropBox(tilesets, 'tilesetDropBox', 0)
     })
     
-    // TODO
-    //$.getJSON('/Assets/Themes/???.json', initBackgrounds)
+    $.getJSON('/Assets/Themes/BackgroundList.json', function ( backgrounds ) {
+        fillDropBox(backgrounds, 'backgroundDropBox', 4)
+    })
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
     document.getElementById('timerSecondField').addEventListener('input', changeTimer)
@@ -26,10 +27,10 @@ function initLobby () {
  * @param {json[]} json - json array of options 
  * @param {string} elementId - element to modify
  */
-function fillDropBox ( json, elementId ) {
+function fillDropBox ( json, elementId, removeFromNameEnd ) {
     var dropBox = document.getElementById(elementId).options
     for (i = 0; i < json.length; i++) {
-        dropBox.add(new Option (json[i], json[i]), i)
+        dropBox.add(new Option (json[i].slice(0, json[i].length-removeFromNameEnd), json[i]), i)
     }
 }
 /**
@@ -40,7 +41,7 @@ function fillDropBox ( json, elementId ) {
 function changePackage (name) {
     $('#layoutDropBox').empty()
     $.getJSON('/Assets/Layouts/'+name+'/layouts.json', function ( layouts ) {
-        fillDropBox(layouts, 'layoutDropBox')
+        fillDropBox(layouts, 'layoutDropBox', 0)
     })
 }
 /**
@@ -67,7 +68,6 @@ function changeTimer () {
  * @function showLobby
  */
 function showLobby () {
-    document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
 }
@@ -76,13 +76,12 @@ function showLobby () {
  * @function showGame
  * @see GameSession
  */
-function showGame () {
-    var session = new GameSession()
+function showGame (practiceGame) {
+    gameSession.background = document.getElementById('backgroundDropBox').value
+    gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
+    gameSession.enabledHints = document.getElementById('hintCheck').checked
+    gameSession.practiceGame = practiceGame
     
-    session.background = document.getElementById('backgroundDropBox').value
-    session.beginnerMode = document.getElementById('beginnerCheck').checked
-    
-    document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
@@ -90,25 +89,27 @@ function showGame () {
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
-        var session = new GameSession()
-        session.layout = layout
+        gameSession.layout = layout
         
         var tileset = document.getElementById('tilesetDropBox').value
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
-            var session = new GameSession()
-            session.tileset = tileset
+            gameSession.tileset = tileset
             console.log("Tileset loaded")
-            console.log(session.tileset)
+            console.log(gameSession.tileset)
             
             $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-                var session = new GameSession()
-                session.buttons = buttons
+                gameSession.buttons = buttons
                 
-                if (session.timer === null) {
-                    var minutes = document.getElementById('timerMinuteField').value
-                    var seconds = document.getElementById('timerSecondField').value
-                    session.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                    document.getElementById('timerDiv').style.display = 'none'
+                if (!practiceGame) {
+                    if (gameSession.timer === null) {
+                        var minutes = document.getElementById('timerMinuteField').value
+                        var seconds = document.getElementById('timerSecondField').value
+                        gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                        document.getElementById('timerMinuteField').disabled = true
+                        document.getElementById('timerSecondField').disabled = true
+                    } else {
+                        gameSession.timer.resumeTimer()
+                    }
                 }
                 startGame()
             })

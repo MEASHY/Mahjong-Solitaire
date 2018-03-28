@@ -1,24 +1,26 @@
-#mahcolorstrip {
-	width: 100%;
-	height: 50px;
-	border-style: solid;
-	border-color: #f1800e;
-	background-color: #f1800e;
-}
-
 h1 {
-	padding-top: 100px;
-	font-size: 34px;
+	font-size: 40px;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
 }
 
+h2{
+	font-size: 24px;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+    padding: 0px;
+    margin-bottom 0px;
+    margin-top 0px;
+}
+
+
 p {
 	text-align: center;
 }
 
-button {
+mainbutton {
 	width: 50%;
 	background-color: #f1800e;
 	border: none;
@@ -61,55 +63,156 @@ input[type="password"] {
 	padding-left: 5px;
 	font-family: Arial;
 }
-#container{
-    text-align: center;
-    top: 50%;
-    left: 50%;
+
+/* set background*/
+.main {
+    background: #D3D3D3;
+    background-size: cover;
 }
 
-/* Dropdown Button */
-.dropbtn {
+#player_filter {
+    float: left;
+   
+}
+
+#filter_text {
+    float: left;
+}
+
+button {
     background-color: #f1800e;
+    border: none;
     color: white;
-    padding: 16px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
     font-size: 16px;
 }
 
-/* The container <div> - needed to position the dropdown content */
+.lobby {
+    border-radius: 25px;
+    background: white;
+    padding: 10px 20px 20px 20px;
+    width: 90%;
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+}
+
+.statspage {
+    border-radius: 25px;
+    background: white;
+    padding: 20px 20px 20px 20px;
+    width: 90%;
+    align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* NOTE: Only works for non-floated block elements */
+    display: block;
+    float: none;
+}
+
 .dropdown {
-    position: relative;
-    width: 20%;
-    top: 50%;
-    left: 45%;
+    padding: 10px;
+    margin-bottom:50px;
+    
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Links inside */
-.dropdown-content option {
-    color: black;
-    padding: 12px 16px;
+.option {
+    width: 28%;
+    padding: 16px 8px;
+    text-align: center;
     text-decoration: none;
-    display: block;
+    font-size: 16px;
+    float: left;
+   
 }
 
-/*color of dropdown links on hover*/
-.dropdown-content option:hover {background-color: #ddd}
 
-/* Show the dropdown menu*/
-.dropdown:hover .dropdown-content {
-    display: block;
+.start {
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
 }
 
-/* Change the background color of the dropdown button when hovering*/
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+.gridoption{
+    background-color: #f1800e;
+    border: none;
+    color: white;
+    padding: 16px 16px;
+    text-align: left;
+    text-decoration: none;
+    font-size: 16px;
+    width: 50%;
+    float: right;
+    margin-left: 30px;
+}
+
+.largeLabel{
+	font-size: 32px;
+	font-family: Arial;
+	font-weight: bold;
+    text-align: right;
+    display: inline-block;
+    width: 300px;
+    float: right;
+}
+
+.startgame{
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 100%;
+}
+
+.bottom{
+    align: center;
+    margin-left: 12%;
+    text-align:center;
+}
+
+input[type="checkbox"] {
+    transform:scale(3, 3);
+}
+
+#logout{
+    float: right;
+    vertical-align: top;
+    display: inline-block;
+    border-radius: 10px;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-size: 24px;
+}
+
+.time{
+    width:20%;
+    padding: 8px 8px;
+
+}
+
+#export{
+    transform:scale(0.8, 0.8);
+    border-radius: 10px;
+}
+
+#outergame{
+    width: 100%;
+    text-align: center;
+}
+
+.game{
+    margin: 0 auto;
 }

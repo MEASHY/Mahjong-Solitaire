@@ -3,7 +3,7 @@ var game
 var gameConfig = {
     width: 1400,
     height: 1000,
-    backgroundColor: '#00422c',
+    backgroundColor: '#000000',
     type: Phaser.AUTO,
     parent: 'gameDiv',
     scene: {
@@ -16,9 +16,9 @@ var gameConfig = {
  * @function Preload
  */
 function preload () {
-    var session = new GameSession();
+    this.load.image(gameSession.background, '/Assets/Themes/'+gameSession.background)
     
-    var tiles = session.tileset.main
+    var tiles = gameSession.tileset.main
     for (var i = 0; i < tiles.length; i++) {
         var index 
         if(i < 10) {
@@ -26,18 +26,22 @@ function preload () {
         } else {
             var index = i.toString()
         }
-        this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
+        this.load.image('tile'+index, '/Assets/Tilesets/'+gameSession.tileset.name+'/'+tiles[i])
         console.log('tile'+index)
     }
 
     // Load all of the button images
-    var buttonList = session.buttons.main
+    var buttonList = gameSession.buttons.main
     for (var i = 0; i < buttonList.length; i++) {
         this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
         console.log(buttonList[i].name)
     }
     
     console.log('Assets loaded!')
+
+    //load the sound files
+    this.load.audio('correct', '/Assets/Audio/correct.mp3')
+    this.load.audio('error', '/Assets/Audio/error.wav')
 }
 /**
  * initializes the necessary data stuctures, resizes the game to match the viewing window and begins the Phaser Game 
@@ -45,19 +49,25 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
+    var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
     this.board = new Board(this)
+    gameSession.timer.board = this.board
 
     console.log('Game created!')
     
-    resizeGame()
+    resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
     window.onresize = function () {
-        resizeGame()
+        resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
     }
 
     //placing buttons. This will need cleaning up later on
     loadButtons(this)
+
+    //add the sound effects to the game.
+    this.sound.add('correct')
+    this.sound.add('error')
 }
 /**
  * Ends The game
@@ -74,6 +84,10 @@ function triggerQuit () {
 function loadButtons (scope) {
     var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameSession.timer.pauseTimer()
+        }
+        
         overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
         overlay.setDepth(20000000000)
@@ -81,6 +95,10 @@ function loadButtons (scope) {
         cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
         cancel.setDepth(20000000001)
         cancel.on('pointerdown', function() {
+            if (!gameSession.practiceGame) {
+                gameSession.timer.resumeTimer()
+            }
+            
             overlay.destroy()
             quit.destroy()
             cancel.destroy()
@@ -89,7 +107,14 @@ function loadButtons (scope) {
         quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
         quit.setDepth(20000000001)
         quit.on('pointerdown', function () {
-            endGame()
+            
+            if (!gameSession.practiceGame) {
+                // Statistics for time taken to complete game
+                gameStats.endGameTime = gameSession.timer.timeLeft
+                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            }
+            
+            endGame(false)
         }, scope)
     }, scope)  
 }
@@ -97,8 +122,8 @@ function loadButtons (scope) {
  * resizes the game by editing the game renderer.
  * @function resizeGame
  */
-function resizeGame() {
-    var session = new GameSession()
+function resizeGame (background) {
+    var s = gameSession
     var width
     var height
 
@@ -117,16 +142,19 @@ function resizeGame() {
     game.config.height = height
 
     //calculate the overall size of the layout
-    layoutWidth = (session.sizeX-1) * session.tileset.tileFaceX + session.tileset.tileX
-    layoutHeight = (session.sizeY-1) * session.tileset.tileFaceY + session.tileset.tileY
+    layoutWidth = (s.sizeX-1) * s.tileset.tileFaceX + s.tileset.tileX
+    layoutHeight = (s.sizeY-1) * s.tileset.tileFaceY + s.tileset.tileY
     
     //calculate the optimal tile scaling and necessary offset to center
     scale = Math.min((height * 0.9) / Math.max(layoutWidth, layoutHeight), 1)
-    session.scale = scale   
-    session.offsetX = (width / 2) - ((layoutWidth * scale) / 2) 
-                        + (session.tileset.tileFaceX * scale / 2) 
-    session.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
-                        + (session.tileset.tileFaceY * scale / 2)
+    s.scale = scale   
+    s.offsetX = (width / 2) - ((layoutWidth * scale) / 2) 
+                        + (s.tileset.tileFaceX * scale / 2) 
+    s.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
+                        + (s.tileset.tileFaceY * scale / 2)
+    
+    background.scaleX = width / background.width
+    background.scaleY = height / background.height
 }
 
 /**
@@ -135,13 +163,26 @@ function resizeGame() {
  */
 function startGame () {
     game = new Phaser.Game(gameConfig, 'NL')
+    if (!gameSession.practiceGame) {
+        console.log("Game: ", gameStats.gameNumber)
+        gameStats.startGameTime = gameSession.timer.timeLeft
+    }
     console.log(game)
 }
 /**
  * destroys the game object and shows the lobby
  * @function endGame
  */
-function endGame () {
+function endGame (timerDone) {
     this.game.destroy(true)
-    showLobby()
+    if (!gameSession.practiceGame) {
+        gameSession.timer.pauseTimer()
+        gameStats.resetGameStats()
+    }
+    
+    if (timerDone) {
+        window.location.replace('player_login.html')
+    } else {
+        showLobby()
+    }
 }
