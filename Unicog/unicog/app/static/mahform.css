@@ -183,7 +183,7 @@ button {
 }
 
 input[type="checkbox"] {
-    transform:scale(3, 3);
+    transform:scale(2, 2);
 }
 
 #logout{
@@ -237,9 +237,9 @@ input[type="checkbox"] {
 }
 
 select.language option {
-background-repeat:no-repeat;
-background-position:bottom left;
-padding-left:30px;
+    background-repeat:no-repeat;
+    background-position:bottom left;
+    padding-left:30px;
 }
 
 #logout-lobby{
