@@ -224,6 +224,6 @@ input[type="checkbox"] {
 
 .practice{
     width: 30%;
-    float: right;
+    float: left;
     display: inline-block;
 }
