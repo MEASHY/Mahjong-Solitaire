@@ -96,6 +96,9 @@ def send_backgrounds(filename):
 def send_buttons(filename):
     return send_from_directory('Mahjong/Assets/Buttons/', filename)
 
+@app.route('/Assets/Audio/<path:filename>')
+def send_audio(filename):
+    return send_from_directory('Mahjong/Assets/Audio/', filename)
     
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask

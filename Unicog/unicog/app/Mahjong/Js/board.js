@@ -96,6 +96,10 @@ class Board {
             
             // Keeps the layout updated
             this.layout.size -= 2
+
+            //gives audio feedback to the player
+            var music = this.scene.sound.add('correct')
+            music.play()
             
             if (this.hintButton !== null) {
                 this.hintButton.destroy()
@@ -123,7 +127,9 @@ class Board {
                     }
                 },this)
                 
+                
             }
+
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
@@ -140,6 +146,10 @@ class Board {
                 console.log("Select: ",gameStats.selections)
             }
             
+            //gives audio feedback to the player
+            var music = this.scene.sound.add('error')
+            music.play()
+
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
                 
                 // Hint button appears
