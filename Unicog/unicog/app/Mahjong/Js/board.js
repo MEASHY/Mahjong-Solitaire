@@ -90,6 +90,10 @@ class Board {
             
             // Keeps the layout updated
             this.layout.size -= 2
+
+            //gives audio feedback to the player
+            var music = this.scene.sound.add('correct')
+            music.play()
             
             if (this.hintButton !== null) {
                 this.hintButton.destroy()
@@ -132,8 +136,6 @@ class Board {
                 
             }
 
-            var music = this.scene.sound.add('correct')
-            music.play()
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()
@@ -148,6 +150,7 @@ class Board {
             gameStats.selections += 1
             console.log("Select: ",gameStats.selections)
             
+            //gives audio feedback to the player
             var music = this.scene.sound.add('error')
             music.play()
 

@@ -38,7 +38,7 @@ function preload () {
     
     console.log('Assets loaded!')
 
-
+    //load the sound files
     this.load.audio('correct', '/Assets/Audio/correct.mp3')
     this.load.audio('error', '/Assets/Audio/error.wav')
 }
@@ -61,6 +61,8 @@ function create () {
 
     //placing buttons. This will need cleaning up later on
     loadButtons(this)
+
+    //add the sound effects to the game.
     this.sound.add('correct')
     this.sound.add('error')
 }
