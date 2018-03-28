@@ -19,11 +19,17 @@
         <script src='js/board.js'></script>
         <script src='js/timer.js'></script>
         <script>window.onload=initLobby</script>
-       
+        
+        <style>
+
+</style>
+
 
     </head>
     
     <body class = 'main'>
+    
+
     
         <div id = 'outergame'>
         <div class='game' id='gameDiv'>
@@ -31,6 +37,9 @@
         </div>
         
         <div class='lobby', id='lobbyDiv'>
+        <form method='get' action ='index.html'>
+            <button id = 'logout-lobby' >Log Out</button>
+        </form>
         <h2>Game Configuration</h2>
         <form id='gameSetup'>
             <div class='dropdown'>

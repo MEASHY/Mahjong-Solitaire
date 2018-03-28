@@ -1,4 +1,4 @@
-h1 {
+        h1 {
 	font-size: 40px;
 	font-family: Arial;
 	font-weight: bold;
@@ -122,8 +122,8 @@ button {
 }
 
 .option {
-    width: 28%;
-    padding: 16px 8px;
+    width: 25%;
+    padding: 16px 0px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -240,4 +240,15 @@ select.language option {
 background-repeat:no-repeat;
 background-position:bottom left;
 padding-left:30px;
+}
+
+#logout-lobby{
+    float: right;
+    vertical-align: top;
+    display: inline;
+    border-radius: 5px;
+    position: relative;
+    top: 8px;
+    right: 12px;
+    font-size: 14px;
 }
