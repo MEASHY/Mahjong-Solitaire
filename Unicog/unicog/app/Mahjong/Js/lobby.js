@@ -68,6 +68,11 @@ function changeTimer () {
  * @function showLobby
  */
 function showLobby () {
+    if (gameSession.timer !== null) {
+        document.getElementById('timerMinuteField').value = gameSession.timer.getJustMinutesLeft()
+        document.getElementById('timerSecondField').value = gameSession.timer.getJustSecondsLeft()
+    }
+    
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
 }
@@ -77,13 +82,13 @@ function showLobby () {
  * @see GameSession
  */
 function showGame (practiceGame) {
+    document.getElementById('lobbyDiv').style.display = 'none'
+    document.getElementById('gameDiv').style.display = 'block'
+    
     gameSession.background = document.getElementById('backgroundDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     gameSession.enabledHints = document.getElementById('hintCheck').checked
     gameSession.practiceGame = practiceGame
-    
-    document.getElementById('lobbyDiv').style.display = 'none'
-    document.getElementById('gameDiv').style.display = 'block'
     
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
     var packageName = document.getElementById('packageDropBox').value
@@ -105,8 +110,10 @@ function showGame (practiceGame) {
                         var minutes = document.getElementById('timerMinuteField').value
                         var seconds = document.getElementById('timerSecondField').value
                         gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                        
                         document.getElementById('timerMinuteField').disabled = true
                         document.getElementById('timerSecondField').disabled = true
+                        document.getElementById('timerText').innerText = 'Time Left in Session'
                     } else {
                         gameSession.timer.resumeTimer()
                     }

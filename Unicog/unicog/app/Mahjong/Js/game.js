@@ -55,7 +55,9 @@ function create () {
     console.log('Creating!')
     var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
     this.board = new Board(this)
-    gameSession.timer.board = this.board
+    if (gameSession.timer !== null) {
+        gameSession.timer.board = this.board
+    }
 
     console.log('Game created!')
     
