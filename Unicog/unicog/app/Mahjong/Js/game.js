@@ -40,8 +40,12 @@ function preload () {
     console.log('Assets loaded!')
 
     //load the sound files
-    this.load.audio('correct', '/Assets/Audio/correct.mp3')
-    this.load.audio('error', '/Assets/Audio/error.wav')
+    this.load.audio('correct', '/Assets/Audio/correct2.mp3')
+    this.load.audio('error', '/Assets/Audio/wrongmatch.mp3')
+    this.load.audio('click', '/Assets/Audio/click.mp3')
+    this.load.audio('hint', '/Assets/Audio/hint2.mp3')
+    this.load.audio('shuffle', '/Assets/Audio/shuffle2.mp3')
+    this.load.audio('finishGame', 'Assets/Audio/finish_game.mp3')
 }
 /**
  * initializes the necessary data stuctures, resizes the game to match the viewing window and begins the Phaser Game 
@@ -68,6 +72,9 @@ function create () {
     //add the sound effects to the game.
     this.sound.add('correct')
     this.sound.add('error')
+    this.sound.add('hint')
+    this.sound.add('shuffle')
+    this.sound.add('finishGame')
 }
 /**
  * Ends The game
