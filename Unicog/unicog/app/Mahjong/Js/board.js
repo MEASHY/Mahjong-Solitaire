@@ -148,6 +148,9 @@ class Board {
             gameStats.selections += 1
             console.log("Select: ",gameStats.selections)
             
+            var music = this.scene.sound.add('wrong')
+            music.play()
+
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
                 
                 // Hint button appears
