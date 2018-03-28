@@ -75,7 +75,7 @@ def mahjong_game():
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
-    #check DB for r_id
+    #check DB for r_id?   
     #testlogin = Researchers(r_id = 12345678)
     id = request.form['researcher']
     valid = None
@@ -84,15 +84,17 @@ def mahjong_stats():
         
     if (valid == None):
         return render_template('Mahjong/research_login.html', error_message =
-            'The Researcher ID you submitted does not exist') #invalid case
+            'The Researcher ID you submmitted does not exist') #invalid case
 
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
-    return send_from_directory('Mahjong/', filename)
-
+    try:
+        return render_template('Mahjong/' + filename)
+    except:
+        return send_from_directory('Mahjong/', filename)
 
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
