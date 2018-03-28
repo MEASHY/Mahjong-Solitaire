@@ -20,9 +20,16 @@
         <script src='js/timer.js'></script>
         <script>window.onload=initLobby</script>
         
-    </head>
+        <style>
 
+</style>
+
+
+    </head>
+    
     <body class = 'main'>
+    
+
     
         <div id = 'outergame'>
         <div class='game' id='gameDiv'>
@@ -70,9 +77,9 @@
                 <div class='option' id='langDiv'>
                     <h3 id='hintText'>Language</h3>
                     <select class = 'language' type='text' id='languageSelect'>
-                        <option style="background-image:url(/Assets/Flags/can.png);" value="en">English</option>
-                        <option style="background-image:url(/Assets/Flags/chi.png);" value="cn_simp">Chinese (Simplified)</option>
-                        <option style="background-image:url(/Assets/Flags/chi.png);" value="cn_trad">Chinese (Traditional)</option>
+                        <option style='background-image:url(/Assets/Flags/can.png);' value='en'>English</option>
+                        <option style='background-image:url(/Assets/Flags/chi.png);' value='cn_simp'>Chinese (Simplified)</option>
+                        <option style='background-image:url(/Assets/flags/chi.png);' value='cn_trad'>Chinese (Traditional)</option>
                     </select>
                 </div>
             </div>
@@ -80,7 +87,7 @@
                 <input class = 'startgame' type='button' name='startGame' onclick='showGame(false)' value='Start Game' >
             </div>
             <div class = 'practice'>
-                <input class = 'startgame' type='button' name='practiceGame' onclick='showGame(true)' value='Practice Game (No Data Recording)' >
+                <input class = 'startgame' type='button' name='practiceGame' onclick='showGame(true)' value='Practice Game' >
             </div>
         </form>
         </div>
