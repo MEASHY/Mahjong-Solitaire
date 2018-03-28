@@ -216,12 +216,3 @@ input[type="checkbox"] {
 .game{
     margin: 0 auto;
 }
-
-.loginAlert {
-    padding: 20px;
-    background-color: #f44336;
-    color: white;
-    text-align: center;
-    width: 50%;
-    border-style: solid;
-}
