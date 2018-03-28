@@ -81,10 +81,24 @@ class Board {
         
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
-            this.layout.removeTile(this.tileSelected)
-            this.layout.removeTile(this.currentSelection)
-            this.tileSelected = null
-            this.currentSelection = null
+            //this.layout.removeTile(this.tileSelected)
+            var that = this
+            
+            
+            this.tileSelected.highlightTile(0x00FF00)
+            this.currentSelection.highlightTile(0x00FF00)
+
+            setTimeout(function(){
+                that.layout.removeTile(that.tileSelected)
+                that.layout.removeTile(that.currentSelection)
+                that.tileSelected = null
+                that.currentSelection = null
+            }, 300);
+
+            //this.layout.removeTile(this.tileSelected)
+            //this.layout.removeTile(this.currentSelection)
+            //this.tileSelected = null
+            //this.currentSelection = null
             
             this.failedMatches = 0
             
