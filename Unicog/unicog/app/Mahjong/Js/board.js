@@ -42,6 +42,9 @@ class Board {
         if (tile.selectable) {
             this.currentSelection = tile
             
+            var music = this.scene.sound.add('click')
+            music.play()
+            
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
                     this.currentSelection.unhighlightTile()
