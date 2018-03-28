@@ -129,7 +129,11 @@ class Board {
                     console.log("Shuffle: ",gameStats.timesShuffled)
                 },this)
                 
+                
             }
+
+            var music = this.scene.sound.add('correct')
+            music.play()
         } else {
             // The two tiles don't match so only select the most recent tile
             this.tileSelected.unhighlightTile()

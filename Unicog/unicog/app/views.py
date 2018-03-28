@@ -45,6 +45,10 @@ def word_ind():
 def send_buttons(filename):
     return send_from_directory('Mahjong/Assets/Buttons/', filename)
 
+@app.route('/Assets/Audio/<path:filename>')
+def send_audio(filename):
+    return send_from_directory('Mahjong/Assets/Audio/', filename)
+
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')

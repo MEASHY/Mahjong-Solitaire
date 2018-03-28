@@ -37,6 +37,9 @@ function preload () {
     }
     
     console.log('Assets loaded!')
+
+
+    this.load.audio('correct', '/Assets/Audio/correct.mp3')
 }
 /**
  * initializes the necessary data stuctures, resizes the game to match the viewing window and begins the Phaser Game 
@@ -57,6 +60,7 @@ function create () {
 
     //placing buttons. This will need cleaning up later on
     loadButtons(this)
+    var music = this.sound.add('correct')
 }
 /**
  * Ends The game
