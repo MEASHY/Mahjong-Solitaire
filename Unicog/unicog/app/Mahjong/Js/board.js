@@ -148,7 +148,7 @@ class Board {
             gameStats.selections += 1
             console.log("Select: ",gameStats.selections)
             
-            var music = this.scene.sound.add('wrong')
+            var music = this.scene.sound.add('error')
             music.play()
 
             if (++this.failedMatches === 3 & this.layout.validMatchAvailable()) {
