@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <style>
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+    width: 50%;
+    border-style: solid;
+}
+    </style>
+	<head>
+		<title>Mahjong</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="mahform.css">
+
+    </head>
+    <div id="colorstrip"/>
+    <h1> Mahjong </h1>
+    <div class='alert' id='loginAlert'>{{error_message}}</div>
+    <script>
+    if (document.getElementById('loginAlert').textContent === ""){
+        document.getElementById('loginAlert').style.display = 'none'
+    }
+    </script>
+  
+    <body>
+    	<form id='loginForm' method='post' action ='game.html'>
+    		<p>
+                <input type='text' placeholder ='Researcher ID'  name='researcher'/>
+    		</p>
+    		<p>
+                <input type='text' placeholder='Player ID' name='player' required/>
+    		</p>
+            <p>
+                <h3><input type='checkbox' name='useGenericID'> Use Generic Researcher ID</h3>
+            </p>
+            <p>
+    			<input type='submit' name='login' value='Login' />
+    		</p>
+    	</form>
+        <div id='container'>
+        <form id='cancelLogin' method='get' action ='index.html'>
+            <p>
+                <input type='submit' name='cancel' value='Cancel' />
+    		</p>
+        </form>
+        </div>
+    </body>
+</html>
