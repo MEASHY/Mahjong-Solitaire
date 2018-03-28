@@ -3,7 +3,7 @@ var game
 var gameConfig = {
     width: 1400,
     height: 1000,
-    backgroundColor: '#00422c',
+    backgroundColor: '#000000',
     type: Phaser.AUTO,
     parent: 'gameDiv',
     scene: {
@@ -16,6 +16,7 @@ var gameConfig = {
  * @function Preload
  */
 function preload () {
+    this.load.image(gameSession.background, '/Assets/Themes/'+gameSession.background)
     
     var tiles = gameSession.tileset.main
     for (var i = 0; i < tiles.length; i++) {
@@ -44,14 +45,16 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
+    var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
     this.board = new Board(this)
+    gameSession.timer.board = this.board
 
     console.log('Game created!')
     
-    resizeGame()
+    resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
     window.onresize = function () {
-        resizeGame()
+        resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
     }
 
@@ -73,6 +76,10 @@ function triggerQuit () {
 function loadButtons (scope) {
     var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameSession.timer.pauseTimer()
+        }
+        
         overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
         overlay.setDepth(20000000000)
@@ -80,6 +87,10 @@ function loadButtons (scope) {
         cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
         cancel.setDepth(20000000001)
         cancel.on('pointerdown', function() {
+            if (!gameSession.practiceGame) {
+                gameSession.timer.resumeTimer()
+            }
+            
             overlay.destroy()
             quit.destroy()
             cancel.destroy()
@@ -89,11 +100,13 @@ function loadButtons (scope) {
         quit.setDepth(20000000001)
         quit.on('pointerdown', function () {
             
-            // Statistics for time taken to complete game
-            gameStats.endGameTime = gameSession.timer.timeLeft
-            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            if (!gameSession.practiceGame) {
+                // Statistics for time taken to complete game
+                gameStats.endGameTime = gameSession.timer.timeLeft
+                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            }
             
-            endGame()
+            endGame(false)
         }, scope)
     }, scope)  
 }
@@ -101,7 +114,7 @@ function loadButtons (scope) {
  * resizes the game by editing the game renderer.
  * @function resizeGame
  */
-function resizeGame() {
+function resizeGame (background) {
     var s = gameSession
     var width
     var height
@@ -131,6 +144,9 @@ function resizeGame() {
                         + (s.tileset.tileFaceX * scale / 2) 
     s.offsetY = (height / 2) - ((layoutHeight * scale) / 2) 
                         + (s.tileset.tileFaceY * scale / 2)
+    
+    background.scaleX = width / background.width
+    background.scaleY = height / background.height
 }
 
 /**
@@ -139,16 +155,26 @@ function resizeGame() {
  */
 function startGame () {
     game = new Phaser.Game(gameConfig, 'NL')
-    console.log("Game: ", gameStats.gameNumber)
-    gameStats.startGameTime = gameSession.timer.timeLeft
+    if (!gameSession.practiceGame) {
+        console.log("Game: ", gameStats.gameNumber)
+        gameStats.startGameTime = gameSession.timer.timeLeft
+    }
     console.log(game)
 }
 /**
  * destroys the game object and shows the lobby
  * @function endGame
  */
-function endGame () {
+function endGame (timerDone) {
     this.game.destroy(true)
-    gameStats.resetGameStats()
-    showLobby()
+    if (!gameSession.practiceGame) {
+        gameSession.timer.pauseTimer()
+        gameStats.resetGameStats()
+    }
+    
+    if (timerDone) {
+        window.location.replace('player_login.html')
+    } else {
+        showLobby()
+    }
 }
