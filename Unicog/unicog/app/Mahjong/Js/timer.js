@@ -54,6 +54,12 @@ class Timer {
     timeElapsed () {
         return this.duration - this.timeLeft
     }
+    getJustMinutesLeft () {
+        return Math.floor(this.timeLeft / 60)
+    }
+    getJustSecondsLeft () {
+        return this.timeLeft % 60
+    }
     /**
      * when the timer runs down to 0 trigger and of session
      */
