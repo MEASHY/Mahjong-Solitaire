@@ -85,8 +85,8 @@ class Board {
             var that = this
             
             
-            this.tileSelected.highlightTile(0x00FF00)
-            this.currentSelection.highlightTile(0x00FF00)
+            this.tileSelected.highlightTile(0x32CD32)
+            this.currentSelection.highlightTile(0x32CD32)
 
             setTimeout(function(){
                 that.layout.removeTile(that.tileSelected)
@@ -153,9 +153,19 @@ class Board {
 
         } else {
             // The two tiles don't match so only select the most recent tile
-            this.tileSelected.unhighlightTile()
-            this.tileSelected = this.currentSelection
-            this.currentSelection.highlightTile()
+            var that = this
+            this.tileSelected.highlightTile(0xFF0000)
+            this.currentSelection.highlightTile(0xFF0000)
+
+            setTimeout(function(){
+                that.tileSelected.unhighlightTile()
+                that.tileSelected = that.currentSelection
+                that.currentSelection.highlightTile()
+            }, 300);
+
+            //this.tileSelected.unhighlightTile()
+            //this.tileSelected = this.currentSelection
+            //this.currentSelection.highlightTile()
             
             if (!gameSession.practiceGame) {
                 // Statistics for incorrect match 
