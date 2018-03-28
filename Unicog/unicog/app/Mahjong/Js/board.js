@@ -102,26 +102,7 @@ class Board {
                 this.hintButton = null
             }
             if (this.layout.size === 0) {
-                // End the game here
-                var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
-                overlay.setScale(10)
-                overlay.setDepth(UIDepth - 1)
-                
-                if (!gameSession.practiceGame) {
-                    // Statistics for time taken to complete game
-                    gameSession.timer.pauseTimer()
-                    gameStats.endGameTime = gameSession.timer.timeLeft
-                    console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
-                }
-                
-                var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
-                continueButton.setDepth(UIDepth)
-                continueButton.on('pointerdown', function() {
-                    if (!gameSession.practiceGame) {
-                        gameStats.completion = true
-                    }
-                    endGame()
-                },this)
+                this.scoreScreen(false)
             }
             if(!this.layout.validMatchAvailable() && this.layout.size !== 0)
             {
@@ -180,5 +161,30 @@ class Board {
                 },this)
             }
         }
+    }
+    
+    scoreScreen (timerDone) {
+        const UIDepth = 20000000001
+        
+        // End the game here
+        var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
+        overlay.setScale(10)
+        overlay.setDepth(UIDepth - 1)
+        
+        if (!gameSession.practiceGame) {
+            // Statistics for time taken to complete game
+            gameSession.timer.pauseTimer()
+            gameStats.endGameTime = gameSession.timer.timeLeft
+            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+        }
+        
+        var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
+        continueButton.setDepth(UIDepth)
+        continueButton.on('pointerdown', function() {
+            if (!gameSession.practiceGame & !timerDone) {
+                gameStats.completion = true
+            }
+            endGame(timerDone)
+        },this)
     }
 }

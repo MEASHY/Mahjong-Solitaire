@@ -47,6 +47,7 @@ function create () {
     console.log('Creating!')
     var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
     this.board = new Board(this)
+    gameSession.timer.board = this.board
 
     console.log('Game created!')
     
@@ -105,7 +106,7 @@ function loadButtons (scope) {
                 console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
             }
             
-            endGame()
+            endGame(false)
         }, scope)
     }, scope)  
 }
@@ -164,11 +165,16 @@ function startGame () {
  * destroys the game object and shows the lobby
  * @function endGame
  */
-function endGame () {
+function endGame (timerDone) {
     this.game.destroy(true)
     if (!gameSession.practiceGame) {
         gameSession.timer.pauseTimer()
         gameStats.resetGameStats()
     }
-    showLobby()
+    
+    if (timerDone) {
+        window.location.replace('player_login.html')
+    } else {
+        showLobby()
+    }
 }

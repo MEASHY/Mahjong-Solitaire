@@ -8,6 +8,7 @@ class Timer {
         this.paused = false
         this.duration = duration
         this.timeLeft = duration
+        this.board = null
         
         // tickAmount is, in seconds, how often the timer should update
         var tickAmount = 1
@@ -21,6 +22,7 @@ class Timer {
     runTimer ( timer, amount ) {
         if (timer.isTimerRunning()) {
             timer.timeLeft -= amount
+            //console.log(timer.timeLeft)
             if (timer.timeLeft <= 0) {
                 timer.endTimer()
             }
@@ -56,8 +58,6 @@ class Timer {
      * when the timer runs down to 0 trigger and of session
      */
     endTimer () {
-        // TODO
-        // Do some sort of end screen
-        // Take them back to player login?
+        this.board.scoreScreen(true)
     }
 }
