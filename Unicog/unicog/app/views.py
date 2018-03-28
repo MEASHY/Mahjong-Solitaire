@@ -41,14 +41,6 @@ def word_ind():
     
 # Mahjong Stuff
 
-@app.route('/Assets/Buttons/<path:filename>')
-def send_buttons(filename):
-    return send_from_directory('Mahjong/Assets/Buttons/', filename)
-
-@app.route('/Assets/Audio/<path:filename>')
-def send_audio(filename):
-    return send_from_directory('Mahjong/Assets/Audio/', filename)
-
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
@@ -88,7 +80,6 @@ def mahjong_stats():
 def mahjong_static_page(filename):
     return send_from_directory('Mahjong/', filename)
 
-
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
     return send_from_directory('Mahjong/Assets/Layouts/', filename)
@@ -97,7 +88,18 @@ def send_layout(filename):
 def send_tiles(filename):
     return send_from_directory('Mahjong/Assets/Tilesets/', filename)
 
+@app.route('/Assets/Themes/<path:filename>')
+def send_backgrounds(filename):
+    return send_from_directory('Mahjong/Assets/Themes/', filename)
 
+@app.route('/Assets/Buttons/<path:filename>')
+def send_buttons(filename):
+    return send_from_directory('Mahjong/Assets/Buttons/', filename)
+
+@app.route('/Assets/Audio/<path:filename>')
+def send_audio(filename):
+    return send_from_directory('Mahjong/Assets/Audio/', filename)
+    
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
 
