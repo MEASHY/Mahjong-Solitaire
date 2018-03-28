@@ -89,17 +89,6 @@ class Board {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             var that = this
-            
-            this.tileSelected.highlightTile(0x32CD32)
-            this.currentSelection.highlightTile(0x32CD32)
-
-            setTimeout(function () {
-                that.layout.removeTile(that.tileSelected)
-                that.layout.removeTile(that.currentSelection)
-                that.tileSelected = null
-                that.currentSelection = null
-                that.animating = false
-            }, animationDelay)
 
             this.failedMatches = 0
             
@@ -120,15 +109,23 @@ class Board {
                 this.hintButton.destroy()
                 this.hintButton = null
             }
-            if (this.layout.size === 0) {
-                this.scoreScreen(false)
+            
+            this.tileSelected.highlightTile(0x32CD32)
+            this.currentSelection.highlightTile(0x32CD32)
+            
+            setTimeout(function () {
+                that.layout.removeTile(that.tileSelected)
+                that.layout.removeTile(that.currentSelection)
+                that.tileSelected = null
+                that.currentSelection = null
+                
+                if (that.layout.size === 0) {
+                    that.scoreScreen(false)
 
-                var music = this.scene.sound.add('finishGame')
-                music.play()
-            } else {
-                setTimeout(function () {
-                    if(!that.layout.validMatchAvailable())
-                    {
+                    var music = that.scene.sound.add('finishGame')
+                    music.play()
+                } else {
+                    if(!that.layout.validMatchAvailable()) {
                         console.log('No matches')
                         var shuffleButton = that.scene.add.sprite(600, 50,'shuffle').setInteractive()
                         shuffleButton.setDepth(UIDepth)
@@ -148,10 +145,11 @@ class Board {
                                 gameStats.timesShuffled += 1
                                 console.log('Shuffle: ',gameStats.timesShuffled)
                             }
-                        }, this)
+                        }, that)
                     }
-                }, animationDelay)
-            }
+                }
+                that.animating = false
+            }, animationDelay)
         } else {
             // The two tiles don't match so only select the most recent tile
             var that = this
@@ -162,6 +160,7 @@ class Board {
                 that.tileSelected.unhighlightTile()
                 that.tileSelected = that.currentSelection
                 that.currentSelection.highlightTile()
+                
                 that.animating = false
             }, animationDelay)
             
