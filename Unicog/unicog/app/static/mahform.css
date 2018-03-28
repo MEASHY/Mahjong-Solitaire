@@ -227,3 +227,17 @@ input[type="checkbox"] {
     float: left;
     display: inline-block;
 }
+
+.language{
+	background-color: #f1800e;
+	border: none;
+	text-align: center;
+	padding: 8px 8px;
+	color: #ffffff;
+}
+
+select.language option {
+background-repeat:no-repeat;
+background-position:bottom left;
+padding-left:30px;
+}
