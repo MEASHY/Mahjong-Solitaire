@@ -216,3 +216,14 @@ input[type="checkbox"] {
 .game{
     margin: 0 auto;
 }
+
+.start_real{
+    width: 70%;
+    display: inline-block;
+}
+
+.practice{
+    width: 30%;
+    float: right;
+    display: inline-block;
+}
