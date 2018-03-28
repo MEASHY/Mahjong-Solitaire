@@ -93,7 +93,7 @@ class Board {
                 that.layout.removeTile(that.currentSelection)
                 that.tileSelected = null
                 that.currentSelection = null
-            }, 300);
+            }, 300)
 
             //this.layout.removeTile(this.tileSelected)
             //this.layout.removeTile(this.currentSelection)
@@ -161,7 +161,7 @@ class Board {
                 that.tileSelected.unhighlightTile()
                 that.tileSelected = that.currentSelection
                 that.currentSelection.highlightTile()
-            }, 300);
+            }, 300)
 
             //this.tileSelected.unhighlightTile()
             //this.tileSelected = this.currentSelection
