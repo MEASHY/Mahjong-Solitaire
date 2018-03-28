@@ -88,12 +88,12 @@ class Board {
             this.tileSelected.highlightTile(0x32CD32)
             this.currentSelection.highlightTile(0x32CD32)
 
-            setTimeout(function(){
+            //setTimeout(function(){
                 that.layout.removeTile(that.tileSelected)
                 that.layout.removeTile(that.currentSelection)
                 that.tileSelected = null
                 that.currentSelection = null
-            }, 300)
+            //}, 300)
 
             //this.layout.removeTile(this.tileSelected)
             //this.layout.removeTile(this.currentSelection)
