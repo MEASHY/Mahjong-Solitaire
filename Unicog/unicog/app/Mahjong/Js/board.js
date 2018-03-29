@@ -12,6 +12,7 @@ class Board {
         
         this.tileSelected = null
         this.currentSelection = null
+        this.animating = false
         
         this.failedMatches = 0
         
@@ -39,7 +40,7 @@ class Board {
      */
     selectTile (tile) {
         // The tile can be selected
-        if (tile.selectable) {
+        if (tile.selectable & !this.animating) {
             this.currentSelection = tile
             
             var music = this.scene.sound.add('click')
@@ -81,14 +82,14 @@ class Board {
      */
     checkMatch () {
         const UIDepth = 20000000001
+        const animationDelay = 300
+        
+        this.animating = true
         
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
-            this.layout.removeTile(this.tileSelected)
-            this.layout.removeTile(this.currentSelection)
-            this.tileSelected = null
-            this.currentSelection = null
-            
+            var that = this
+
             this.failedMatches = 0
             
             if (!gameSession.practiceGame) {
@@ -108,43 +109,60 @@ class Board {
                 this.hintButton.destroy()
                 this.hintButton = null
             }
-            if (this.layout.size === 0) {
-                this.scoreScreen(false)
-
-                var music = this.scene.sound.add('finishGame')
-                music.play()
-            }
-            if(!this.layout.validMatchAvailable() && this.layout.size !== 0)
-            {
-                console.log("no matches")
-                var shuffleButton = this.scene.add.sprite(600, 50,'shuffle').setInteractive()
-                shuffleButton.setDepth(UIDepth)
+            
+            this.tileSelected.highlightTile(0x32CD32)
+            this.currentSelection.highlightTile(0x32CD32)
+            
+            setTimeout(function () {
+                that.layout.removeTile(that.tileSelected)
+                that.layout.removeTile(that.currentSelection)
+                that.tileSelected = null
+                that.currentSelection = null
                 
-                // Shuffle is happening
-                shuffleButton.on('pointerdown', function() {
-                    this.layout.shuffle()
-                    shuffleButton.destroy()
-                    this.failedMatches = 0
+                if (that.layout.size === 0) {
+                    that.scoreScreen(false)
 
-                    //gives audio feedback to the player
-                    var music = this.scene.sound.add('shuffle')
+                    var music = that.scene.sound.add('finishGame')
                     music.play()
-                    
-                    if (!gameSession.practiceGame) {
-                        // Statistics for shuffling
-                        gameStats.timesShuffled += 1
-                        console.log("Shuffle: ",gameStats.timesShuffled)
-                    }
-                },this)
-                
-                
-            }
+                } else {
+                    if(!that.layout.validMatchAvailable()) {
+                        console.log('No matches')
+                        var shuffleButton = that.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                        shuffleButton.setDepth(UIDepth)
+                        
+                        // Shuffle is happening
+                        shuffleButton.on('pointerdown', function () {
+                            that.layout.shuffle()
+                            shuffleButton.destroy()
+                            that.failedMatches = 0
 
+                            //gives audio feedback to the player
+                            var music = that.scene.sound.add('shuffle')
+                            music.play()
+                            
+                            if (!gameSession.practiceGame) {
+                                // Statistics for shuffling
+                                gameStats.timesShuffled += 1
+                                console.log('Shuffle: ',gameStats.timesShuffled)
+                            }
+                        }, that)
+                    }
+                }
+                that.animating = false
+            }, animationDelay)
         } else {
             // The two tiles don't match so only select the most recent tile
-            this.tileSelected.unhighlightTile()
-            this.tileSelected = this.currentSelection
-            this.currentSelection.highlightTile()
+            var that = this
+            this.tileSelected.highlightTile(0xFF0000)
+            this.currentSelection.highlightTile(0xFF0000)
+
+            setTimeout(function () {
+                that.tileSelected.unhighlightTile()
+                that.tileSelected = that.currentSelection
+                that.currentSelection.highlightTile()
+                
+                that.animating = false
+            }, animationDelay)
             
             if (!gameSession.practiceGame) {
                 // Statistics for incorrect match 
