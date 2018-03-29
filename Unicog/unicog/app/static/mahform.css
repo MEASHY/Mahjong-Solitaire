@@ -1,4 +1,4 @@
-        h1 {
+h1 {
 	font-size: 40px;
 	font-family: Arial;
 	font-weight: bold;
@@ -277,4 +277,16 @@ select.language option {
 
 .centerDiv{
   margin-top: 125px;
+}
+
+.genericLabel{
+	font-size: 14px;
+	font-family: Arial;
+	font-weight: bold;
+    display: inline-block;
+}
+
+.loginCheck{
+    width: 5%;
+    margin-left: 23.5%;
 }

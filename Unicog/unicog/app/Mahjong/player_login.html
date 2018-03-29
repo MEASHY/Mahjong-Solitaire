@@ -6,18 +6,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="mahform.css">
     </head>
+    
     <body class = 'main'>
     <div class = 'centerDiv'>
         <h1> Mahjong </h1>
     	<form id='loginForm' method='post' action ='game.html'>
     		<p>
-    		<input type='text' placeholder ='Researcher ID'  name='researcher'/>
+                <input type='text' placeholder ='Researcher ID'  name='researcher'/>
     		</p>
     		<p>
-    		<input type='text' placeholder='Player ID' name='player' required/>
+                <input type='text' placeholder='Player ID' name='player' required/>
     		</p>
             <p>
-                <h3><input class = 'loginCheck' type='checkbox' name='useGenericID'>Use Generic Researcher ID</h3>
+            <div> 
+                <input class = 'loginCheck' type='checkbox' name='useGenericID'>
+                <label class = 'genericLabel' for='useGenericID'>Use Generic Researcher ID</label>
+            </div>
             </p>
             <p>
     			<input class = 'small leftButton' type='submit' name='login' value='Login' />
