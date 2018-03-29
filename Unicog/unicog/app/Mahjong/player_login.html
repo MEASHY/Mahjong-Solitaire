@@ -5,13 +5,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="mahform.css">
-
-
     </head>
-    <div id="colorstrip"/>
-    <h1> Mahjong </h1>
-
     <body class = 'main'>
+    <div class = 'centerDiv'>
+        <h1> Mahjong </h1>
     	<form id='loginForm' method='post' action ='game.html'>
     		<p>
     		<input type='text' placeholder ='Researcher ID'  name='researcher'/>
@@ -20,18 +17,17 @@
     		<input type='text' placeholder='Player ID' name='player' required/>
     		</p>
             <p>
-                <h3><input type='checkbox' name='useGenericID'> Use Generic Researcher ID</h3>
+                <h3><input class = 'loginCheck' type='checkbox' name='useGenericID'>Use Generic Researcher ID</h3>
             </p>
             <p>
-    			<input type='submit' name='login' value='Login' />
+    			<input class = 'small leftButton' type='submit' name='login' value='Login' />
     		</p>
     	</form>
-        <div id='container'>
         <form id='cancelLogin' method='get' action ='index.html'>
             <p>
-                <input type='submit' name='cancel' value='Cancel' />
+                <input class = 'small' type='submit' name='cancel' value='Cancel' />
     		</p>
         </form>
-        </div>
+    </div>
     </body>
 </html>

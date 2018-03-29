@@ -252,3 +252,29 @@ select.language option {
     right: 12px;
     font-size: 14px;
 }
+
+.loginDiv{
+    width:50%
+}
+
+.loginCheck{
+    margin-left: 12px;
+}
+
+.small {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 25%;
+    float: left;
+}
+
+.leftButton{
+    margin-left: 25%;
+}
+
+.centerDiv{
+  margin-top: 125px;
+}
