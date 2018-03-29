@@ -27,9 +27,9 @@
 
     </head>
     
-    <h1>Mahjong Lobby</h1>
-
     <body class = 'main'>
+    
+
     
         <div id = 'outergame'>
         <div class='game' id='gameDiv'>
@@ -37,6 +37,9 @@
         </div>
         
         <div class='lobby', id='lobbyDiv'>
+        <form method='get' action ='index.html'>
+            <button id = 'logout-lobby' >Log Out</button>
+        </form>
         <h2>Game Configuration</h2>
         <form id='gameSetup'>
             <div class='dropdown'>
@@ -71,12 +74,20 @@
                     <h3 id='hintText'>Enable Hints</h3>
                     <input type='checkbox' id='hintCheck' >
                 </div>
+                <div class='option' id='langDiv'>
+                    <h3 id='hintText'>Language</h3>
+                    <select class = 'language' type='text' id='languageSelect'>
+                        <option style='background-image:url(/Assets/Flags/can.png);' value='en'>English</option>
+                        <option style='background-image:url(/Assets/Flags/chi.png);' value='cn_simp'>Chinese (Simplified)</option>
+                        <option style='background-image:url(/Assets/flags/chi.png);' value='cn_trad'>Chinese (Traditional)</option>
+                    </select>
+                </div>
             </div>
-            <div>
+            <div class = 'start_real'>
                 <input class = 'startgame' type='button' name='startGame' onclick='showGame(false)' value='Start Game' >
             </div>
-            <div>
-                <input class = 'startgame' type='button' name='practiceGame' onclick='showGame(true)' value='Practice Game (No Data Recording)' >
+            <div class = 'practice'>
+                <input class = 'startgame' type='button' name='practiceGame' onclick='showGame(true)' value='Practice Game' >
             </div>
         </form>
         </div>

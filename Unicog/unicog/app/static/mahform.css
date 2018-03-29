@@ -32,6 +32,7 @@ mainbutton {
 
 input {
 	width: 50%;
+    border-radius: 5px;
 }
 
 input[type="login"] {
@@ -122,8 +123,8 @@ button {
 }
 
 .option {
-    width: 28%;
-    padding: 16px 8px;
+    width: 25%;
+    padding: 16px 0px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -155,6 +156,7 @@ button {
     width: 50%;
     float: right;
     margin-left: 30px;
+    border-radius: 5px;
 }
 
 .largeLabel{
@@ -183,7 +185,7 @@ button {
 }
 
 input[type="checkbox"] {
-    transform:scale(3, 3);
+    transform:scale(2, 2);
 }
 
 #logout{
@@ -215,4 +217,90 @@ input[type="checkbox"] {
 
 .game{
     margin: 0 auto;
+}
+
+.start_real{
+    width: 70%;
+    display: inline-block;
+}
+
+.practice{
+    width: 30%;
+    float: left;
+    display: inline-block;
+}
+
+.language{
+	background-color: #f1800e;
+	border: none;
+	text-align: center;
+	padding: 8px 8px;
+	color: #ffffff;
+    border-radius: 5px;
+}
+
+select.language option {
+    background-repeat:no-repeat;
+    background-position:bottom left;
+    padding-left:30px;
+}
+
+#logout-lobby{
+    float: right;
+    vertical-align: top;
+    display: inline;
+    border-radius: 5px;
+    position: relative;
+    top: 8px;
+    right: 12px;
+    font-size: 14px;
+}
+
+.loginDiv{
+    width:50%
+}
+
+.loginCheck{
+    margin-left: 12px;
+}
+
+.small {
+	background-color: #f1800e;
+	text-align: center;
+	padding: 25px 36px;
+	font-size: 24px;
+	color: #ffffff;
+    width: 25%;
+    float: left;
+}
+
+.leftButton{
+    margin-left: 25%;
+}
+
+.centerDiv{
+  margin-top: 125px;
+}
+
+.genericLabel{
+	font-size: 14px;
+	font-family: Arial;
+	font-weight: bold;
+    display: inline-block;
+}
+
+.loginCheck{
+    width: 5%;
+    margin-left: 23.5%;
+}
+
+.alert {
+    position: relative;
+    left:25%;
+    background-color: #f44336;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 14px 36px;
+    width: 45%;
 }
