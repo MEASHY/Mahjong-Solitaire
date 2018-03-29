@@ -234,6 +234,7 @@ input[type="checkbox"] {
 	text-align: center;
 	padding: 8px 8px;
 	color: #ffffff;
+    border-radius: 5px;
 }
 
 select.language option {
