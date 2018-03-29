@@ -293,3 +293,14 @@ select.language option {
     width: 5%;
     margin-left: 23.5%;
 }
+
+.alert {
+    position: relative;
+    left:25%;
+    background-color: #f44336;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 14px 36px;
+    width: 45%;
+}
