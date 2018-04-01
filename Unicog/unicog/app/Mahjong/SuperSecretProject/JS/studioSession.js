@@ -31,6 +31,7 @@ var StudioSession = function () {
                 }
             },
             tileset: null,
+            visible: true,
         
             logText: function () {
             	// Console log the public member variable

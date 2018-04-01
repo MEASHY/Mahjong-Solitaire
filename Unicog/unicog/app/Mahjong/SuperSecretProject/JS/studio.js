@@ -73,8 +73,8 @@ function triggerQuit () {
  * @param {context} scope - The scene that the buttons reside 
  */
 function loadButtons (scope) {
-    var test = scope.add.sprite(100, 50, 'quit').setInteractive()
-    test.on('pointerdown', function() {
+    var save = scope.add.sprite(100, 50, 'quit').setInteractive()
+    save.on('pointerdown', function() {
         var studioSession = new StudioSession()
         var layout = scope.board.layout
         studioSession.layout.header.size = layout.size
@@ -87,6 +87,11 @@ function loadButtons (scope) {
             } 
         }
         console.log(prettyLayout(4))
+    }, scope)
+    
+    var toggle = scope.add.sprite(100, 200, 'quit').setInteractive()
+    toggle.on('pointerdown', function() {
+        scope.board.layout.toggleVisible()
     }, scope)  
 }
 function prettyLayout (indent) {
