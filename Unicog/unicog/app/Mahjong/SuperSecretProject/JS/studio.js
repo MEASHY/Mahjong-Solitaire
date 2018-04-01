@@ -51,7 +51,7 @@ function create () {
     this.board = new StudioBoard(this)
 
     console.log('Game created!')
-    
+    loadButtons(this)
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
     window.onresize = function () {
@@ -75,24 +75,37 @@ function triggerQuit () {
 function loadButtons (scope) {
     var test = scope.add.sprite(100, 50, 'quit').setInteractive()
     test.on('pointerdown', function() {
-        overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
-        overlay.setScale(10)
-        overlay.setDepth(20000000000)
-
-        cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
-        cancel.setDepth(20000000001)
-        cancel.on('pointerdown', function() {
-            overlay.destroy()
-            quit.destroy()
-            cancel.destroy()
-        },scope)
-
-        quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
-        quit.setDepth(20000000001)
-        quit.on('pointerdown', function () {
-            endGame()
-        }, scope)
+        var studioSession = new StudioSession()
+        var layout = scope.board.layout
+        studioSession.layout.header.size = layout.size
+        for (var i = 1; i <= layout.height; i++) {
+            json = layout.getJSONLayer(i)
+            if(json !== null && json.length !== 0) {
+                console.log(JSON.stringify(json))
+                studioSession.layout["layer"+i] = json
+                studioSession.layout.header.height = i
+            } 
+        }
+        console.log(prettyLayout(4))
     }, scope)  
+}
+function prettyLayout (indent) {
+    //var studioSession = new StudioSession()
+    var layout = (new StudioSession()).layout
+    var str = ""
+    var s = " ".repeat(indent)
+    str += "{\n" + s + '"header":'
+    str += JSON.stringify(layout.header,null,indent*2).slice(0,-1)
+    str += s+"}"
+    for (var i = 1; i <= layout.header.height; i++) {
+        str += ",\n" + s + '"layer' + i + '":[\n'
+        for(var j = 0; j < layout["layer"+i].length; j++) {
+            str += s.repeat(2) + JSON.stringify(layout["layer"+i][j])+",\n"
+        }
+        str = str.slice(0,-2)+"\n"+s+"]"
+    }
+    str += "\n}"
+    return str
 }
 /**
  * resizes the game by editing the game renderer.

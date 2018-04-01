@@ -212,7 +212,8 @@ class StudioLayout extends Layout{
         }
         this.size++
     }
-    removeStudioNode(tilenode) {
+    
+    removeStudioNode (tilenode) {
         if (tilenode.parents.length > 0) {
             return
         }
@@ -241,6 +242,26 @@ class StudioLayout extends Layout{
                 }
             }
         }
+    }
+    
+    getJSONLayer (height) {
+        var z = height - 1
+        var x = this.layers[z][0].length
+        var y = this.layers[z].length
+        var layer = Array(x).fill().map(() => Array(y).fill(0));
+        var found = false
+        for (var i = 0; i < this.layers[z].length; i++) {
+            for (var j = 0; j < this.layers[z][0].length; j++) {
+                if(this.layers[z][i][j] !== null && this.layers[z][i][j].placed) {
+                    layer[i][j] = 1
+                    found = true
+                } 
+            }
+        }
+        if(found) {
+            return layer
+        }
+        return null
     }
     
 }
