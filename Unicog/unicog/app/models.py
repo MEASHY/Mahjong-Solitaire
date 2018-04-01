@@ -7,6 +7,23 @@ class Sessions(db.Model):
 	r_id = db.Column(db.Integer)
 	user_id = db.Column(db.Integer)
 	session_date = db.Column(db.String(255))
+    
+class Mahjong_Sessions(db.Model):
+	__tablename__ = 'mahjong_sessions'
+	session_id = db.Column(db.Integer, db.ForeignKey('sessions.session_id'), primary_key = True)
+    game_id = bb.Column(db.Integer)
+	package = db.Column(db.String(255))
+    layout = db.Column(db.Integer)
+    hints_enabled = db.Column(db.Integer)
+    selections = db.Column(db.Integer)
+    deselections = db.Column(db.Integer)
+    correct_matches = db.Column(db.Integer)
+    hints = db.Column(db.Integer)
+    shuffles = db.Column(db.Integer)
+    completion = db.Column(db.Integer)
+    time_taken = db.Column(db.Integer)
+
+	sessions = db.relationship(Sessions)
 
 class Bejeweled_Sessions(db.Model):
 	__tablename__ = 'bejeweled_sessions'
