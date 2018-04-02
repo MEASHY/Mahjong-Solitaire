@@ -69,23 +69,6 @@ function create () {
         resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
     }
-    /*
-    this.input.on('gameobjectdown', function (pointer, tileNode) {
-
-        //  Will contain the top-most Game Object (in the display list)
-        this.tweens.add({
-            targets: tileNode,
-            x: { value: 1100, duration: 1500, ease: 'Power2' },
-            y: { value: 500, duration: 500, ease: 'Bounce.easeOut', delay: 150 }
-        });
-
-    }, this)
-    */
-    //placing buttons. This will need cleaning up later on
-
-    var emitter = new Phaser.EventEmitter();
-
-    emitter.on('matchedTiles', matchedTilesHandler, this);
 
     loadButtons(this)
 
@@ -98,9 +81,6 @@ function create () {
     this.sound.add('finishGame')
 }
 
-function matchedTilesHandler() {
-    console.log('tiles matched!')
-}
 
 /**
  * Ends The game

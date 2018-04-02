@@ -117,13 +117,11 @@ class Board {
             console.log(this.tileSelected)
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
-                x: { value: 1000, duration: 400, ease: 'Power2' },
-                //y: { value: 1000, duration: 4000, ease: 'Bounce.easeOut' }
+                x: { value: 1000, duration: 400, ease: 'Power2' }
             })
             this.currentSelection.state.tweens.add({
                 targets: self.currentSelection.tile,
-                x: { value: 1000, duration: 400, ease: 'Power2' },
-                //y: { value: 1000, duration: 4000, ease: 'Bounce.easeOut' }
+                x: { value: 1000, duration: 400, ease: 'Power2' }
             })
 
             
