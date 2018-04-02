@@ -123,48 +123,9 @@ class Board {
         this.tileSelected.highlightTile(greenHighlight)
         this.currentSelection.highlightTile(greenHighlight)
 
-        console.log(this.layout.findNeighbours(this.tileSelected)[0])
-        console.log(this.tileSelected.x)
-        //console.log(this.tileSelected)
-
-        if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
-            })
-        }
-        else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
-            })
-        } else {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value: -300, duration: 800, ease: 'Power2' }
-            })
-        }
+        this.slideTilesOut()
         
-        if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
-            }) 
-        }
-        else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
-            }) 
-        } else {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: -300, duration: 800, ease: 'Power2' }
-            })
-        }
-        
-
-        
+        //delay for the animations
         setTimeout(function () {
             self.layout.removeTile(self.tileSelected)
             self.layout.removeTile(self.currentSelection)
@@ -173,29 +134,10 @@ class Board {
             
             if (self.layout.size === 0) {
                 self.scoreScreen(false)
-
                 self.playSound('finishGame')
             } else {
                 if(!self.layout.validMatchAvailable()) {
-                    console.log('No matches')
-                    var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
-                    shuffleButton.setDepth(UIDepth)
-                    
-                    // Shuffle is happening
-                    shuffleButton.on('pointerdown', function () {
-                        self.layout.shuffle()
-                        shuffleButton.destroy()
-                        self.failedMatches = 0
-
-                        //gives audio feedback to the player
-                        this.playSound('shuffle')
-                        
-                        if (!gameSession.practiceGame) {
-                            // Statistics for shuffling
-                            gameStats.timesShuffled += 1
-                            console.log('Shuffle: ',gameStats.timesShuffled)
-                        }
-                    }, self)
+                    self.giveShuffleButton()
                 }
             }
             self.animating = false
@@ -234,33 +176,100 @@ class Board {
         this.playSound('error')
 
         if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
-            
-            // Hint button appears
-            this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-            this.hintButton.setDepth(UIDepth)
-
-            //gives audio feedback to the player
-            this.playSound('hint')
-            
-            // Hint is being given
-            this.hintButton.on('pointerdown', function() {
-                this.layout.giveHint()
-                this.failedMatches = 0
-                this.hintButton.destroy()
-                
-                if (!gameSession.practiceGame) {
-                    // Statistics for giving hint
-                    gameStats.hintsUsed += 1
-                    console.log("Hint: ",gameStats.hintsUsed)
-                }
-                
-            },this)
+            this.giveHintButton()
         }
     }
 
-    playSound(sound) {
-        var music = this.scene.sound.add(sound)
+    playSound(soundName) {
+        var music = this.scene.sound.add(soundName)
         music.play()
+    }
+
+    slideTilesOut() {
+        var self = this
+        if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            })
+        }
+        else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            })
+        } else {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: -300, duration: 800, ease: 'Power2' }
+            })
+        }
+        
+        if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            }) 
+        }
+        else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            }) 
+        } else {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: -300, duration: 800, ease: 'Power2' }
+            })
+        }
+    }
+
+    giveShuffleButton() {
+        const UIDepth = 20000000001
+        var self = this
+        console.log('No matches')
+        var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
+        shuffleButton.setDepth(UIDepth)
+        
+        // Shuffle is happening
+        shuffleButton.on('pointerdown', function () {
+            self.layout.shuffle()
+            shuffleButton.destroy()
+            self.failedMatches = 0
+
+            //gives audio feedback to the player
+            this.playSound('shuffle')
+            
+            if (!gameSession.practiceGame) {
+                // Statistics for shuffling
+                gameStats.timesShuffled += 1
+                console.log('Shuffle: ',gameStats.timesShuffled)
+            }
+        }, self)
+    }
+
+    giveHintButton() {
+        const UIDepth = 20000000001
+        // Hint button appears
+        this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+        this.hintButton.setDepth(UIDepth)
+
+        //gives audio feedback to the player
+        this.playSound('hint')
+        
+        // Hint is being given
+        this.hintButton.on('pointerdown', function() {
+            this.layout.giveHint()
+            this.failedMatches = 0
+            this.hintButton.destroy()
+            
+            if (!gameSession.practiceGame) {
+                // Statistics for giving hint
+                gameStats.hintsUsed += 1
+                console.log("Hint: ",gameStats.hintsUsed)
+            }
+            
+        },this)
     }
     
     scoreScreen (timerDone) {
