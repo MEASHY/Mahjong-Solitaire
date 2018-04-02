@@ -88,7 +88,7 @@ class Board {
         
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
-            var that = this
+            var self = this
 
             this.failedMatches = 0
             
@@ -112,7 +112,7 @@ class Board {
             
             this.tileSelected.highlightTile(0x32CD32)
             this.currentSelection.highlightTile(0x32CD32)
-            var self = this
+
             console.log(this.layout.findNeighbours(this.tileSelected)[0])
             console.log(this.tileSelected.x)
             //console.log(this.tileSelected)
@@ -156,30 +156,30 @@ class Board {
 
             
             setTimeout(function () {
-                that.layout.removeTile(that.tileSelected)
-                that.layout.removeTile(that.currentSelection)
-                that.tileSelected = null
-                that.currentSelection = null
+                self.layout.removeTile(self.tileSelected)
+                self.layout.removeTile(self.currentSelection)
+                self.tileSelected = null
+                self.currentSelection = null
                 
-                if (that.layout.size === 0) {
-                    that.scoreScreen(false)
+                if (self.layout.size === 0) {
+                    self.scoreScreen(false)
 
-                    var music = that.scene.sound.add('finishGame')
+                    var music = self.scene.sound.add('finishGame')
                     music.play()
                 } else {
-                    if(!that.layout.validMatchAvailable()) {
+                    if(!self.layout.validMatchAvailable()) {
                         console.log('No matches')
-                        var shuffleButton = that.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                        var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
                         shuffleButton.setDepth(UIDepth)
                         
                         // Shuffle is happening
                         shuffleButton.on('pointerdown', function () {
-                            that.layout.shuffle()
+                            self.layout.shuffle()
                             shuffleButton.destroy()
-                            that.failedMatches = 0
+                            self.failedMatches = 0
 
                             //gives audio feedback to the player
-                            var music = that.scene.sound.add('shuffle')
+                            var music = self.scene.sound.add('shuffle')
                             music.play()
                             
                             if (!gameSession.practiceGame) {
@@ -187,10 +187,10 @@ class Board {
                                 gameStats.timesShuffled += 1
                                 console.log('Shuffle: ',gameStats.timesShuffled)
                             }
-                        }, that)
+                        }, self)
                     }
                 }
-                that.animating = false
+                self.animating = false
             }, animationDelay)
         } else {
             // The two tiles don't match so only select the most recent tile
