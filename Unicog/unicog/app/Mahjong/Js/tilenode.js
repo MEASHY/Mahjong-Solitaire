@@ -107,6 +107,18 @@ class TileNode {
         this.tile.on('pointerdown', function () {  
             self.state.board.selectTile(self)
         })
+        
+        //animations
+        /*
+        this.tile.on('pointerdown', function() {
+            //console.log(self.state)
+            self.state.tweens.add({
+                targets: self.tile,
+                x: { value: 1000, duration: 4000, ease: 'Power2' },
+                y: { value: 1000, duration: 4000, ease: 'Bounce.easeOut' }
+            })
+        })
+        */
     }
     /**
      * Checks if the sprite contained in TileNode has been initialized 

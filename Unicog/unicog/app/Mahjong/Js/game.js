@@ -82,6 +82,11 @@ function create () {
     }, this)
     */
     //placing buttons. This will need cleaning up later on
+
+    var emitter = new Phaser.EventEmitter();
+
+    emitter.on('matchedTiles', matchedTilesHandler, this);
+
     loadButtons(this)
 
     //add the sound effects to the game.
@@ -92,6 +97,11 @@ function create () {
     this.sound.add('shuffle')
     this.sound.add('finishGame')
 }
+
+function matchedTilesHandler() {
+    console.log('tiles matched!')
+}
+
 /**
  * Ends The game
  * @function triggerQuit

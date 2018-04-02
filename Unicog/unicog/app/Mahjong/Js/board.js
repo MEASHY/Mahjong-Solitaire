@@ -112,6 +112,20 @@ class Board {
             
             this.tileSelected.highlightTile(0x32CD32)
             this.currentSelection.highlightTile(0x32CD32)
+            var self = this
+            console.log(this.tileSelected.state)
+            console.log(this.tileSelected)
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: 1000, duration: 400, ease: 'Power2' },
+                //y: { value: 1000, duration: 4000, ease: 'Bounce.easeOut' }
+            })
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: 1000, duration: 400, ease: 'Power2' },
+                //y: { value: 1000, duration: 4000, ease: 'Bounce.easeOut' }
+            })
+
             
             setTimeout(function () {
                 that.layout.removeTile(that.tileSelected)
