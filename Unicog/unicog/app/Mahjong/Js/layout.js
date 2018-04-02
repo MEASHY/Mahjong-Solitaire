@@ -14,6 +14,9 @@ class Layout {
         this.numChildren = gameSession.layout.header.numChildren
         this.layers = []
         this.roots = []
+        
+        this.activeHintTile1 = null
+        this.activeHintTile2 = null
     }
     /**
      * Adds a layer to the layers array.
@@ -118,7 +121,7 @@ class Layout {
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
                     if (gameSession.beginnerMode) {
-                        tilenode.children[i].unhighlightTile()
+                        tilenode.children[i].resetTileHighlight()
                     }
                 }
             }
@@ -128,7 +131,7 @@ class Layout {
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
             if (gameSession.beginnerMode) {
-                neighbours[0].unhighlightTile()
+                neighbours[0].resetTileHighlight()
             }
             
         }
@@ -396,12 +399,27 @@ class Layout {
             for (var j = 0; j < nodeList.length; j++) {
                 if (nodeList[j].tile.texture.key === this.roots[i].tile.texture.key) {
                     console.log("Found match")
-                    nodeList[j].highlightTile(0x5c95f2)
-                    this.roots[i].highlightTile(0x5c95f2)
+                    nodeList[j].highlightTileHint()
+                    this.roots[i].highlightTileHint()
+                    this.activeHintTile1 = nodeList[j]
+                    this.activeHintTile2 = this.roots[i]
                     return
-                } 
+                }
             }
             nodeList.push(this.roots[i])
+        }
+    }
+    /**
+     * Unhighlights any remaining tiles from an active hint.
+     */
+    removeHint () {
+        if (this.activeHintTile1 !== null) {
+            this.activeHintTile1.removeHint()
+            this.activeHintTile1 = null
+        }
+        if (this.activeHintTile2 !== null) {
+            this.activeHintTile2.removeHint()
+            this.activeHintTile2 = null
         }
     }
     /**

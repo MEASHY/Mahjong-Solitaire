@@ -19,6 +19,7 @@ class TileNode {
         this.children = [],
         this.tile = null,
         this.selectable = false
+        this.hintActive = false
     }
     /**
      * Sets the sprite tint to a hexadecimal color. This color by default is off-yellow (0xFFFD9A)
@@ -31,15 +32,43 @@ class TileNode {
         this.tile.setTint(tint)
     }
     /**
-     * removes the sprite tint. This will return the tint color to white.
+     * Resets the sprite tint. This will return the tint color to white, or blue if the tile is part
+     * of an active hint.
      *
+     * @param {number} hint - The hexadecimal value used to tint the sprite
      * @see Board.selectTile()
      */
-    unhighlightTile () {
+    resetTileHighlight (hint = 0x5c95f2) {
+        if (this.hintActive) {
+            this.highlightTileHint(hint)
+        } else {
+            this.tile.clearTint()
+        }
+    }
+    /**
+     * Sets the sprite tint to a hexadecimal color. This color by default is a blue (0x5c95f2).
+     * This method also marks the tile as being part of an active hint.
+     *
+     * @param {number} hint - The hexadecimal value used to tint the sprite
+     * @see Layout.giveHint()
+     * @see TileNode.highlightTile(tint)
+     */
+    highlightTileHint (hint = 0x5c95f2) {
+        this.hintActive = true
+        this.tile.setTint(hint)
+    }
+    /**
+     * Removes the sprite tint. This will return the tint color to white.
+     * This method also marks the tile as being part of an active hint.
+     *
+     * @see Layout.removeHint()
+     */
+    removeHint () {
+        this.hintActive = false
         this.tile.clearTint()
     }
     /**
-     * Sets the sprite tint to a hexadecimal color. This color by default is a grey (0x808080)
+     * Sets the sprite tint to a hexadecimal color. This color by default is a grey (0x808080).
      * This method functions the same as highlightTile but defaults to a different color for clarity.
      *
      * @param {number} dim - The hexadecimal value used to tint the sprite
@@ -49,7 +78,6 @@ class TileNode {
     dimTile (dim = 0x808080) {
         this.tile.setTint(dim)
     }
-    
     /**
      * Sets the sprite position of the TileNode to be centered on the screen in the correct layout position.
      * The sprite is also scaled to the session scale parameter 
