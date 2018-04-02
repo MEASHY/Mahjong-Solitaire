@@ -43,8 +43,7 @@ class Board {
         if (tile.selectable & !this.animating) {
             this.currentSelection = tile
             
-            var music = this.scene.sound.add('click')
-            music.play()
+            this.playSound('click')
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
@@ -83,168 +82,185 @@ class Board {
     checkMatch () {
         const UIDepth = 20000000001
         const animationDelay = 300
+        const greenHighlight = 0x32CD32
+        const redHighlight = 0xFF0000
         
         this.animating = true
         
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
-            var self = this
-
-            this.failedMatches = 0
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for correct match
-                gameStats.correctMatches += 1
-                console.log("CM: ",gameStats.correctMatches)
-            }
-            
-            // Keeps the layout updated
-            this.layout.size -= 2
-
-            //gives audio feedback to the player
-            var music = this.scene.sound.add('correct')
-            music.play()
-            
-            if (this.hintButton !== null) {
-                this.hintButton.destroy()
-                this.hintButton = null
-            }
-            
-            this.tileSelected.highlightTile(0x32CD32)
-            this.currentSelection.highlightTile(0x32CD32)
-
-            console.log(this.layout.findNeighbours(this.tileSelected)[0])
-            console.log(this.tileSelected.x)
-            //console.log(this.tileSelected)
-
-            if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
-                this.tileSelected.state.tweens.add({
-                    targets: self.tileSelected.tile,
-                    x: { value: 1000, duration: 800, ease: 'Power2' }
-                })
-            }
-            else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
-                this.tileSelected.state.tweens.add({
-                    targets: self.tileSelected.tile,
-                    x: { value: 1000, duration: 800, ease: 'Power2' }
-                })
-            } else {
-                this.tileSelected.state.tweens.add({
-                    targets: self.tileSelected.tile,
-                    x: { value: -300, duration: 800, ease: 'Power2' }
-                })
-            }
-            
-            if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
-                this.currentSelection.state.tweens.add({
-                    targets: self.currentSelection.tile,
-                    x: { value: 1000, duration: 800, ease: 'Power2' }
-                }) 
-            }
-            else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
-                this.currentSelection.state.tweens.add({
-                    targets: self.currentSelection.tile,
-                    x: { value: 1000, duration: 800, ease: 'Power2' }
-                }) 
-            } else {
-                this.currentSelection.state.tweens.add({
-                    targets: self.currentSelection.tile,
-                    x: { value: -300, duration: 800, ease: 'Power2' }
-                })
-            }
-            
-
-            
-            setTimeout(function () {
-                self.layout.removeTile(self.tileSelected)
-                self.layout.removeTile(self.currentSelection)
-                self.tileSelected = null
-                self.currentSelection = null
-                
-                if (self.layout.size === 0) {
-                    self.scoreScreen(false)
-
-                    var music = self.scene.sound.add('finishGame')
-                    music.play()
-                } else {
-                    if(!self.layout.validMatchAvailable()) {
-                        console.log('No matches')
-                        var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
-                        shuffleButton.setDepth(UIDepth)
-                        
-                        // Shuffle is happening
-                        shuffleButton.on('pointerdown', function () {
-                            self.layout.shuffle()
-                            shuffleButton.destroy()
-                            self.failedMatches = 0
-
-                            //gives audio feedback to the player
-                            var music = self.scene.sound.add('shuffle')
-                            music.play()
-                            
-                            if (!gameSession.practiceGame) {
-                                // Statistics for shuffling
-                                gameStats.timesShuffled += 1
-                                console.log('Shuffle: ',gameStats.timesShuffled)
-                            }
-                        }, self)
-                    }
-                }
-                self.animating = false
-            }, animationDelay)
+            this.tileMatch()
         } else {
-            // The two tiles don't match so only select the most recent tile
-            var that = this
-            this.tileSelected.highlightTile(0xFF0000)
-            this.currentSelection.highlightTile(0xFF0000)
-
-            setTimeout(function () {
-                that.tileSelected.unhighlightTile()
-                that.tileSelected = that.currentSelection
-                that.currentSelection.highlightTile()
-                
-                that.animating = false
-            }, animationDelay)
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for incorrect match 
-                gameStats.incorrectMatches += 1
-                console.log("ICM: ",gameStats.incorrectMatches)
-                
-                // Statistics for selections
-                gameStats.selections += 1
-                console.log("Select: ",gameStats.selections)
-            }
-            
-            //gives audio feedback to the player
-            var music = this.scene.sound.add('error')
-            music.play()
-
-            if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
-                
-                // Hint button appears
-                this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-                this.hintButton.setDepth(UIDepth)
-
-                //gives audio feedback to the player
-                var music = this.scene.sound.add('hint')
-                music.play()
-                
-                // Hint is being given
-                this.hintButton.on('pointerdown', function() {
-                    this.layout.giveHint()
-                    this.failedMatches = 0
-                    this.hintButton.destroy()
-                    
-                    if (!gameSession.practiceGame) {
-                        // Statistics for giving hint
-                        gameStats.hintsUsed += 1
-                        console.log("Hint: ",gameStats.hintsUsed)
-                    }
-                    
-                },this)
-            }
+            this.tileMismatch()
         }
+    }
+
+    tileMatch () {
+        const UIDepth = 20000000001
+        const animationDelay = 300
+        const greenHighlight = 0x32CD32
+        var self = this
+
+        this.failedMatches = 0
+        
+        if (!gameSession.practiceGame) {
+            // Statistics for correct match
+            gameStats.correctMatches += 1
+            console.log("CM: ",gameStats.correctMatches)
+        }
+        
+        // Keeps the layout updated
+        this.layout.size -= 2
+
+        //gives audio feedback to the player
+        this.playSound('correct')
+        
+        if (this.hintButton !== null) {
+            this.hintButton.destroy()
+            this.hintButton = null
+        }
+        
+        this.tileSelected.highlightTile(greenHighlight)
+        this.currentSelection.highlightTile(greenHighlight)
+
+        console.log(this.layout.findNeighbours(this.tileSelected)[0])
+        console.log(this.tileSelected.x)
+        //console.log(this.tileSelected)
+
+        if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            })
+        }
+        else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            })
+        } else {
+            this.tileSelected.state.tweens.add({
+                targets: self.tileSelected.tile,
+                x: { value: -300, duration: 800, ease: 'Power2' }
+            })
+        }
+        
+        if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            }) 
+        }
+        else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: 1000, duration: 800, ease: 'Power2' }
+            }) 
+        } else {
+            this.currentSelection.state.tweens.add({
+                targets: self.currentSelection.tile,
+                x: { value: -300, duration: 800, ease: 'Power2' }
+            })
+        }
+        
+
+        
+        setTimeout(function () {
+            self.layout.removeTile(self.tileSelected)
+            self.layout.removeTile(self.currentSelection)
+            self.tileSelected = null
+            self.currentSelection = null
+            
+            if (self.layout.size === 0) {
+                self.scoreScreen(false)
+
+                self.playSound('finishGame')
+            } else {
+                if(!self.layout.validMatchAvailable()) {
+                    console.log('No matches')
+                    var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
+                    shuffleButton.setDepth(UIDepth)
+                    
+                    // Shuffle is happening
+                    shuffleButton.on('pointerdown', function () {
+                        self.layout.shuffle()
+                        shuffleButton.destroy()
+                        self.failedMatches = 0
+
+                        //gives audio feedback to the player
+                        this.playSound('shuffle')
+                        
+                        if (!gameSession.practiceGame) {
+                            // Statistics for shuffling
+                            gameStats.timesShuffled += 1
+                            console.log('Shuffle: ',gameStats.timesShuffled)
+                        }
+                    }, self)
+                }
+            }
+            self.animating = false
+        }, animationDelay)
+    }
+
+    tileMismatch() {
+        const UIDepth = 20000000001
+        const animationDelay = 300
+        const greenHighlight = 0x32CD32
+        const redHighlight = 0xFF0000
+        // The two tiles don't match so only select the most recent tile
+        var self = this
+        this.tileSelected.highlightTile(redHighlight)
+        this.currentSelection.highlightTile(redHighlight)
+
+        setTimeout(function () {
+            self.tileSelected.unhighlightTile()
+            self.tileSelected = self.currentSelection
+            self.currentSelection.highlightTile()
+            
+            self.animating = false
+        }, animationDelay)
+        
+        if (!gameSession.practiceGame) {
+            // Statistics for incorrect match 
+            gameStats.incorrectMatches += 1
+            console.log("ICM: ",gameStats.incorrectMatches)
+            
+            // Statistics for selections
+            gameStats.selections += 1
+            console.log("Select: ",gameStats.selections)
+        }
+        
+        //gives audio feedback to the player
+        this.playSound('error')
+
+        if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
+            
+            // Hint button appears
+            this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+            this.hintButton.setDepth(UIDepth)
+
+            //gives audio feedback to the player
+            this.playSound('hint')
+            
+            // Hint is being given
+            this.hintButton.on('pointerdown', function() {
+                this.layout.giveHint()
+                this.failedMatches = 0
+                this.hintButton.destroy()
+                
+                if (!gameSession.practiceGame) {
+                    // Statistics for giving hint
+                    gameStats.hintsUsed += 1
+                    console.log("Hint: ",gameStats.hintsUsed)
+                }
+                
+            },this)
+        }
+    }
+
+    playSound(sound) {
+        var music = this.scene.sound.add(sound)
+        music.play()
     }
     
     scoreScreen (timerDone) {
