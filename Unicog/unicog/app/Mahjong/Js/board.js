@@ -48,7 +48,7 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.unhighlightTile()
+                    this.currentSelection.resetTileHighlight()
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -89,6 +89,8 @@ class Board {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             var that = this
+            this.tileSelected.highlightTile(0x32CD32)
+            this.currentSelection.highlightTile(0x32CD32)
 
             this.failedMatches = 0
             
@@ -101,7 +103,7 @@ class Board {
             // Keeps the layout updated
             this.layout.size -= 2
 
-            //gives audio feedback to the player
+            // Gives audio feedback to the player
             var music = this.scene.sound.add('correct')
             music.play()
             
@@ -110,12 +112,10 @@ class Board {
                 this.hintButton = null
             }
             
-            this.tileSelected.highlightTile(0x32CD32)
-            this.currentSelection.highlightTile(0x32CD32)
-            
             setTimeout(function () {
                 that.layout.removeTile(that.tileSelected)
                 that.layout.removeTile(that.currentSelection)
+                that.layout.removeHint()
                 that.tileSelected = null
                 that.currentSelection = null
                 
@@ -136,7 +136,7 @@ class Board {
                             shuffleButton.destroy()
                             that.failedMatches = 0
 
-                            //gives audio feedback to the player
+                            // Gives audio feedback to the player
                             var music = that.scene.sound.add('shuffle')
                             music.play()
                             
@@ -155,14 +155,6 @@ class Board {
             var that = this
             this.tileSelected.highlightTile(0xFF0000)
             this.currentSelection.highlightTile(0xFF0000)
-
-            setTimeout(function () {
-                that.tileSelected.unhighlightTile()
-                that.tileSelected = that.currentSelection
-                that.currentSelection.highlightTile()
-                
-                that.animating = false
-            }, animationDelay)
             
             if (!gameSession.practiceGame) {
                 // Statistics for incorrect match 
@@ -174,34 +166,47 @@ class Board {
                 console.log("Select: ",gameStats.selections)
             }
             
-            //gives audio feedback to the player
+            // Gives audio feedback to the player
             var music = this.scene.sound.add('error')
             music.play()
 
-            if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
+            setTimeout(function () {
+                if (that.tileSelected !== null & that.currentSelection !== null) {
+                    that.tileSelected.resetTileHighlight()
+                    that.tileSelected = that.currentSelection
+                    that.currentSelection.highlightTile()
+                }
                 
-                // Hint button appears
-                this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-                this.hintButton.setDepth(UIDepth)
+                if (++that.failedMatches === 3 & that.layout.validMatchAvailable() & gameSession.enabledHints & that.layout.activeHintTile1 === null) {
+                    // Hint button appears
+                    that.hintButton = that.scene.add.sprite(700, 50, 'hint').setInteractive()
+                    that.hintButton.setDepth(UIDepth)
 
-                //gives audio feedback to the player
-                var music = this.scene.sound.add('hint')
-                music.play()
-                
-                // Hint is being given
-                this.hintButton.on('pointerdown', function() {
-                    this.layout.giveHint()
-                    this.failedMatches = 0
-                    this.hintButton.destroy()
+                    // Gives audio feedback to the player
+                    var music = that.scene.sound.add('hint')
+                    music.play()
                     
-                    if (!gameSession.practiceGame) {
-                        // Statistics for giving hint
-                        gameStats.hintsUsed += 1
-                        console.log("Hint: ",gameStats.hintsUsed)
-                    }
-                    
-                },this)
-            }
+                    // Hint is being given
+                    that.hintButton.on('pointerdown', function() {
+                        that.tileSelected.resetTileHighlight()
+                        that.tileSelected = null
+                        that.currentSelection.resetTileHighlight()
+                        that.currentSelection = null
+                        
+                        that.layout.giveHint()
+                        that.failedMatches = 0
+                        that.hintButton.destroy()
+                        
+                        if (!gameSession.practiceGame) {
+                            // Statistics for giving hint
+                            gameStats.hintsUsed += 1
+                            console.log("Hint: ",gameStats.hintsUsed)
+                        }
+                        
+                    }, that)
+                }
+                that.animating = false
+            }, animationDelay)
         }
     }
     
