@@ -113,13 +113,17 @@ class Board {
             this.tileSelected.highlightTile(0x32CD32)
             this.currentSelection.highlightTile(0x32CD32)
             var self = this
-            //console.log(this.layout.findNeighbours(this.tileSelected)[0].x)
+            console.log(this.layout.findNeighbours(this.tileSelected)[0])
             console.log(this.tileSelected.x)
             //console.log(this.tileSelected)
 
-
-            if ((this.layout.findNeighbours(this.tileSelected)[0] !== null) &&
-                (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x)) {
+            if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
+                this.tileSelected.state.tweens.add({
+                    targets: self.tileSelected.tile,
+                    x: { value: 1000, duration: 800, ease: 'Power2' }
+                })
+            }
+            else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
                 this.tileSelected.state.tweens.add({
                     targets: self.tileSelected.tile,
                     x: { value: 1000, duration: 800, ease: 'Power2' }
@@ -131,8 +135,13 @@ class Board {
                 })
             }
             
-            if ((this.layout.findNeighbours(this.currentSelection)[0] !== null) && 
-                (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x)) {
+            if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
+                this.currentSelection.state.tweens.add({
+                    targets: self.currentSelection.tile,
+                    x: { value: 1000, duration: 800, ease: 'Power2' }
+                }) 
+            }
+            else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
                 this.currentSelection.state.tweens.add({
                     targets: self.currentSelection.tile,
                     x: { value: 1000, duration: 800, ease: 'Power2' }
