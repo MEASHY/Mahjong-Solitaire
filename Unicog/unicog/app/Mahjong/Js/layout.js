@@ -121,7 +121,7 @@ class Layout {
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
                     if (gameSession.beginnerMode) {
-                        tilenode.children[i].resetTileHighlight()
+                        tilenode.children[i].resetTileHighlight(gameSession.colours.hint)
                     }
                 }
             }
@@ -131,7 +131,7 @@ class Layout {
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
             if (gameSession.beginnerMode) {
-                neighbours[0].resetTileHighlight()
+                neighbours[0].resetTileHighlight(gameSession.colours.hint)
             }
             
         }
@@ -376,7 +376,7 @@ class Layout {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
                     if(this.layers[i][j][k] !== null && !this.layers[i][j][k].selectable) {
-                        this.layers[i][j][k].dimTile()
+                        this.layers[i][j][k].dimTile(gameSession.colours.dim)
                     }                    
                 }
             }
@@ -399,8 +399,8 @@ class Layout {
             for (var j = 0; j < nodeList.length; j++) {
                 if (nodeList[j].tile.texture.key === this.roots[i].tile.texture.key) {
                     console.log("Found match")
-                    nodeList[j].highlightTileHint()
-                    this.roots[i].highlightTileHint()
+                    nodeList[j].highlightTileHint(gameSession.colours.hint)
+                    this.roots[i].highlightTileHint(gameSession.colours.hint)
                     this.activeHintTile1 = nodeList[j]
                     this.activeHintTile2 = this.roots[i]
                     return

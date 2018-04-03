@@ -49,7 +49,7 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.resetTileHighlight()
+                    this.currentSelection.resetTileHighlight(gameSession.colours.hint)
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -63,7 +63,7 @@ class Board {
                 }
             } else {
                 // Tile has not been selected yet
-                this.currentSelection.highlightTile()
+                this.currentSelection.highlightTile(gameSession.colours.select)
                 this.tileSelected = this.currentSelection
                 
                 if (!gameSession.practiceGame) {
@@ -92,11 +92,9 @@ class Board {
         }
     }
 
-
     tileMatch () {
         const UIDepth = 20000000001
         const animationDelay = 300
-        const greenHighlight = 0x32CD32
         var self = this
 
         this.failedMatches = 0
@@ -118,8 +116,8 @@ class Board {
             this.hintButton = null
         }
         
-        this.tileSelected.highlightTile(greenHighlight)
-        this.currentSelection.highlightTile(greenHighlight)
+        this.tileSelected.highlightTile(gameSession.colours.correct)
+        this.currentSelection.highlightTile(gameSession.colours.correct)
 
         this.slideTilesOut()
         
@@ -146,13 +144,11 @@ class Board {
     tileMismatch() {
         const UIDepth = 20000000001
         const animationDelay = 300
-        const greenHighlight = 0x32CD32
-        const redHighlight = 0xFF0000
+        var self = this
         
         // The two tiles don't match so only select the most recent tile
-        var self = this
-        this.tileSelected.highlightTile(redHighlight)
-        this.currentSelection.highlightTile(redHighlight)
+        this.tileSelected.highlightTile(gameSession.colours.incorrect)
+        this.currentSelection.highlightTile(gameSession.colours.incorrect)
         
         if (!gameSession.practiceGame) {
             // Statistics for incorrect match 
@@ -169,9 +165,9 @@ class Board {
 
         setTimeout(function () {
             if (self.tileSelected !== null & self.currentSelection !== null) {
-                self.tileSelected.resetTileHighlight()
+                self.tileSelected.resetTileHighlight(gameSession.colours.hint)
                 self.tileSelected = self.currentSelection
-                self.currentSelection.highlightTile()
+                self.currentSelection.highlightTile(gameSession.colours.select)
             }
             
             if (++self.failedMatches === 3 & self.layout.validMatchAvailable() & gameSession.enabledHints & self.layout.activeHintTile1 === null) {
@@ -193,13 +189,13 @@ class Board {
         const leftDisplacement = -300
         const d = 800
         console.log(window.innerWidth)
+        
         if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
                 x: { value: rightDisplacement, duration: d, ease: 'Power2' }
             })
-        }
-        else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
+        } else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
                 x: { value:  rightDisplacement, duration: d, ease: 'Power2' }
@@ -216,8 +212,7 @@ class Board {
                 targets: self.currentSelection.tile,
                 x: { value: rightDisplacement, duration: d, ease: 'Power2' }
             }) 
-        }
-        else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
+        } else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
             this.currentSelection.state.tweens.add({
                 targets: self.currentSelection.tile,
                 x: { value: rightDisplacement, duration: d, ease: 'Power2' }
@@ -266,9 +261,9 @@ class Board {
         
         // Hint is being given
         this.hintButton.on('pointerdown', function() {
-            this.tileSelected.resetTileHighlight()
+            this.tileSelected.resetTileHighlight(gameSession.colours.hint)
             this.tileSelected = null
-            this.currentSelection.resetTileHighlight()
+            this.currentSelection.resetTileHighlight(gameSession.colours.hint)
             this.currentSelection = null
             
             this.layout.giveHint()
