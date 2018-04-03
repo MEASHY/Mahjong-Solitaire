@@ -23,6 +23,8 @@ var StudioSession = function () {
             },
             layout: {
                 "header":{
+                    "name": null,
+                    "package": null,
                     "size": null,
                     "height": null,
                     "uniqueTiles": null,

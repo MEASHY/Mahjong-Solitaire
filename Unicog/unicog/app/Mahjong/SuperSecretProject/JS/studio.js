@@ -17,9 +17,9 @@ $.getJSON('/Assets/Tilesets/MahjongTiles1/tiles.json', function ( tileset ) {
     session.tileset = tileset
 })
 var session = new StudioSession()
-session.layout.header.numChildren = 4
-session.layoutX = 4
-session.layoutY = 4
+//session.layout.header.numChildren = 4
+//session.layoutX = 4
+//session.layoutY = 4
 
 /**
  * Loads all necessary assets for the game
@@ -77,6 +77,10 @@ function loadButtons (scope) {
     save.on('pointerdown', function() {
         var studioSession = new StudioSession()
         var layout = scope.board.layout
+        if (layout.size%2 !== 0) {
+            alert("There must be an even number of tiles in a layout")
+            return
+        }
         studioSession.layout.header.size = layout.size
         for (var i = 1; i <= layout.height; i++) {
             json = layout.getJSONLayer(i)
@@ -86,31 +90,14 @@ function loadButtons (scope) {
                 studioSession.layout.header.height = i
             } 
         }
-        console.log(prettyLayout(4))
+        showSave()
+        
     }, scope)
     
     var toggle = scope.add.sprite(100, 200, 'quit').setInteractive()
     toggle.on('pointerdown', function() {
         scope.board.layout.toggleVisible()
-    }, scope)  
-}
-function prettyLayout (indent) {
-    //var studioSession = new StudioSession()
-    var layout = (new StudioSession()).layout
-    var str = ""
-    var s = " ".repeat(indent)
-    str += "{\n" + s + '"header":'
-    str += JSON.stringify(layout.header,null,indent*2).slice(0,-1)
-    str += s+"}"
-    for (var i = 1; i <= layout.header.height; i++) {
-        str += ",\n" + s + '"layer' + i + '":[\n'
-        for(var j = 0; j < layout["layer"+i].length; j++) {
-            str += s.repeat(2) + JSON.stringify(layout["layer"+i][j])+",\n"
-        }
-        str = str.slice(0,-2)+"\n"+s+"]"
-    }
-    str += "\n}"
-    return str
+    }, scope)
 }
 /**
  * resizes the game by editing the game renderer.

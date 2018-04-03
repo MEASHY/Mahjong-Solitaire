@@ -19,7 +19,6 @@ class StudioLayout extends Layout{
         console.log(session)
         var layer = []
         for (var i = 0; i < session.layoutY; i++) {
-            console.log(i)
             layer.push([])
             for (var j = 0; j < session.layoutX; j++) {
                 layer[i].push(new StudioTileNode(this.state, j, i, 1, this.numChildren))
@@ -251,7 +250,7 @@ class StudioLayout extends Layout{
         var layer = Array(x).fill().map(() => Array(y).fill(0));
         var found = false
         for (var i = 0; i < this.layers[z].length; i++) {
-            for (var j = 0; j < this.layers[z][0].length; j++) {
+            for (var j = 0; j < this.layers[z][i].length; j++) {
                 if(this.layers[z][i][j] !== null && this.layers[z][i][j].placed) {
                     layer[i][j] = 1
                     found = true

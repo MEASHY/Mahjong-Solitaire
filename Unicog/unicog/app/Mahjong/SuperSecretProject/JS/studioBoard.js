@@ -14,17 +14,8 @@ class StudioBoard {
         //this.layout.layers = new Array(session.layoutX,session.layoutY);
         this.layout.fillBottomLayer()
         console.log(this)
-        //replace with correct structure
-        //x,y should be known
-        //for (var i = 1; i <= this.layout.height; i++) {
-        //    this.layout.addJsonLayer(session.layout['layer'+i], i)
-        //}
-        //session.sizeX = this.layout.layers[0][0].length
-        //session.sizeY = this.layout.layers[0].length
         
-        //this.layout.buildHierarchy()
-        //this.layout.generateTiles() 
-        //create this
+        this.size = scene.add.text(50, 300, 'Size: 0', { fontFamily: 'Arial', fontSize: 24, color: '#ffff00' });
         
     }
     placeTile(tilenode){
@@ -32,8 +23,10 @@ class StudioBoard {
         tilenode.unhighlightTile()
         tilenode.placed = true
         this.layout.addTileNode(tilenode)
+        this.size.setText('Size: ' + this.layout.size)
     }
     removeTile(tilenode){
         this.layout.removeStudioNode(tilenode)
+        this.size.setText('Size: ' + this.layout.size)
     }
 }

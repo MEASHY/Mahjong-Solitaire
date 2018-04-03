@@ -4,21 +4,21 @@
         <title>Mahjong</title>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
-        <link rel='stylesheet' type='text/css' href='mahform.css'>
+        <link rel='stylesheet' type='text/css' href='studioStyle.css'>
         
         <script> var user =  "{{user_id}}";</script>
         <script> var researcher =  "{{r_id}}";</script>
         <script src='js/phaser.js'></script>
         <script src='js/jquery-3.3.1.js'></script>
+        <script src='js/studioSession.js'></script>
         <!--<script src='js/gameSession.js'></script>-->
-        <script src='js/lobby.js'></script>     
+        <script src='js/studioLobby.js'></script>     
         <script src='js/tilenode.js'></script>
         <script src='js/layout.js'></script>
         <script src='js/board.js'></script>
         <script src='js/timer.js'></script>
         
         
-        <script src='js/studioSession.js'></script>
         <script src='js/studio.js'></script> 
         <script src='js/studioTilenode.js'></script>
         <script src='js/studioLayout.js'></script>
@@ -28,51 +28,61 @@
     </head>
     
     <div id='colorstrip'/>
-    <h1>Mahjong Lobby</h1>
+    <h1>Studio Lobby</h1>
     </div>
 
     <body class = 'main' oncontextmenu="return false;"
         <div class='game' id='gameDiv'>
         </div>
+        <div class='saveDiv' id='saveDiv'>
+        <h2>Layout Configuration</h2>
+            <form id='StudioSetup'>
+                <div class='text'>
+                    <label class = 'smallLabel' for='nameText'>Layout Name:</label>
+                    <input type="text" id="nameText"></input>
+                </div>
+                <div class='pkgDrop'>
+                    <label class = 'smallLabel' for='packageDropBox'>Layout Package:</label>
+                    <select class = 'packageOption' type='text' id='packageDropBox' onChange='checkOther(this.value)'></select>
+                </div>
+                <div id="otherDiv"></div>
+                <div>
+                    <label class = 'smallLabel' for='uniqueTiles'>Number of unique tiles:</label>
+                    <input class = 'saveNumber' type='number' id='uniqueTiles' min='1' max='44' value='27' >
+                </div>
+                <div>
+                    <label class = 'smallLabel' for='maxDuplicates'>Number of duplicate tiles:</label>
+                    <input class = 'saveNumber' type='number' id='maxDuplicates' min='1' max='999' value='5' >
+                </div>
+                <div>
+                    <input class = 'button' type='button' name='resume' onclick='resumeStudio()' value='Resume' >
+                    <input class = 'button' type='button' name='save' onclick='saveLayout()' value='Save' >
+                </div>
+            </form>
+        </div>
         
         <div class='lobby', id='lobbyDiv'>
-        <h2>Game Configuration</h2>
+        <h2>Layout Configuration</h2>
         <form id='StudioSetup'>
             <div class='dropdown'>
-                <select class = 'gridoption' type='text' id='packageDropBox' onchange='changePackage(this.value)' ></select>
-                <label class = 'largeLabel' for='packageDropBox'>Layout Package:</label>
-            </div>
-            <div class='dropdown'>
-                <select class = 'gridoption' type='text' id='layoutDropBox' ></select>
-                <label class = 'largeLabel' for='layoutDropBox'>Layout:</label>
-            </div>
-            <div class='dropdown'>
-                <select class = 'gridoption' type='text' id='tilesetDropBox' ></select>
-                <label class = 'largeLabel' for='tilesetDropBox'>Tileset:</label>
-            </div>
-            <div class='dropdown'>
-                <select class = 'gridoption' type='text' id='backgroundDropBox' ></select>
-                <label class = 'largeLabel' for='backgroundDropBox'>Game Background:</label>
+                <label class = 'largeLabel' for='packageDropBox'>Number of child Tiles:</label>
+                <select class = 'gridoption' type='text' id='childDropBox' >
+                    <option value=1 >1</option>
+                    <option value=2 >2</option>
+                    <option value=4 >4</option>                
+                </select>
             </div>
             <div class = 'bottom'>
                 <p><div class='option' id='timerDiv'>
-                    <h3 id='timerText'>Session Time Limit</h3>
-                    <label for='timerMinuteField'>MM:</label>
-                    <input class = 'time' type='number' id='timerMinuteField' min='1' max='59' value='15' >
-                    <label for='timerSecondField'>SS:</label>
-                    <input class = 'time' type='number' id='timerSecondField' min='0' max='59' value='0' >
-                </div>
-                <p><div class='option' id='beginnerDiv'>
-                    <h3 id='beginnerText'>Enable Beginner Mode</h3>
-                    <input type='checkbox' id='beginnerCheck' >
-                </div>
-                <div class='option' id='hintDiv'>
-                    <h3 id='hintText'>Enable Hints</h3>
-                    <input type='checkbox' id='hintCheck' >
+                    <h3 id='timerText'>Dimensions</h3>
+                    <label for='xField'>X:</label>
+                    <input class = 'time' type='number' id='xField' min='1' max='999' value='5' >
+                    <label for='yField'>Y:</label>
+                    <input class = 'time' type='number' id='yField' min='1' max='999' value='5' >
                 </div>
             </div>
             <div>
-                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Start Game' >
+                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Begin Layout' >
             </div>
         </form>
         </div>
