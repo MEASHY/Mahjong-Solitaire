@@ -91,10 +91,17 @@ function showGame (practiceGame) {
     gameSession.enabledHints = document.getElementById('hintCheck').checked
     gameSession.practiceGame = practiceGame
     
-    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
+    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
     
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
+    
+    /*
+    $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json', function ( colours ){
+        gameSession.colours = colours
+    })
+    */
+    
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
         gameSession.layout = layout
         
@@ -102,22 +109,26 @@ function showGame (practiceGame) {
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
             gameSession.tileset = tileset
             console.log("Tileset loaded")
-            console.log(gameSession.tileset)
-                
-            if (!practiceGame) {
-                if (gameSession.timer === null) {
-                    var minutes = document.getElementById('timerMinuteField').value
-                    var seconds = document.getElementById('timerSecondField').value
-                    gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                    
-                    document.getElementById('timerMinuteField').disabled = true
-                    document.getElementById('timerSecondField').disabled = true
-                    document.getElementById('timerText').innerText = 'Time Left in Session'
-                } else {
-                    gameSession.timer.resumeTimer()
+            console.log(gameSession.theme)
+            
+            $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json', function ( colours ){
+                gameSession.colours = colours
+            
+                if (!practiceGame) {
+                    if (gameSession.timer === null) {
+                        var minutes = document.getElementById('timerMinuteField').value
+                        var seconds = document.getElementById('timerSecondField').value
+                        gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                        
+                        document.getElementById('timerMinuteField').disabled = true
+                        document.getElementById('timerSecondField').disabled = true
+                        document.getElementById('timerText').innerText = 'Time Left in Session'
+                    } else {
+                        gameSession.timer.resumeTimer()
+                    }
                 }
-            }
-            startGame()        
+                startGame()        
+            })
         })
     })
 }

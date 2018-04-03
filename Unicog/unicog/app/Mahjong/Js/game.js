@@ -32,23 +32,14 @@ function preload () {
     // load UI elements
     var theme = gameSession.theme
     this.load.image('background' ,'/Assets/Themes/' + theme + '/Background.png')
-    console.log('/Assets/Themes/' + theme + '/Background.png')
     this.load.image('cancel' ,'/Assets/Themes/' + theme + '/Cancel.png')
-    console.log('/Assets/Themes/' + theme + '/Cancel.png')
     this.load.image('continue' ,'/Assets/Themes/' + theme + '/Continue.png')
-    console.log('/Assets/Themes/' + theme + '/Continue.png')
     this.load.image('finish' ,'/Assets/Themes/' + theme + '/Finish.png')
-    console.log('/Assets/Themes/' + theme + '/Finish.png')
     this.load.image('hint' ,'/Assets/Themes/' + theme + '/Hint.png')
-    console.log('/Assets/Themes/' + theme + '/Hint.png')
     this.load.image('overlay' ,'/Assets/Themes/' + theme + '/Overlay.png')
-    console.log('/Assets/Themes/' + theme + '/Overlay.png')
     this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
-    console.log('/Assets/Themes/' + theme + '/Pause.png')
     this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
-    console.log('/Assets/Themes/' + theme + '/Quit.png')
     this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
-    console.log('/Assets/Themes/' + theme + '/Shuffle.png')
     
     console.log('Assets loaded!')
 

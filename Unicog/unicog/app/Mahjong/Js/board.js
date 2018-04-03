@@ -62,7 +62,7 @@ class Board {
                 }
             } else {
                 // Tile has not been selected yet
-                this.currentSelection.highlightTile()
+                this.currentSelection.highlightTile(gameSession.colours.select)
                 this.tileSelected = this.currentSelection
                 
                 if (!gameSession.practiceGame) {
@@ -89,8 +89,8 @@ class Board {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             var that = this
-            this.tileSelected.highlightTile(0x32CD32)
-            this.currentSelection.highlightTile(0x32CD32)
+            this.tileSelected.highlightTile(gameSession.colours.correct)
+            this.currentSelection.highlightTile(gameSession.colours.correct)
 
             this.failedMatches = 0
             
@@ -153,8 +153,8 @@ class Board {
         } else {
             // The two tiles don't match so only select the most recent tile
             var that = this
-            this.tileSelected.highlightTile(0xFF0000)
-            this.currentSelection.highlightTile(0xFF0000)
+            this.tileSelected.highlightTile(gameSession.colours.incorrect)
+            this.currentSelection.highlightTile(gameSession.colours.incorrect)
             
             if (!gameSession.practiceGame) {
                 // Statistics for incorrect match 
