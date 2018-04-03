@@ -84,8 +84,9 @@ def mahjong_stats():
 
 @app.route('/mahjong_static/research_stats.html', methods = ['GET'])        
 def mahjong_stats_get():
-
-    db.session.query(Session).filter_by(user_id = filter_id, app = 'Mahjong').all()    
+    id = request.form['player']
+    sessions = db.session.query(Session).filter_by(user_id = filter_id, app = 'Mahjong').all()
+    games = sessions.filter_by(user_id = filter_id, app = 'Mahjong').all()
 
     return render_template(research_stats.html, query_result = result)
 
