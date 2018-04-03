@@ -70,11 +70,11 @@ class StudioLayout extends Layout{
         }
         switch(this.numChildren) {
             case 1:
-                this.layers[z+1][x][y] = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
-                this.layers[z+1][x][y].setTile('tile01')
-                tilenode.parents.push(this.layers[z+1][x][y])
-                this.layers[z+1][x][y].children.push(tilenode)
-                this.layers[z+1][x][y].setSpritePosition(this.numChildren)
+                this.layers[z+1][y][x] = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
+                this.layers[z+1][y][x].setTile('tile01')
+                tilenode.parents.push(this.layers[z+1][y][x])
+                this.layers[z+1][y][x].children.push(tilenode)
+                this.layers[z+1][y][x].setSpritePosition(this.numChildren)
                 break
             case 2:
                 if (x-1 >= 0) {
@@ -90,7 +90,7 @@ class StudioLayout extends Layout{
                         tile.setSpritePosition(this.numChildren)
                     }
                 }
-                if (x+1 < this.layers[z][x].length) {
+                if (x+1 < this.layers[z][y].length) {
                     var right = this.layers[z][y][x+1]
                     if (right !== null && right.placed) {
                         var tile = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
