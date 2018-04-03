@@ -1,0 +1,7 @@
+{
+    "select": "0xFFFD9A",
+    "correct": "0x32CD32",
+    "incorrect": "0xFF0000",
+    "hint": "0x5c95f2",
+    "dim": "0x808080"
+}

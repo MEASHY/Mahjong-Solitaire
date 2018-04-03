@@ -16,7 +16,6 @@ var gameConfig = {
  * @function Preload
  */
 function preload () {
-    this.load.image(gameSession.background, '/Assets/Themes/'+gameSession.background)
     
     var tiles = gameSession.tileset.main
     for (var i = 0; i < tiles.length; i++) {
@@ -30,14 +29,17 @@ function preload () {
         console.log('tile'+index)
     }
 
-    
-
-    // Load all of the button images
-    var buttonList = gameSession.buttons.main
-    for (var i = 0; i < buttonList.length; i++) {
-        this.load.image(buttonList[i].name, '/Assets/Buttons/'+buttonList[i].file)
-        console.log(buttonList[i].name)
-    }
+    // load UI elements
+    var theme = gameSession.theme
+    this.load.image('background' ,'/Assets/Themes/' + theme + '/Background.png')
+    this.load.image('cancel' ,'/Assets/Themes/' + theme + '/Cancel.png')
+    this.load.image('continue' ,'/Assets/Themes/' + theme + '/Continue.png')
+    this.load.image('finish' ,'/Assets/Themes/' + theme + '/Finish.png')
+    this.load.image('hint' ,'/Assets/Themes/' + theme + '/Hint.png')
+    this.load.image('overlay' ,'/Assets/Themes/' + theme + '/Overlay.png')
+    this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
+    this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
+    this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
     
     console.log('Assets loaded!')
 
@@ -55,7 +57,7 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
-    var background = this.add.sprite(0, 0, gameSession.background).setOrigin(0, 0)
+    var background = this.add.sprite(0, 0, 'background').setOrigin(0, 0)
     this.board = new Board(this)
     if (gameSession.timer !== null) {
         gameSession.timer.board = this.board
@@ -105,7 +107,10 @@ function triggerQuit () {
  * @param {context} scope - The scene that the buttons reside 
  */
 function loadButtons (scope) {
-    var test = scope.add.sprite(100, 50, 'quit').setInteractive()
+    
+    const UIDepth = 20000000001
+    
+    var test = scope.add.sprite(100, 50, 'pause').setInteractive()
     test.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
             gameSession.timer.pauseTimer()
@@ -113,10 +118,10 @@ function loadButtons (scope) {
         
         overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
         overlay.setScale(10)
-        overlay.setDepth(20000000000)
+        overlay.setDepth(UIDepth - 1)
 
         cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
-        cancel.setDepth(20000000001)
+        cancel.setDepth(UIDepth)
         cancel.on('pointerdown', function() {
             if (!gameSession.practiceGame) {
                 gameSession.timer.resumeTimer()
@@ -127,8 +132,8 @@ function loadButtons (scope) {
             cancel.destroy()
         },scope)
 
-        quit = scope.add.sprite(700, 500, 'quit-blue').setInteractive()
-        quit.setDepth(20000000001)
+        quit = scope.add.sprite(700, 500, 'quit').setInteractive()
+        quit.setDepth(UIDepth)
         quit.on('pointerdown', function () {
             
             if (!gameSession.practiceGame) {
@@ -136,7 +141,6 @@ function loadButtons (scope) {
                 gameStats.endGameTime = gameSession.timer.timeLeft
                 console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
             }
-            
             endGame(false)
         }, scope)
     }, scope)  

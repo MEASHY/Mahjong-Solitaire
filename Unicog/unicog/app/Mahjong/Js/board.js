@@ -48,7 +48,7 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.resetTileHighlight()
+                    this.currentSelection.resetTileHighlight(gameSession.colours.hint)
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -62,7 +62,7 @@ class Board {
                 }
             } else {
                 // Tile has not been selected yet
-                this.currentSelection.highlightTile()
+                this.currentSelection.highlightTile(gameSession.colours.select)
                 this.tileSelected = this.currentSelection
                 
                 if (!gameSession.practiceGame) {
@@ -89,8 +89,8 @@ class Board {
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             var that = this
-            this.tileSelected.highlightTile(0x32CD32)
-            this.currentSelection.highlightTile(0x32CD32)
+            this.tileSelected.highlightTile(gameSession.colours.correct)
+            this.currentSelection.highlightTile(gameSession.colours.correct)
 
             this.failedMatches = 0
             
@@ -153,8 +153,8 @@ class Board {
         } else {
             // The two tiles don't match so only select the most recent tile
             var that = this
-            this.tileSelected.highlightTile(0xFF0000)
-            this.currentSelection.highlightTile(0xFF0000)
+            this.tileSelected.highlightTile(gameSession.colours.incorrect)
+            this.currentSelection.highlightTile(gameSession.colours.incorrect)
             
             if (!gameSession.practiceGame) {
                 // Statistics for incorrect match 
@@ -172,9 +172,9 @@ class Board {
 
             setTimeout(function () {
                 if (that.tileSelected !== null & that.currentSelection !== null) {
-                    that.tileSelected.resetTileHighlight()
+                    that.tileSelected.resetTileHighlight(gameSession.colours.hint)
                     that.tileSelected = that.currentSelection
-                    that.currentSelection.highlightTile()
+                    that.currentSelection.highlightTile(gameSession.colours.select)
                 }
                 
                 if (++that.failedMatches === 3 & that.layout.validMatchAvailable() & gameSession.enabledHints & that.layout.activeHintTile1 === null) {
@@ -188,9 +188,9 @@ class Board {
                     
                     // Hint is being given
                     that.hintButton.on('pointerdown', function() {
-                        that.tileSelected.resetTileHighlight()
+                        that.tileSelected.resetTileHighlight(gameSession.colours.hint)
                         that.tileSelected = null
-                        that.currentSelection.resetTileHighlight()
+                        that.currentSelection.resetTileHighlight(gameSession.colours.hint)
                         that.currentSelection = null
                         
                         that.layout.giveHint()
