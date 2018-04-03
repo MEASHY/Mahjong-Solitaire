@@ -1,4 +1,4 @@
-from flask import render_template, send_file, request, send_from_directory
+from flask import render_template, send_file, request, send_from_directory, redirect, url_for
 from app import app, db
 from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Mahjong_Games
 #from sqlalchemy.sql.expression import func
@@ -67,7 +67,8 @@ def mahjong_game():
     
     return render_template('Mahjong/game.html',  
         user_id=request.form['player'], r_id = id)
-        
+
+  
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
@@ -77,8 +78,7 @@ def mahjong_stats():
         valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
         
     if (valid == None):
-        return render_template('Mahjong/research_login.html', error_message =
-            'The Researcher ID you submmitted does not exist') #invalid case
+        return redirect(url_for('mahjong_research_login_failed')) #invalid case
 
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
@@ -92,6 +92,16 @@ def mahjong_static_page(filename):
         
     return send_from_directory('Mahjong/', filename)
 
+@app.route('/mahjong_static/player_login_failed.html')
+def mahjong_player_login_failed():
+    return render_template('Mahjong/player_login.html', error_message =
+        'The Researcher ID you submmitted does not exist')
+        
+@app.route('/mahjong_static/research_login_failed.html')        
+def mahjong_research_login_failed():
+    return render_template('Mahjong/research_login.html', error_message =
+        'The Researcher ID you submmitted does not exist')
+    
 @app.route('/Assets/Layouts/<path:filename>')
 def send_layout(filename):
     return send_from_directory('Mahjong/Assets/Layouts/', filename)
