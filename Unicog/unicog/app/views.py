@@ -62,8 +62,7 @@ def mahjong_game():
         pass
     
     if (valid == None):
-        return render_template('Mahjong/player_login.html', error_message =
-            'The Researcher ID you submitted does not exist') #invalid case
+        return redirect(url_for('mahjong_player_login_failed')) #invalid case
     
     return render_template('Mahjong/game.html',  
         user_id=request.form['player'], r_id = id)
