@@ -7,7 +7,9 @@ class Board {
      * @param {context} scene - The scene in which the sprite resides.
      * @see Layout
      */
-    constructor (scene) { 
+    constructor (scene) {
+        const UIDepth = 20000000001
+
         this.scene = scene
         
         this.tileSelected = null
@@ -80,11 +82,6 @@ class Board {
      * In the case of a mismatch The TileNode will be highlighted and the previous deselected
      */
     checkMatch () {
-        const UIDepth = 20000000001
-        const animationDelay = 300
-        const greenHighlight = 0x32CD32
-        const redHighlight = 0xFF0000
-        
         this.animating = true
         
         // The two tiles match, remove them
@@ -137,7 +134,7 @@ class Board {
                 self.playSound('finishGame')
             } else {
                 if(!self.layout.validMatchAvailable()) {
-                    self.giveShuffleButton()
+                    self.showShuffleButton()
                 }
             }
             self.animating = false
@@ -176,7 +173,7 @@ class Board {
         this.playSound('error')
 
         if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
-            this.giveHintButton()
+            this.showHintButton()
         }
     }
 
@@ -224,7 +221,7 @@ class Board {
         }
     }
 
-    giveShuffleButton() {
+    showShuffleButton() {
         const UIDepth = 20000000001
         var self = this
         console.log('No matches')
@@ -248,8 +245,7 @@ class Board {
         }, self)
     }
 
-    giveHintButton() {
-        const UIDepth = 20000000001
+    showHintButton() {
         // Hint button appears
         this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
         this.hintButton.setDepth(UIDepth)
