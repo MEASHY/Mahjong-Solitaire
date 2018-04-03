@@ -189,39 +189,43 @@ class Board {
 
     slideTilesOut() {
         var self = this
+        const rightDisplacement = window.innerWidth + 100
+        const leftDisplacement = -300
+        const d = 800
+        console.log(window.innerWidth)
         if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
+                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
             })
         }
         else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
+                x: { value:  rightDisplacement, duration: d, ease: 'Power2' }
             })
         } else {
             this.tileSelected.state.tweens.add({
                 targets: self.tileSelected.tile,
-                x: { value: -300, duration: 800, ease: 'Power2' }
+                x: { value: leftDisplacement, duration: d, ease: 'Power2' }
             })
         }
         
         if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
             this.currentSelection.state.tweens.add({
                 targets: self.currentSelection.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
+                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
             }) 
         }
         else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
             this.currentSelection.state.tweens.add({
                 targets: self.currentSelection.tile,
-                x: { value: 1000, duration: 800, ease: 'Power2' }
+                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
             }) 
         } else {
             this.currentSelection.state.tweens.add({
                 targets: self.currentSelection.tile,
-                x: { value: -300, duration: 800, ease: 'Power2' }
+                x: { value: leftDisplacement, duration: d, ease: 'Power2' }
             })
         }
     }
