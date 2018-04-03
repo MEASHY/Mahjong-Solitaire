@@ -214,6 +214,11 @@ input[type="checkbox"] {
     border-radius: 10px;
 }
 
+#filter_button{
+    transform:scale(0.8, 0.8);
+    border-radius: 10px;
+}
+
         </style>
 <script type="text/javascript">//<![CDATA[
 window.onload=function(){
@@ -256,7 +261,7 @@ document.querySelector("#export").addEventListener("click", function () {
 </script>
 
 <script>
-function getPlayerGamnes(){
+function getPlayerGames(){
     var player_id = document.getElementById('filter').value;
     }
 </script>
@@ -276,9 +281,11 @@ function getPlayerGamnes(){
     		<p>
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' value='Player' />
+                
     		</p>
         </form>
-        <button id ='export'>Export to Excel</button>
+        <button id = 'filter_button' >Filter</button>
+        <button id ='export' action ='getPlayerGanmes()'>Export to Excel</button>
     </div>
     
     	<div id = 'table_div'>
