@@ -71,7 +71,6 @@ def mahjong_game():
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
-    
     id = request.form['researcher']
     valid = None
     if (id.isdigit()):
