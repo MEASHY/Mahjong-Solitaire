@@ -72,8 +72,6 @@ def mahjong_game():
 def mahjong_stats():
     #check that researcher id exists
     
-    print db.session.query(Mahjong_Games).filter_by(game_num = 1).add_column('package').first()
-    
     id = request.form['researcher']
     valid = None
     if (id.isdigit()):
