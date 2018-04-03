@@ -255,8 +255,12 @@ document.querySelector("#export").addEventListener("click", function () {
 }//]]> 
 </script>
 
+<script>
+function getPlayerGamnes(){
+    var player_id = document.getElementById('filter').value;
+    }
+</script>
     </head>
-    
     <body class = 'main'>
     <h1> Statistics </h1>
     <div class = 'statspage'>
@@ -267,8 +271,6 @@ document.querySelector("#export").addEventListener("click", function () {
                 <button id = 'logout' >Log Out</button>
             </p>
         </form>
-   
-    
     <div id = "top" >
     	<form id='player_filter' method='get' action ='filter'>
     		<p>
@@ -276,9 +278,7 @@ document.querySelector("#export").addEventListener("click", function () {
                 <input id='filter' name='player' value='Player' />
     		</p>
         </form>
-        
         <button id ='export'>Export to Excel</button>
-
     </div>
     
     	<div id = 'table_div'>

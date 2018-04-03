@@ -82,6 +82,13 @@ def mahjong_stats():
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
 
+@app.route('/mahjong_static/research_stats.html', methods = ['GET'])        
+def mahjong_stats_get():
+
+    db.session.query(Session).filter_by(user_id = filter_id, app = 'Mahjong').all()    
+
+    return render_template(research_stats.html, query_result = result)
+
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     try:
