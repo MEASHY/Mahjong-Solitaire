@@ -127,6 +127,7 @@ class Board {
         setTimeout(function () {
             self.layout.removeTile(self.tileSelected)
             self.layout.removeTile(self.currentSelection)
+            self.layout.removeHint()
             self.tileSelected = null
             self.currentSelection = null
             
@@ -147,18 +148,11 @@ class Board {
         const animationDelay = 300
         const greenHighlight = 0x32CD32
         const redHighlight = 0xFF0000
+        
         // The two tiles don't match so only select the most recent tile
         var self = this
         this.tileSelected.highlightTile(redHighlight)
         this.currentSelection.highlightTile(redHighlight)
-
-        setTimeout(function () {
-            self.tileSelected.resetTileHighlight()
-            self.tileSelected = self.currentSelection
-            self.currentSelection.highlightTile()
-            
-            self.animating = false
-        }, animationDelay)
         
         if (!gameSession.practiceGame) {
             // Statistics for incorrect match 
@@ -173,9 +167,19 @@ class Board {
         //gives audio feedback to the player
         this.playSound('error')
 
-        if (++this.failedMatches === 3 & this.layout.validMatchAvailable() & gameSession.enabledHints) {
-            this.showHintButton()
-        }
+        setTimeout(function () {
+            if (self.tileSelected !== null & self.currentSelection !== null) {
+                self.tileSelected.resetTileHighlight()
+                self.tileSelected = self.currentSelection
+                self.currentSelection.highlightTile()
+            }
+            
+            if (++self.failedMatches === 3 & self.layout.validMatchAvailable() & gameSession.enabledHints & self.layout.activeHintTile1 === null) {
+                self.showHintButton()
+            }
+            
+            self.animating = false
+        }, animationDelay)
     }
 
     playSound(soundName) {
@@ -247,6 +251,8 @@ class Board {
     }
 
     showHintButton() {
+        const UIDepth = 20000000001
+
         // Hint button appears
         this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
         this.hintButton.setDepth(UIDepth)
@@ -256,6 +262,11 @@ class Board {
         
         // Hint is being given
         this.hintButton.on('pointerdown', function() {
+            this.tileSelected.resetTileHighlight()
+            this.tileSelected = null
+            this.currentSelection.resetTileHighlight()
+            this.currentSelection = null
+            
             this.layout.giveHint()
             this.failedMatches = 0
             this.hintButton.destroy()
