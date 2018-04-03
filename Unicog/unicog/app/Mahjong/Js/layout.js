@@ -121,7 +121,7 @@ class Layout {
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
                     if (gameSession.beginnerMode) {
-                        tilenode.children[i].resetTileHighlight()
+                        tilenode.children[i].resetTileHighlight(gameSession.colours.hint)
                     }
                 }
             }
@@ -131,7 +131,7 @@ class Layout {
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
             if (gameSession.beginnerMode) {
-                neighbours[0].resetTileHighlight()
+                neighbours[0].resetTileHighlight(gameSession.colours.hint)
             }
             
         }

@@ -4,18 +4,18 @@
  */
 function initLobby () {
     $.getJSON('/Assets/Layouts/PackageList.json', function ( packages ) {
-        fillDropBox(packages, 'packageDropBox', 0)
+        fillDropBox(packages, 'packageDropBox')
         $.getJSON('/Assets/Layouts/'+packages[0]+'/layouts.json', function ( layouts ) {
-            fillDropBox(layouts, 'layoutDropBox', 0)
+            fillDropBox(layouts, 'layoutDropBox')
         })
     })
     
     $.getJSON('/Assets/Tilesets/SetList.json', function ( tilesets ) {
-        fillDropBox(tilesets, 'tilesetDropBox', 0)
+        fillDropBox(tilesets, 'tilesetDropBox')
     })
     
     $.getJSON('/Assets/Themes/ThemeList.json', function ( backgrounds ) {
-        fillDropBox(backgrounds, 'themeDropBox', 0)
+        fillDropBox(backgrounds, 'themeDropBox')
     })
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
@@ -25,12 +25,11 @@ function initLobby () {
  * generic dropBox filling function. takes an element and populates it with the elements of a json array
  * @function fillDropBox
  * @param {json[]} json - json array of options 
- * @param {string} elementId - element to modify
  */
-function fillDropBox ( json, elementId, removeFromNameEnd ) {
+function fillDropBox ( json, elementId ) {
     var dropBox = document.getElementById(elementId).options
     for (i = 0; i < json.length; i++) {
-        dropBox.add(new Option (json[i].slice(0, json[i].length-removeFromNameEnd), json[i]), i)
+        dropBox.add(new Option(json[i], json[i]), i)
     }
 }
 /**
@@ -41,7 +40,7 @@ function fillDropBox ( json, elementId, removeFromNameEnd ) {
 function changePackage (name) {
     $('#layoutDropBox').empty()
     $.getJSON('/Assets/Layouts/'+name+'/layouts.json', function ( layouts ) {
-        fillDropBox(layouts, 'layoutDropBox', 0)
+        fillDropBox(layouts, 'layoutDropBox')
     })
 }
 /**
@@ -85,23 +84,15 @@ function showGame (practiceGame) {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
-    //gameSession.background = document.getElementById('backgroundDropBox').value
     gameSession.theme = document.getElementById('themeDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     gameSession.enabledHints = document.getElementById('hintCheck').checked
     gameSession.practiceGame = practiceGame
     
-    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
-    
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     
-    /*
-    $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json', function ( colours ){
-        gameSession.colours = colours
-    })
-    */
-    
+    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
         gameSession.layout = layout
         

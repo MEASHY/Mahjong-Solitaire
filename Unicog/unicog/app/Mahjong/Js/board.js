@@ -48,7 +48,7 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.resetTileHighlight()
+                    this.currentSelection.resetTileHighlight(gameSession.colours.hint)
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -172,9 +172,9 @@ class Board {
 
             setTimeout(function () {
                 if (that.tileSelected !== null & that.currentSelection !== null) {
-                    that.tileSelected.resetTileHighlight()
+                    that.tileSelected.resetTileHighlight(gameSession.colours.hint)
                     that.tileSelected = that.currentSelection
-                    that.currentSelection.highlightTile()
+                    that.currentSelection.highlightTile(gameSession.colours.select)
                 }
                 
                 if (++that.failedMatches === 3 & that.layout.validMatchAvailable() & gameSession.enabledHints & that.layout.activeHintTile1 === null) {
@@ -188,9 +188,9 @@ class Board {
                     
                     // Hint is being given
                     that.hintButton.on('pointerdown', function() {
-                        that.tileSelected.resetTileHighlight()
+                        that.tileSelected.resetTileHighlight(gameSession.colours.hint)
                         that.tileSelected = null
-                        that.currentSelection.resetTileHighlight()
+                        that.currentSelection.resetTileHighlight(gameSession.colours.hint)
                         that.currentSelection = null
                         
                         that.layout.giveHint()

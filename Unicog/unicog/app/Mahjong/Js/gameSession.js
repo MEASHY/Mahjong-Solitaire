@@ -13,9 +13,8 @@ var GameSession = function () {
             // Game information
             layout: null,
             tileset: null,
-            buttons: null,
             colours: null,
-            background: null,
+            theme: null,
             beginnerMode: false,
             enabledHints: false,
             practiceGame: false,
