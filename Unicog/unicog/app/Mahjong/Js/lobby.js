@@ -14,8 +14,8 @@ function initLobby () {
         fillDropBox(tilesets, 'tilesetDropBox', 0)
     })
     
-    $.getJSON('/Assets/Themes/BackgroundList.json', function ( backgrounds ) {
-        fillDropBox(backgrounds, 'backgroundDropBox', 4)
+    $.getJSON('/Assets/Themes/ThemeList.json', function ( backgrounds ) {
+        fillDropBox(backgrounds, 'themeDropBox', 0)
     })
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
@@ -85,12 +85,14 @@ function showGame (practiceGame) {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
-    gameSession.background = document.getElementById('backgroundDropBox').value
+    //gameSession.background = document.getElementById('backgroundDropBox').value
+    gameSession.theme = document.getElementById('themeDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
     gameSession.enabledHints = document.getElementById('hintCheck').checked
     gameSession.practiceGame = practiceGame
     
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
+    
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
@@ -101,25 +103,21 @@ function showGame (practiceGame) {
             gameSession.tileset = tileset
             console.log("Tileset loaded")
             console.log(gameSession.tileset)
-            
-            $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-                gameSession.buttons = buttons
                 
-                if (!practiceGame) {
-                    if (gameSession.timer === null) {
-                        var minutes = document.getElementById('timerMinuteField').value
-                        var seconds = document.getElementById('timerSecondField').value
-                        gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                        
-                        document.getElementById('timerMinuteField').disabled = true
-                        document.getElementById('timerSecondField').disabled = true
-                        document.getElementById('timerText').innerText = 'Time Left in Session'
-                    } else {
-                        gameSession.timer.resumeTimer()
-                    }
+            if (!practiceGame) {
+                if (gameSession.timer === null) {
+                    var minutes = document.getElementById('timerMinuteField').value
+                    var seconds = document.getElementById('timerSecondField').value
+                    gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                    
+                    document.getElementById('timerMinuteField').disabled = true
+                    document.getElementById('timerSecondField').disabled = true
+                    document.getElementById('timerText').innerText = 'Time Left in Session'
+                } else {
+                    gameSession.timer.resumeTimer()
                 }
-                startGame()
-            })
+            }
+            startGame()        
         })
     })
 }
