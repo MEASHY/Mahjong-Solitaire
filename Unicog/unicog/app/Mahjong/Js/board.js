@@ -153,7 +153,7 @@ class Board {
         this.currentSelection.highlightTile(redHighlight)
 
         setTimeout(function () {
-            self.tileSelected.unhighlightTile()
+            self.tileSelected.resetTileHighlight()
             self.tileSelected = self.currentSelection
             self.currentSelection.highlightTile()
             
