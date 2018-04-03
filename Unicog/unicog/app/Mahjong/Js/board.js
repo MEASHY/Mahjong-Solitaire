@@ -49,7 +49,7 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.unhighlightTile()
+                    this.currentSelection.resetTileHighlight()
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -91,6 +91,7 @@ class Board {
             this.tileMismatch()
         }
     }
+
 
     tileMatch () {
         const UIDepth = 20000000001
