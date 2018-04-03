@@ -1,6 +1,6 @@
 from flask import render_template, send_file, request, send_from_directory
 from app import app, db
-from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Mahjong_Games
 #from sqlalchemy.sql.expression import func
 
 SERVER_URL = 'http://199.116.235.91/'
@@ -71,8 +71,9 @@ def mahjong_game():
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
     #check that researcher id exists
-    #check DB for r_id?   
-    #testlogin = Researchers(r_id = 12345678)
+    
+    print db.session.query(Mahjong_Games).filter_by(game_num = 1).add_column('package').first()
+    
     id = request.form['researcher']
     valid = None
     if (id.isdigit()):
