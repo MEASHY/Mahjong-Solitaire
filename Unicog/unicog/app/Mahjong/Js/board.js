@@ -162,7 +162,7 @@ class Board {
         }
         
         //gives audio feedback to the player
-        this.playSound('error')
+        this.playSound('incorrect')
 
         setTimeout(function () {
             if (self.tileSelected !== null & self.currentSelection !== null) {
