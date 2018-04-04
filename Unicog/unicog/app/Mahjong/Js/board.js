@@ -180,8 +180,12 @@ class Board {
     }
 
     playSound(soundName) {
-        var music = this.scene.sound.add(soundName)
-        music.play()
+        var s = gameSession
+        if (s.sound) {
+            var music = this.scene.sound.add(soundName)
+            music.play()
+        }
+        
     }
 
     slideTileOut(tilenode) {

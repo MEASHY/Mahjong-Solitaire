@@ -110,12 +110,28 @@ function loadButtons (scope) {
     const UIDepth = 20000000001
     var s = gameSession
 
-
+    // create the sound toggle using animations feature of phaser
+    scope.anims.create({
+        key: 'soundOff',
+        frames: [
+            { key: 'soundOff' }
+        ]
+    })
+    scope.anims.create({
+        key: 'soundOn',
+        frames: [
+            { key: 'soundOn' }
+        ]
+    })
     var sound = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 100, 'soundOn').setInteractive()
     sound.on('pointerdown', function () {
-        //sound = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 100, 'soundOff')
-        
-
+        if (s.sound) {
+            sound.play('soundOff')
+            s.sound = false
+        } else {
+            sound.play('soundOn')
+            s.sound = true
+        }
     })
     
 
