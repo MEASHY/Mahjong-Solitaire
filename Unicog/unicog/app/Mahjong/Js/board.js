@@ -237,7 +237,7 @@ class Board {
 
     showHintButton() {
         const UIDepth = 20000000001
-        const buttonDisplacementX = window.innerWidth - 100
+        const buttonDisplacementX = window.innerWidth - 500
         var s = gameSession
 
         // Hint button appears
