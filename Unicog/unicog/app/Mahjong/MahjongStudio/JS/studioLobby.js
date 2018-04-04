@@ -112,7 +112,18 @@ function saveLayout () {
         return
     }
     //replace this with save to database later 
-    console.log(prettyLayout(4))
+    var json = prettyLayout(4)
+    console.log(json)
+    downloadLayout("data:,"+json,session.layout.header.name+'.json')
+}
+function downloadLayout(json, name) {
+  var link = document.createElement("a");
+  link.download = name;
+  link.href = json;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  delete link;
 }
 /**
  * creates a prettyPrint of the layout
