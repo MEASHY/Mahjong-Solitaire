@@ -200,6 +200,18 @@ class Board {
                 alpha: { value: 0, duration: 500, ease: 'Power2'}
             })
     }
+    pulsateTile(tilenode) {
+        var scaleTargetX = tilenode.tile.scaleX * 1.2
+        var scaleTargetY = tilenode.tile.scaleY * 1.2
+        tilenode.state.tweens.add({
+                targets: tilenode.tile,
+                yoyo: true,
+                repeat: 2,
+                scaleX: { value: scaleTargetX, duration: 500, ease: 'Power2' },
+                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' },
+                onComplete: function() {console.log("completed")}
+            })
+    }
 
     showShuffleButton() {
         const UIDepth = 20000000001
@@ -238,11 +250,14 @@ class Board {
         // Hint is being given
         this.hintButton.on('pointerdown', function() {
             this.tileSelected.resetTileHighlight(gameSession.colours.hint)
-            this.tileSelected = null
             this.currentSelection.resetTileHighlight(gameSession.colours.hint)
             this.currentSelection = null
+            this.tileSelected = null
             
-            this.layout.giveHint()
+            var hintedTiles = this.layout.giveHint()
+            this.pulsateTile(hintedTiles[0])
+            this.pulsateTile(hintedTiles[1])
+            
             this.failedMatches = 0
             this.hintButton.destroy()
             

@@ -403,7 +403,7 @@ class Layout {
                     this.roots[i].highlightTileHint(gameSession.colours.hint)
                     this.activeHintTile1 = nodeList[j]
                     this.activeHintTile2 = this.roots[i]
-                    return
+                    return [nodeList[j],this.roots[i]]
                 }
             }
             nodeList.push(this.roots[i])
