@@ -40,7 +40,9 @@ function preload () {
     this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
     this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
     this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
-    
+    this.load.image('soundOff','/Assets/Themes/' + theme + '/SoundOff.png')
+    this.load.image('soundOn','/Assets/Themes/' + theme + '/SoundOn.png')
+
     console.log('Assets loaded!')
 
     //load the sound files
@@ -93,6 +95,11 @@ function create () {
 function triggerQuit () {
     console.log('Quit triggered!')
 }
+
+function soundToggle(sound) {
+    console.log('trigger sound toggle')
+    var s = gameSession
+}
 /**
  * Loads button assets for the game
  * @function loadButtons
@@ -102,6 +109,16 @@ function loadButtons (scope) {
     
     const UIDepth = 20000000001
     var s = gameSession
+
+
+    var sound = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 100, 'soundOn').setInteractive()
+    sound.on('pointerdown', function () {
+        //sound = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 100, 'soundOff')
+        
+
+    })
+    
+
     var pause = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 50, 'pause').setInteractive()
     pause.setScale(s.scale)
 

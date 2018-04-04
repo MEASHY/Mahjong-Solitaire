@@ -19,6 +19,7 @@ var GameSession = function () {
             enabledHints: false,
             practiceGame: false,
             timer: null,
+            sound: true,
             
             // Layout information
             sizeX: 0,
