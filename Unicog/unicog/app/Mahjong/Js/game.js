@@ -44,11 +44,11 @@ function preload () {
     console.log('Assets loaded!')
 
     //load the sound files
-    this.load.audio('correct', '/Assets/Audio/correct4.mp3')
-    this.load.audio('error', '/Assets/Audio/wrongmatch.mp3')
+    this.load.audio('correct', '/Assets/Audio/correct.mp3')
+    this.load.audio('incorrect', '/Assets/Audio/incorrect.mp3')
     this.load.audio('click', '/Assets/Audio/click.mp3')
-    this.load.audio('hint', '/Assets/Audio/hint2.mp3')
-    this.load.audio('shuffle', '/Assets/Audio/shuffle2.mp3')
+    this.load.audio('hint', '/Assets/Audio/hint.mp3')
+    this.load.audio('shuffle', '/Assets/Audio/shuffle.mp3')
     this.load.audio('finishGame', 'Assets/Audio/finish_game.mp3')
 }
 /**
@@ -63,8 +63,6 @@ function create () {
     if (gameSession.timer !== null) {
         gameSession.timer.board = this.board
     }
-
-    console.log('Game created!')
     
     resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
@@ -80,7 +78,7 @@ function create () {
 
     //add the sound effects to the game.
     this.sound.add('correct')
-    this.sound.add('error')
+    this.sound.add('incorrect')
     this.sound.add('click')
     this.sound.add('hint')
     this.sound.add('shuffle')
