@@ -90,12 +90,12 @@ def mahjong_stats_get():
     for row in sessions:
         mahjong_sessions.append(db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all())
         
-    results = '{"results":'
+    results = '{"sessions": ['
     for sess in mahjong_sessions:
-        results += '[{'
         for game in sess:
             if results[-1] == '}':
                 results += ','
+            results += '{'
             results += '"session_id": ' + str(game.session_id) + ','
             results += '"game_num": ' + str(game.game_num) + ','
             results += '"package": "' + game.package + '",'
@@ -108,8 +108,7 @@ def mahjong_stats_get():
             results +=  '"hints": ' + str(game.hints) + ','
             results +=  '"shuffles": ' + str(game.shuffles) + ','
             results +=  '"time_taken":' + str(game.time_taken) + ','
-            results +=  '"completion": "' + game.completion + '"'          
-        results += '}'
+            results +=  '"completion": "' + game.completion + '"}'          
     results += ']}'
     return render_template('Mahjong/research_stats.html', query_result = results)
 
