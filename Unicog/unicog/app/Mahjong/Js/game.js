@@ -57,6 +57,7 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
+    var s = gameSession
     var background = this.add.sprite(0, 0, 'background').setOrigin(0, 0)
     this.board = new Board(this)
     if (gameSession.timer !== null) {
@@ -70,9 +71,12 @@ function create () {
     window.onresize = function () {
         resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
+
+        buttons.setPosition(s.scale * 100, s.scale * 50)
+        buttons.setScale(s.scale)
     }
 
-    loadButtons(this)
+    var buttons = loadButtons(this)
 
     //add the sound effects to the game.
     this.sound.add('correct')
@@ -99,16 +103,21 @@ function triggerQuit () {
 function loadButtons (scope) {
     
     const UIDepth = 20000000001
-    
-    var test = scope.add.sprite(100, 50, 'pause').setInteractive()
-    test.on('pointerdown', function() {
+    var s = gameSession
+    var pause = game.scene.scenes[0].add.sprite(s.scale * 100, s.scale * 50, 'pause').setInteractive()
+    pause.setScale(s.scale)
+
+    pause.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
             gameSession.timer.pauseTimer()
         }
         
-        overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
-        overlay.setScale(10)
+        overlay = scope.add.sprite(540 * s.scale, 400 * s.scale, 'overlay').setInteractive()
+        overlay.setScale(2.1 * s.scale)
         overlay.setDepth(UIDepth - 1)
+
+        pauseText = scope.add.text(270 * s.scale, 200, 'Do you want to quit?', { font: '64px Arial', fill: '#000000'})
+        pauseText.setDepth(UIDepth)
 
         cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
         cancel.setDepth(UIDepth)
@@ -120,6 +129,7 @@ function loadButtons (scope) {
             overlay.destroy()
             quit.destroy()
             cancel.destroy()
+            pauseText.destroy()
         },scope)
 
         quit = scope.add.sprite(700, 500, 'quit').setInteractive()
@@ -133,7 +143,8 @@ function loadButtons (scope) {
             }
             endGame(false)
         }, scope)
-    }, scope)  
+    }, scope)
+    return pause
 }
 /**
  * resizes the game by editing the game renderer.

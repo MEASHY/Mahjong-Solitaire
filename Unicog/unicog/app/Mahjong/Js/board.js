@@ -227,8 +227,14 @@ class Board {
 
     showShuffleButton() {
         const UIDepth = 20000000001
+        var s = gameSession
         var self = this
         console.log('No matches')
+
+        var overlay = self.scene.add.sprite(540 * s.scale, 400 * s.scale, 'overlay').setInteractive()
+        overlay.setScale(2 * s.scale * .9)
+        overlay.setDepth(UIDepth - 1)
+
         var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
         shuffleButton.setDepth(UIDepth)
         
@@ -237,7 +243,7 @@ class Board {
             self.layout.shuffle()
             shuffleButton.destroy()
             self.failedMatches = 0
-
+            overlay.destroy()
             //gives audio feedback to the player
             this.playSound('shuffle')
             
@@ -251,9 +257,12 @@ class Board {
 
     showHintButton() {
         const UIDepth = 20000000001
+        const buttonDisplacementX = window.innerWidth - 100
+        var s = gameSession
 
         // Hint button appears
-        this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
+        this.hintButton = this.scene.add.sprite(buttonDisplacementX, 50, 'hint').setInteractive()
+        this.hintButton.setScale(s.scale)
         this.hintButton.setDepth(UIDepth)
 
         //gives audio feedback to the player
@@ -281,11 +290,22 @@ class Board {
     
     scoreScreen (timerDone) {
         const UIDepth = 20000000001
-        
+        var s = gameSession
         // End the game here
-        var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
-        overlay.setScale(10)
+        var overlay = this.scene.add.sprite(540 * s.scale, 400 * s.scale, 'overlay').setInteractive()
+        overlay.setScale(2.1 * s.scale)
         overlay.setDepth(UIDepth - 1)
+
+        var congratulations = this.scene.add.text(320 * s.scale, 200, "Congratulations!", { font: '64px Arial', fill: '#000000'})
+        congratulations.setDepth(UIDepth)
+        var endGameStatsText = this.scene.add.text(100, 200, 'You\'ve made ' + 
+                                                                        gameStats.correctMatches + 
+                                                                        ' matches\n        in ' +  
+                                                                        String(gameStats.startGameTime - gameStats.endGameTime) + 
+                                                                        ' seconds.', { font: '64px Arial',
+                                                                                        fill: '#000000'})
+        endGameStatsText.setDepth(UIDepth)
+        Phaser.Display.Align.In.Center(endGameStatsText, overlay)
         
         if (!gameSession.practiceGame) {
             // Statistics for time taken to complete game
@@ -294,7 +314,7 @@ class Board {
             console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
         }
         
-        var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
+        var continueButton = this.scene.add.sprite(540 * s.scale, 600, 'continue').setInteractive()
         continueButton.setDepth(UIDepth)
         continueButton.on('pointerdown', function() {
             if (!gameSession.practiceGame & !timerDone) {
