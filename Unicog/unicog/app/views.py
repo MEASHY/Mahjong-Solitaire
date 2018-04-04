@@ -86,13 +86,32 @@ def mahjong_stats():
 def mahjong_stats_get():
     filter_id = request.form['player']
     sessions = db.session.query(Sessions).filter_by(user_id = filter_id, app = 'Mahjong').all()
-    games = []
+    mahjong_sessions = []
     for row in sessions:
-        games.append(db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all())
-        print games
-        print db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).first().layout
-
-    return render_template('Mahjong/research_stats.html', query_result = "")
+        mahjong_sessions.append(db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all())
+        
+    results = '{"results":'
+    for sess in mahjong_sessions:
+        results += '[{'
+        for game in sess:
+            if results[-1] == '}':
+                results += ','
+            results += '"session_id": ' + str(game.session_id) + ','
+            results += '"game_num": ' + str(game.game_num) + ','
+            results += '"package": "' + game.package + '",'
+            results += '"layout": "' + game.layout + '",'
+            results +=  '"selections": ' + str(game.selections) + ','
+            results +=  '"deselections": ' + str(game.deselections) + ','
+            results +=  '"correct_matches": ' + str(game.correct_matches) + ','
+            results +=  '"incorrect_matches": ' + str(game.incorrect_matches) + ','
+            results +=  '"hints_enabled": ' + str(game.hints_enabled).lower() + ','
+            results +=  '"hints": ' + str(game.hints) + ','
+            results +=  '"shuffles": ' + str(game.shuffles) + ','
+            results +=  '"time_taken":' + str(game.time_taken) + ','
+            results +=  '"completion": "' + game.completion + '"'          
+        results += '}'
+    results += ']}'
+    return render_template('Mahjong/research_stats.html', query_result = results)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
