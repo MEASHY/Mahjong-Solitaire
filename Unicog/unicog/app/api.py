@@ -135,7 +135,7 @@ def get_version():
 	return jsonify({'version':version}), 200
     
     
-    @app.route('/api/v1/create_mahjong_session', methods=['POST'])
+@app.route('/api/v1/create_mahjong_session', methods=['POST'])
 def create_mahjong():
 	if not all(param in request.json for param in ('game_num','package','layout','selections',
     'deselections','correct_matches','incorrect_matches','hints_enabled','hints','shuffles','time_taken','completion' )):
@@ -168,9 +168,9 @@ def create_mahjong():
         hints = request.json.get('hints'),
         shuffles = request.json.get('shuffles'), 
         time_taken = request.json.get('ltime_taken'),
-        completion = request.json.get('completion'),
-    db.session.add(mahjong_session)
-    db.session.commit()
+        completion = request.json.get('completion'))
+        db.session.add(mahjong_session)
+        db.session.commit()
 
 	return jsonify({'session_created': "successfully created mahjong session"}) , 201
 
