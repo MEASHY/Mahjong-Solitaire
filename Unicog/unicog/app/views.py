@@ -82,13 +82,17 @@ def mahjong_stats():
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
 
-@app.route('/mahjong_static/research_stats.html', methods = ['GET'])        
+@app.route('/mahjong_static/researcher_stats_filter.html', methods = ['POST'])        
 def mahjong_stats_get():
-    id = request.form['player']
+    filter_id = request.form['player']
     sessions = db.session.query(Sessions).filter_by(user_id = filter_id, app = 'Mahjong').all()
-    games = db.session.query(Mahjong_Games).filter_by(user_id = filter_id,app = 'Mahjong').all()
+    games = []
+    for row in sessions:
+        games.append(db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all())
+        print games
+        print db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).first().layout
 
-    return render_template(research_stats.html, query_result = result)
+    return render_template('Mahjong/research_stats.html', query_result = "")
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):

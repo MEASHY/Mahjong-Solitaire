@@ -279,14 +279,13 @@ function getPlayerGames(){
             </p>
         </form>
     <div id = "top" >
-    	<form id='player_filter' method='get' action ='filter'>
+    	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
     		<p>
                 <label for='filter'>Search Player:</label>
-                <input id='filter' name='player' value='Player' />
-                
+                <input id='filter' name='player' placeholder='Player' />
     		</p>
+            <button id = 'filter_button' type='submit' >Filter</button>
         </form>
-        <button id = 'filter_button' action ='getPlayerGanmes()' >Filter</button>
         <button id ='export'>Export to Excel</button>
     </div>
     
