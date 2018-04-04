@@ -27,9 +27,9 @@
 
     </head>
     
-    <div id='colorstrip'/>
+
     <h1>Studio Lobby</h1>
-    </div>
+
 
     <body class = 'main' oncontextmenu="return false;"
         <div class='game' id='gameDiv'>
@@ -61,25 +61,26 @@
             </form>
         </div>
         
-        <div class='lobby', id='lobbyDiv'>
-        <h2>Layout Configuration</h2>
+        <div class='lobby' id='lobbyDiv'>
+        <h2 id = 'studioTitle'>Layout Configuration</h2>
         <form id='StudioSetup'>
-            <div class='dropdown'>
-                <label class = 'largeLabel' for='packageDropBox'>Number of child Tiles:</label>
-                <select class = 'gridoption' type='text' id='childDropBox' >
+            <div class = 'bottom'>
+            <div class = 'studioDiv'>
+                <select class = 'childSelect' type='text' id='childDropBox' >
                     <option value=1 >1</option>
                     <option value=2 >2</option>
                     <option value=4 >4</option>                
                 </select>
+                <label class = 'childLabel' for='packageDropBox'>Number of child Tiles:</label>
             </div>
-            <div class = 'bottom'>
-                <p><div class='option' id='timerDiv'>
-                    <h3 id='timerText'>Dimensions</h3>
-                    <label for='xField'>X:</label>
-                    <input class = 'time' type='number' id='xField' min='1' max='999' value='5' >
-                    <label for='yField'>Y:</label>
-                    <input class = 'time' type='number' id='yField' min='1' max='999' value='5' >
-                </div>
+            <div class='studioOption' id='timerDiv'>
+                <h3 id='timerText'>Dimensions</h3>
+                <label for='xField'>X:</label>
+                <input class = 'time' type='number' id='xField' min='1' max='999' value='5' >
+                <label for='yField'>Y:</label>
+                <input class = 'time' type='number' id='yField' min='1' max='999' value='5' >
+            </div>
+
             </div>
             <div>
                 <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Begin Layout' >
