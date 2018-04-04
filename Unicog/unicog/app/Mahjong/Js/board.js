@@ -94,7 +94,7 @@ class Board {
 
     tileMatch () {
         const UIDepth = 20000000001
-        const animationDelay = 300
+        const animationDelay = 500
         var self = this
 
         this.failedMatches = 0
@@ -119,7 +119,8 @@ class Board {
         this.tileSelected.highlightTile(gameSession.colours.correct)
         this.currentSelection.highlightTile(gameSession.colours.correct)
 
-        this.slideTilesOut()
+        this.slideTileOut(this.tileSelected)
+        this.slideTileOut(this.currentSelection)
         
         //delay for the animations
         setTimeout(function () {
@@ -161,7 +162,7 @@ class Board {
         }
         
         //gives audio feedback to the player
-        this.playSound('error')
+        this.playSound('incorrect')
 
         setTimeout(function () {
             if (self.tileSelected !== null & self.currentSelection !== null) {
@@ -183,46 +184,21 @@ class Board {
         music.play()
     }
 
-    slideTilesOut() {
-        var self = this
-        const rightDisplacement = window.innerWidth + 100
-        const leftDisplacement = -300
-        const d = 800
-        console.log(window.innerWidth)
-        
-        if (this.layout.findNeighbours(this.tileSelected)[0] === undefined) {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
-            })
-        } else if (this.layout.findNeighbours(this.tileSelected)[0].x < this.tileSelected.x) {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value:  rightDisplacement, duration: d, ease: 'Power2' }
-            })
+    slideTileOut(tilenode) {
+        var neighbour = this.layout.findNeighbours(tilenode)[0]
+        if (neighbour === undefined || neighbour.x < tilenode.x) {
+            var destination = tilenode.tile.x + 100
+            console.log('slide left')
         } else {
-            this.tileSelected.state.tweens.add({
-                targets: self.tileSelected.tile,
-                x: { value: leftDisplacement, duration: d, ease: 'Power2' }
-            })
+            var destination = tilenode.tile.x - 100
+            console.log('slide right')
         }
         
-        if (this.layout.findNeighbours(this.currentSelection)[0] === undefined) {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
-            }) 
-        } else if (this.layout.findNeighbours(this.currentSelection)[0].x < this.currentSelection.x) {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: rightDisplacement, duration: d, ease: 'Power2' }
-            }) 
-        } else {
-            this.currentSelection.state.tweens.add({
-                targets: self.currentSelection.tile,
-                x: { value: leftDisplacement, duration: d, ease: 'Power2' }
+        tilenode.state.tweens.add({
+                targets: tilenode.tile,
+                x: { value: destination, duration: 1000, ease: 'Power2' },
+                alpha: { value: 0, duration: 500, ease: 'Power2'}
             })
-        }
     }
 
     showShuffleButton() {
