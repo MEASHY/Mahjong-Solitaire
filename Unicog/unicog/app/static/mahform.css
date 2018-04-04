@@ -304,3 +304,8 @@ select.language option {
     padding: 14px 36px;
     width: 45%;
 }
+
+#filter_button{
+    transform:scale(0.8, 0.8);
+    border-radius: 10px;
+}
