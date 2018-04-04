@@ -62,8 +62,6 @@ function create () {
     if (gameSession.timer !== null) {
         gameSession.timer.board = this.board
     }
-
-    console.log('Game created!')
     
     resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
