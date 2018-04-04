@@ -156,14 +156,14 @@ class Layout {
             var possible = []
             while(possible.length < this.uniqueTiles){
                 var randomnumber = Math.floor(Math.random() * gameSession.tileset.size);
-                if(possible.indexOf(randomnumber) > -1) continue;
                 if(randomnumber  < 10) {
                     randomnumber = "0" + randomnumber.toString()
                 }
-                possible[possible.length] = randomnumber;
+                if(possible.indexOf(randomnumber.toString()) > -1) {continue;}
+                possible.push(randomnumber.toString());
             }
         }
-         
+        
         for (var i = 0; i < counts.length; i++) {
             originalCounts.push(counts[i])
             originalPossible.push(possible[i])
@@ -184,7 +184,7 @@ class Layout {
             }
         }
         
-        for (var n = 0; n < this.size/2; n++) {
+        for (var n = 0; n < this.size/2; n++) {            
             //get tile
             var randTile = Math.floor(Math.random() * Math.floor(possible.length))
             
