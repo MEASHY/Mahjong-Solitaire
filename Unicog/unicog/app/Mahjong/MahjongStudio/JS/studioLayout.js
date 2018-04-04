@@ -65,6 +65,7 @@ class StudioLayout extends Layout{
         var z = tilenode.z
         if (tilenode.height === this.height) {
             if (!this.addNullLayer()) {
+                this.size++
                 return
             }
         }
