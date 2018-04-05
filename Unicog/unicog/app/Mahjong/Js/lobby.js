@@ -92,6 +92,13 @@ function showGame (practiceGame) {
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
     
+    if (!practiceGame) {
+        // Statistics for game information
+        gameStats.package = packageName
+        gameStats.layout = layoutName
+        gameStats.hintsEnabled = gameSession.enabledHints
+    }
+    
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
         gameSession.layout = layout

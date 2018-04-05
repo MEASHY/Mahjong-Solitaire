@@ -218,6 +218,8 @@ function loadButtons (scope) {
             // Statistics for time taken to complete game
             gameStats.endGameTime = gameSession.timer.timeLeft
             console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            
+            gameStats.completion = 'Quit'
         }
         endGame(false)
     }, scope)
@@ -226,7 +228,7 @@ function loadButtons (scope) {
     buttons.next.setSprite('continue')
     buttons.next.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
-            gameStats.completion = true
+            gameStats.completion = 'Session Ended'
         }
         endGame(false)
     })
@@ -235,7 +237,7 @@ function loadButtons (scope) {
     buttons.finish.setSprite('finish')
     buttons.finish.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
-            gameStats.completion = true
+            gameStats.completion = 'Finished'
         }
         endGame(true)
     })
@@ -324,7 +326,6 @@ function startGame () {
 function endGame (timerDone) {
     this.game.destroy(true)
     if (!gameSession.practiceGame) {
-        gameSession.timer.pauseTimer()
         gameStats.resetGameStats()
     }
     

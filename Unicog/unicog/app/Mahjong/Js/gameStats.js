@@ -9,13 +9,16 @@ var GameStats = function () {
         
         var statistics = {
             gameNumber: 1,
+            package: null,
+            layout: null,
             selections: 0,
             deselections: 0,
             correctMatches: 0,
             incorrectMatches: 0,
+            hintsEnabled: false,
             hintsUsed: 0,
             timesShuffled: 0,
-            completion: false,
+            completion: null,
             startGameTime: 0,
             endGameTime: 0,
 
@@ -25,13 +28,16 @@ var GameStats = function () {
             
             resetGameStats: function() {
                 this.gameNumber += 1 
+                this.package = null
+                this.layout = null
                 this.selections = 0
                 this.deselections = 0
                 this.correctMatches = 0
                 this.incorrectMatches = 0
+                this.hintsEnabled = false
                 this.hintsUsed = 0
                 this.timesShuffled = 0
-                this.completion = false
+                this.completion = null
                 this.startGameTime = 0
                 this.endGameTime = 0
             }

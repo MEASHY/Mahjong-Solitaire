@@ -89,6 +89,12 @@ class Board {
     checkMatch () {
         this.animating = true
         
+        if (!gameSession.practiceGame) {
+            // Statistics for selections
+            gameStats.selections += 1
+            console.log("Select: ",gameStats.selections)
+        }
+        
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             this.tileMatch()
@@ -163,10 +169,6 @@ class Board {
             // Statistics for incorrect match 
             gameStats.incorrectMatches += 1
             console.log("ICM: ",gameStats.incorrectMatches)
-            
-            // Statistics for selections
-            gameStats.selections += 1
-            console.log("Select: ",gameStats.selections)
         }
         
         //gives audio feedback to the player
