@@ -118,7 +118,7 @@ class Layout {
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
                     if (gameSession.beginnerMode) {
-                        tilenode.children[i].unHighlightTile()
+                        tilenode.children[i].unhighlightTile()
                     }
                 }
             }
