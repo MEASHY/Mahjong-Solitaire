@@ -168,7 +168,12 @@ function loadButtons (scope) {
     //sound button
     buttons.sound = new Button(scope, 94, 7, 0, true)
     buttons.sound.setSprite('sound')
-    buttons.sound.sprite.setFrame(0)
+    if (s.sound) {
+        buttons.sound.sprite.setFrame(0)
+    } else {
+        buttons.sound.sprite.setFrame(1)
+    }
+    
     buttons.sound.sprite.on('pointerdown', function () {
         if (s.sound) {
             s.sound = false
