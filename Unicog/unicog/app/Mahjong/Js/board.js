@@ -299,45 +299,21 @@ class Board {
         if (timerDone) {
              this.scene.buttons.finish.toggleVisibility()
         } else {
-            var url = "http://localhost:5000/api/v1/create_mahjong_session";
-            var method = "POST";
-            var postData = JSON.stringify(gameStats)
-
-            // You REALLY want shouldBeAsync = true.
-            // Otherwise, it'll block ALL execution waiting for server response.
-            var shouldBeAsync = true;
-
-            var request = new XMLHttpRequest();
-
-            // Before we send anything, we first have to say what we will do when the
-            // server responds. This seems backwards (say how we'll respond before we send
-            // the request? huh?), but that's how Javascript works.
-            // This function attached to the XMLHttpRequest "onload" property specifies how
-            // the HTTP response will be handled. 
-            request.onload = function () {
-
-               // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
-               // object declared above is available in this function even though this function
-               // executes long after the request is sent and long after this function is
-               // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
-               // applications.
-
-               // You can get all kinds of information about the HTTP response.
-               var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
-               var data = request.responseText; // Returned data, e.g., an HTML document.
-            }
-
-            request.open(method, url, shouldBeAsync);
-
-            request.setRequestHeader("JSON", "application/json;charset=UTF-8");
-            // Or... request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-            // Or... whatever
-
-            // Actually sends the request to the server.
-            request.send(postData);
-
-
+            this.postData()
              this.scene.buttons.next.toggleVisibility() 
         }
+    }
+
+    postData() {
+        // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
+        var url = "http://localhost:5000/api/v1/create_mahjong_session";
+        var method = "POST";
+        var postData = JSON.stringify(gameStats)
+        var shouldBeAsync = true;
+        var request = new XMLHttpRequest();
+        request.open(method, url, shouldBeAsync);
+        request.setRequestHeader("JSON", "application/json;charset=UTF-8");
+        request.send(postData);
+
     }
 }
