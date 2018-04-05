@@ -299,8 +299,8 @@ class Board {
         if (timerDone) {
              this.scene.buttons.finish.toggleVisibility()
         } else {
-            this.postData()
              this.scene.buttons.next.toggleVisibility() 
+            this.postData()
         }
     }
 

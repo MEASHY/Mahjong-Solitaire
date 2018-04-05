@@ -164,7 +164,7 @@ def create_mahjong():
 										hints_enabled = stats.get('hintsEnabled'),
 										hints = stats.get('hintsUsed'),
 										shuffles = stats.get('timesShuffled'),
-										time_taken = stats.get('endGameTime') - stats.get('startGameTime'),
+										time_taken = stats.get('startGameTime') - stats.get('endGameTime'),
 										completion = stats.get('completion')
 										)
 	db.session.add(mahjong_session)
