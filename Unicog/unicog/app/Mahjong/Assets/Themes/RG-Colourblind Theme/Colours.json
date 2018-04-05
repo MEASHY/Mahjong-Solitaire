@@ -1,7 +1,7 @@
 {
-    "select": 0xE9CCAF,
-    "correct": 0x4AE6C7,
-    "incorrect": 0xF14CD6,
-    "hint": 0xC9ACD2,
-    "dim": 0xFFFFFF
+    "select": "0xFFFD9A",
+    "correct": "0x32CD32",
+    "incorrect": "0xFF0000",
+    "hint": "0x5c95f2",
+    "dim": "0x808080"
 }
