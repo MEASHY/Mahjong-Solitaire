@@ -250,11 +250,13 @@ class Board {
     
     scoreScreen (timerDone) {
         console.log(this.scene.buttons)
-        if (timerDone) {
-            this.scene.buttons.overlay.sprite.setVisible(true)
-        } else {
-            this.scene.buttons.overlay.toggleVisibility()
-        }
+        this.scene.buttons.overlay.sprite.setVisible(true)
+
+        // this makes sure that none of the other overlayed text is every visible
+        this.scene.buttons.resume.sprite.setVisible(false)
+        this.scene.buttons.pauseText.sprite.setVisible(false)
+        this.scene.buttons.quit.sprite.setVisible(false)
+        
         this.scene.buttons.endText.toggleVisibility()
         
         console.log(this.scene.buttons)
@@ -286,6 +288,8 @@ class Board {
             }
             if (timerDone) {
                 str = "The session has ended."
+                this.scene.buttons.shuffle.sprite.setVisible(false)
+                this.scene.buttons.shuffleText.sprite.setVisible(false)
             }
             this.scene.buttons.scoreText.sprite.setText(str)
             this.scene.buttons.scoreText.toggleVisibility() 
