@@ -52,8 +52,10 @@ def mahjong_game():
     id = request.form['researcher']
     player_id = request.form['player']
     
-    if (id.isdigit()):
-        valid_r = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+    if not (id.isdigit() and player_id.isdigit()):
+        return redirect(url_for('mahjong_player_login_failed3'))
+    
+    valid_r = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
     
     try:
         gID = request.form['useGenericID']
@@ -66,16 +68,15 @@ def mahjong_game():
     if (valid_r == None):
         return redirect(url_for('mahjong_player_login_failed')) #invalid case
     
-    if (player_id.isdigit()):
-        valid_p = db.session.query(Players.user_id).filter_by(user_id = player_id).first()
+    valid_p = db.session.query(Players.user_id).filter_by(user_id = player_id).first()
     
     try:
         add_new_player = request.form['addNewPlayer']
         if (add_new_player == 'on'):
-            valid_p = True
             newPlayer = Players(user_id = player_id)
             db.session.add(newPlayer)
-            db.session.commit()      
+            db.session.commit()
+            valid_p = True
     except:
         pass
     
@@ -152,6 +153,11 @@ def mahjong_player_login_failed():
 def mahjong_player_login_failed2():
     return render_template('Mahjong/player_login.html', error_message =
         'The Player ID you submitted does not exist, make sure to add it to the database')
+
+@app.route('/mahjong_static/player_login_failed3.html')
+def mahjong_player_login_failed3():
+    return render_template('Mahjong/player_login.html', error_message =
+        'The Researcher and Player IDs must be numeric values')
         
 @app.route('/mahjong_static/research_login_failed.html')        
 def mahjong_research_login_failed():
