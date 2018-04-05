@@ -133,5 +133,45 @@ def get_version():
 				nmax = version[i].version + 1
 		version = nmax
 	return jsonify({'version':version}), 200
+    
+    
+@app.route('/api/v1/create_mahjong_session', methods=['POST'])
+def create_mahjong():
+	if not all(param in request.json for param in ('game_num','package','layout','selections',
+    'deselections','correct_matches','incorrect_matches','hints_enabled','hints','shuffles','time_taken','completion' )):
+		return jsonify({'errors': {"missing_fields": "please supply all required fields"}}), 400
+	
+	attempt = request.json.get('attempt')
+	r_id = request.json.get('r_id')
+	app = request.json.get('app')
+	user_id = request.json.get('user_id')
+
+	if attempt == 1:
+		b_sess = Sessions(app = app, r_id = r_id, user_id = user_id, session_date = session_date)
+		db.session.add(b_sess)
+		db.session.commit()
+		db.session.refresh(b_sess)
+		s_id = b_sess.session_id
+	else:
+		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = r_id, user_id = user_id, app = app).first()[0]
+
+	elist = json.dumps(request.json.get('sessions'))
+	mahjong_session = Mahjong_Sessions(session_id = s_id, attempt_number = attempt,
+        game_num = request.json.get('game_num'),
+        package = request.json.get('package'),
+        layout = request.json.get('layout'),
+        selections = request.json.get('selections'),
+        deselections = request.json.get('deselections'),
+        correct_matches = request.json.get('correct_matches'),
+        incorrect_matches = request.json.get('incorrect_matches'),
+        hints_enabled = request.json.get('hints_enabled'),
+        hints = request.json.get('hints'),
+        shuffles = request.json.get('shuffles'), 
+        time_taken = request.json.get('ltime_taken'),
+        completion = request.json.get('completion'))
+        db.session.add(mahjong_session)
+        db.session.commit()
+
+	return jsonify({'session_created': "successfully created mahjong session"}) , 201
 
 

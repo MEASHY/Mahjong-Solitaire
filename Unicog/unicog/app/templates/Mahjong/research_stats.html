@@ -5,216 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="mahform.css">
-        <script> var researcher =  "{{r_id}}";</script>
-
-        <style>
-        h1 {
-	padding-top: 100px;
-	font-size: 60px;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
-}
-
-
-p {
-	text-align: center;
-}
-
-mainbutton {
-	width: 50%;
-	background-color: #f1800e;
-	border: none;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-}
-
-input {
-	width: 50%;
-}
-
-input[type="login"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-    width: 20%;
-    
-}
-
-input[type="submit"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-}
-
-input[type="text"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
-}
-
-input[type="password"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
-}
-
-/* set background*/
-.main {
-    background: #D3D3D3;
-    background-size: cover;
-}
-
-#player_filter {
-    float: left;
-   
-}
-
-#filter_text {
-    float: left;
-}
-
-button {
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-.lobby {
-    border-radius: 25px;
-    background: white;
-    padding: 20px 20px 20px 20px;
-    width: 80%;
-    align: center;
-    margin-left: auto;
-    margin-right: auto;
-    text-align:center;
-
-   /* NOTE: Only works for non-floated block elements */
-   display: block;
-   float: none;
-}
-
-.statspage {
-    border-radius: 25px;
-    background: white;
-    padding: 20px 20px 20px 20px;
-    width: 80%;
-    align: center;
-    margin-left: auto;
-    margin-right: auto;
-
-    /* NOTE: Only works for non-floated block elements */
-    display: block;
-    float: none;
-}
-
-.dropdown {
-    padding: 10px;
-    margin-top:5%;
-    margin-bottom:5%;
-    
-}
-
-.option {
-    width: 22%;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    float: left;
-   
-}
-
-
-.start {
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-
-}
-
-.gridoption{
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    width: 60%;
-    float: right;
-    margin-left: 30px;
-}
-
-.largeLabel{
-	font-size: 32px;
-	font-family: Arial;
-	font-weight: bold;
-    text-align: right;
-    display: inline-block;
-    width: 300px;
-    float: right;
-}
-
-.startgame{
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-    width: 100%;
-}
-
-.bottom{
-    align: center;
-    margin-left: 12%;
-    text-align:center;
-}
-
-input[type="checkbox"] {
-    transform:scale(3, 3);
-}
-
-#logout{
-    float: right;
-    vertical-align: top;
-    display: inline-block;
-    border-radius: 10px;
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    font-size: 24px;
-}
-
-.time{
-    width:20%;
-    padding: 8px 8px;
-
-}
-
-#export{
-    transform:scale(0.8, 0.8);
-    border-radius: 10px;
-}
-
-        </style>
+        <script> var researcher =  '{{r_id}}';</script>
+        <script> var player =  '{{user_id}}';</script>
+        <script> var result_json =  '{{query_result|safe}}';</script>
+        <script>
+        if (result_json !== '') {
+            var result = JSON.parse(result_json)
+        }
+        else {
+            var result = ''
+        }
+        </script>
 <script type="text/javascript">//<![CDATA[
 window.onload=function(){
 function csv_export(csv, filename) {
@@ -250,39 +51,46 @@ function export_table(html, filename) {
 
 document.querySelector("#export").addEventListener("click", function () {
     var html = document.querySelector("table").outerHTML;
-	export_table(html, "table.csv");
+	export_table(html, (player + "_stats.csv"));
 });
 }//]]> 
 </script>
 
+<script>
+function getPlayerGames(){
+    var player_id = document.getElementById('filter').value;
+    }
+</script>
     </head>
-    
     <body class = 'main'>
     <h1> Statistics </h1>
     <div class = 'statspage'>
     
             <form method='get' action ='index.html'>
-        <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
+        <h3 id ='researcher_text'> Current Researcher: {{r_id}}</h3>
             <p>
                 <button id = 'logout' >Log Out</button>
             </p>
         </form>
-   
-    
     <div id = "top" >
-    	<form id='player_filter' method='get' action ='filter'>
+    	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
     		<p>
+                <div class = 'filterDiv'>
                 <label for='filter'>Search Player:</label>
-                <input id='filter' name='player' value='Player' />
+                <input id='filter' name='player' placeholder='Player' />
+                <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
+                <button id = 'filter_button' >Filter</button>
+                </div>
     		</p>
+            
         </form>
-        
+        <script>
+        </script>
         <button id ='export'>Export to Excel</button>
-
     </div>
     
     	<div id = 'table_div'>
-        <table style="width:100%" border="1">
+        <table style="width:100%" border="1" id="stats_table">
             <tr>
                 <th>SessionID</th>
                 <th>Game #</th>
@@ -294,82 +102,46 @@ document.querySelector("#export").addEventListener("click", function () {
                 <th># Deselections</th>
                 <th># Correct matches</th>
                 <th># Incorrect matches</th>
+                <th>Hints Enabled?</th>
                 <th># Hints</th>
                 <th># Shuffles</th>
                 <th>Completion</th>
                 <th>Time taken</th>
             </tr>
-            <tr>
-                <td>58845</td>
-                <td>1</td>
-                <td>Bill</td> 
-                <td>Janny</td>
-                <td>basic</td>
-                <td>2</td>
-                <td>80</td>
-                <td>5</td>
-                <td>60</td> 
-                <td>20</td>
-                <td>1</td>
-                <td>1</td>
-                <td>finished</td>
-                <td>2:04</td>
-            </tr>
-            <tr>
-                <td>74686</td>
-                <td>1</td>
-                <td>Will</td> 
-                <td>Janny</td>
-                <td>basic</td>
-                <td>3</td>
-                <td>100</td>
-                <td>1</td>
-                <td>60</td> 
-                <td>40</td>
-                <td>2</td>
-                <td>11</td>
-                <td>timer end</td>
-                <td>4:27</td>
-            </tr>
-            <tr>
-                <td>12354</td>
-                <td>1</td>
-                <td>Mill</td> 
-                <td>Janny</td>
-                <td>basic</td>
-                <td>5</td>
-                <td>120</td>
-                <td>17</td>
-                <td>60</td> 
-                <td>60</td>
-                <td>7</td>
-                <td>3</td>
-                <td>quit</td>
-                <td>0:43</td>
-            </tr>
-            <tr>
-                <td>96854</td>
-                <td>1</td>
-                <td>Frill</td> 
-                <td>Janny</td>
-                <td>basic</td>
-                <td>1</td>
-                <td>60</td>
-                <td>5</td>
-                <td>60</td> 
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>finished</td>
-                <td>1:56</td>
-            </tr>
-
-
-            
         </table>
         </div>
     </div>
         
         
     </body>
+    <script>
+        function populateTable() {
+            var statsTable = document.getElementById('stats_table')
+            for (i = 0; i < result.sessions.length; i++) {
+                statsTable.insertRow()
+                for (j = 0; j < statsTable.rows[0].cells.length; j++)
+                    statsTable.rows[i+1].insertCell()
+                
+                statsTable.rows[i+1].cells[0].textContent = result.sessions[i].session_id
+                statsTable.rows[i+1].cells[1].textContent = result.sessions[i].game_num
+                statsTable.rows[i+1].cells[2].textContent = result.sessions[i].player_id
+                statsTable.rows[i+1].cells[3].textContent = result.sessions[i].r_id
+                statsTable.rows[i+1].cells[4].textContent = result.sessions[i].package
+                statsTable.rows[i+1].cells[5].textContent = result.sessions[i].layout
+                statsTable.rows[i+1].cells[6].textContent = result.sessions[i].selections
+                statsTable.rows[i+1].cells[7].textContent = result.sessions[i].deselections
+                statsTable.rows[i+1].cells[8].textContent = result.sessions[i].correct_matches
+                statsTable.rows[i+1].cells[9].textContent = result.sessions[i].incorrect_matches
+                statsTable.rows[i+1].cells[10].textContent = result.sessions[i].hints_enabled
+                statsTable.rows[i+1].cells[11].textContent = result.sessions[i].hints
+                statsTable.rows[i+1].cells[12].textContent = result.sessions[i].shuffles
+                statsTable.rows[i+1].cells[13].textContent = result.sessions[i].completion
+                statsTable.rows[i+1].cells[14].textContent = result.sessions[i].time_taken
+            }
+        }
+
+        if (result !== ''){
+            populateTable()
+        }
+    </script>
 </html>

@@ -82,6 +82,40 @@ def mahjong_stats():
     return render_template('Mahjong/research_stats.html',  
         r_id = id)
 
+@app.route('/mahjong_static/researcher_stats_filter.html', methods = ['POST'])        
+def mahjong_stats_get():
+    filter_id = request.form['player']
+    researcher = request.form['r_id']
+    sessions = db.session.query(Sessions).filter_by(user_id = filter_id, app = 'Mahjong').all()
+    mahjong_sessions = []
+    for row in sessions:
+        mahjong_sessions.append((db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all(),\
+            row.user_id, row.r_id))
+
+    results = '{"sessions": ['
+    for sess in mahjong_sessions:
+        for game in sess[0]:
+            if results[-1] == '}':
+                results += ','
+            results += '{'
+            results += '"session_id": ' + str(game.session_id) + ','
+            results += '"game_num": ' + str(game.game_num) + ','
+            results += '"player_id": ' + str(sess[1]) + ','
+            results += '"r_id": ' + str(sess[2]) + ','
+            results += '"package": "' + game.package + '",'
+            results += '"layout": "' + game.layout + '",'
+            results +=  '"selections": ' + str(game.selections) + ','
+            results +=  '"deselections": ' + str(game.deselections) + ','
+            results +=  '"correct_matches": ' + str(game.correct_matches) + ','
+            results +=  '"incorrect_matches": ' + str(game.incorrect_matches) + ','
+            results +=  '"hints_enabled": ' + str(game.hints_enabled).lower() + ','
+            results +=  '"hints": ' + str(game.hints) + ','
+            results +=  '"shuffles": ' + str(game.shuffles) + ','
+            results +=  '"time_taken":' + str(game.time_taken) + ','
+            results +=  '"completion": "' + game.completion + '"}'          
+    results += ']}'
+    return render_template('Mahjong/research_stats.html', r_id = researcher, user_id = filter_id, query_result = results)
+
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
     try:
