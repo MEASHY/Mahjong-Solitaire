@@ -5,6 +5,7 @@ from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessi
 from sqlalchemy.sql.expression import func
 import sys
 import json
+import datetime
 
 
 
@@ -138,20 +139,19 @@ def get_version():
 @app.route('/api/v1/create_mahjong_session', methods=['POST'])
 def create_mahjong():
 	stats = request.get_json(force = True)
-	#return jsonStats
 
 	if not all(param in stats for param in ('gameNumber','package','layout','selections',
     'deselections','correctMatches','incorrectMatches','hintsEnabled','hintsUsed','timesShuffled','completion','startGameTime','endGameTime' )):
 		return jsonify({'errors': {"missing_fields": "please supply all required fields"}}), 400
 
 	if stats.get('gameNumber') == 1:
-		m_sess = Sessions(app = 'Mahjong', r_id = 'generic researcher', user_id = 'dummy user', session_date = 'today')
+		m_sess = Sessions(app = 'Mahjong', r_id = stats.get('reseacher'), user_id = stats.get('user'), session_date = datetime.datetime.today().strftime('%Y-%m-%d'))
 		db.session.add(m_sess)
 		db.session.commit()
 		db.session.refresh(m_sess)
 		s_id = m_sess.session_id
 	else:
-		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = 'generic researcher', user_id = 'dummy user', app = 'Mahjong').first()[0]
+		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = stats.get('user'), user_id = stats.get('reseacher'), app = 'Mahjong').first()[0]
 
 	mahjong_session = Mahjong_Games(session_id = s_id, 
 										game_num = stats.get('gameNumber'),
