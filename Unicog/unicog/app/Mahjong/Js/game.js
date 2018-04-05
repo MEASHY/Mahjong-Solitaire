@@ -37,10 +37,10 @@ function preload () {
     this.load.image('finish' ,'/Assets/Themes/' + theme + '/Finish.png')
     this.load.image('hint' ,'/Assets/Themes/' + theme + '/Hint.png')
     this.load.image('overlay' ,'/Assets/Themes/' + theme + '/Overlay.png')
-    this.load.image('pause' ,'/Assets/Themes/' + theme + '/PauseButton.png')
+    this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
     this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
     this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
-    this.load.spritesheet('sound','/Assets/Themes/' + theme + '/Sound1.png',{ frameWidth: 100, frameHeight: 100 })
+    this.load.spritesheet('sound','/Assets/Themes/' + theme + '/Sound.png',{ frameWidth: 100, frameHeight: 100 })
 
     console.log('Assets loaded!')
 
