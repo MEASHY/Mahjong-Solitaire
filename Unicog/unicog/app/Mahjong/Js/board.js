@@ -141,7 +141,9 @@ class Board {
                 self.playSound('finishGame')
             } else {
                 if(!self.layout.validMatchAvailable()) {
-                    self.showShuffleButton()
+                    self.scene.buttons.shuffle.toggleVisibility()
+                    self.scene.buttons.overlay.toggleVisibility()
+                    self.scene.buttons.shuffleText.toggleVisibility()
                 }
             }
             self.animating = false
@@ -183,7 +185,8 @@ class Board {
             if (++self.failedMatches === 3 && self.layout.validMatchAvailable() 
                                            && gameSession.enabledHints 
                                            && !self.hintedTiles) {
-                self.showHintButton()
+                self.scene.buttons.hint.toggleVisibility()
+                self.playSound('hint')
             }
             
             self.animating = false
@@ -223,8 +226,7 @@ class Board {
                 yoyo: true,
                 repeat: 2,
                 scaleX: { value: scaleTargetX, duration: 500, ease: 'Power2' },
-                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' },
-                onComplete: function() {console.log("completed")}
+                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' }
             })
     }
     
@@ -238,74 +240,6 @@ class Board {
             }
         }
         this.hintedTiles = null
-    }
-
-    showShuffleButton() {
-        const UIDepth = 20000000001
-        var s = gameSession
-        var self = this
-        console.log('No matches')
-
-        var overlay = self.scene.add.sprite(540 * s.scale, 400 * s.scale, 'overlay').setInteractive()
-        overlay.setScale(2 * s.scale * .9)
-        overlay.setDepth(UIDepth - 1)
-
-        var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
-        shuffleButton.setDepth(UIDepth)
-        
-        // Shuffle is happening
-        shuffleButton.on('pointerdown', function () {
-            self.layout.shuffle()
-            shuffleButton.destroy()
-            self.failedMatches = 0
-            overlay.destroy()
-            //gives audio feedback to the player
-            this.playSound('shuffle')
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for shuffling
-                gameStats.timesShuffled += 1
-                console.log('Shuffle: ',gameStats.timesShuffled)
-            }
-        }, self)
-    }
-
-    showHintButton() {
-        const UIDepth = 20000000001
-        const buttonDisplacementX = window.innerWidth - 500
-        var s = gameSession
-
-        // Hint button appears
-        this.hintButton = this.scene.add.sprite(buttonDisplacementX, 50, 'hint').setInteractive()
-        this.hintButton.setScale(s.scale)
-        this.hintButton.setDepth(UIDepth)
-
-        //gives audio feedback to the player
-        this.playSound('hint')
-        
-        // Hint is being given
-        this.hintButton.on('pointerdown', function() {
-            this.tileSelected.unhighlightTile()
-            this.currentSelection.unhighlightTile()
-            this.currentSelection = null
-            this.tileSelected = null
-            
-            this.hintedTiles = this.layout.getMatch()
-            this.hintedTiles[0].highlightTile(gameSession.colours.hint)
-            this.hintedTiles[1].highlightTile(gameSession.colours.hint)
-            this.pulsateTile(this.hintedTiles[0])
-            this.pulsateTile(this.hintedTiles[1])
-            
-            this.failedMatches = 0
-            this.hintButton.destroy()
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for giving hint
-                gameStats.hintsUsed += 1
-                console.log("Hint: ",gameStats.hintsUsed)
-            }
-            
-        },this)
     }
     
     scoreScreen (timerDone) {
