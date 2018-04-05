@@ -184,7 +184,7 @@ function loadButtons (scope) {
     buttons.overlay.fillScreen()
     
     
-    buttons.pause = new Button(scope, 5, 9, 0, true)
+    buttons.pause = new Button(scope, 5, 7, 0, true)
     buttons.pause.setSprite('pause')
     buttons.pause.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
