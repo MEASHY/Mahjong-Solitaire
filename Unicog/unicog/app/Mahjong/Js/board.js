@@ -286,6 +286,8 @@ class Board {
             }
             if (timerDone) {
                 str = "The session has ended."
+                this.scene.buttons.shuffle.sprite.setVisible(false)
+                this.scene.buttons.shuffleText.sprite.setVisible(false)
             }
             this.scene.buttons.scoreText.sprite.setText(str)
             this.scene.buttons.scoreText.toggleVisibility() 
