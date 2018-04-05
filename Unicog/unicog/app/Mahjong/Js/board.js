@@ -171,13 +171,15 @@ class Board {
         this.playSound('incorrect')
 
         setTimeout(function () {
-            if (self.hintedTiles && self.hintedTiles.indexOf(self.tileSelected) > -1) {
-                self.tileSelected.highlightTile(gameSession.colours.hint)
-            } else {
-                self.tileSelected.unhighlightTile()
+            if (self.tileSelected !== null) {
+                if (self.hintedTiles && self.hintedTiles.indexOf(self.tileSelected) > -1) {
+                    self.tileSelected.highlightTile(gameSession.colours.hint)
+                } else {
+                    self.tileSelected.unhighlightTile()
+                }
+                self.tileSelected = self.currentSelection
+                self.currentSelection.highlightTile(gameSession.colours.select)
             }
-            self.tileSelected = self.currentSelection
-            self.currentSelection.highlightTile(gameSession.colours.select)
             if (++self.failedMatches === 3 && self.layout.validMatchAvailable() 
                                            && gameSession.enabledHints 
                                            && !self.hintedTiles) {

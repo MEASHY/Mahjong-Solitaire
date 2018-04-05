@@ -128,7 +128,7 @@ class Layout {
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
             if (gameSession.beginnerMode) {
-                neighbours[0].resetTileHighlight(gameSession.colours.hint)
+                neighbours[0].unhighlightTile()
             }
             
         }
