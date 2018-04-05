@@ -83,7 +83,11 @@ class Researchers(db.Model):
     
     sessions = db.relationship(Sessions)
 
-
+class Players(db.Model):
+    __tablename__ = 'players'
+    user_id = db.Column(db.Integer, db.ForeignKey('sessions.user_id'), primary_key = True)
+    
+    sessions = db.relationship(Sessions)
 
 
 
