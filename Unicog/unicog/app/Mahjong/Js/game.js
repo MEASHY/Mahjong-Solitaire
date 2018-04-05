@@ -1,8 +1,8 @@
 var game
 
 var gameConfig = {
-    width: 1400,
-    height: 1000,
+    width: screen.width,
+    height: screen.height,
     backgroundColor: '#000000',
     type: Phaser.AUTO,
     parent: 'gameDiv',
@@ -32,7 +32,7 @@ function preload () {
     // load UI elements
     var theme = gameSession.theme
     this.load.image('background' ,'/Assets/Themes/' + theme + '/Background.png')
-    this.load.image('cancel' ,'/Assets/Themes/' + theme + '/Cancel.png')
+    this.load.image('resume' ,'/Assets/Themes/' + theme + '/Resume.png')
     this.load.image('continue' ,'/Assets/Themes/' + theme + '/Continue.png')
     this.load.image('finish' ,'/Assets/Themes/' + theme + '/Finish.png')
     this.load.image('hint' ,'/Assets/Themes/' + theme + '/Hint.png')
@@ -40,7 +40,8 @@ function preload () {
     this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
     this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
     this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
-    
+    this.load.spritesheet('sound','/Assets/Themes/' + theme + '/Sound.png',{ frameWidth: 100, frameHeight: 100 })
+
     console.log('Assets loaded!')
 
     //load the sound files
@@ -57,20 +58,39 @@ function preload () {
  */
 function create () {
     console.log('Creating!')
+    var s = gameSession
     var background = this.add.sprite(0, 0, 'background').setOrigin(0, 0)
     this.board = new Board(this)
+    this.buttons = loadButtons(this)
+    
     if (gameSession.timer !== null) {
         gameSession.timer.board = this.board
     }
     
     resizeGame(background)
     game.scene.scenes[0].board.layout.positionSprites()
+    console.log(this.buttons)
+    for (item in this.buttons) {
+        if (item === 'overlay') {
+            this.buttons[item].fillScreen()
+            continue
+        }
+        this.buttons[item].setSpritePosition()
+    }
+    
+    var buttons = this.buttons
     window.onresize = function () {
         resizeGame(background)
         game.scene.scenes[0].board.layout.positionSprites()
-    }
 
-    loadButtons(this)
+        for (item in buttons) {
+            if (item === 'overlay') {
+                buttons[item].fillScreen()
+                continue
+            }
+            buttons[item].setSpritePosition()
+        }
+    }
 
     //add the sound effects to the game.
     this.sound.add('correct')
@@ -89,6 +109,7 @@ function create () {
 function triggerQuit () {
     console.log('Quit triggered!')
 }
+
 /**
  * Loads button assets for the game
  * @function loadButtons
@@ -97,41 +118,160 @@ function triggerQuit () {
 function loadButtons (scope) {
     
     const UIDepth = 20000000001
+    var s = gameSession
     
-    var test = scope.add.sprite(100, 50, 'pause').setInteractive()
-    test.on('pointerdown', function() {
+    var buttons = {}
+    
+    
+    buttons.hint = new Button(scope, 87, 50, 0, false)
+    buttons.hint.setSprite('hint')
+    buttons.hint.sprite.on('pointerdown', function() {
+            this.tileSelected.unhighlightTile()
+            this.currentSelection.unhighlightTile()
+            this.currentSelection = null
+            this.tileSelected = null
+            
+            this.hintedTiles = this.layout.getMatch()
+            this.hintedTiles[0].highlightTile(gameSession.colours.hint)
+            this.hintedTiles[1].highlightTile(gameSession.colours.hint)
+            this.pulsateTile(this.hintedTiles[0])
+            this.pulsateTile(this.hintedTiles[1])
+            
+            this.failedMatches = 0
+            buttons.hint.toggleVisibility()
+            
+            if (!gameSession.practiceGame) {
+                // Statistics for giving hint
+                gameStats.hintsUsed += 1
+                console.log("Hint: ",gameStats.hintsUsed)
+            }
+            
+        },scope.board)
+    
+    buttons.shuffle = new Button(scope, 50, 65, 10, false)
+    buttons.shuffle.setSprite('shuffle')
+    buttons.shuffle.sprite.on('pointerdown', function () {
+        buttons.shuffle.toggleVisibility()
+        buttons.overlay.toggleVisibility()
+        buttons.shuffleText.toggleVisibility()
+        this.layout.shuffle()
+        this.playSound('shuffle')
+        this.failedMatches = 0
+        
+        if (!gameSession.practiceGame) {
+            // Statistics for shuffling
+            gameStats.timesShuffled += 1
+            console.log('Shuffle: ',gameStats.timesShuffled)
+        }
+    }, scope.board)
+
+    //sound button
+    buttons.sound = new Button(scope, 94, 7, 0, true)
+    buttons.sound.setSprite('sound')
+    if (s.sound) {
+        buttons.sound.sprite.setFrame(0)
+    } else {
+        buttons.sound.sprite.setFrame(1)
+    }
+    
+    buttons.sound.sprite.on('pointerdown', function () {
+        if (s.sound) {
+            s.sound = false
+            this.setFrame(1)
+        } else {
+            s.sound = true
+            this.setFrame(0)
+        }
+    })
+    
+    buttons.overlay = new Button(scope, 50, 50, 5, false)
+    buttons.overlay.setSprite('overlay')
+    buttons.overlay.fillScreen()
+    
+    
+    buttons.pause = new Button(scope, 5, 7, 0, true)
+    buttons.pause.setSprite('pause')
+    buttons.pause.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
             gameSession.timer.pauseTimer()
         }
         
-        overlay = scope.add.sprite(500, 500, 'overlay').setInteractive()
-        overlay.setScale(10)
-        overlay.setDepth(UIDepth - 1)
+        scope.buttons.overlay.toggleVisibility()
+        scope.buttons.resume.toggleVisibility()
+        scope.buttons.quit.toggleVisibility()
+        scope.buttons.pauseText.toggleVisibility()        
 
-        cancel = scope.add.sprite(400, 500, 'cancel').setInteractive()
-        cancel.setDepth(UIDepth)
-        cancel.on('pointerdown', function() {
-            if (!gameSession.practiceGame) {
-                gameSession.timer.resumeTimer()
-            }
+    }, scope)
+    
+    buttons.resume = new Button(scope, 33, 60, 10, false)
+    buttons.resume.setSprite('resume')
+    buttons.resume.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameSession.timer.resumeTimer()
+        }
+        
+        scope.buttons.overlay.toggleVisibility()
+        scope.buttons.quit.toggleVisibility()
+        scope.buttons.resume.toggleVisibility()
+        scope.buttons.pauseText.toggleVisibility()
+    },scope)
+        
+    buttons.quit = new Button(scope, 66, 60, 10, false)
+    buttons.quit.setSprite('quit')
+    buttons.quit.sprite.on('pointerdown', function () {
+        if (!gameSession.practiceGame) {
+            // Statistics for time taken to complete game
+            gameStats.endGameTime = gameSession.timer.timeLeft
+            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
             
-            overlay.destroy()
-            quit.destroy()
-            cancel.destroy()
-        },scope)
-
-        quit = scope.add.sprite(700, 500, 'quit').setInteractive()
-        quit.setDepth(UIDepth)
-        quit.on('pointerdown', function () {
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for time taken to complete game
-                gameStats.endGameTime = gameSession.timer.timeLeft
-                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
-            }
-            endGame(false)
-        }, scope)
-    }, scope)  
+            gameStats.completion = 'Quit'
+        }
+        endGame(false)
+    }, scope)
+        
+    buttons.next = new Button(scope, 50, 70, 10, false)
+    buttons.next.setSprite('continue')
+    buttons.next.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameStats.completion = 'Session Ended'
+        }
+        endGame(false)
+    })
+    
+    buttons.finish = new Button(scope, 50, 70, 10, false)
+    buttons.finish.setSprite('finish')
+    buttons.finish.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameStats.completion = 'Finished'
+        }
+        endGame(true)
+    })
+        
+    buttons.pauseText = new Button(scope, 50, 40, 10)
+    buttons.pauseText.sprite = scope.add.text(0, 0, 'Would you like to quit?', { font: '64px Arial', fill: '#000000'})
+    buttons.pauseText.sprite.setVisible(false)
+    buttons.pauseText.sprite.setOrigin(0.5,0.5)
+    buttons.pauseText.sprite.setDepth(buttons.pauseText.depth)
+    
+    buttons.shuffleText = new Button(scope, 50, 40, 10)
+    buttons.shuffleText.sprite = scope.add.text(0, 0, 'No available moves.', { font: '64px Arial', fill: '#000000'})
+    buttons.shuffleText.sprite.setVisible(false)
+    buttons.shuffleText.sprite.setOrigin(0.5,0.5)
+    buttons.shuffleText.sprite.setDepth(buttons.shuffleText.depth)
+    
+    buttons.endText = new Button(scope, 50, 30, 10)
+    buttons.endText.sprite = scope.add.text(0, 0, "Congratulations!", { font: '64px Arial', fill: '#000000'})
+    buttons.endText.sprite.setVisible(false)
+    buttons.endText.sprite.setOrigin(0.5,0.5)
+    buttons.endText.sprite.setDepth(buttons.endText.depth)
+    
+    buttons.scoreText = new Button(scope, 50, 50, 10)
+    buttons.scoreText.sprite = scope.add.text(0, 0, "", { font: '64px Arial', fill: '#000000', align: 'center'})
+    buttons.scoreText.sprite.setVisible(false)
+    buttons.scoreText.sprite.setOrigin(0.5,0.5)
+    buttons.scoreText.sprite.setDepth(buttons.scoreText.depth)
+    
+    return buttons
 }
 /**
  * resizes the game by editing the game renderer.
@@ -191,7 +331,6 @@ function startGame () {
 function endGame (timerDone) {
     this.game.destroy(true)
     if (!gameSession.practiceGame) {
-        gameSession.timer.pauseTimer()
         gameStats.resetGameStats()
     }
     

@@ -89,6 +89,12 @@ class Board {
     checkMatch () {
         this.animating = true
         
+        if (!gameSession.practiceGame) {
+            // Statistics for selections
+            gameStats.selections += 1
+            console.log("Select: ",gameStats.selections)
+        }
+        
         // The two tiles match, remove them
         if (this.tileSelected.tile.texture.key === this.currentSelection.tile.texture.key) {
             this.tileMatch()
@@ -103,6 +109,10 @@ class Board {
         var self = this
 
         this.failedMatches = 0
+        if (this.scene.buttons.hint.visible){
+            this.scene.buttons.hint.toggleVisibility()
+        }
+        
         
         if (!gameSession.practiceGame) {
             // Statistics for correct match
@@ -141,7 +151,9 @@ class Board {
                 self.playSound('finishGame')
             } else {
                 if(!self.layout.validMatchAvailable()) {
-                    self.showShuffleButton()
+                    self.scene.buttons.shuffle.toggleVisibility()
+                    self.scene.buttons.overlay.toggleVisibility()
+                    self.scene.buttons.shuffleText.toggleVisibility()
                 }
             }
             self.animating = false
@@ -161,10 +173,6 @@ class Board {
             // Statistics for incorrect match 
             gameStats.incorrectMatches += 1
             console.log("ICM: ",gameStats.incorrectMatches)
-            
-            // Statistics for selections
-            gameStats.selections += 1
-            console.log("Select: ",gameStats.selections)
         }
         
         //gives audio feedback to the player
@@ -183,7 +191,8 @@ class Board {
             if (++self.failedMatches === 3 && self.layout.validMatchAvailable() 
                                            && gameSession.enabledHints 
                                            && !self.hintedTiles) {
-                self.showHintButton()
+                self.scene.buttons.hint.toggleVisibility()
+                self.playSound('hint')
             }
             
             self.animating = false
@@ -191,8 +200,12 @@ class Board {
     }
 
     playSound(soundName) {
-        var music = this.scene.sound.add(soundName)
-        music.play()
+        var s = gameSession
+        if (s.sound) {
+            var music = this.scene.sound.add(soundName)
+            music.play()
+        }
+        
     }
 
     slideTileOut(tilenode) {
@@ -219,8 +232,7 @@ class Board {
                 yoyo: true,
                 repeat: 2,
                 scaleX: { value: scaleTargetX, duration: 500, ease: 'Power2' },
-                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' },
-                onComplete: function() {console.log("completed")}
+                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' }
             })
     }
     
@@ -235,88 +247,55 @@ class Board {
         }
         this.hintedTiles = null
     }
-
-    showShuffleButton() {
-        const UIDepth = 20000000001
-        var self = this
-        console.log('No matches')
-        var shuffleButton = self.scene.add.sprite(600, 50,'shuffle').setInteractive()
-        shuffleButton.setDepth(UIDepth)
-        
-        // Shuffle is happening
-        shuffleButton.on('pointerdown', function () {
-            self.layout.shuffle()
-            shuffleButton.destroy()
-            self.failedMatches = 0
-
-            //gives audio feedback to the player
-            this.playSound('shuffle')
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for shuffling
-                gameStats.timesShuffled += 1
-                console.log('Shuffle: ',gameStats.timesShuffled)
-            }
-        }, self)
-    }
-
-    showHintButton() {
-        const UIDepth = 20000000001
-
-        // Hint button appears
-        this.hintButton = this.scene.add.sprite(700, 50, 'hint').setInteractive()
-        this.hintButton.setDepth(UIDepth)
-
-        //gives audio feedback to the player
-        this.playSound('hint')
-        
-        // Hint is being given
-        this.hintButton.on('pointerdown', function() {
-            this.tileSelected.unhighlightTile()
-            this.currentSelection.unhighlightTile()
-            this.currentSelection = null
-            this.tileSelected = null
-            
-            this.hintedTiles = this.layout.getMatch()
-            this.hintedTiles[0].highlightTile(gameSession.colours.hint)
-            this.hintedTiles[1].highlightTile(gameSession.colours.hint)
-            this.pulsateTile(this.hintedTiles[0])
-            this.pulsateTile(this.hintedTiles[1])
-            
-            this.failedMatches = 0
-            this.hintButton.destroy()
-            
-            if (!gameSession.practiceGame) {
-                // Statistics for giving hint
-                gameStats.hintsUsed += 1
-                console.log("Hint: ",gameStats.hintsUsed)
-            }
-            
-        },this)
-    }
     
     scoreScreen (timerDone) {
-        const UIDepth = 20000000001
+        console.log(this.scene.buttons)
+        if (timerDone) {
+            this.scene.buttons.overlay.sprite.setVisible(true)
+        } else {
+            this.scene.buttons.overlay.toggleVisibility()
+        }
+        this.scene.buttons.endText.toggleVisibility()
         
-        // End the game here
-        var overlay = this.scene.add.sprite(500, 500, 'overlay').setInteractive()
-        overlay.setScale(10)
-        overlay.setDepth(UIDepth - 1)
+        console.log(this.scene.buttons)
+        console.log(this.scene.buttons.endText)
         
         if (!gameSession.practiceGame) {
             // Statistics for time taken to complete game
             gameSession.timer.pauseTimer()
             gameStats.endGameTime = gameSession.timer.timeLeft
             console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            
+            // Displays the proper message for ending a game
+            if ((gameStats.startGameTime - gameStats.endGameTime) < 60) {              
+                var str = 'You\'ve made ' + gameStats.correctMatches + 
+                          ' matches in\n' +  String(gameStats.startGameTime - gameStats.endGameTime) + 
+                          ' seconds.'
+            } else {
+                if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) == 1) {
+                    var str = 'You\'ve made ' + gameStats.correctMatches + 
+                              ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
+                              ' minute and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +
+                              ' seconds.'
+                } else {
+                    var str = 'You\'ve made ' + gameStats.correctMatches + 
+                              ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
+                              ' minutes and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +
+                              ' seconds.'
+                }
+            }
+            if (timerDone) {
+                str = "The session has ended."
+            }
+            this.scene.buttons.scoreText.sprite.setText(str)
+            this.scene.buttons.scoreText.toggleVisibility() 
         }
         
-        var continueButton = this.scene.add.sprite(400, 500, 'continue').setInteractive()
-        continueButton.setDepth(UIDepth)
-        continueButton.on('pointerdown', function() {
-            if (!gameSession.practiceGame & !timerDone) {
-                gameStats.completion = true
-            }
-            endGame(timerDone)
-        },this)
+        // Uses the continue button or finish button depending on if a game session has ended
+        if (timerDone) {
+             this.scene.buttons.finish.toggleVisibility() 
+        } else {
+             this.scene.buttons.next.toggleVisibility() 
+        }
     }
 }
