@@ -109,6 +109,10 @@ class Board {
         var self = this
 
         this.failedMatches = 0
+        if (this.scene.buttons.hint.visible){
+            this.scene.buttons.hint.toggleVisibility()
+        }
+        
         
         if (!gameSession.practiceGame) {
             // Statistics for correct match
