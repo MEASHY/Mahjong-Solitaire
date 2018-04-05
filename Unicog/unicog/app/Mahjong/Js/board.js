@@ -14,6 +14,7 @@ class Board {
         
         this.tileSelected = null
         this.currentSelection = null
+        this.hintedTiles = null
         this.animating = false
         
         this.failedMatches = 0
@@ -49,7 +50,11 @@ class Board {
             
             if (this.tileSelected != null) {
                 if (this.tileSelected == this.currentSelection) {
-                    this.currentSelection.resetTileHighlight(gameSession.colours.hint)
+                    if (this.hintedTiles && this.hintedTiles.indexOf(this.currentSelection) > -1) {
+                        this.currentSelection.highlightTile(gameSession.colours.hint)
+                    } else {
+                        this.currentSelection.unhighlightTile()
+                    }
                     this.tileSelected = null
                     
                     if (!gameSession.practiceGame) {
@@ -113,7 +118,9 @@ class Board {
         
         if (this.hintButton !== null) {
             this.hintButton.destroy()
-            this.hintButton = null
+        }
+        if (this.hintedTiles) {
+            this.removeHint()
         }
         
         this.tileSelected.highlightTile(gameSession.colours.correct)
@@ -126,7 +133,6 @@ class Board {
         setTimeout(function () {
             self.layout.removeTile(self.tileSelected)
             self.layout.removeTile(self.currentSelection)
-            self.layout.removeHint()
             self.tileSelected = null
             self.currentSelection = null
             
@@ -165,13 +171,18 @@ class Board {
         this.playSound('incorrect')
 
         setTimeout(function () {
-            if (self.tileSelected !== null & self.currentSelection !== null) {
-                self.tileSelected.resetTileHighlight(gameSession.colours.hint)
+            if (self.tileSelected !== null) {
+                if (self.hintedTiles && self.hintedTiles.indexOf(self.tileSelected) > -1) {
+                    self.tileSelected.highlightTile(gameSession.colours.hint)
+                } else {
+                    self.tileSelected.unhighlightTile()
+                }
                 self.tileSelected = self.currentSelection
                 self.currentSelection.highlightTile(gameSession.colours.select)
             }
-            
-            if (++self.failedMatches === 3 & self.layout.validMatchAvailable() & gameSession.enabledHints & self.layout.activeHintTile1 === null) {
+            if (++self.failedMatches === 3 && self.layout.validMatchAvailable() 
+                                           && gameSession.enabledHints 
+                                           && !self.hintedTiles) {
                 self.showHintButton()
             }
             
@@ -203,6 +214,30 @@ class Board {
                 x: { value: destination, duration: 1000, ease: 'Power2' },
                 alpha: { value: 0, duration: 500, ease: 'Power2'}
             })
+    }
+    pulsateTile(tilenode) {
+        var scaleTargetX = tilenode.tile.scaleX * 1.2
+        var scaleTargetY = tilenode.tile.scaleY * 1.2
+        tilenode.state.tweens.add({
+                targets: tilenode.tile,
+                yoyo: true,
+                repeat: 2,
+                scaleX: { value: scaleTargetX, duration: 500, ease: 'Power2' },
+                scaleY: { value: scaleTargetY, duration: 500, ease: 'Power2' },
+                onComplete: function() {console.log("completed")}
+            })
+    }
+    
+    /**
+     * Unhighlights any remaining tiles from an active hint.
+     */
+    removeHint () {
+        for (var i = 0; i < this.hintedTiles.length; i++) {
+            if (this.hintedTiles[i] !== null) {
+                this.hintedTiles[i].unhighlightTile()
+            }
+        }
+        this.hintedTiles = null
     }
 
     showShuffleButton() {
@@ -250,12 +285,17 @@ class Board {
         
         // Hint is being given
         this.hintButton.on('pointerdown', function() {
-            this.tileSelected.resetTileHighlight(gameSession.colours.hint)
-            this.tileSelected = null
-            this.currentSelection.resetTileHighlight(gameSession.colours.hint)
+            this.tileSelected.unhighlightTile()
+            this.currentSelection.unhighlightTile()
             this.currentSelection = null
+            this.tileSelected = null
             
-            this.layout.giveHint()
+            this.hintedTiles = this.layout.getMatch()
+            this.hintedTiles[0].highlightTile(gameSession.colours.hint)
+            this.hintedTiles[1].highlightTile(gameSession.colours.hint)
+            this.pulsateTile(this.hintedTiles[0])
+            this.pulsateTile(this.hintedTiles[1])
+            
             this.failedMatches = 0
             this.hintButton.destroy()
             

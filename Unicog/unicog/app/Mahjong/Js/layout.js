@@ -14,9 +14,6 @@ class Layout {
         this.numChildren = gameSession.layout.header.numChildren
         this.layers = []
         this.roots = []
-        
-        this.activeHintTile1 = null
-        this.activeHintTile2 = null
     }
     /**
      * Adds a layer to the layers array.
@@ -121,7 +118,7 @@ class Layout {
                 if (this.findNeighbours(tilenode.children[i]).length < 2) {
                     tilenode.children[i].selectable = true
                     if (gameSession.beginnerMode) {
-                        tilenode.children[i].resetTileHighlight(gameSession.colours.hint)
+                        tilenode.children[i].unHighlightTile()
                     }
                 }
             }
@@ -131,7 +128,7 @@ class Layout {
         if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
             if (gameSession.beginnerMode) {
-                neighbours[0].resetTileHighlight(gameSession.colours.hint)
+                neighbours[0].unhighlightTile()
             }
             
         }
@@ -387,7 +384,7 @@ class Layout {
      * <p>
      * traverses the layout linearly to find two matching tiles
      */
-    giveHint() {
+    getMatch() {
         var nodeList = []
         
         for (var i = 0; i < this.roots.length; i++) {
@@ -398,29 +395,12 @@ class Layout {
             
             for (var j = 0; j < nodeList.length; j++) {
                 if (nodeList[j].tile.texture.key === this.roots[i].tile.texture.key) {
-                    console.log("Found match")
-                    nodeList[j].highlightTileHint(gameSession.colours.hint)
-                    this.roots[i].highlightTileHint(gameSession.colours.hint)
-                    this.activeHintTile1 = nodeList[j]
-                    this.activeHintTile2 = this.roots[i]
-                    return
+                    return [nodeList[j],this.roots[i]]
                 }
             }
             nodeList.push(this.roots[i])
         }
-    }
-    /**
-     * Unhighlights any remaining tiles from an active hint.
-     */
-    removeHint () {
-        if (this.activeHintTile1 !== null) {
-            this.activeHintTile1.removeHint()
-            this.activeHintTile1 = null
-        }
-        if (this.activeHintTile2 !== null) {
-            this.activeHintTile2.removeHint()
-            this.activeHintTile2 = null
-        }
+        return null
     }
     /**
      * Checks if there is a valid match on the board
