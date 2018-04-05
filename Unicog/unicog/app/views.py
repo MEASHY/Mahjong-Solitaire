@@ -85,6 +85,7 @@ def mahjong_stats():
 @app.route('/mahjong_static/researcher_stats_filter.html', methods = ['POST'])        
 def mahjong_stats_get():
     filter_id = request.form['player']
+    researcher = request.form['r_id']
     sessions = db.session.query(Sessions).filter_by(user_id = filter_id, app = 'Mahjong').all()
     mahjong_sessions = []
     for row in sessions:
@@ -113,7 +114,7 @@ def mahjong_stats_get():
             results +=  '"time_taken":' + str(game.time_taken) + ','
             results +=  '"completion": "' + game.completion + '"}'          
     results += ']}'
-    return render_template('Mahjong/research_stats.html', user_id = filter_id, query_result = results)
+    return render_template('Mahjong/research_stats.html', r_id = researcher, user_id = filter_id, query_result = results)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
