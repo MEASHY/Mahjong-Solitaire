@@ -19,7 +19,6 @@ class TileNode {
         this.children = [],
         this.tile = null,
         this.selectable = false
-        this.hintActive = false
     }
     /**
      * Sets the sprite tint to a hexadecimal color. This color by default is off-yellow (0xFFFD9A)
@@ -32,39 +31,10 @@ class TileNode {
         this.tile.setTint(tint)
     }
     /**
-     * Resets the sprite tint. This will return the tint color to white, or blue if the tile is part
-     * of an active hint.
-     *
-     * @param {number} hint - The hexadecimal value used to tint the sprite
-     * @see Board.selectTile()
-     */
-    resetTileHighlight (hint = 0x5c95f2) {
-        if (this.hintActive) {
-            this.highlightTileHint(hint)
-        } else {
-            this.tile.clearTint()
-        }
-    }
-    /**
-     * Sets the sprite tint to a hexadecimal color. This color by default is a blue (0x5c95f2).
-     * This method also marks the tile as being part of an active hint.
-     *
-     * @param {number} hint - The hexadecimal value used to tint the sprite
-     * @see Layout.giveHint()
-     * @see TileNode.highlightTile(tint)
-     */
-    highlightTileHint (hint = 0x5c95f2) {
-        this.hintActive = true
-        this.tile.setTint(hint)
-    }
-    /**
      * Removes the sprite tint. This will return the tint color to white.
-     * This method also marks the tile as being part of an active hint.
      *
-     * @see Layout.removeHint()
      */
-    removeHint () {
-        this.hintActive = false
+    unhighlightTile () { 
         this.tile.clearTint()
     }
     /**
