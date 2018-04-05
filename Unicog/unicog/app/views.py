@@ -113,7 +113,7 @@ def mahjong_stats_get():
             results +=  '"time_taken":' + str(game.time_taken) + ','
             results +=  '"completion": "' + game.completion + '"}'          
     results += ']}'
-    return render_template('Mahjong/research_stats.html', query_result = results)
+    return render_template('Mahjong/research_stats.html', user_id = filter_id, query_result = results)
 
 @app.route('/mahjong_static/<path:filename>')
 def mahjong_static_page(filename):
