@@ -90,7 +90,7 @@ def mahjong_stats_get():
     for row in sessions:
         mahjong_sessions.append((db.session.query(Mahjong_Games).filter_by(session_id = row.session_id).all(),\
             row.user_id, row.r_id))
-        
+
     results = '{"sessions": ['
     for sess in mahjong_sessions:
         for game in sess[0]:
