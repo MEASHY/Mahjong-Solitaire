@@ -9,7 +9,7 @@ class Button {
      * @param {boolean} visible   - Whether the button is visible.
      * @see Layout
      */
-    constructor(state, x, y, depth=0, visible=true){
+    constructor(state, x, y, depth=0, visible=false){
         this.state = state,
         this.x = Math.max(0,Math.floor(x,100)),
         this.y = Math.max(0,Math.floor(y,100)),
@@ -32,7 +32,6 @@ class Button {
         var yPos = game.config.height * (this.y/100)
         
         this.sprite.setPosition(xPos,yPos)
-        console.log(gameSession.scale)
         this.sprite.setScale(gameSession.scale)
     }
     

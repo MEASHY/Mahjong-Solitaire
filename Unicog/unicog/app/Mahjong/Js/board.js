@@ -243,16 +243,16 @@ class Board {
     }
     
     scoreScreen (timerDone) {
-        const UIDepth = 20000000001
+        console.log(this.scene.buttons)
+        if (timerDone) {
+            this.scene.buttons.overlay.sprite.setVisible(true)
+        } else {
+            this.scene.buttons.overlay.toggleVisibility()
+        }
+        this.scene.buttons.endText.toggleVisibility()
         
-        // End the game here
-        var overlay = this.scene.add.sprite(540 * gameSession.scale, 400 * gameSession.scale, 'overlay').setInteractive()
-        overlay.setScale(2.1 * gameSession.scale)
-        overlay.setDepth(UIDepth - 1)
-        
-        // Displays congratulations text
-        var congratulations = this.scene.add.text(320 * gameSession.scale, 200, "Congratulations!", { font: '65px Arial', fill: '#000000', align: 'center' })
-        congratulations.setDepth(UIDepth)
+        console.log(this.scene.buttons)
+        console.log(this.scene.buttons.endText)
         
         if (!gameSession.practiceGame) {
             // Statistics for time taken to complete game
@@ -262,43 +262,34 @@ class Board {
             
             // Displays the proper message for ending a game
             if ((gameStats.startGameTime - gameStats.endGameTime) < 60) {              
-                var endGameStatsText = this.scene.add.text(100, 200, 'You\'ve made ' + gameStats.correctMatches + 
-                                                                    ' matches in\n' +  String(gameStats.startGameTime - gameStats.endGameTime) + 
-                                                                    ' seconds.', { font: '65px Arial', fill: '#000000', align: 'center' })
+                var str = 'You\'ve made ' + gameStats.correctMatches + 
+                          ' matches in\n' +  String(gameStats.startGameTime - gameStats.endGameTime) + 
+                          ' seconds.'
             } else {
                 if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) == 1) {
-                    var endGameStatsText = this.scene.add.text(100, 200, 'You\'ve made ' + gameStats.correctMatches + 
-                                                                    ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
-                                                                    ' minute and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +' seconds.', { font: '65px Arial', fill: '#000000', align: 'center' })
+                    var str = 'You\'ve made ' + gameStats.correctMatches + 
+                              ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
+                              ' minute and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +
+                              ' seconds.'
                 } else {
-                    var endGameStatsText = this.scene.add.text(100, 200, 'You\'ve made ' + gameStats.correctMatches + 
-                                                                    ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
-                                                                    ' minutes and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +' seconds.', { font: '65px Arial', fill: '#000000', align: 'center' })
+                    var str = 'You\'ve made ' + gameStats.correctMatches + 
+                              ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
+                              ' minutes and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +
+                              ' seconds.'
                 }
             }
-            endGameStatsText.setDepth(UIDepth)
-            Phaser.Display.Align.In.Center(endGameStatsText, overlay)
+            if (timerDone) {
+                str = "The session has ended."
+            }
+            this.scene.buttons.scoreText.sprite.setText(str)
+            this.scene.buttons.scoreText.toggleVisibility() 
         }
         
         // Uses the continue button or finish button depending on if a game session has ended
         if (timerDone) {
-            var finishButton = this.scene.add.sprite(540 * gameSession.scale, 600, 'finish').setInteractive()
-            finishButton.setDepth(UIDepth)
-            finishButton.on('pointerdown', function() {
-                if (!gameSession.practiceGame) {
-                    gameStats.completion = true
-                }
-                endGame(timerDone)
-            },this)
+             this.scene.buttons.finish.toggleVisibility() 
         } else {
-            var continueButton = this.scene.add.sprite(540 * gameSession.scale, 600, 'continue').setInteractive()
-            continueButton.setDepth(UIDepth)
-            continueButton.on('pointerdown', function() {
-                if (!gameSession.practiceGame) {
-                    gameStats.completion = true
-                }
-                endGame(timerDone)
-            },this)
+             this.scene.buttons.next.toggleVisibility() 
         }
     }
 }

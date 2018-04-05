@@ -183,42 +183,6 @@ function loadButtons (scope) {
     buttons.overlay.setSprite('overlay')
     buttons.overlay.fillScreen()
     
-    buttons.resume = new Button(scope, 33, 60, 10, false)
-    buttons.resume.setSprite('resume')
-    buttons.resume.sprite.on('pointerdown', function() {
-            if (!gameSession.practiceGame) {
-                gameSession.timer.resumeTimer()
-            }
-            
-            scope.buttons.overlay.toggleVisibility()
-            scope.buttons.quit.toggleVisibility()
-            scope.buttons.resume.toggleVisibility()
-            scope.buttons.pauseText.toggleVisibility()
-        },scope)
-        
-    buttons.quit = new Button(scope, 66, 60, 10, false)
-    buttons.quit.setSprite('quit')
-    buttons.quit.sprite.on('pointerdown', function () {
-            if (!gameSession.practiceGame) {
-                // Statistics for time taken to complete game
-                gameStats.endGameTime = gameSession.timer.timeLeft
-                console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
-            }
-            endGame(false)
-        }, scope)
-        
-    buttons.pauseText = new Button(scope, 50, 40, 10, false)
-    buttons.pauseText.sprite  = scope.add.text(0, 0, 'Would you like to quit?', { font: '64px Arial', fill: '#000000'})
-    buttons.pauseText.sprite.setVisible(false)
-    buttons.pauseText.sprite.setOrigin(0.5,0.5)
-    buttons.pauseText.sprite.setDepth(buttons.pauseText.depth)
-    
-    buttons.shuffleText = new Button(scope, 50, 40, 10, false)
-    buttons.shuffleText.sprite  = scope.add.text(0, 0, 'No available moves.', { font: '64px Arial', fill: '#000000'})
-    buttons.shuffleText.sprite.setVisible(false)
-    buttons.shuffleText.sprite.setOrigin(0.5,0.5)
-    buttons.shuffleText.sprite.setDepth(buttons.shuffleText.depth)
-        
     
     buttons.pause = new Button(scope, 5, 9, 0, true)
     buttons.pause.setSprite('pause')
@@ -233,6 +197,73 @@ function loadButtons (scope) {
         scope.buttons.pauseText.toggleVisibility()        
 
     }, scope)
+    
+    buttons.resume = new Button(scope, 33, 60, 10, false)
+    buttons.resume.setSprite('resume')
+    buttons.resume.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameSession.timer.resumeTimer()
+        }
+        
+        scope.buttons.overlay.toggleVisibility()
+        scope.buttons.quit.toggleVisibility()
+        scope.buttons.resume.toggleVisibility()
+        scope.buttons.pauseText.toggleVisibility()
+    },scope)
+        
+    buttons.quit = new Button(scope, 66, 60, 10, false)
+    buttons.quit.setSprite('quit')
+    buttons.quit.sprite.on('pointerdown', function () {
+        if (!gameSession.practiceGame) {
+            // Statistics for time taken to complete game
+            gameStats.endGameTime = gameSession.timer.timeLeft
+            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+        }
+        endGame(false)
+    }, scope)
+        
+    buttons.next = new Button(scope, 50, 70, 10, false)
+    buttons.next.setSprite('continue')
+    buttons.next.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameStats.completion = true
+        }
+        endGame(false)
+    })
+    
+    buttons.finish = new Button(scope, 50, 70, 10, false)
+    buttons.finish.setSprite('finish')
+    buttons.finish.sprite.on('pointerdown', function() {
+        if (!gameSession.practiceGame) {
+            gameStats.completion = true
+        }
+        endGame(true)
+    })
+        
+    buttons.pauseText = new Button(scope, 50, 40, 10)
+    buttons.pauseText.sprite = scope.add.text(0, 0, 'Would you like to quit?', { font: '64px Arial', fill: '#000000'})
+    buttons.pauseText.sprite.setVisible(false)
+    buttons.pauseText.sprite.setOrigin(0.5,0.5)
+    buttons.pauseText.sprite.setDepth(buttons.pauseText.depth)
+    
+    buttons.shuffleText = new Button(scope, 50, 40, 10)
+    buttons.shuffleText.sprite = scope.add.text(0, 0, 'No available moves.', { font: '64px Arial', fill: '#000000'})
+    buttons.shuffleText.sprite.setVisible(false)
+    buttons.shuffleText.sprite.setOrigin(0.5,0.5)
+    buttons.shuffleText.sprite.setDepth(buttons.shuffleText.depth)
+    
+    buttons.endText = new Button(scope, 50, 30, 10)
+    buttons.endText.sprite = scope.add.text(0, 0, "Congratulations!", { font: '64px Arial', fill: '#000000'})
+    buttons.endText.sprite.setVisible(false)
+    buttons.endText.sprite.setOrigin(0.5,0.5)
+    buttons.endText.sprite.setDepth(buttons.endText.depth)
+    
+    buttons.scoreText = new Button(scope, 50, 50, 10)
+    buttons.scoreText.sprite = scope.add.text(0, 0, "", { font: '64px Arial', fill: '#000000', align: 'center'})
+    buttons.scoreText.sprite.setVisible(false)
+    buttons.scoreText.sprite.setOrigin(0.5,0.5)
+    buttons.scoreText.sprite.setDepth(buttons.scoreText.depth)
+    
     return buttons
 }
 /**
