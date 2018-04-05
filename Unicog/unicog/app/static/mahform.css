@@ -308,4 +308,12 @@ select.language option {
 #filter_button{
     transform:scale(0.8, 0.8);
     border-radius: 10px;
+    float:left; 
+    display: block;
+    transform: translate(50px, -50px);
 }
+#filter{
+    float: left;
+}
+
+
