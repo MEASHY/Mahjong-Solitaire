@@ -1,0 +1,15 @@
+{
+    "header":{
+        "size": 24,
+        "height": 1,
+        "uniqueTiles": 7,
+        "maxDuplicates": 3,
+        "numChildren": 1
+    },
+	"layer1": [
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1]
+	]
+}
