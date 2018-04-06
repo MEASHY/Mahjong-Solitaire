@@ -143,7 +143,7 @@ function prettyLayout (indent) {
 
 function postData(json) {
     // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
-    var url = "http://199.116.235.91:5000/api/v1/save_mahjong_layout"
+    var url = "http://localhost:5000/api/v1/save_mahjong_layout"
     var method = "POST"
     var postData = json
     var shouldBeAsync = true;

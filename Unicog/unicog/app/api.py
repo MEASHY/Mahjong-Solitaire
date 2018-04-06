@@ -176,8 +176,9 @@ def create_mahjong():
 @app.route('/api/v1/save_mahjong_layout', methods=['POST'])
 def save_layout():
     layout = request.get_json(force = True)
-    name = layout.get('name')
-    package = layout.get('package')
+    name = layout.get('header').get('name')
+    package = layout.get('header').get('package')
+    print(layout)
     
     if os.path.isdir("/Mahjong/Assets/Layouts/"+package):
         f = open("/Mahjong/Assets/"+package+"/"+name+".json", 'w')
