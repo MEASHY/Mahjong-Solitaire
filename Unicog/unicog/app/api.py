@@ -178,21 +178,20 @@ def save_layout():
     layout = request.get_json(force = True)
     name = layout.get('header').get('name')
     package = layout.get('header').get('package')
-    print(layout)
+    #print(str(layout).replace('u\'','\"').replace('\'','\"'))
     
-    if os.path.isdir("/Mahjong/Assets/Layouts/"+package):
-        f = open("/Mahjong/Assets/"+package+"/"+name+".json", 'w')
-        f.write(layout)
+    if os.path.isdir("Mahjong/Assets/Layouts/"+package):
+    	f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", "w+")
+        f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
         f.close()
-        
     else:
-        os.makedirs("/Mahjong/Assets/Layouts/"+package)
-        packages = json.load("/Mahjong/Assets/Layouts/PackageList.json")
+    	os.makedirs("Mahjong/Assets/Layouts/"+package)
+        packages = json.load(open("Mahjong/Assets/Layouts/PackageList.json"))
         packages.append(package)
-        with open("/Mahjong/Assets/Layouts/PackageList.json", 'w') as outfile:  
+        with open("Mahjong/Assets/Layouts/PackageList.json", 'w') as outfile:  
             json.dump(packages, outfile)
-        f = open("/Mahjong/Assets/Layouts/"+package+"/"+name+".json", 'w')
-        f.write(layout)
+        f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", 'w')
+        f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
         f.close()
     
     return jsonify({'Success': True}) , 201
