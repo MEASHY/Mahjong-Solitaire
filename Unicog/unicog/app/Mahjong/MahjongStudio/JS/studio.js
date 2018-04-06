@@ -92,8 +92,8 @@ function loadButtons (scope) {
     buttons.quit = new Button(scope, 10, 10, 0, true)
     buttons.quit.setSprite('quit')
     buttons.quit.sprite.on('pointerdown', function() {
-         scope.board.layout.toggleVisible()
-    }, scope)
+        endGame()
+    })
     
     buttons.save = new Button(scope, 10, 30, 0, true)
     buttons.save.setSprite('save')
@@ -112,15 +112,15 @@ function loadButtons (scope) {
                 gameSession.layout.header.height = i
             } 
         }
-        showSave();
+        showSave()
     }, scope)
     
     buttons.toggle = new Button(scope, 10, 40, 0, true)
     buttons.toggle.setSprite('toggle')
     buttons.toggle.sprite.setOrigin(0.39, 0.5)
     buttons.toggle.sprite.on('pointerdown', function() {
-         window.history.back();
-    })
+        scope.board.layout.toggleVisible()
+    }, scope)
     
     buttons.sizeText = new Button(scope, 10, 50, 10)
     buttons.sizeText.sprite = scope.add.text(0, 0, "Size: 0", { font: '48px Arial', fill: '#ffff00', align: 'center'})
