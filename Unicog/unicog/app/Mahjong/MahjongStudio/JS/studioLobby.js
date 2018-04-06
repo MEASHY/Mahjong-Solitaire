@@ -42,14 +42,7 @@ function showGame () {
     session.layoutX = parseInt(document.getElementById('xField').value)
     session.layoutY = parseInt(document.getElementById('yField').value)
     
-    $.getJSON('./Assets/Tilesets/studioTiles/tiles.json', function ( tileset ) {
-        gameSession.tileset = tileset
-        
-        $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-            gameSession.buttons = buttons
-            startGame()
-        })
-    })
+    startGame()
 }
 /**
  * generic dropBox filling function. takes an element and populates it with the elements of a json array

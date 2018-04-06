@@ -16,13 +16,12 @@ class StudioLayout extends Layout{
     
     fillBottomLayer() {
         var session = gameSession
-        console.log(session)
         var layer = []
         for (var i = 0; i < session.layoutY; i++) {
             layer.push([])
             for (var j = 0; j < session.layoutX; j++) {
                 layer[i].push(new StudioTileNode(this.state, j, i, 1, this.numChildren))
-                layer[i][j].setTile('tile01')
+                layer[i][j].setTile('tile')
             }
         }
         this.layers.push(layer)  
@@ -30,7 +29,7 @@ class StudioLayout extends Layout{
     }
     
     addNullLayer() {
-        var s = new gameSession
+        var s = gameSession
         var x = s.layoutX
         var y = s.layoutY
         switch (this.numChildren) {
@@ -72,7 +71,7 @@ class StudioLayout extends Layout{
         switch(this.numChildren) {
             case 1:
                 this.layers[z+1][y][x] = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
-                this.layers[z+1][y][x].setTile('tile01')
+                this.layers[z+1][y][x].setTile('tile')
                 tilenode.parents.push(this.layers[z+1][y][x])
                 this.layers[z+1][y][x].children.push(tilenode)
                 this.layers[z+1][y][x].setSpritePosition(this.numChildren)
@@ -83,7 +82,7 @@ class StudioLayout extends Layout{
                     if (left !== null && left.placed) {
                         var tile = new StudioTileNode(this.state, x-1, y, z+2, this.numChildren)
                         this.layers[z+1][y][x-1] = tile
-                        tile.setTile('tile01')
+                        tile.setTile('tile')
                         tilenode.parents.push(tile)
                         left.parents.push(tile)
                         tile.children.push(tilenode)
@@ -96,7 +95,7 @@ class StudioLayout extends Layout{
                     if (right !== null && right.placed) {
                         var tile = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
                         this.layers[z+1][y][x] = tile
-                        tile.setTile('tile01')
+                        tile.setTile('tile')
                         tilenode.parents.push(tile)
                         right.parents.push(tile)
                         tile.children.push(tilenode)
@@ -152,7 +151,7 @@ class StudioLayout extends Layout{
                 if ((w && nw && n) && (w.placed && nw.placed && n.placed)) {
                     var tile = new StudioTileNode(this.state, x-1, y-1, z+2, this.numChildren)
                     this.layers[z+1][y-1][x-1] = tile
-                    tile.setTile('tile01')
+                    tile.setTile('tile')
                     tilenode.parents.push(tile)
                     w.parents.push(tile)
                     nw.parents.push(tile)
@@ -167,7 +166,7 @@ class StudioLayout extends Layout{
                 if ((n && ne && e) && (n.placed && ne.placed && e.placed)) {
                     var tile = new StudioTileNode(this.state, x, y-1, z+2, this.numChildren)
                     this.layers[z+1][y-1][x] = tile
-                    tile.setTile('tile01')
+                    tile.setTile('tile')
                     tilenode.parents.push(tile)
                     n.parents.push(tile)
                     ne.parents.push(tile)
@@ -182,7 +181,7 @@ class StudioLayout extends Layout{
                 if ((w && sw && s) && (w.placed && sw.placed && s.placed)) {
                     var tile = new StudioTileNode(this.state, x-1, y, z+2, this.numChildren)
                     this.layers[z+1][y][x-1] = tile
-                    tile.setTile('tile01')
+                    tile.setTile('tile')
                     tilenode.parents.push(tile)
                     w.parents.push(tile)
                     sw.parents.push(tile)
@@ -197,7 +196,7 @@ class StudioLayout extends Layout{
                 if ((s && se && e) && (s.placed && se.placed && e.placed)) {
                     var tile = new StudioTileNode(this.state, x, y, z+2, this.numChildren)
                     this.layers[z+1][y][x] = tile
-                    tile.setTile('tile01')
+                    tile.setTile('tile')
                     tilenode.parents.push(tile)
                     s.parents.push(tile)
                     se.parents.push(tile)

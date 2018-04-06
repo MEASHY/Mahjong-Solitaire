@@ -12,9 +12,8 @@ var gameConfig = {
     }
 }
 
-$.getJSON('/Assets/Tilesets/MahjongTiles1/tiles.json', function ( tileset ) {
-    var session = new StudioSession()
-    session.tileset = tileset
+$.getJSON('Assets/Tilesets/studioTiles/tiles.json', function ( tileset ) {
+    gameSession.tileset = tileset
 })
 var session = new StudioSession()
 //session.layout.header.numChildren = 4
@@ -28,17 +27,10 @@ var session = new StudioSession()
 function preload () {
     var session = new StudioSession();
     
-    var tiles = session.tileset.main
-    for (var i = 0; i < tiles.length; i++) {
-        var index 
-        if(i < 10) {
-            var index = '0'+i.toString()
-        } else {
-            var index = i.toString()
-        }
-        this.load.image('tile'+index, '/Assets/Tilesets/'+session.tileset.name+'/'+tiles[i])
-        //console.log('tile'+index)
-    }
+    this.load.image('tile', 'Assets/Tilesets/studioTiles/tile.png')
+    this.load.image('quit' ,'Assets/Buttons/Quit.png')
+    this.load.image('save' ,'Assets/Buttons/Save.png')
+    this.load.image('toggle' ,'Assets/Buttons/Toggle.png')
     
     console.log('Assets loaded!')
 }
@@ -49,16 +41,32 @@ function preload () {
 function create () {
     console.log('Creating!')
     this.board = new StudioBoard(this)
-
-    console.log('Game created!')
-    loadButtons(this)
+    this.buttons = loadButtons(this)
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
+    
+    
+    for (item in this.buttons) {
+        if (item === 'overlay') {
+            this.buttons[item].fillScreen()
+            continue
+        }
+        this.buttons[item].setSpritePosition()
+    }
+    
+    var buttons = this.buttons
     window.onresize = function () {
         resizeGame()
         game.scene.scenes[0].board.layout.positionSprites()
-    }
 
+        for (item in buttons) {
+            if (item === 'overlay') {
+                buttons[item].fillScreen()
+                continue
+            }
+            buttons[item].setSpritePosition()
+        }
+    }
 }
 /**
  * Ends The game
@@ -73,31 +81,53 @@ function triggerQuit () {
  * @param {context} scope - The scene that the buttons reside 
  */
 function loadButtons (scope) {
-    var save = scope.add.sprite(100, 50, 'quit').setInteractive()
-    save.on('pointerdown', function() {
-        var studioSession = new StudioSession()
+    
+    var buttons = {}
+    
+    buttons.overlay = new Button(scope, 50, 50, 5, false)
+    buttons.overlay.setSprite('overlay')
+    buttons.overlay.fillScreen()
+    
+    
+    buttons.quit = new Button(scope, 10, 10, 0, true)
+    buttons.quit.setSprite('quit')
+    buttons.quit.sprite.on('pointerdown', function() {
+         scope.board.layout.toggleVisible()
+    }, scope)
+    
+    buttons.save = new Button(scope, 10, 30, 0, true)
+    buttons.save.setSprite('save')
+    buttons.save.sprite.on('pointerdown', function() {
         var layout = scope.board.layout
         if (layout.size%2 !== 0) {
             alert("There must be an even number of tiles in a layout")
             return
         }
-        studioSession.layout.header.size = layout.size
+        gameSession.layout.header.size = layout.size
         for (var i = 1; i <= layout.height; i++) {
             json = layout.getJSONLayer(i)
             if(json !== null && json.length !== 0) {
                 console.log(JSON.stringify(json))
-                studioSession.layout["layer"+i] = json
-                studioSession.layout.header.height = i
+                gameSession.layout["layer"+i] = json
+                gameSession.layout.header.height = i
             } 
         }
-        showSave()
-        
+        showSave();
     }, scope)
     
-    var toggle = scope.add.sprite(100, 200, 'quit').setInteractive()
-    toggle.on('pointerdown', function() {
-        scope.board.layout.toggleVisible()
-    }, scope)
+    buttons.toggle = new Button(scope, 10, 40, 0, true)
+    buttons.toggle.setSprite('toggle')
+    buttons.toggle.sprite.setOrigin(0.39, 0.5)
+    buttons.toggle.sprite.on('pointerdown', function() {
+         window.history.back();
+    })
+    
+    buttons.sizeText = new Button(scope, 10, 50, 10)
+    buttons.sizeText.sprite = scope.add.text(0, 0, "Size: 0", { font: '48px Arial', fill: '#ffff00', align: 'center'})
+    buttons.sizeText.sprite.setOrigin(0.5,0.5)
+    buttons.sizeText.sprite.setDepth(buttons.sizeText.depth)
+    
+    return buttons
 }
 /**
  * resizes the game by editing the game renderer.
