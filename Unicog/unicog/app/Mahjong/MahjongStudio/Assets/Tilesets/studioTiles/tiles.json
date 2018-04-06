@@ -1,0 +1,15 @@
+{
+    "name": "MahjongTiles1",
+    "size": 1,
+    "main": [
+        "tile.png"
+        
+        ],
+    "alt": [],
+    "effects": [],
+    
+    "tileFaceX": 100,
+    "tileFaceY": 160,
+    "tileX": 110,
+    "tileY": 170
+}

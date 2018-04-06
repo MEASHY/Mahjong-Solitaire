@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Mahjong</title>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+        <link rel='stylesheet' type='text/css' href='studioStyle.css'>
+        
+        <script> var user =  "{{user_id}}";</script>
+        <script> var researcher =  "{{r_id}}";</script>
+        <script src='../js/phaser.js'></script>
+        <script src='../js/jquery-3.3.1.js'></script>
+        <script src='js/studioSession.js'></script>
+        <!--<script src='js/gameSession.js'></script>-->
+        <script src='js/studioLobby.js'></script>     
+        <script src='../js/tilenode.js'></script>
+        <script src='../js/layout.js'></script>
+        <script src='../js/board.js'></script>
+        <script src='../js/timer.js'></script>
+        <script src='../js/button.js'></script>
+        
+        
+        <script src='js/studio.js'></script> 
+        <script src='js/studioTilenode.js'></script>
+        <script src='js/studioLayout.js'></script>
+        <script src='js/studioBoard.js'></script>
+        <script>window.onload=initLobby</script>
+
+    </head>
+    
+
+    <h1>Studio Lobby</h1>
+
+
+    <body class = 'main' oncontextmenu="return false;">
+        <div class = 'center'>
+        <div class='game' id='gameDiv'></div>
+        </div>
+        <div class='saveDiv' id='saveDiv'>
+        <h2>Layout Configuration</h2>
+            <form id='StudioSetup'>
+                <p><div class='text'>
+                    <label class = 'smallLabel' for='nameText'>Layout Name:</label>
+                    <input type="text" id="nameText"></input>
+                </div>
+                <p><div class='pkgDrop'>
+                    <label class = 'smallLabel' for='packageDropBox'>Layout Package:</label>
+                    <select class = 'packageOption' type='text' id='packageDropBox' onChange='checkOther(this.value)'></select>
+                </div>
+                <p><div id="otherDiv"></div>
+                <p><div>
+                    <label class = 'smallLabel' for='uniqueTiles'>Number of different tile symbols:</label>
+                    <input class = 'saveNumber' type='number' id='uniqueTiles' min='1' max='44' value='27' >
+                </div>
+                <p><div>
+                    <label class = 'smallLabel' for='maxDuplicates'>Number of tile pairs per symbol type:</label>
+                    <input class = 'saveNumber' type='number' id='maxDuplicates' min='1' max='999' value='5' >
+                </div>
+                <p><div>
+                    <input class = 'button' type='button' name='resume' onclick='resumeStudio()' value='Resume' >
+                    <input class = 'button' type='button' name='save' onclick='saveLayout()' value='Save' >
+                </div>
+            </form>
+        </div>
+        
+        <div class='lobby' id='lobbyDiv'>
+        <h2 id = 'studioTitle'>Layout Configuration</h2>
+        <form id='StudioSetup'>
+            <div class = 'bottom'>
+            <div class = 'studioDiv'>
+                <select class = 'childSelect' type='text' id='childDropBox' >
+                    <option value=1 >1</option>
+                    <option value=2 >2</option>
+                    <option value=4 >4</option>                
+                </select>
+                <label class = 'childLabel' for='packageDropBox'>Number of child Tiles:</label>
+            </div>
+            <div class='studioOption' id='timerDiv'>
+                <h3 id='timerText'>Dimensions</h3>
+                <label for='xField'>X:</label>
+                <input class = 'time' type='number' id='xField' min='1' max='999' value='5' >
+                <label for='yField'>Y:</label>
+                <input class = 'time' type='number' id='yField' min='1' max='999' value='5' >
+            </div>
+
+            </div>
+            <div>
+                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Begin Layout' >
+            </div>
+        </form>
+        </div>
+        
+    </body>
+</html>

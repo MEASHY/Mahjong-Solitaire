@@ -1,4 +1,32 @@
-/** Class representing a Mahjong layout. */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: layout.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: layout.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Class representing a Mahjong layout. */
 class Layout {
     /**
      * Create a Layout
@@ -6,18 +34,19 @@ class Layout {
      * @see TileNode
      */
     constructor (state) {
+        var session = new GameSession()
         this.state = state
-        this.size = gameSession.layout.header.size
-        this.height = gameSession.layout.header.height
-        this.uniqueTiles = gameSession.layout.header.uniqueTiles
-        this.maxDuplicates = gameSession.layout.header.maxDuplicates
-        this.numChildren = gameSession.layout.header.numChildren
+        this.size = session.layout.header.size
+        this.height = session.layout.header.height
+        this.uniqueTiles = session.layout.header.uniqueTiles
+        this.maxDuplicates = session.layout.header.maxDuplicates
+        this.numChildren = session.layout.header.numChildren
         this.layers = []
         this.roots = []
     }
     /**
      * Adds a layer to the layers array.
-     * <p>
+     * &lt;p>
      * Given a json array of 1's and 0's populate an array of TileNodes where the 1's are.
      * @param {array} layer   - json array indicating the position of TileNodes
      * @param {number} height - The height of the layer
@@ -25,9 +54,9 @@ class Layout {
      */
     addJsonLayer (layer, height) {
         var generated = []
-        for (var i = 0; i < layer.length; i++) {
+        for (var i = 0; i &lt; layer.length; i++) {
             var row = []
-            for (var j = 0; j < layer[i].length; j++) {
+            for (var j = 0; j &lt; layer[i].length; j++) {
                 if (layer[i][j] == 1) {
                     row.push(new TileNode(this.state, j, i, height, this.numChildren))
                 } else {
@@ -40,19 +69,20 @@ class Layout {
     }
     /**
      * Creates the hierarchy between the TileNodes.
-     * <p>
+     * &lt;p>
      * The Layout class stores the TileNodes in a 3-dimensional array however,
      * the TileNodes have an inherit tree structure that joins them. This function 
      * initializes that structure    
      */
     buildHierarchy () {
+        var session = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
-            for (var j = 0; j < this.layers[i].length; j++) {
-                for (var k = 0; k < this.layers[i][j].length; k++) {
+            for (var j = 0; j &lt; this.layers[i].length; j++) {
+                for (var k = 0; k &lt; this.layers[i][j].length; k++) {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    if (this.layers[i][j][k].parents.length < 1) {
+                    if (this.layers[i][j][k].parents.length &lt; 1) {
                         this.roots.push(this.layers[i][j][k].findChildren(this, this.numChildren))
                     }
                 }
@@ -61,7 +91,7 @@ class Layout {
     }
     /**
      * Finds the TileNodes neighbouring a given TileNode
-     * <p>
+     * &lt;p>
      * If the findEmpty flag is set to true then we find uninitialized TileNodes.
      * This is useful when generating initial Layout generation.
      * @param {TileNode} tile     - The TileNode we are finding the neighbours of.
@@ -74,7 +104,7 @@ class Layout {
         //look for neighbours on the left
         for (var i = tile.x - 1; i >= 0; i--) {
             if (this.layers[tile.z][tile.y][i] != null) {
-               if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
+               if (findEmpty &amp;&amp; this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
                    neighbours.push(this.layers[tile.z][tile.y][i]) 
@@ -83,9 +113,9 @@ class Layout {
             }
         }
         //look for neighbours on the right
-        for (var i = tile.x + 1; i < this.layers[tile.z][tile.y].length; i++) {
+        for (var i = tile.x + 1; i &lt; this.layers[tile.z][tile.y].length; i++) {
             if (this.layers[tile.z][tile.y][i] != null) {
-               if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
+               if (findEmpty &amp;&amp; this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
                     neighbours.push(this.layers[tile.z][tile.y][i])
@@ -97,27 +127,28 @@ class Layout {
     }
     /**
      * Removes a TileNode from layers
-     * <p>
+     * &lt;p>
      * When a TileNode is removed from layers we must update the roots array.
      * The children of removed TileNodes should be added to the root if they have no parents.
      * These children should also be made selectable if applicable.
      * @param {TileNode} tilenode - The TileNode we are removing.
      */
     removeTile (tilenode) {
+        var session = new GameSession()
         //remove from root
-        for (var i = 0; i < this.roots.length; i++) {
+        for (var i = 0; i &lt; this.roots.length; i++) {
             if (this.roots[i] === tilenode) {
                 this.roots.splice(i, 1)
             }
         } 
         //add children to root and make selectable if applicable
-        for (var i = 0; i < tilenode.children.length; i++) {
+        for (var i = 0; i &lt; tilenode.children.length; i++) {
             tilenode.children[i].removeParent(tilenode)
             if (tilenode.children[i].parents.length === 0) {
                 this.roots.push(tilenode.children[i])
-                if (this.findNeighbours(tilenode.children[i]).length < 2) {
+                if (this.findNeighbours(tilenode.children[i]).length &lt; 2) {
                     tilenode.children[i].selectable = true
-                    if (gameSession.beginnerMode) {
+                    if (session.beginnerMode) {
                         tilenode.children[i].unhighlightTile()
                     }
                 }
@@ -125,9 +156,9 @@ class Layout {
         }
         //set the adjacent tilenode to be selectable
         var neighbours = this.findNeighbours(tilenode)
-        if (neighbours.length > 0 && neighbours[0].parents.length === 0) {
+        if (neighbours.length > 0 &amp;&amp; neighbours[0].parents.length === 0) {
             neighbours[0].selectable = true
-            if (gameSession.beginnerMode) {
+            if (session.beginnerMode) {
                 neighbours[0].unhighlightTile()
             }
             
@@ -137,41 +168,36 @@ class Layout {
     }
     /**
      * Generates a solvable layout of Mahjong tiles
-     * <p>
+     * &lt;p>
      * A complete overview of the algorithm available here: 
      * {@link https://github.com/MEASHY/Mahjong-Solitaire/wiki/Mahjong-Algorithm} 
      * @param {array} counts - An array of how many tiles from possible are left to place.
      * @param {array} possible - An array of possible tiles sprites to place.
      */
     generateTiles (counts = null, possible = null) {
-        var originalCounts = []
-        var originalPossible = []
+        var session = new GameSession()
+        
         if (counts == null) {
-            var counts = new Array(Math.min(this.uniqueTiles, gameSession.tileset.size)).fill(this.maxDuplicates)
+            var counts = new Array(Math.min(this.uniqueTiles, session.tileset.size)).fill(this.maxDuplicates)
         }
         if (possible == null) {
             var possible = []
-            while(possible.length < this.uniqueTiles){
-                var randomnumber = Math.floor(Math.random() * gameSession.tileset.size);
-                if(randomnumber  < 10) {
+            while(possible.length &lt; this.uniqueTiles){
+                var randomnumber = Math.floor(Math.random() * session.tileset.size);
+                if(possible.indexOf(randomnumber) > -1) continue;
+                if(randomnumber  &lt; 10) {
                     randomnumber = "0" + randomnumber.toString()
                 }
-                if(possible.indexOf(randomnumber.toString()) > -1) {continue;}
-                possible.push(randomnumber.toString());
+                possible[possible.length] = randomnumber;
             }
-        }
-        
-        for (var i = 0; i < counts.length; i++) {
-            originalCounts.push(counts[i])
-            originalPossible.push(possible[i])
         }
         
         var upperTiles = []
         var lowerTiles = []
         
-        for (var i = 0; i < this.roots.length; i++) {
+        for (var i = 0; i &lt; this.roots.length; i++) {
             //console.log(this.findNeighbours(this.roots[i], true))
-            if (this.findNeighbours(this.roots[i], true).length < 2) {
+            if (this.findNeighbours(this.roots[i], true).length &lt; 2) {
                 this.roots[i].selectable = true
                 if (this.roots[i].height === this.height) {
                     upperTiles.push(this.roots[i])
@@ -181,11 +207,11 @@ class Layout {
             }
         }
         
-        for (var n = 0; n < this.size/2; n++) {            
+        for (var n = 0; n &lt; this.size/2; n++) {
             //get tile
             var randTile = Math.floor(Math.random() * Math.floor(possible.length))
             
-            if (upperTiles.length < 1) {
+            if (upperTiles.length &lt; 1) {
                 this.height--
                 for (var i = lowerTiles.length - 1; i >= 0; i--) {
                     if (lowerTiles[i].height === this.height) {
@@ -193,12 +219,8 @@ class Layout {
                     } 
                 }
             }
-            var numLower = 0
-            for (var index in lowerTiles) {
-                numLower += lowerTiles[index].height
-            }
             
-            if (lowerTiles.length <= 2 || numLower <= upperTiles[0].height) {
+            if (lowerTiles.length &lt; 3) {
                 var randPos1 = Math.floor(Math.random() * Math.floor(upperTiles.length))
                 var pos1 = upperTiles.splice(randPos1, 1)[0]
             } else {
@@ -222,11 +244,16 @@ class Layout {
                 pos2.setTile("tile"+possible[randTile])
             }
             catch (err) {
-                //melt the layout here
-                this.clearTiles()
-                this.meltLayout()
-                this.generateTiles(originalCounts, originalPossible)
-                return
+                console.log("critical failure!")
+                console.log(counts)
+                console.log(possible)
+                console.log(upperTiles)
+                console.log(lowerTiles)
+                console.log(pos1)
+                console.log(pos2)
+                console.log(err)
+                alert("This game is now unsolvable")
+                throw("TypeError")
             }
                             
             //if we have placed as many pairs of this tile as possible remove from list
@@ -239,15 +266,15 @@ class Layout {
             
             
             //find the new child positions opened by the assignment of position 1
-            for (var i = 0; i < pos1.children.length; i++) {
-                if (pos1.children[i].allParentsGenerated() && this.findNeighbours(pos1.children[i], true).length < 2) {
+            for (var i = 0; i &lt; pos1.children.length; i++) {
+                if (pos1.children[i].allParentsGenerated() &amp;&amp; this.findNeighbours(pos1.children[i], true).length &lt; 2) {
                     childrenToPush.push(pos1.children[i])
                 }
             }           
             
             //find the new child positions opened by the assignment of position 2
-            for (var i = 0; i < pos2.children.length; i++){
-                if (pos2.children[i].allParentsGenerated() && this.findNeighbours(pos2.children[i], true).length < 2){
+            for (var i = 0; i &lt; pos2.children.length; i++){
+                if (pos2.children[i].allParentsGenerated() &amp;&amp; this.findNeighbours(pos2.children[i], true).length &lt; 2){
                     childrenToPush.push(pos2.children[i])
                 }
             }
@@ -266,73 +293,22 @@ class Layout {
         }
     }
     /**
-     * rearranges the tilenodes into a solvable formation.
-     * <p>
-     * High layer tilenodes will be moved down to lower layers until the layout becomes solvable
-     * This function should only apply to 1 children layouts
-     * @param {array} array - An array of TileNodes that can be initializedin the next iteration
-     * @param {array} newObjects - An array TileNodes we may be adding to the array
-     */
-    meltLayout () {
-        if(this.numChildren > 1) {
-            alert("The layout provided is unsolvable")
-            return
-        }
-        for (var i = 0; i < this.roots.length;  i++) {
-            if (this.roots[i].height === this.height) {
-                var tilenode = this.roots.splice(i, 1)[0]
-                tilenode.children[0].removeParent(tilenode)
-                this.roots.push(tilenode.children[0])
-                this.layers[tilenode.z][tilenode.y][tilenode.x] = null
-                if(this.roots.length > 3) {
-                    var randIndex
-                    do {
-                        randIndex = Math.floor(Math.random() * this.roots.length)
-                    } while (this.roots[randIndex].height >= this.height - 1)
-                    var lowTile = this.roots.splice(randIndex,1)[0]
-                    var newTile = new TileNode(this.state, lowTile.x, lowTile.y, lowTile.height+1, this.numChildren)
-                    newTile.children.push(lowTile)
-                    lowTile.parents.push(newTile)
-                    this.roots.push(newTile)
-                    this.layers[newTile.z][newTile.y][newTile.x] = newTile
-                } else {
-                    do {
-                        var randX = Math.floor(Math.random() * 3) + (tilenode.x - 1) 
-                        var randY = Math.floor(Math.random() * 3) + (tilenode.y - 1) 
-                    } while ((randX === tilenode.x && randY === tilenode.y) ||
-                             randX < 0 || randY < 0 ||
-                             randX >= this.layers[0][0].length || 
-                             randY >= this.layers[0].length ||
-                             this.layers[0][randY][randX] != null
-                            )
-                    var newTile = new TileNode(this.state, randX, randY, 1, this.numChildren)
-                    
-                    this.layers[0][randY][randX] = newTile
-                    this.roots.push(newTile)
-                }
-                i = 0
-            }
-        }
-        this.height--
-    }
-    
-    /**
      * adds TileNodes to an array.
-     * <p>
+     * &lt;p>
      * In order to be added the TileNode must not be a duplicate and must be 
      * selectable in the currently generated layout
      * @param {array} array - An array of TileNodes that can be initializedin the next iteration
      * @param {array} newObjects - An array TileNodes we may be adding to the array
      */
     mergeArrays (array, newObjects) {
-        for (var i = 0; i < newObjects.length; i++) {
+        for (var i = 0; i &lt; newObjects.length; i++) {
             var invalidTile = false
             //Check all children are generated for the tile
             if (!newObjects[i].allParentsGenerated()) {
                 invalidTile = true
             } else {
                 //Ensure a duplicate is not pushed into open tiles
-                for (var j = 0; j < array.length; j++){
+                for (var j = 0; j &lt; array.length; j++){
                     if (newObjects[i] === array[j]) {
                         invalidTile = true
                         break
@@ -347,19 +323,20 @@ class Layout {
     }
     /**
      * Repositions every Sprite in the layout
-     * <p>
+     * &lt;p>
      * traverses the layout linearly reseting the position of each TileNode
      *
      * @see TileNode
      */
     positionSprites() {
+        var s = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
-            for (var j = 0; j < this.layers[i].length; j++) {
-                for (var k = 0; k < this.layers[i][j].length; k++) {
+            for (var j = 0; j &lt; this.layers[i].length; j++) {
+                for (var k = 0; k &lt; this.layers[i][j].length; k++) {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    this.layers[i][j][k].setSpritePosition(gameSession.layout.header.numChildren)
+                    this.layers[i][j][k].setSpritePosition(s.layout.header.numChildren)
                 }
             }
         }
@@ -369,10 +346,10 @@ class Layout {
      */
     initializeBeginnerMode () {
         for (var i = this.layers.length - 1; i >= 0; i--) {
-            for (var j = 0; j < this.layers[i].length; j++) {
-                for (var k = 0; k < this.layers[i][j].length; k++) {
-                    if(this.layers[i][j][k] !== null && !this.layers[i][j][k].selectable) {
-                        this.layers[i][j][k].dimTile(gameSession.colours.dim)
+            for (var j = 0; j &lt; this.layers[i].length; j++) {
+                for (var k = 0; k &lt; this.layers[i][j].length; k++) {
+                    if(this.layers[i][j][k] !== null &amp;&amp; !this.layers[i][j][k].selectable) {
+                        this.layers[i][j][k].dimTile()
                     }                    
                 }
             }
@@ -380,26 +357,28 @@ class Layout {
     }
     /**
      * Highlights two tiles that would create a valid match
-     * <p>
+     * &lt;p>
      * traverses the layout linearly to find two matching tiles
      */
-    getMatch() {
+    giveHint() {
         var nodeList = []
         
-        for (var i = 0; i < this.roots.length; i++) {
+        for (var i = 0; i &lt; this.roots.length; i++) {
             
             if (!this.roots[i].selectable) {
                 continue
             }
             
-            for (var j = 0; j < nodeList.length; j++) {
+            for (var j = 0; j &lt; nodeList.length; j++) {
                 if (nodeList[j].tile.texture.key === this.roots[i].tile.texture.key) {
-                    return [nodeList[j],this.roots[i]]
-                }
+                    console.log("Found match")
+                    nodeList[j].highlightTile(0x5c95f2)
+                    this.roots[i].highlightTile(0x5c95f2)
+                    return
+                } 
             }
             nodeList.push(this.roots[i])
         }
-        return null
     }
     /**
      * Checks if there is a valid match on the board
@@ -407,7 +386,7 @@ class Layout {
     validMatchAvailable () {
         var textureList = []
         
-        for (var i = 0; i < this.roots.length; i++) {
+        for (var i = 0; i &lt; this.roots.length; i++) {
             if (!this.roots[i].selectable) {
                 continue
             }
@@ -421,7 +400,7 @@ class Layout {
     }
     /**
      * Shuffles the remaining tiles on the board so that the layout becomes solvable again
-     * <p>
+     * &lt;p>
      * This generates a counts and possible array which are passed back to generateTiles 
      * While this happens we destroy all sprites currently on the board
      * @see Layout.generateTiles({array} counts, {array} possible) 
@@ -432,8 +411,8 @@ class Layout {
         var possible = []
         // Go through every tile on the board
         for (var i = this.layers.length - 1; i >= 0; i--) {
-            for (var j = 0; j < this.layers[i].length; j++) {
-                for (var k = 0; k < this.layers[i][j].length; k++) {
+            for (var j = 0; j &lt; this.layers[i].length; j++) {
+                for (var k = 0; k &lt; this.layers[i][j].length; k++) {
                     if(this.layers[i][j][k] !== null) {
                         if(this.layers[i][j][k].height > this.height) {
                             this.height = this.layers[i][j][k].height
@@ -454,34 +433,33 @@ class Layout {
             }
         }
         
-        for (var i = 0; i < counts.length; i++) {
+        for (var i = 0; i &lt; counts.length; i++) {
             counts[i] /= 2
         }
         
         this.generateTiles(counts, possible)
         this.positionSprites()
-        if (gameSession.beginnerMode) {
-            this.initializeBeginnerMode()
-            console.log("starting beginner mode")
-        }
     }
-    
-    clearTiles () {
-        for (var i = this.layers.length - 1; i >= 0; i--) {
-            for (var j = 0; j < this.layers[i].length; j++) {
-                for (var k = 0; k < this.layers[i][j].length; k++) {
-                    if(this.layers[i][j][k] !== null) {
-                        if(this.layers[i][j][k].height > this.height) {
-                            this.height = this.layers[i][j][k].height
-                        }       
-                        // Destroys the tile if set
-                        if (this.layers[i][j][k].isSet()) {
-                            this.layers[i][j][k].tile.destroy()
-                            this.layers[i][j][k].tile = null
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="Layout.html">Layout</a></li><li><a href="TileNode.html">TileNode</a></li><li><a href="Timer.html">Timer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#changePackage">changePackage</a></li><li><a href="global.html#changeTimer">changeTimer</a></li><li><a href="global.html#Create">Create</a></li><li><a href="global.html#endGame">endGame</a></li><li><a href="global.html#fillDropBox">fillDropBox</a></li><li><a href="global.html#GameSession">GameSession</a></li><li><a href="global.html#initLobby">initLobby</a></li><li><a href="global.html#loadButtons">loadButtons</a></li><li><a href="global.html#Preload">Preload</a></li><li><a href="global.html#resizeGame">resizeGame</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLobby">showLobby</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#triggerQuit">triggerQuit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Mar 15 2018 10:48:42 GMT-0600 (Mountain Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
