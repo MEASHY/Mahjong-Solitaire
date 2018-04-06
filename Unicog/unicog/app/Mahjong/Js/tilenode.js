@@ -31,15 +31,14 @@ class TileNode {
         this.tile.setTint(tint)
     }
     /**
-     * removes the sprite tint. This will return the tint color to white.
+     * Removes the sprite tint. This will return the tint color to white.
      *
-     * @see Board.selectTile()
      */
-    unhighlightTile () {
+    unhighlightTile () { 
         this.tile.clearTint()
     }
     /**
-     * Sets the sprite tint to a hexadecimal color. This color by default is a grey (0x808080)
+     * Sets the sprite tint to a hexadecimal color. This color by default is a grey (0x808080).
      * This method functions the same as highlightTile but defaults to a different color for clarity.
      *
      * @param {number} dim - The hexadecimal value used to tint the sprite
@@ -49,7 +48,6 @@ class TileNode {
     dimTile (dim = 0x808080) {
         this.tile.setTint(dim)
     }
-    
     /**
      * Sets the sprite position of the TileNode to be centered on the screen in the correct layout position.
      * The sprite is also scaled to the session scale parameter 

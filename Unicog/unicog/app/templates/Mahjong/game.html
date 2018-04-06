@@ -11,8 +11,10 @@
         <script src='js/phaser.js'></script>
         <script src='js/jquery-3.3.1.js'></script>
         <script src='js/gameSession.js'></script>
+        <script src='js/gameStats.js'></script>
         <script src='js/lobby.js'></script>
-        <script src='js/game.js'></script>        
+        <script src='js/game.js'></script>       
+        <script src='js/Button.js'></script>        
         <script src='js/tilenode.js'></script>
         <script src='js/layout.js'></script>
         <script src='js/board.js'></script>
@@ -21,16 +23,17 @@
 
     </head>
     
-    <div id='colorstrip'/>
-    <h1>Mahjong Lobby</h1>
-    </div>
-
     <body class = 'main'>
     
+        <div id = 'outergame'>
         <div class='game' id='gameDiv'>
+        </div>
         </div>
         
         <div class='lobby', id='lobbyDiv'>
+        <form method='get' action ='index.html'>
+            <button id = 'logout-lobby' >Log Out</button>
+        </form>
         <h2>Game Configuration</h2>
         <form id='gameSetup'>
             <div class='dropdown'>
@@ -46,8 +49,8 @@
                 <label class = 'largeLabel' for='tilesetDropBox'>Tileset:</label>
             </div>
             <div class='dropdown'>
-                <select class = 'gridoption' type='text' id='backgroundDropBox' ></select>
-                <label class = 'largeLabel' for='backgroundDropBox'>Game Background:</label>
+                <select class = 'gridoption' type='text' id='themeDropBox' ></select>
+                <label class = 'largeLabel' for='themeDropBox'>Game Theme:</label>
             </div>
             <div class = 'bottom'>
                 <p><div class='option' id='timerDiv'>
@@ -65,9 +68,22 @@
                     <h3 id='hintText'>Enable Hints</h3>
                     <input type='checkbox' id='hintCheck' >
                 </div>
+                <!--
+                <div class='option' id='langDiv'>
+                    <h3 id='hintText'>Language</h3>
+                    <select class = 'language' type='text' id='languageSelect'>
+                        <option style='background-image:url(/Assets/Flags/can.png);' value='en'>English</option>
+                        <option style='background-image:url(/Assets/Flags/chi.png);' value='cn_simp'>Chinese (Simplified)</option>
+                        <option style='background-image:url(/Assets/flags/chi.png);' value='cn_trad'>Chinese (Traditional)</option>
+                    </select>
+                </div>
+                -->
             </div>
-            <div>
-                <input class = 'startgame' type='button' name='startGame' onclick='showGame()' value='Start Game' >
+            <div class = 'start_real'>
+                <input class = 'startgame' type='button' name='startGame' onclick='showGame(false)' value='Start Game' >
+            </div>
+            <div class = 'practice'>
+                <input class = 'startgame' type='button' name='practiceGame' onclick='showGame(true)' value='Practice Game' >
             </div>
         </form>
         </div>

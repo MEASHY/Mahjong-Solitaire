@@ -14,22 +14,25 @@ function initLobby () {
         fillDropBox(tilesets, 'tilesetDropBox')
     })
     
-    // TODO
-    //$.getJSON('/Assets/Themes/???.json', initBackgrounds)
+    $.getJSON('/Assets/Themes/ThemeList.json', function ( backgrounds ) {
+        fillDropBox(backgrounds, 'themeDropBox')
+    })
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
     document.getElementById('timerSecondField').addEventListener('input', changeTimer)
+    
+    gameStats.user = user
+    gameStats.researcher = researcher
 }
 /**
  * generic dropBox filling function. takes an element and populates it with the elements of a json array
  * @function fillDropBox
  * @param {json[]} json - json array of options 
- * @param {string} elementId - element to modify
  */
 function fillDropBox ( json, elementId ) {
     var dropBox = document.getElementById(elementId).options
     for (i = 0; i < json.length; i++) {
-        dropBox.add(new Option (json[i], json[i]), i)
+        dropBox.add(new Option(json[i], json[i]), i)
     }
 }
 /**
@@ -67,7 +70,11 @@ function changeTimer () {
  * @function showLobby
  */
 function showLobby () {
-    document.getElementById('colorstrip').style.display = 'block'
+    if (gameSession.timer !== null) {
+        document.getElementById('timerMinuteField').value = gameSession.timer.getJustMinutesLeft()
+        document.getElementById('timerSecondField').value = gameSession.timer.getJustSecondsLeft()
+    }
+    
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
 }
@@ -76,18 +83,26 @@ function showLobby () {
  * @function showGame
  * @see GameSession
  */
-function showGame () {
-    
-    gameSession.background = document.getElementById('backgroundDropBox').value
-    gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
-    
-    document.getElementById('colorstrip').style.display = 'none'
+function showGame (practiceGame) {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
-    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called
+    gameSession.theme = document.getElementById('themeDropBox').value
+    gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
+    gameSession.enabledHints = document.getElementById('hintCheck').checked
+    gameSession.practiceGame = practiceGame
+    
     var packageName = document.getElementById('packageDropBox').value
     var layoutName = document.getElementById('layoutDropBox').value
+    
+    if (!practiceGame) {
+        // Statistics for game information
+        gameStats.package = packageName
+        gameStats.layout = layoutName
+        gameStats.hintsEnabled = gameSession.enabledHints
+    }
+    
+    // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
     $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json', function ( layout ) {
         gameSession.layout = layout
         
@@ -95,18 +110,25 @@ function showGame () {
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json', function ( tileset ) {
             gameSession.tileset = tileset
             console.log("Tileset loaded")
-            console.log(gameSession.tileset)
+            console.log(gameSession.theme)
             
-            $.getJSON('/Assets/Buttons/Buttons.json', function ( buttons ) {
-                gameSession.buttons = buttons
-                
-                if (gameSession.timer === null) {
-                    var minutes = document.getElementById('timerMinuteField').value
-                    var seconds = document.getElementById('timerSecondField').value
-                    gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
-                    document.getElementById('timerDiv').style.display = 'none'
+            $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json', function ( colours ){
+                gameSession.colours = colours
+            
+                if (!practiceGame) {
+                    if (gameSession.timer === null) {
+                        var minutes = document.getElementById('timerMinuteField').value
+                        var seconds = document.getElementById('timerSecondField').value
+                        gameSession.timer = new Timer(parseInt(minutes) * 60 + parseInt(seconds))
+                        
+                        document.getElementById('timerMinuteField').disabled = true
+                        document.getElementById('timerSecondField').disabled = true
+                        document.getElementById('timerText').innerText = 'Time Left in Session'
+                    } else {
+                        gameSession.timer.resumeTimer()
+                    }
                 }
-                startGame()
+                startGame()        
             })
         })
     })

@@ -1,0 +1,50 @@
+{
+    "name": "Mahjong-Tiles",
+    "size": 32,
+    "main": [
+        "Mahjong-Bamboo-1.png",
+        "Mahjong-Bamboo-2.png",
+        "Mahjong-Bamboo-3.png",
+        "Mahjong-Bamboo-4.png",
+        "Mahjong-Bamboo-5.png",
+        "Mahjong-Bamboo-6.png",
+        "Mahjong-Bamboo-7.png",
+        "Mahjong-Bamboo-8.png",
+        "Mahjong-Bamboo-9.png",
+
+        "Mahjong-Circle-1.png",
+        "Mahjong-Circle-2.png",
+        "Mahjong-Circle-3.png",
+        "Mahjong-Circle-4.png",
+        "Mahjong-Circle-5.png",
+        "Mahjong-Circle-6.png",
+        "Mahjong-Circle-7.png",
+        "Mahjong-Circle-8.png",
+        "Mahjong-Circle-9.png",
+
+        "Mahjong-Character-1.png",
+        "Mahjong-Character-2.png",
+        "Mahjong-Character-3.png",
+        "Mahjong-Character-4.png",
+        "Mahjong-Character-5.png",
+        "Mahjong-Character-6.png",
+        "Mahjong-Character-7.png",
+        "Mahjong-Character-8.png",
+        "Mahjong-Character-9.png",
+        
+        "Mahjong-North.png",
+        "Mahjong-East.png",
+        "Mahjong-South.png",
+        "Mahjong-West.png",
+
+        "Mahjong-Middle.png"
+        
+        ],
+    "alt": [],
+    "effects": [],
+    
+    "tileFaceX": 100,
+    "tileFaceY": 160,
+    "tileX": 110,
+    "tileY": 170
+}

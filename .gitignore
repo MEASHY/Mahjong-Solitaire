@@ -1,0 +1,3 @@
+# Compiled Python files
+Unicog/unicog/*.pyc
+Unicog/unicog/app/*.pyc

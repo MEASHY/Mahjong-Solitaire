@@ -1,10 +1,11 @@
 from __future__ import print_function
 from app import app, db
 from flask import jsonify, abort, make_response, request, Response
-from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Mahjong_Games
 from sqlalchemy.sql.expression import func
 import sys
 import json
+import datetime
 
 
 
@@ -133,5 +134,40 @@ def get_version():
 				nmax = version[i].version + 1
 		version = nmax
 	return jsonify({'version':version}), 200
+    
+    
+@app.route('/api/v1/create_mahjong_session', methods=['POST'])
+def create_mahjong():
+	stats = request.get_json(force = True)
 
+	if not all(param in stats for param in ('gameNumber','package','layout','selections',
+    'deselections','correctMatches','incorrectMatches','hintsEnabled','hintsUsed','timesShuffled','completion','startGameTime','endGameTime' )):
+		return jsonify({'errors': {"missing_fields": "please supply all required fields"}}), 400
 
+	if stats.get('gameNumber') == 1:
+		m_sess = Sessions(app = 'Mahjong', r_id = stats.get('researcher'), user_id = stats.get('user'), session_date = datetime.datetime.today().strftime('%Y-%m-%d'))
+		db.session.add(m_sess)
+		db.session.commit()
+		db.session.refresh(m_sess)
+		s_id = m_sess.session_id
+	else:
+		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = stats.get('user'), user_id = stats.get('reseacher'), app = 'Mahjong').first()[0]
+
+	mahjong_session = Mahjong_Games(session_id = s_id, 
+										game_num = stats.get('gameNumber'),
+										package = stats.get('package'),
+										layout = stats.get('layout'),
+										selections = stats.get('selections'),
+										deselections = stats.get('deselections'),
+										correct_matches = stats.get('correctMatches'),
+										incorrect_matches = stats.get('incorrectMatches'),
+										hints_enabled = stats.get('hintsEnabled'),
+										hints = stats.get('hintsUsed'),
+										shuffles = stats.get('timesShuffled'),
+										time_taken = stats.get('startGameTime') - stats.get('endGameTime'),
+										completion = stats.get('completion')
+										)
+	db.session.add(mahjong_session)
+	db.session.commit()
+
+	return jsonify({'session_created': "successfully created mahjong session"}) , 201
