@@ -104,9 +104,10 @@ h1 {
     display: inline-block;
     border-radius: 10px;
     position: absolute;
-    top: 32px;
-    right: 32px;
+    top: 20px;
+    right: 24px;
     font-size: 24px;
     background-color: #f1800e;
     color: #ffffff;
+    padding: 18px 24px;
 }
