@@ -254,7 +254,7 @@ function loadButtons (scope) {
     buttons.pauseText.sprite.setDepth(buttons.pauseText.depth)
     
     buttons.shuffleText = new Button(scope, 50, 40, 10)
-    buttons.shuffleText.sprite = scope.add.text(0, 0, 'No available moves.', { font: '64px Arial', fill: '#000000'})
+    buttons.shuffleText.sprite = scope.add.text(0, 0, 'There are no moves remaining.', { font: '64px Arial', fill: '#000000'})
     buttons.shuffleText.sprite.setVisible(false)
     buttons.shuffleText.sprite.setOrigin(0.5,0.5)
     buttons.shuffleText.sprite.setDepth(buttons.shuffleText.depth)
