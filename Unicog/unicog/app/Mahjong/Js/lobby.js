@@ -58,7 +58,7 @@ function changeTimer () {
         minuteField.value = minutes
     }
     
-    var secondField = document.getElementById('timerSecondField').value
+    var secondField = document.getElementById('timerSecondField')
     var seconds = secondField.value
     if (!seconds || seconds < 0 || seconds > 59) {
         seconds = 0
