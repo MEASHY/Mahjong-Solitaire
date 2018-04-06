@@ -99,6 +99,10 @@ function loadButtons (scope) {
     buttons.save.setSprite('save')
     buttons.save.sprite.on('pointerdown', function() {
         var layout = scope.board.layout
+        if (layout.size === 0) {
+            alert("There must be at least two tiles in a layout.")
+            return
+        }
         if (layout.size%2 !== 0) {
             alert("There must be an even number of tiles in a layout")
             return
