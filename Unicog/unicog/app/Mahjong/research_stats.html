@@ -8,212 +8,6 @@
         <script> var researcher =  "{{r_id}}";</script>
 
         <style>
-        h1 {
-	padding-top: 100px;
-	font-size: 60px;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
-}
-
-
-p {
-	text-align: center;
-}
-
-mainbutton {
-	width: 50%;
-	background-color: #f1800e;
-	border: none;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-}
-
-input {
-	width: 50%;
-}
-
-input[type="login"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-    width: 20%;
-    
-}
-
-input[type="submit"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-}
-
-input[type="text"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
-}
-
-input[type="password"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
-}
-
-/* set background*/
-.main {
-    background: #D3D3D3;
-    background-size: cover;
-}
-
-#player_filter {
-    float: left;
-   
-}
-
-#filter_text {
-    float: left;
-}
-
-button {
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-.lobby {
-    border-radius: 25px;
-    background: white;
-    padding: 20px 20px 20px 20px;
-    width: 80%;
-    align: center;
-    margin-left: auto;
-    margin-right: auto;
-    text-align:center;
-
-   /* NOTE: Only works for non-floated block elements */
-   display: block;
-   float: none;
-}
-
-.statspage {
-    border-radius: 25px;
-    background: white;
-    padding: 20px 20px 20px 20px;
-    width: 80%;
-    align: center;
-    margin-left: auto;
-    margin-right: auto;
-
-    /* NOTE: Only works for non-floated block elements */
-    display: block;
-    float: none;
-}
-
-.dropdown {
-    padding: 10px;
-    margin-top:5%;
-    margin-bottom:5%;
-    
-}
-
-.option {
-    width: 22%;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    float: left;
-   
-}
-
-
-.start {
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-
-}
-
-.gridoption{
-    background-color: #f1800e;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    width: 60%;
-    float: right;
-    margin-left: 30px;
-}
-
-.largeLabel{
-	font-size: 32px;
-	font-family: Arial;
-	font-weight: bold;
-    text-align: right;
-    display: inline-block;
-    width: 300px;
-    float: right;
-}
-
-.startgame{
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
-    width: 100%;
-}
-
-.bottom{
-    align: center;
-    margin-left: 12%;
-    text-align:center;
-}
-
-input[type="checkbox"] {
-    transform:scale(3, 3);
-}
-
-#logout{
-    float: right;
-    vertical-align: top;
-    display: inline-block;
-    border-radius: 10px;
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    font-size: 24px;
-}
-
-.time{
-    width:20%;
-    padding: 8px 8px;
-
-}
-
-#export{
-    transform:scale(0.8, 0.8);
-    border-radius: 10px;
-}
-
         </style>
 <script type="text/javascript">//<![CDATA[
 window.onload=function(){
@@ -270,11 +64,16 @@ document.querySelector("#export").addEventListener("click", function () {
    
     
     <div id = "top" >
-    	<form id='player_filter' method='get' action ='filter'>
+    	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
     		<p>
+                <div class = 'filterDiv'>
                 <label for='filter'>Search Player:</label>
-                <input id='filter' name='player' value='Player' />
+                <input id='filter' name='player' placeholder='Player' />
+                <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
+                <button id = 'filter_button' >Filter</button>
+                </div>
     		</p>
+            
         </form>
         
         <button id ='export'>Export to Excel</button>
