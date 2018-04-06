@@ -297,9 +297,10 @@ class Board {
         
         // Uses the continue button or finish button depending on if a game session has ended
         if (timerDone) {
-             this.scene.buttons.finish.toggleVisibility() 
+             this.scene.buttons.finish.toggleVisibility()
         } else {
              this.scene.buttons.next.toggleVisibility() 
         }
     }
+
 }

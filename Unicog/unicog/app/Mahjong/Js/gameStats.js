@@ -21,6 +21,8 @@ var GameStats = function () {
             completion: null,
             startGameTime: 0,
             endGameTime: 0,
+            user: null,
+            researcher: null,
 
             setInstance: function () {
                 GameStats.instance = this

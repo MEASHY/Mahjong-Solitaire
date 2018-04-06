@@ -233,7 +233,7 @@ function loadButtons (scope) {
     buttons.next.setSprite('continue')
     buttons.next.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
-            gameStats.completion = 'Session Ended'
+            gameStats.completion = 'Finished'
         }
         endGame(false)
     })
@@ -242,7 +242,7 @@ function loadButtons (scope) {
     buttons.finish.setSprite('finish')
     buttons.finish.sprite.on('pointerdown', function() {
         if (!gameSession.practiceGame) {
-            gameStats.completion = 'Finished'
+            gameStats.completion = 'Session Ended'
         }
         endGame(true)
     })
@@ -331,6 +331,7 @@ function startGame () {
 function endGame (timerDone) {
     this.game.destroy(true)
     if (!gameSession.practiceGame) {
+        postData()
         gameStats.resetGameStats()
     }
     
@@ -339,4 +340,17 @@ function endGame (timerDone) {
     } else {
         showLobby()
     }
+}
+
+function postData() {
+    // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
+    var url = "http://localhost:5000/api/v1/create_mahjong_session";
+    var method = "POST";
+    var postData = JSON.stringify(gameStats)
+    var shouldBeAsync = true;
+    var request = new XMLHttpRequest();
+    request.open(method, url, shouldBeAsync);
+    request.setRequestHeader("JSON", "application/json;charset=UTF-8");
+    request.send(postData);
+
 }

@@ -20,6 +20,9 @@ function initLobby () {
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
     document.getElementById('timerSecondField').addEventListener('input', changeTimer)
+    
+    gameStats.user = user
+    gameStats.researcher = researcher
 }
 /**
  * generic dropBox filling function. takes an element and populates it with the elements of a json array

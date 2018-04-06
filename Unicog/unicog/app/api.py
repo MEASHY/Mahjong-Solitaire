@@ -1,10 +1,11 @@
 from __future__ import print_function
 from app import app, db
 from flask import jsonify, abort, make_response, request, Response
-from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Mahjong_Games
 from sqlalchemy.sql.expression import func
 import sys
 import json
+import datetime
 
 
 
@@ -137,41 +138,36 @@ def get_version():
     
 @app.route('/api/v1/create_mahjong_session', methods=['POST'])
 def create_mahjong():
-	if not all(param in request.json for param in ('game_num','package','layout','selections',
-    'deselections','correct_matches','incorrect_matches','hints_enabled','hints','shuffles','time_taken','completion' )):
+	stats = request.get_json(force = True)
+
+	if not all(param in stats for param in ('gameNumber','package','layout','selections',
+    'deselections','correctMatches','incorrectMatches','hintsEnabled','hintsUsed','timesShuffled','completion','startGameTime','endGameTime' )):
 		return jsonify({'errors': {"missing_fields": "please supply all required fields"}}), 400
-	
-	attempt = request.json.get('attempt')
-	r_id = request.json.get('r_id')
-	app = request.json.get('app')
-	user_id = request.json.get('user_id')
 
-	if attempt == 1:
-		b_sess = Sessions(app = app, r_id = r_id, user_id = user_id, session_date = session_date)
-		db.session.add(b_sess)
+	if stats.get('gameNumber') == 1:
+		m_sess = Sessions(app = 'Mahjong', r_id = stats.get('researcher'), user_id = stats.get('user'), session_date = datetime.datetime.today().strftime('%Y-%m-%d'))
+		db.session.add(m_sess)
 		db.session.commit()
-		db.session.refresh(b_sess)
-		s_id = b_sess.session_id
+		db.session.refresh(m_sess)
+		s_id = m_sess.session_id
 	else:
-		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = r_id, user_id = user_id, app = app).first()[0]
+		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = stats.get('user'), user_id = stats.get('reseacher'), app = 'Mahjong').first()[0]
 
-	elist = json.dumps(request.json.get('sessions'))
-	mahjong_session = Mahjong_Sessions(session_id = s_id, attempt_number = attempt,
-        game_num = request.json.get('game_num'),
-        package = request.json.get('package'),
-        layout = request.json.get('layout'),
-        selections = request.json.get('selections'),
-        deselections = request.json.get('deselections'),
-        correct_matches = request.json.get('correct_matches'),
-        incorrect_matches = request.json.get('incorrect_matches'),
-        hints_enabled = request.json.get('hints_enabled'),
-        hints = request.json.get('hints'),
-        shuffles = request.json.get('shuffles'), 
-        time_taken = request.json.get('ltime_taken'),
-        completion = request.json.get('completion'))
-        db.session.add(mahjong_session)
-        db.session.commit()
+	mahjong_session = Mahjong_Games(session_id = s_id, 
+										game_num = stats.get('gameNumber'),
+										package = stats.get('package'),
+										layout = stats.get('layout'),
+										selections = stats.get('selections'),
+										deselections = stats.get('deselections'),
+										correct_matches = stats.get('correctMatches'),
+										incorrect_matches = stats.get('incorrectMatches'),
+										hints_enabled = stats.get('hintsEnabled'),
+										hints = stats.get('hintsUsed'),
+										shuffles = stats.get('timesShuffled'),
+										time_taken = stats.get('startGameTime') - stats.get('endGameTime'),
+										completion = stats.get('completion')
+										)
+	db.session.add(mahjong_session)
+	db.session.commit()
 
 	return jsonify({'session_created': "successfully created mahjong session"}) , 201
-
-
