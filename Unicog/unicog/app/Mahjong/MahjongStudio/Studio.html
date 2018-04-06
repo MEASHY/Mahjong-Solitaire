@@ -39,24 +39,24 @@
         <div class='saveDiv' id='saveDiv'>
         <h2>Layout Configuration</h2>
             <form id='StudioSetup'>
-                <div class='text'>
+                <p><div class='text'>
                     <label class = 'smallLabel' for='nameText'>Layout Name:</label>
                     <input type="text" id="nameText"></input>
                 </div>
-                <div class='pkgDrop'>
+                <p><div class='pkgDrop'>
                     <label class = 'smallLabel' for='packageDropBox'>Layout Package:</label>
                     <select class = 'packageOption' type='text' id='packageDropBox' onChange='checkOther(this.value)'></select>
                 </div>
-                <div id="otherDiv"></div>
-                <div>
+                <p><div id="otherDiv"></div>
+                <p><div>
                     <label class = 'smallLabel' for='uniqueTiles'>Number of different tile symbols:</label>
                     <input class = 'saveNumber' type='number' id='uniqueTiles' min='1' max='44' value='27' >
                 </div>
-                <div>
+                <p><div>
                     <label class = 'smallLabel' for='maxDuplicates'>Number of tile pairs per symbol type:</label>
                     <input class = 'saveNumber' type='number' id='maxDuplicates' min='1' max='999' value='5' >
                 </div>
-                <div>
+                <p><div>
                     <input class = 'button' type='button' name='resume' onclick='resumeStudio()' value='Resume' >
                     <input class = 'button' type='button' name='save' onclick='saveLayout()' value='Save' >
                 </div>
