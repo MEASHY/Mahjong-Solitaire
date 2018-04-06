@@ -20,6 +20,9 @@ function initLobby () {
     
     document.getElementById('timerMinuteField').addEventListener('input', changeTimer)
     document.getElementById('timerSecondField').addEventListener('input', changeTimer)
+    
+    gameStats.user = user
+    gameStats.researcher = researcher
 }
 /**
  * generic dropBox filling function. takes an element and populates it with the elements of a json array
@@ -83,8 +86,6 @@ function showLobby () {
 function showGame (practiceGame) {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
-    gameStats.user = user
-    gameStats.researcher = researcher
     
     gameSession.theme = document.getElementById('themeDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked

@@ -330,8 +330,8 @@ function startGame () {
  */
 function endGame (timerDone) {
     this.game.destroy(true)
-    postData()
     if (!gameSession.practiceGame) {
+        postData()
         gameStats.resetGameStats()
     }
     
