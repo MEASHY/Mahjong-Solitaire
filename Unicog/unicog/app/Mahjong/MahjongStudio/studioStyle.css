@@ -97,3 +97,17 @@ h1 {
 .center{
     text-align: center;
 }
+
+#logout{
+    float: right;
+    vertical-align: top;
+    display: inline-block;
+    border-radius: 10px;
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 24px;
+    background-color: #f1800e;
+    color: #ffffff;
+    padding: 18px 24px;
+}
