@@ -175,8 +175,7 @@ def create_mahjong():
     
 @app.route('/api/v1/save_mahjong_layout', methods=['POST'])
 def save_layout():
-	layout = request.get_json(force = True)
-    
+    layout = request.get_json(force = True)
     name = layout.get('name')
     package = layout.get('package')
     
@@ -195,5 +194,5 @@ def save_layout():
         f.write(layout)
         f.close()
     
-	return jsonify({'Success': True}) , 201
+    return jsonify({'Success': True}) , 201
 
