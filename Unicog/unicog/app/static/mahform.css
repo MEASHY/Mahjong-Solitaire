@@ -206,7 +206,7 @@ input[type="checkbox"] {
 }
 
 #export{
-    transform:scale(0.8, 0.8) translate(5px, 0px);
+    transform:scale(0.8, 0.8) translate(35px, 0px);
     border-radius: 10px;
 }
 
