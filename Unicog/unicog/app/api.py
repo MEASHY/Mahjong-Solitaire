@@ -151,7 +151,7 @@ def create_mahjong():
 		db.session.refresh(m_sess)
 		s_id = m_sess.session_id
 	else:
-		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = stats.get('user'), user_id = stats.get('reseacher'), app = 'Mahjong').first()[0]
+		s_id = db.session.query(func.max(Sessions.session_id)).filter_by(r_id = stats.get('researcher'), user_id = stats.get('user'), app = 'Mahjong').first()[0]
 
 	mahjong_session = Mahjong_Games(session_id = s_id, 
 										game_num = stats.get('gameNumber'),
