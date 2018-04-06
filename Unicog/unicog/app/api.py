@@ -145,7 +145,7 @@ def create_mahjong():
 		return jsonify({'errors': {"missing_fields": "please supply all required fields"}}), 400
 
 	if stats.get('gameNumber') == 1:
-		m_sess = Sessions(app = 'Mahjong', r_id = stats.get('reseacher'), user_id = stats.get('user'), session_date = datetime.datetime.today().strftime('%Y-%m-%d'))
+		m_sess = Sessions(app = 'Mahjong', r_id = stats.get('researcher'), user_id = stats.get('user'), session_date = datetime.datetime.today().strftime('%Y-%m-%d'))
 		db.session.add(m_sess)
 		db.session.commit()
 		db.session.refresh(m_sess)

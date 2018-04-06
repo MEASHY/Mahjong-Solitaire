@@ -83,6 +83,8 @@ function showLobby () {
 function showGame (practiceGame) {
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
+    gameStats.user = user
+    gameStats.researcher = researcher
     
     gameSession.theme = document.getElementById('themeDropBox').value
     gameSession.beginnerMode = document.getElementById('beginnerCheck').checked
