@@ -297,14 +297,13 @@ class Layout {
      * @see TileNode
      */
     positionSprites() {
-        var s = new GameSession()
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
                     if (this.layers[i][j][k] == null) {
                         continue
                     }
-                    this.layers[i][j][k].setSpritePosition(s.layout.header.numChildren)
+                    this.layers[i][j][k].setSpritePosition(gameSession.layout.header.numChildren)
                 }
             }
         }

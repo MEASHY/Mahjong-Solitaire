@@ -46,7 +46,7 @@ class StudioTileNode extends TileNode{
      * @see Layout
      */
     setSpritePosition(numChildren) {
-        var s = new gameSession
+        var s = gameSession
         var xPos = s.tileset.tileFaceX * s.scale * this.x + s.offsetX
         var yPos = s.tileset.tileFaceY * s.scale * this.y + s.offsetY
         

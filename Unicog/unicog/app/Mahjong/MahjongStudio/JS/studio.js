@@ -104,7 +104,7 @@ function loadButtons (scope) {
  * @function resizeGame
  */
 function resizeGame() {
-    var session = new gameSession
+    var session = gameSession
     var width
     var height
 

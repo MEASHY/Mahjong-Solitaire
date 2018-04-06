@@ -12,7 +12,6 @@ var StudioSession = function () {
             'effects': []
         }
         
-        
         var public_members = {
             layoutX: null,
             layoutY: null,
@@ -25,8 +24,8 @@ var StudioSession = function () {
                 "header":{
                     "name": null,
                     "package": null,
-                    "size": null,
-                    "height": null,
+                    "size": 0,
+                    "height": 0,
                     "uniqueTiles": null,
                     "maxDuplicates": null,
                     "numChildren": null
@@ -60,4 +59,4 @@ var StudioSession = function () {
     }
 }
 
-var gameSession = StudioSession
+var gameSession = new StudioSession()

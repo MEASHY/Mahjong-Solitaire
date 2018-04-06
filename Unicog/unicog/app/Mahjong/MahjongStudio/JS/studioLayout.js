@@ -15,7 +15,7 @@ class StudioLayout extends Layout{
     }
     
     fillBottomLayer() {
-        var session = new gameSession
+        var session = gameSession
         console.log(session)
         var layer = []
         for (var i = 0; i < session.layoutY; i++) {
