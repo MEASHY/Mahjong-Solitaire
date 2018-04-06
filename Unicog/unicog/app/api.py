@@ -6,6 +6,7 @@ from sqlalchemy.sql.expression import func
 import sys
 import json
 import datetime
+import os
 
 
 
@@ -171,3 +172,28 @@ def create_mahjong():
 	db.session.commit()
 
 	return jsonify({'session_created': "successfully created mahjong session"}) , 201
+    
+@app.route('/api/v1/save_mahjong_layout', methods=['POST'])
+def save_layout():
+	layout = request.get_json(force = True)
+    
+    name = layout.get('name')
+    package = layout.get('package')
+    
+    if os.path.isdir("/Mahjong/Assets/Layouts/"+package):
+        f = open("/Mahjong/Assets/"+package+"/"+name+".json", 'w')
+        f.write(layout)
+        f.close()
+        
+    else:
+        os.makedirs("/Mahjong/Assets/Layouts/"+package)
+        packages = json.load("/Mahjong/Assets/Layouts/PackageList.json")
+        packages.append(package)
+        with open("/Mahjong/Assets/Layouts/PackageList.json", 'w') as outfile:  
+            json.dump(packages, outfile)
+        f = open("/Mahjong/Assets/Layouts/"+package+"/"+name+".json", 'w')
+        f.write(layout)
+        f.close()
+    
+	return jsonify({'Success': True}) , 201
+

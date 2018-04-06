@@ -107,7 +107,8 @@ function saveLayout () {
     //replace this with save to database later 
     var json = prettyLayout(4)
     console.log(json)
-    downloadLayout("data:,"+json,session.layout.header.name+'.json')
+    postData(json)
+    //downloadLayout("data:,"+json,session.layout.header.name+'.json')
 }
 function downloadLayout(json, name) {
   var link = document.createElement("a");
@@ -140,8 +141,18 @@ function prettyLayout (indent) {
     return str
 }
 
+function postData(json) {
+    // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
+    var url = "http://199.116.235.91:5000/api/v1/save_mahjong_layout"
+    var method = "POST"
+    var postData = json
+    var shouldBeAsync = true;
+    var request = new XMLHttpRequest()
+    request.open(method, url, shouldBeAsync)
+    request.setRequestHeader("JSON", "application/json;charset=UTF-8")
+    request.send(postData)
 
-
+}
 
 
 
