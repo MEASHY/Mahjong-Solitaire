@@ -344,13 +344,13 @@ function endGame (timerDone) {
 
 function postData() {
     // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
-    var url = "http://localhost:5000/api/v1/create_mahjong_session";
-    var method = "POST";
+    var url = "http://199.116.235.91:5000/api/v1/create_mahjong_session"
+    var method = "POST"
     var postData = JSON.stringify(gameStats)
     var shouldBeAsync = true;
-    var request = new XMLHttpRequest();
-    request.open(method, url, shouldBeAsync);
-    request.setRequestHeader("JSON", "application/json;charset=UTF-8");
-    request.send(postData);
+    var request = new XMLHttpRequest()
+    request.open(method, url, shouldBeAsync)
+    request.setRequestHeader("JSON", "application/json;charset=UTF-8")
+    request.send(postData)
 
 }
