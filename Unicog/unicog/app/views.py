@@ -52,7 +52,7 @@ def mahjong_game():
     id = request.form['researcher']
     player_id = request.form['player']
     
-    if not (id.isdigit() and player_id.isdigit()):
+    if not ((id.isdigit() or id == '') and player_id.isdigit()):
         return redirect(url_for('mahjong_player_login_failed3'))
     
     valid_r = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
