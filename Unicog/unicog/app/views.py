@@ -1,6 +1,6 @@
 from flask import render_template, send_file, request, send_from_directory, redirect, url_for
 from app import app, db
-from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Mahjong_Games
+from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Players, Mahjong_Games
 #from sqlalchemy.sql.expression import func
 
 SERVER_URL = 'http://199.116.235.91/'
@@ -47,25 +47,44 @@ def send_mahjong_css():
     
 @app.route('/mahjong_static/game.html', methods = ['POST'])
 def mahjong_game():
-    valid = None
+    valid_r = None
+    valid_p = None
     id = request.form['researcher']
+    player_id = request.form['player']
     
-    if (id.isdigit()):
-        valid = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
+    if not (id.isdigit() and player_id.isdigit()):
+        return redirect(url_for('mahjong_player_login_failed3'))
+    
+    valid_r = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
     
     try:
         gID = request.form['useGenericID']
         if (gID == 'on'):
-            valid = True
+            valid_r = True
             id = 0          
     except:
         pass
     
-    if (valid == None):
+    if (valid_r == None):
         return redirect(url_for('mahjong_player_login_failed')) #invalid case
     
+    valid_p = db.session.query(Players.user_id).filter_by(user_id = player_id).first()
+    
+    try:
+        add_new_player = request.form['addNewPlayer']
+        if (add_new_player == 'on'):
+            newPlayer = Players(user_id = player_id)
+            db.session.add(newPlayer)
+            db.session.commit()
+            valid_p = True
+    except:
+        pass
+    
+    if (valid_p == None):
+        return redirect(url_for('mahjong_player_login_failed2'))
+        
     return render_template('Mahjong/game.html',  
-        user_id=request.form['player'], r_id = id)
+        user_id=player_id, r_id = id)
 
   
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
@@ -129,6 +148,16 @@ def mahjong_static_page(filename):
 def mahjong_player_login_failed():
     return render_template('Mahjong/player_login.html', error_message =
         'The Researcher ID you submmitted does not exist')
+        
+@app.route('/mahjong_static/player_login_failed2.html')
+def mahjong_player_login_failed2():
+    return render_template('Mahjong/player_login.html', error_message =
+        'The Player ID you submitted does not exist, make sure to add it to the database')
+
+@app.route('/mahjong_static/player_login_failed3.html')
+def mahjong_player_login_failed3():
+    return render_template('Mahjong/player_login.html', error_message =
+        'The Researcher and Player IDs must be numeric values')
         
 @app.route('/mahjong_static/research_login_failed.html')        
 def mahjong_research_login_failed():
