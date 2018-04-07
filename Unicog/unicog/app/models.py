@@ -4,8 +4,8 @@ class Sessions(db.Model):
 	__tablename__ = 'sessions'
 	session_id = db.Column(db.Integer, primary_key=True)
 	app = db.Column(db.String(255))
-	r_id = db.Column(db.Integer)
-	user_id = db.Column(db.Integer)
+	r_id = db.Column(db.Integer, db.ForeignKey('researchers.r_id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('players.user_id'))
 	session_date = db.Column(db.String(255))
     
 class Mahjong_Games(db.Model):
@@ -79,13 +79,13 @@ class Mole_Sessions(db.Model):
 
 class Researchers(db.Model):
     __tablename__ = 'researchers'
-    r_id = db.Column(db.Integer, db.ForeignKey('sessions.r_id'), primary_key = True)
+    r_id = db.Column(db.Integer, primary_key = True)
     
     sessions = db.relationship(Sessions)
 
 class Players(db.Model):
     __tablename__ = 'players'
-    user_id = db.Column(db.Integer, db.ForeignKey('sessions.user_id'), primary_key = True)
+    user_id = db.Column(db.Integer, primary_key = True)
     
     sessions = db.relationship(Sessions)
 
