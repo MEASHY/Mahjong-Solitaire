@@ -305,7 +305,7 @@ select.language option {
 }
 
 #export{
-    transform:scale(0.8, 0.8);
+    padding: 8px 8px;
     border-radius: 10px;
 }
 

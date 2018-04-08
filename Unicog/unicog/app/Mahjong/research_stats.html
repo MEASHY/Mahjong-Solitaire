@@ -70,13 +70,14 @@ document.querySelector("#export").addEventListener("click", function () {
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' placeholder='Player' />
                 <button id = 'filter_button' >Filter</button>
+                <button id ='export'>Export to Excel</button>
                 <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
                 </div>
     		</p>
             
         </form>
         
-        <button id ='export'>Export to Excel</button>
+        
 
     </div>
     
@@ -89,10 +90,10 @@ document.querySelector("#export").addEventListener("click", function () {
                 <th>ResearcherID</th>
                 <th>Package</th> 
                 <th>Layout</th>
-                <th># Selections</th>
-                <th># Deselections</th>
+                <th># Selects</th>
+                <th># Deselects</th>
                 <th># Correct matches</th>
-                <th># Incorrect matches</th>
+                <th># Wrong matches</th>
                 <th># Hints</th>
                 <th># Shuffles</th>
                 <th>Completion</th>
