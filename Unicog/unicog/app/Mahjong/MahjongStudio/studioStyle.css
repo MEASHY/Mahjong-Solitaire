@@ -23,16 +23,16 @@ h1 {
 }
 
 h2 {
-	padding-top: 8px;
-	font-size: 1.5em;
+	font-size: 150%;
 	font-family: Arial;
 	font-weight: bold;
-	text-align: center;
+	text-align: right;
+    padding-right:35%;
 }
 
 h3 {
 	padding-top: 8px;
-	font-size: 1.2em;
+	font-size: 120%;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
@@ -50,12 +50,12 @@ h3 {
 
 .childSelect{
     background-color: #f1800e;
-    border: none;
+    border-radius: 10px;
     color: white;
     padding: 8px 8px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 100%;
     width: 20%;
     float: right;
 }
@@ -69,7 +69,7 @@ h3 {
     padding: 16px 0px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 100%;
     float: left;
     display: inline-block;
     transform: translate(50px, -50px);
@@ -92,22 +92,24 @@ h3 {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 40%;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
     text-align:center;
 }
 .startgame{
 	background-color: #f1800e;
+    border-radius: 10px;
 	text-align: center;
 	padding: 25px 36px;
-	font-size: 24px;
+	font-size: 125%;
 	color: #ffffff;
     width: 100%;
 }
 
 .time{
     width:20%;
+    border-radius: 10px;
     padding: 0.5em 0.1em;
     text-align: center;
 }
@@ -121,10 +123,8 @@ h3 {
     vertical-align: top;
     display: inline-block;
     border-radius: 10px;
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    font-size: 24px;
+    position: relative;
+    font-size: 1em;
     background-color: #f1800e;
     color: #ffffff;
     padding: 18px 24px;
