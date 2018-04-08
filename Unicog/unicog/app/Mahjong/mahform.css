@@ -254,10 +254,6 @@ select.language option {
     width:50%
 }
 
-.loginCheck{
-    margin-left: 12px;
-}
-
 .small {
 	background-color: #f1800e;
 	text-align: center;
@@ -277,15 +273,15 @@ select.language option {
 }
 
 .genericLabel{
-	font-size: 14px;
+	font-size: 100%;
 	font-family: Arial;
 	font-weight: bold;
     display: inline-block;
 }
 
 .loginCheck{
-    width: 5%;
-    margin-left: 23.5%;
+    width: 3%;
+    margin-left: 24%;
 }
 
 .alert {
