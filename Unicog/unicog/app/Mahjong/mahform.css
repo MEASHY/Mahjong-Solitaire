@@ -310,7 +310,6 @@ select.language option {
 }
 
 #filter_text {
-    float: left;
     margin: 0;
     padding: 0;
     text-indent: 1em;
@@ -321,8 +320,13 @@ select.language option {
 }
 
 .filterDiv {
-  float: left;
-  padding: 14px 14px;
+   float: left;
+   padding: 16px 16px;
+   width:100%;
+}
+
+#filter {
+    width:40%
 }
 
 
