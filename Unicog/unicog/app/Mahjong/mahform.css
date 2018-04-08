@@ -76,10 +76,6 @@ input[type="password"] {
    
 }
 
-#filter_text {
-    float: left;
-}
-
 button {
     background-color: #f1800e;
     border: none;
@@ -208,11 +204,6 @@ input[type="checkbox"] {
 
 }
 
-#export{
-    transform:scale(0.8, 0.8) translate(70px, 0px);
-    border-radius: 10px;
-}
-
 #outergame{
     width: 100%;
     text-align: center;
@@ -309,14 +300,32 @@ select.language option {
 }
 
 #filter_button{
-    transform:scale(0.8, 0.8) translate(360px, -46px);
+    transform:scale(0.8, 0.8);
     border-radius: 10px;
     float:left; 
-    display: block;
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#export{
+    transform:scale(0.8, 0.8);
+    border-radius: 10px;
+}
+
+#filter_text {
+    float: left;
+    margin: 0;
+    padding: 0;
+    text-indent: 1em;
 }
 
 .padding{
     margin-top: 16px;
+}
+
+.filterDiv {
+  float: left;
 }
 
 
