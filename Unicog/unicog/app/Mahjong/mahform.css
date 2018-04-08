@@ -95,7 +95,7 @@ button {
     border-radius: 25px;
     background: white;
     padding: 10px 20px 20px 20px;
-    width: 90%;
+    width: 40%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -128,6 +128,7 @@ button {
     text-align: center;
     text-decoration: none;
     font-size: 16px;
+    font-family: Arial;
     float: left;
    
 }
@@ -160,7 +161,7 @@ button {
 }
 
 .largeLabel{
-	font-size: 32px;
+	font-size: 1.5em;
 	font-family: Arial;
 	font-weight: bold;
     text-align: right;
@@ -172,9 +173,10 @@ button {
 .startgame{
 	background-color: #f1800e;
 	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+	padding: 1.2em;
+    font-size: 1.5em;
+	font-family: Arial;
+    color: #ffffff;
     width: 100%;
 }
 
@@ -200,6 +202,7 @@ input[type="checkbox"] {
 }
 
 .time{
+    font-family: Arial;
     width:20%;
     padding: 8px 8px;
 
