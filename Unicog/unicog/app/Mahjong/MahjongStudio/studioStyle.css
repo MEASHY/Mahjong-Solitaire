@@ -16,18 +16,35 @@
 
 h1 {
 	padding-top: 8px;
-	font-size: 36px;
+	font-size: 2em;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+h2 {
+	padding-top: 8px;
+	font-size: 1.5em;
+	font-family: Arial;
+	font-weight: bold;
+	text-align: center;
+}
+
+h3 {
+	padding-top: 8px;
+	font-size: 1.2em;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
 }
 
 .childLabel{
-	font-size: 24px;
+    padding-top: 0.5em;
+	font-size: 1.2em;
 	font-family: Arial;
 	font-weight: bold;
     display: inline-block;
-    width: 300px;
+    width: 12em;
     float: right;
 }
 
@@ -44,7 +61,7 @@ h1 {
 }
 
 #studioTitle{
-    padding-bottom: 48px;
+    padding-bottom: 2em;
 }
 
 .studioOption{
@@ -59,6 +76,7 @@ h1 {
 }
 
 .studioDiv{
+   padding-top: 1em;
    display: inline-block;
    float: left;
    width: 50%
@@ -74,7 +92,7 @@ h1 {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 80%;
+    width: 40%;
     margin-left: auto;
     margin-right: auto;
     text-align:center;
@@ -90,8 +108,8 @@ h1 {
 
 .time{
     width:20%;
-    padding: 8px 8px;
-
+    padding: 0.5em 0.1em;
+    text-align: center;
 }
 
 .center{
