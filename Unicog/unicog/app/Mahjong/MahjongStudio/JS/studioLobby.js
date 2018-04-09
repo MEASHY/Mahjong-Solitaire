@@ -20,7 +20,6 @@ function changeChildren (value) {
  * @function showLobby
  */
 function showLobby () {
-    //document.getElementById('colorstrip').style.display = 'block'
     document.getElementById('lobbyDiv').style.display = 'block'
     document.getElementById('gameDiv').style.display = 'none'
     document.getElementById('saveDiv').style.display = 'none'
@@ -34,7 +33,6 @@ function showGame () {
     session = new StudioSession()
     session.background = 'studioBackground'
    
-    //document.getElementById('colorstrip').style.display = 'none'
     document.getElementById('lobbyDiv').style.display = 'none'
     document.getElementById('gameDiv').style.display = 'block'
     
@@ -74,7 +72,7 @@ function showSave () {
  */
 function resumeStudio () {
     document.getElementById('saveDiv').style.display = 'none'
-    game.scene.scenes[0].buttons.overlay.toggleVisible()
+    game.scene.scenes[0].buttons.overlay.toggleVisibility()
 }
 /**
  * saves a layout to the server
