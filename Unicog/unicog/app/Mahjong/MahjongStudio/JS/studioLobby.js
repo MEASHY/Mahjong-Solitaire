@@ -86,7 +86,7 @@ function saveLayout () {
     session = new StudioSession()
     
     session.layout.header.name = document.getElementById('nameText').value
-    var alphanumers = /^[a-zA-Z0-9\S]+$/;
+    var alphanumers = /^[a-zA-Z0-9 ]+$/;
     if (!alphanumers.test($("#nameText").val())) {
         alert("Name must be alphanumeric")
         return
@@ -103,7 +103,7 @@ function saveLayout () {
             alert("Package field must be filled")
             return
         }
-        var alphanumers = /^[a-zA-Z0-9\S]+$/;
+        var alphanumers = /^[a-zA-Z0-9 ]+$/;
         if (!alphanumers.test(session.layout.header.package)) {
             alert("Package must be alphanumeric")
             return
