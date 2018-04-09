@@ -39,7 +39,8 @@ function export_table(html, filename) {
     for (var i = 0; i < rows.length; i++) {
 		var row = [], cols = rows[i].querySelectorAll("td, th");
 		
-        for (var j = 0; j < cols.length; j++) 
+        for (var j = 0; j < cols.length; j++)
+        
             row.push(cols[j].innerText);
         
 		csv.push(row.join(","));		
@@ -77,10 +78,10 @@ function getPlayerGames(){
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' placeholder='Player' />
                 <button id = 'filter_button' >Filter</button>
-                <button id ='export'>Export to Excel</button>
                 <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
             </div>
         </form>  
+        <button id ='export'>Export to Excel</button>
     </div>
     
     	<div id = 'table_div'>
@@ -96,6 +97,7 @@ function getPlayerGames(){
                 <th># Deselects</th>
                 <th># Correct Matches</th>
                 <th># Wrong Matches</th>
+                <th>Hints on</th>
                 <th># Hints</th>
                 <th># Shuffles</th>
                 <th>Completion</th>
