@@ -99,6 +99,11 @@ function create () {
     this.sound.add('hint')
     this.sound.add('shuffle')
     this.sound.add('finishGame')
+    
+    if (!gameSession.practiceGame) {
+        // Everything is loaded, so now start the timer
+        gameSession.timer.resumeTimer()
+    }
 }
 
 

@@ -5,7 +5,7 @@ class Timer {
      * @param {number} duration - Timer duration (seconds).
      */
     constructor (duration) {
-        this.paused = false
+        this.paused = true
         this.duration = duration
         this.timeLeft = duration
         this.board = null
