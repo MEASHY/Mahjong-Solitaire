@@ -91,13 +91,13 @@ function saveLayout () {
     session = new StudioSession()
     
     session.layout.header.name = document.getElementById('nameText').value
+    if (session.layout.header.name === '') {
+        alert('Name field must be filled')
+        return
+    }
     var alphanumers = /^[a-zA-Z0-9 ]+$/
     if (!alphanumers.test($('#nameText').val())) {
         alert('Name must be alphanumeric')
-        return
-    }
-    if (session.layout.header.name === '') {
-        alert('Name field must be filled')
         return
     }
     
