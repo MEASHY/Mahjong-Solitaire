@@ -6,9 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="mahform.css">
         <script> var researcher =  "{{r_id}}";</script>
-
-        <style>
-        </style>
 <script type="text/javascript">//<![CDATA[
 window.onload=function(){
 function csv_export(csv, filename) {
@@ -33,11 +30,9 @@ function export_table(html, filename) {
 		var row = [], cols = rows[i].querySelectorAll("td, th");
 		
         for (var j = 0; j < cols.length; j++) 
-            row.push(cols[j].innerText);
-        
+            row.push(cols[j].innerText);    
 		csv.push(row.join(","));		
 	}
-
     // Download CSV
     csv_export(csv.join("\n"), filename);
 }
@@ -48,17 +43,13 @@ document.querySelector("#export").addEventListener("click", function () {
 });
 }//]]> 
 </script>
-
     </head>
     
     <body class = 'main'>
-
     <div class = 'statspage'>
-    
         <form method='get' action ='index.html'>
             <button id = 'logout-researcher' >Log Out</button>
         </form>
-        
         <h2> Statistics </h2>
         <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
     
@@ -155,7 +146,6 @@ document.querySelector("#export").addEventListener("click", function () {
                 <td>finished</td>
                 <td>1:56</td>
             </tr>
-            
         </table>
         </div>
     </div>         
