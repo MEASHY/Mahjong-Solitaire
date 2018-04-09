@@ -92,7 +92,8 @@ h3 {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 40%;
+    width: 80%;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     text-align:center;
