@@ -154,7 +154,7 @@ class Layout {
             while(possible.length < this.uniqueTiles){
                 var randomnumber = Math.floor(Math.random() * gameSession.tileset.size);
                 if(randomnumber  < 10) {
-                    randomnumber = "0" + randomnumber.toString()
+                    randomnumber = '0' + randomnumber.toString()
                 }
                 if(possible.indexOf(randomnumber.toString()) > -1) {continue;}
                 possible.push(randomnumber.toString());
@@ -218,8 +218,8 @@ class Layout {
             }
             
             try {
-                pos1.setTile("tile"+possible[randTile])
-                pos2.setTile("tile"+possible[randTile])
+                pos1.setTile('tile'+possible[randTile])
+                pos2.setTile('tile'+possible[randTile])
             }
             catch (err) {
                 //melt the layout here
@@ -275,7 +275,7 @@ class Layout {
      */
     meltLayout () {
         if(this.numChildren > 1) {
-            alert("The layout provided is unsolvable")
+            alert('The layout provided is unsolvable')
             return
         }
         for (var i = 0; i < this.roots.length;  i++) {
@@ -462,7 +462,7 @@ class Layout {
         this.positionSprites()
         if (gameSession.beginnerMode) {
             this.initializeBeginnerMode()
-            console.log("starting beginner mode")
+            console.log('starting beginner mode')
         }
     }
     

@@ -95,11 +95,11 @@ function loadButtons (scope) {
     buttons.save.sprite.on('pointerdown', function() {
         var layout = scope.board.layout
         if (layout.size === 0) {
-            alert("There must be at least two tiles in a layout.")
+            alert('There must be at least two tiles in a layout.')
             return
         }
         if (layout.size%2 !== 0) {
-            alert("There must be an even number of tiles in a layout")
+            alert('There must be an even number of tiles in a layout')
             return
         }
         gameSession.layout.header.size = layout.size
@@ -107,7 +107,7 @@ function loadButtons (scope) {
             json = layout.getLayerAsJSON(i)
             if(json !== null && json.length !== 0) {
                 console.log(JSON.stringify(json))
-                gameSession.layout["layer"+i] = json
+                gameSession.layout['layer'+i] = json
                 gameSession.layout.header.height = i
             } 
         }
@@ -123,7 +123,7 @@ function loadButtons (scope) {
     }, scope)
     
     buttons.sizeText = new Button(scope, 10, 50, 10)
-    buttons.sizeText.sprite = scope.add.text(0, 0, "Size: 0", { font: '48px Arial', fill: '#ffff00', align: 'center'})
+    buttons.sizeText.sprite = scope.add.text(0, 0, 'Size: 0', { font: '48px Arial', fill: '#ffff00', align: 'center'})
     buttons.sizeText.sprite.setOrigin(0.5,0.5)
     buttons.sizeText.sprite.setDepth(buttons.sizeText.depth)
     

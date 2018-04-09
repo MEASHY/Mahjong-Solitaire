@@ -2,9 +2,9 @@
 <html>
     <head>
         <title>Mahjong</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="mahform.css">
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' type='text/css' href='mahform.css'>
         <script> var researcher =  '{{r_id}}';</script>
         <script> var player =  '{{user_id}}';</script>
         <script> var result_json =  '{{query_result|safe}}';</script>
@@ -16,43 +16,43 @@
             var result = ''
         }
         </script>
-<script type="text/javascript">//<![CDATA[
+<script type='text/javascript'>//<![CDATA[
 window.onload=function(){
 function csv_export(csv, filename) {
     var csv_file;
     var download_link;
 
-    csv_file = new Blob([csv], {type: "text/csv"});
+    csv_file = new Blob([csv], {type: 'text/csv'});
 
-    download_link = document.createElement("a");
+    download_link = document.createElement('a');
     download_link.download = filename;
     download_link.href = window.URL.createObjectURL(csv_file);
-    download_link.style.display = "none";
+    download_link.style.display = 'none';
     document.body.appendChild(download_link);
     download_link.click();
 }
 
 function export_table(html, filename) {
     var csv = [];
-    var rows = document.querySelectorAll("table tr");
+    var rows = document.querySelectorAll('table tr');
     
     for (var i = 0; i < rows.length; i++) {
-        var row = [], cols = rows[i].querySelectorAll("td, th");
+        var row = [], cols = rows[i].querySelectorAll('td, th');
         
         for (var j = 0; j < cols.length; j++)
         
             row.push(cols[j].innerText);
         
-        csv.push(row.join(","));        
+        csv.push(row.join(','));        
     }
 
     // Download CSV
-    csv_export(csv.join("\n"), filename);
+    csv_export(csv.join('\n'), filename);
 }
 
-document.querySelector("#export").addEventListener("click", function () {
-    var html = document.querySelector("table").outerHTML;
-    export_table(html, (player + "_stats.csv"));
+document.querySelector('#export').addEventListener('click', function () {
+    var html = document.querySelector('table').outerHTML;
+    export_table(html, (player + '_stats.csv'));
 });
 }//]]> 
 </script>
@@ -72,7 +72,7 @@ function getPlayerGames(){
                 <button id = 'logout-researcher' >Log Out</button>
             </p>
         </form>
-    <div id = "top" >
+    <div id = 'top' >
         
             <div class = 'filterDiv'>
             <form id='player_filter' method='post' action ='researcher_stats_filter.html'>
@@ -88,7 +88,7 @@ function getPlayerGames(){
     </div>
     
         <div id = 'table_div'>
-        <table style="width:100%" border="1" id="stats_table">
+        <table style='width:100%' border='1' id='stats_table'>
             <tr>
                 <th>SessionID</th>
                 <th>Game #</th>

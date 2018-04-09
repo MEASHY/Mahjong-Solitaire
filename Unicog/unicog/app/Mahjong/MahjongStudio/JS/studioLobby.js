@@ -53,7 +53,7 @@ function fillDropBox ( json, elementId ) {
     for (i = 0; i < json.length; i++) {
         dropBox.add(new Option (json[i], json[i]), i)
     }
-    dropBox.add(new Option ("Other", "Other"))
+    dropBox.add(new Option ('Other', 'Other'))
 }
 function checkOther(name){
   if(name=='Other')document.getElementById('otherDiv').innerHTML='Other: <input type="text" id="other" />';
@@ -87,25 +87,25 @@ function saveLayout () {
     
     session.layout.header.name = document.getElementById('nameText').value
     var alphanumers = /^[a-zA-Z0-9 ]+$/;
-    if (!alphanumers.test($("#nameText").val())) {
-        alert("Name must be alphanumeric")
+    if (!alphanumers.test($('#nameText').val())) {
+        alert('Name must be alphanumeric')
         return
     }
-    if (session.layout.header.name === "") {
-        alert("Name field must be filled")
+    if (session.layout.header.name === '') {
+        alert('Name field must be filled')
         return
     }
     
     var pkg = document.getElementById('packageDropBox').value
-    if (pkg === "Other") {
+    if (pkg === 'Other') {
         session.layout.header.package = document.getElementById('other').value
-        if (session.layout.header.package === "") {
-            alert("Package field must be filled")
+        if (session.layout.header.package === '') {
+            alert('Package field must be filled')
             return
         }
         var alphanumers = /^[a-zA-Z0-9 ]+$/;
         if (!alphanumers.test(session.layout.header.package)) {
-            alert("Package must be alphanumeric")
+            alert('Package must be alphanumeric')
             return
         }
     } else {
@@ -114,16 +114,16 @@ function saveLayout () {
     session.layout.header.uniqueTiles = parseInt(document.getElementById('uniqueTiles').value)
     session.layout.header.maxDuplicates = parseInt(document.getElementById('maxDuplicates').value)
     if (session.layout.header.uniqueTiles * session.layout.header.maxDuplicates * 2 < session.layout.header.size) {
-        alert("There are not enough available tiles to fill this layout\n Please change the tile number fields.")
+        alert('There are not enough available tiles to fill this layout\n Please change the tile number fields.')
         return
     }
     var json = prettyLayout(4)
     console.log(json)
     postData(json)
-    //downloadLayout("data:,"+json,session.layout.header.name+'.json')
+    //downloadLayout('data:,'+json,session.layout.header.name+'.json')
 }
 function downloadLayout(json, name) {
-  var link = document.createElement("a");
+  var link = document.createElement('a');
   link.download = name;
   link.href = json;
   document.body.appendChild(link);
@@ -138,19 +138,19 @@ function downloadLayout(json, name) {
  */
 function prettyLayout (indent) {
     var layout = (new StudioSession()).layout
-    var str = ""
-    var s = " ".repeat(indent)
-    str += "{\n" + s + '"header":'
+    var str = ''
+    var s = ' '.repeat(indent)
+    str += '{\n' + s + '"header":'
     str += JSON.stringify(layout.header,null,indent*2).slice(0,-1)
-    str += s+"}"
+    str += s+'}'
     for (var i = 1; i <= layout.header.height; i++) {
-        str += ",\n" + s + '"layer' + i + '":[\n'
-        for(var j = 0; j < layout["layer"+i].length; j++) {
-            str += s.repeat(2) + JSON.stringify(layout["layer"+i][j])+",\n"
+        str += ',\n' + s + '"layer' + i + '":[\n'
+        for(var j = 0; j < layout['layer'+i].length; j++) {
+            str += s.repeat(2) + JSON.stringify(layout['layer'+i][j])+',\n'
         }
-        str = str.slice(0,-2)+"\n"+s+"]"
+        str = str.slice(0,-2)+'\n'+s+']'
     }
-    str += "\n}"
+    str += '\n}'
     return str
 }
 /**
@@ -160,13 +160,13 @@ function prettyLayout (indent) {
  */
 function postData(json) {
     // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
-    var url = "http://localhost:5000/api/v1/save_mahjong_layout"
-    var method = "POST"
+    var url = 'http://localhost:5000/api/v1/save_mahjong_layout'
+    var method = 'POST'
     var postData = json
     var shouldBeAsync = true;
     var request = new XMLHttpRequest()
     request.open(method, url, shouldBeAsync)
-    request.setRequestHeader("JSON", "application/json;charset=UTF-8")
+    request.setRequestHeader('JSON', 'application/json;charset=UTF-8')
     request.send(postData)
 
 }
