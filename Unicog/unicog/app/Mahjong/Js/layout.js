@@ -28,7 +28,7 @@ class Layout {
         for (var i = 0; i < layer.length; i++) {
             var row = []
             for (var j = 0; j < layer[i].length; j++) {
-                if (layer[i][j] == 1) {
+                if (layer[i][j] === 1) {
                     row.push(new TileNode(this.state, j, i, height, this.numChildren))
                 } else {
                     row.push(null)
@@ -49,7 +49,7 @@ class Layout {
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
-                    if (this.layers[i][j][k] == null) {
+                    if (this.layers[i][j][k] === null) {
                         continue
                     }
                     if (this.layers[i][j][k].parents.length < 1) {
@@ -69,11 +69,11 @@ class Layout {
      * @return {TileNode[]} neighbours - An array of the neighbours of this TileNode
      */
     findNeighbours (tile, findEmpty = false) {
-        if (tile == null) {return []}
+        if (tile === null) {return []}
         var neighbours = []
         //look for neighbours on the left
         for (var i = tile.x - 1; i >= 0; i--) {
-            if (this.layers[tile.z][tile.y][i] != null) {
+            if (this.layers[tile.z][tile.y][i] !== null) {
                if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
@@ -84,7 +84,7 @@ class Layout {
         }
         //look for neighbours on the right
         for (var i = tile.x + 1; i < this.layers[tile.z][tile.y].length; i++) {
-            if (this.layers[tile.z][tile.y][i] != null) {
+            if (this.layers[tile.z][tile.y][i] !== null) {
                if (findEmpty && this.layers[tile.z][tile.y][i].isSet()) {
                    break
                } else {
@@ -146,10 +146,10 @@ class Layout {
     generateTiles (counts = null, possible = null) {
         var originalCounts = []
         var originalPossible = []
-        if (counts == null) {
+        if (counts === null) {
             var counts = new Array(Math.min(this.uniqueTiles, gameSession.tileset.size)).fill(this.maxDuplicates)
         }
-        if (possible == null) {
+        if (possible === null) {
             var possible = []
             while(possible.length < this.uniqueTiles){
                 var randomnumber = Math.floor(Math.random() * gameSession.tileset.size)
@@ -232,7 +232,7 @@ class Layout {
             }
                             
             //if we have placed as many pairs of this tile as possible remove from list
-            if (--counts[randTile] == 0) {
+            if (--counts[randTile] === 0) {
                 possible.splice(randTile, 1)
                 counts.splice(randTile, 1)
             }
@@ -305,7 +305,7 @@ class Layout {
                              randX < 0 || randY < 0 ||
                              randX >= this.layers[0][0].length || 
                              randY >= this.layers[0].length ||
-                             this.layers[0][randY][randX] != null
+                             this.layers[0][randY][randX] !== null
                             )
                     var newTile = new TileNode(this.state, randX, randY, 1, this.numChildren)
                     
@@ -358,7 +358,7 @@ class Layout {
         for (var i = this.layers.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.layers[i].length; j++) {
                 for (var k = 0; k < this.layers[i][j].length; k++) {
-                    if (this.layers[i][j][k] == null) {
+                    if (this.layers[i][j][k] === null) {
                         continue
                     }
                     this.layers[i][j][k].setSpritePosition(gameSession.layout.header.numChildren)

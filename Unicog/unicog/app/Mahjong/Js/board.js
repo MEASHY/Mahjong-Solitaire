@@ -48,8 +48,8 @@ class Board {
             
             this.playSound('click')
             
-            if (this.tileSelected != null) {
-                if (this.tileSelected == this.currentSelection) {
+            if (this.tileSelected !== null) {
+                if (this.tileSelected === this.currentSelection) {
                     if (this.hintedTiles && this.hintedTiles.indexOf(this.currentSelection) > -1) {
                         this.currentSelection.highlightTile(gameSession.colours.hint)
                     } else {
@@ -274,7 +274,7 @@ class Board {
                           ' matches in\n' +  String(gameStats.startGameTime - gameStats.endGameTime) + 
                           ' seconds.'
             } else {
-                if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) == 1) {
+                if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) === 1) {
                     var str = 'You\'ve made ' + gameStats.correctMatches + 
                               ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
                               ' minute and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +

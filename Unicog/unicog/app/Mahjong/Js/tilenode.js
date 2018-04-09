@@ -110,7 +110,7 @@ class TileNode {
      * @return {boolean} A boolean value 
      */
     isSet () {
-        if (this.tile == null) {
+        if (this.tile === null) {
             return false
         }
         return true
@@ -163,20 +163,20 @@ class TileNode {
      * @return {TileNode} The current TileNode  
      */
     findChildren (layout, numChildren) {
-        if (this.height == 1) {
+        if (this.height === 1) {
             return this
         }
         
         //get the children for the current position
         var children = []
-        if (numChildren == 1) {
+        if (numChildren === 1) {
             children.push(layout.layers[this.z-1][this.y][this.x])
         }
-        if (numChildren == 2) {
+        if (numChildren === 2) {
             children.push(layout.layers[this.z-1][this.y][this.x])
             children.push(layout.layers[this.z-1][this.y][this.x+1])
         }
-        if (numChildren == 4) {
+        if (numChildren === 4) {
             children.push(layout.layers[this.z-1][this.y][this.x])
             children.push(layout.layers[this.z-1][this.y][this.x+1])
             children.push(layout.layers[this.z-1][this.y+1][this.x])
