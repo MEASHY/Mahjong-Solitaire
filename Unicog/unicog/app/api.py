@@ -184,6 +184,10 @@ def save_layout():
     	f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", "w+")
         f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
         f.close()
+        layoutsFile = json.load(open("Mahjong/Assets/Layouts/"+package+"/layouts.json"))
+        layoutsFile.append(name)
+        with open("Mahjong/Assets/Layouts/"+package+"/layouts.json", 'w') as outfile:  
+            json.dump(layoutsFile, outfile)
     else:
     	os.makedirs("Mahjong/Assets/Layouts/"+package)
         packages = json.load(open("Mahjong/Assets/Layouts/PackageList.json"))
@@ -193,6 +197,9 @@ def save_layout():
         f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", 'w')
         f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
         f.close()
+        nameList = [name]
+        with open("Mahjong/Assets/Layouts/"+package+"/layouts.json", 'w+') as outfile:
+    		json.dump(nameList, outfile)
     
     return jsonify({'Success': True}) , 201
 
