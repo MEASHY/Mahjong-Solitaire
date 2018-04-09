@@ -13,7 +13,12 @@ class StudioLayout extends Layout{
         this.maxDuplicates = 99
         this.layers = []
     }
-    
+    /**
+     * Fills the bottom layer of the layout with unplaced StudioTileNodes
+     * <p>
+     * 'tile' is a preset asset for the tilenode face
+     * @see StudioTileNode
+     */
     fillBottomLayer() {
         var session = gameSession
         var layer = []
@@ -25,9 +30,13 @@ class StudioLayout extends Layout{
             }
         }
         this.layers.push(layer)  
-        //this.positionSprites()
     }
-    
+    /**
+     * adds a new layer filled with nulls to the layout
+     * <p>
+     * This is done to make room for the layout to grow upwards when a 
+     * tile is placed at the top layer
+     */
     addNullLayer() {
         var s = gameSession
         var x = s.layoutX
@@ -57,7 +66,25 @@ class StudioLayout extends Layout{
         this.height++
         return true
     }
-    
+    /**
+     * adds all necessary StudioTileNodes to the layout given the addition of a tilenode
+     * <p>
+     * Firstly we check the number of children and operate accordingly
+     * 1 Child:
+     *    Add a new unplaced Tilenode directly on top of the given StudioTileNode
+     * 2 children:
+     *    Check the StudioTileNodes to the left and right of the given StudioTileNode
+     *    if a neighbour StudioTileNode is placed add a new unplaced StudioTileNode on top 
+     *    and between the given StudioTileNode and the placed neighbour
+     * 4 children:
+     *    Firstly find the tilenodes in all cardinal directions. If a StudioTileNode is not 
+     *    present either because its out of the index or is presently null set to null
+     *    There are four possible orientations that a new tile may be placed. 
+     *    (W,NW,N), (N,NE,E), (E,SE,S), (S,SW,W)
+     *    If all tiles in these cases are placed then add a new unplaced tilenode as a parent 
+     *    on top and between these and the given StudioTileNode
+     *    
+     */
     addTileNode(tilenode) {
         var x = tilenode.x
         var y = tilenode.y
@@ -105,7 +132,8 @@ class StudioLayout extends Layout{
                 }
                 break
             case 4:
-                //avoid out of index error...
+                //avoid out of index error
+                //Collect StudioTileNodes in all cardinal directions
                 if (x-1 < 0) {
                     var w = null
                     var nw = null
@@ -146,7 +174,7 @@ class StudioLayout extends Layout{
                         var se = this.layers[z][y+1][x+1]
                     }
                 }
-                //actual check
+                //Check if a new StudioTileNode can be placed
                 //top left
                 if ((w && nw && n) && (w.placed && nw.placed && n.placed)) {
                     var tile = new StudioTileNode(this.state, x-1, y-1, z+2, this.numChildren)
@@ -211,7 +239,15 @@ class StudioLayout extends Layout{
         }
         this.size++
     }
-    
+    /**
+     * Removes a StudioTileNode from the layout
+     * <p>
+     * This can occur in 3 cases. 
+     * - If a tilenode with parents was selected do nothing
+     * - If a tilenode that is placed is selected unplace it
+     * - If an unplaced tilenode was selected remove it and 
+     *   unplace its children unless it is on the bottom layer 
+     */
     removeStudioNode (tilenode) {
         if (tilenode.parents.length > 0) {
             return
@@ -242,8 +278,14 @@ class StudioLayout extends Layout{
             }
         }
     }
-    
-    getJSONLayer (height) {
+    /**
+     * Function to encode a layer into JSON 
+     * <p>
+     * encodes a 2 dimensional array of the layer with placed StudioTileNodes as
+     * 1's and unplaced or null values as 0's
+     * @param {number} height - The height of the layer to encode
+     */
+    getLayerAsJSON (height) {
         var z = height - 1
         var x = this.layers[z][0].length
         var y = this.layers[z].length
@@ -262,7 +304,12 @@ class StudioLayout extends Layout{
         }
         return null
     }
-    
+    /**
+     * Makes unplaced StudioTileNodes invisible/visible to the user
+     * <p>
+     * iterates through the layout making visible StudioTileNodes invisible 
+     * and vice versa
+     */
     toggleVisible () {
         var studioSession = new StudioSession()
         studioSession.visible = !studioSession.visible

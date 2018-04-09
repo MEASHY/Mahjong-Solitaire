@@ -15,6 +15,15 @@ class StudioTileNode extends TileNode{
         super(state, x, y, height, numChildren)
         this.placed = false
     }
+    /**
+     * Initializes a sprite with a given image for this tile at the origin.
+     * The img argument must specify a preloaded Phaser Sprite
+     * <p>
+     * The StudioTileNode is immediately dimmed and alpha is set to 60%
+     *
+     * @param {string} img - A string denoting a preloaded Phaser Sprite
+     * @see StudioTileNode
+     */
     setTile(img) {
         this.tile = this.state.add.sprite(0, 0, img).setInteractive()
         // Assures each tile has a unique depth per layout
@@ -42,8 +51,6 @@ class StudioTileNode extends TileNode{
      * after determining its base position the position is further offset to be centered on its children
      *
      * @param {number} numChildren - The number of children a given TileNode has
-     * @see TileNode
-     * @see Layout
      */
     setSpritePosition(numChildren) {
         var s = gameSession

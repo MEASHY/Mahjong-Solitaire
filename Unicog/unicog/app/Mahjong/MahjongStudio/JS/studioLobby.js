@@ -10,7 +10,7 @@ function initLobby () {
 }
 /**
  * changes value of numChildren to the selected value
- * @function showLobby
+ * @function changeChildren
  */
 function changeChildren (value) {
     (new StudioSession()).layout.header.numChildren = value
@@ -26,9 +26,9 @@ function showLobby () {
     document.getElementById('saveDiv').style.display = 'none'
 }
 /**
- * Loads assets for the game and places them in the GameSession
+ * Loads assets for the game and places them in the StudioSession
  * @function showGame
- * @see GameSession
+ * @see StudioSession
  */
 function showGame () {
     session = new StudioSession()
@@ -62,22 +62,26 @@ function checkOther(name){
   else document.getElementById('otherDiv').innerHTML='';
 }
 /**
- * changes the lobby Divs to visible and hides the gameDiv
- * @function showLobby
+ * changes the Save Div to visible
+ * @function showSave
  */
 function showSave () {
     document.getElementById('saveDiv').style.display = 'block'
 }
 /**
  * Hides the save div from view
- * @function showLobby
+ * @function resumeStudio
  */
 function resumeStudio () {
     document.getElementById('saveDiv').style.display = 'none'
     game.scene.scenes[0].buttons.overlay.toggleVisible()
 }
 /**
- * saves a layout to the server
+ * saves a layout to the server.
+ * <p>
+ * The form supplies a package and a name for the layout. 
+ * Checks if name and package are alphanumeric. The name and package cannot be empty.
+ * This also checks if the supplied tile metrics are enough to generate the layout.
  * @function showLobby
  */
 function saveLayout () {
@@ -85,8 +89,9 @@ function saveLayout () {
     
     session.layout.header.name = document.getElementById('nameText').value
     var alphanumers = /^[a-zA-Z0-9]+$/;
-    if(!alphanumers.test($(".nameText").val())){
-        alert("Name must be alphanumeric");
+    if (!alphanumers.test($(".nameText").val())) {
+        alert("Name must be alphanumeric")
+        return
     }
     if (session.layout.header.name === "") {
         alert("Name field must be filled")
@@ -100,6 +105,11 @@ function saveLayout () {
             alert("Package field must be filled")
             return
         }
+        var alphanumers = /^[a-zA-Z0-9]+$/;
+        if (!alphanumers.test(session.layout.header.package)) {
+            alert("Package must be alphanumeric")
+            return
+        }
     } else {
         session.layout.header.package = pkg
     }
@@ -109,7 +119,6 @@ function saveLayout () {
         alert("There are not enough available tiles to fill this layout\n Please change the tile number fields.")
         return
     }
-    //replace this with save to database later 
     var json = prettyLayout(4)
     console.log(json)
     postData(json)
@@ -126,6 +135,7 @@ function downloadLayout(json, name) {
 }
 /**
  * creates a prettyPrint of the layout
+ * @function prettyLayout
  * @param integer indent - the amount of indent per nested line  
  */
 function prettyLayout (indent) {
@@ -145,7 +155,11 @@ function prettyLayout (indent) {
     str += "\n}"
     return str
 }
-
+/**
+ * creates a prettyPrint of the layout
+ * @function postData
+ * @param JSON json - JSON file posted to the server
+ */
 function postData(json) {
     // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
     var url = "http://localhost:5000/api/v1/save_mahjong_layout"

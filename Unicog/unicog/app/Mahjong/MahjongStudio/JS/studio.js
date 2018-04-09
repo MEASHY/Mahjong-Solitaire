@@ -103,7 +103,7 @@ function loadButtons (scope) {
         }
         gameSession.layout.header.size = layout.size
         for (var i = 1; i <= layout.height; i++) {
-            json = layout.getJSONLayer(i)
+            json = layout.getLayerAsJSON(i)
             if(json !== null && json.length !== 0) {
                 console.log(JSON.stringify(json))
                 gameSession.layout["layer"+i] = json
