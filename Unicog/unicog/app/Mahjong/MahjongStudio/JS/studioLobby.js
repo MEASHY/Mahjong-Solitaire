@@ -4,7 +4,9 @@
  */
 function initLobby () {
     document.getElementById('saveDiv').style.display = 'none'
-    $.getJSON('/Assets/Layouts/PackageList.json', function ( packages ) {
+    // From https://stackoverflow.com/a/46115659
+    // Can add date to end of getJSON calls to cache bust
+    $.getJSON('/Assets/Layouts/PackageList.json?'+(new Date()).getTime(), function ( packages ) {
         fillDropBox(packages, 'packageDropBox')
     })
 }
