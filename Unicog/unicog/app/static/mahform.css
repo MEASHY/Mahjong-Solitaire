@@ -79,7 +79,7 @@ input[type="password"] {
 }
 
 #player_filter {
-    float: left;
+    display: inline;
 }
 
 button {
@@ -332,7 +332,7 @@ select.language option {
 }
 
 #filter {
-    width:30%
+    width:20%
 }
 
 

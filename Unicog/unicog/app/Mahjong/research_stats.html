@@ -54,16 +54,16 @@ document.querySelector("#export").addEventListener("click", function () {
         <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
     
     <div id = "top" >
-    	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
+    	
             <div class = 'filterDiv'>
+            <form id='player_filter' method='post' action ='researcher_stats_filter.html'>
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' placeholder='Player' />
                 <button id = 'filter_button' >Filter</button>
-                
                 <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
+            </form>  
+            <button id ='export'>Export to Excel</button>
             </div>
-        </form>  
-        <button id ='export'>Export to Excel</button>
     </div>
     	<div id = 'table_div'>
         <table style="width:100%" border="1">
