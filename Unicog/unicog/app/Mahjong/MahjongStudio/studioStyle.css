@@ -15,34 +15,34 @@
 }
 
 h1 {
-	padding-top: 8px;
-	font-size: 2em;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
+    padding-top: 8px;
+    font-size: 2em;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
 }
 
 h2 {
-	font-size: 150%;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: right;
+    font-size: 150%;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: right;
     padding-right:35%;
 }
 
 h3 {
-	padding-top: 8px;
-	font-size: 120%;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
+    padding-top: 8px;
+    font-size: 120%;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
 }
 
 .childLabel{
     padding-top: 0.5em;
-	font-size: 1.2em;
-	font-family: Arial;
-	font-weight: bold;
+    font-size: 1.2em;
+    font-family: Arial;
+    font-weight: bold;
     display: inline-block;
     width: 12em;
     float: right;
@@ -99,12 +99,12 @@ h3 {
     text-align:center;
 }
 .startgame{
-	background-color: #f1800e;
+    background-color: #f1800e;
     border-radius: 10px;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 125%;
-	color: #ffffff;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 125%;
+    color: #ffffff;
     width: 100%;
 }
 

@@ -35,7 +35,7 @@ var StudioSession = function () {
             visible: true,
         
             logText: function () {
-            	// Console log the public member variable
+                // Console log the public member variable
                 console.info('Singleton>>Public Member: ' + this.text)
                 
                 // Console log the private member variable
