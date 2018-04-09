@@ -24,6 +24,7 @@ function preload () {
     var session = new StudioSession();
     
     this.load.image('tile', 'Assets/Tilesets/studioTiles/tile.png')
+    this.load.image('overlay' ,'Assets/Buttons/Overlay.png')
     this.load.image('quit' ,'Assets/Buttons/Quit.png')
     this.load.image('save' ,'Assets/Buttons/Save.png')
     this.load.image('toggle' ,'Assets/Buttons/Toggle.png')
@@ -110,7 +111,7 @@ function loadButtons (scope) {
                 gameSession.layout.header.height = i
             } 
         }
-        scope.buttons.overlay.toggleVisible()
+        scope.buttons.overlay.toggleVisibility()
         showSave()
     }, scope)
     
