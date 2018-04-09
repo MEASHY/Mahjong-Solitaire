@@ -183,5 +183,6 @@ function startGame () {
  */
 function endGame () {
     this.game.destroy(true)
+    window.onresize = null
     showLobby()
 }

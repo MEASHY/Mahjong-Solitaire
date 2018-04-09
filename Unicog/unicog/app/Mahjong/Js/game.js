@@ -330,6 +330,7 @@ function startGame () {
  */
 function endGame (timerDone) {
     this.game.destroy(true)
+    window.onresize = null
     if (!gameSession.practiceGame) {
         postData()
         gameStats.resetGameStats()
