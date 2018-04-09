@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Mahjong</title>
+    <head>
+        <title>Mahjong</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="mahform.css">
@@ -33,18 +33,18 @@ function csv_export(csv, filename) {
 }
 
 function export_table(html, filename) {
-	var csv = [];
-	var rows = document.querySelectorAll("table tr");
-	
+    var csv = [];
+    var rows = document.querySelectorAll("table tr");
+    
     for (var i = 0; i < rows.length; i++) {
-		var row = [], cols = rows[i].querySelectorAll("td, th");
-		
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+        
         for (var j = 0; j < cols.length; j++)
         
             row.push(cols[j].innerText);
         
-		csv.push(row.join(","));		
-	}
+        csv.push(row.join(","));        
+    }
 
     // Download CSV
     csv_export(csv.join("\n"), filename);
@@ -52,7 +52,7 @@ function export_table(html, filename) {
 
 document.querySelector("#export").addEventListener("click", function () {
     var html = document.querySelector("table").outerHTML;
-	export_table(html, (player + "_stats.csv"));
+    export_table(html, (player + "_stats.csv"));
 });
 }//]]> 
 </script>
@@ -65,15 +65,17 @@ function getPlayerGames(){
     </head>
     <body class = 'main researchPadding'>
     <div class = 'statspage'>
-            <form method='get' action ='index.html'>
-        <h2> Statistics </h2>
+<form method='get' action ='index.html'>
+<button id = 'logout-researcher' >Log Out</button>
+</form>
+    <h2> Statistics </h2>
+
+    <form method='get' action ='index.html'>
         <h3 id ='researcher_text'> Current Researcher: {{r_id}}</h3>
-            <p>
-                <button id = 'logout-researcher' >Log Out</button>
-            </p>
-        </form>
+    </form>
+
     <div id = "top" >
-    	
+        
             <div class = 'filterDiv'>
             <form id='player_filter' method='post' action ='researcher_stats_filter.html'>
                 <label for='filter'>Search Player:</label>
@@ -87,7 +89,7 @@ function getPlayerGames(){
 
     </div>
     
-    	<div id = 'table_div'>
+        <div id = 'table_div'>
         <table style="width:100%" border="1" id="stats_table">
             <tr>
                 <th>SessionID</th>
