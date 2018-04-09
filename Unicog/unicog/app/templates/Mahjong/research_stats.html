@@ -39,7 +39,8 @@ function export_table(html, filename) {
     for (var i = 0; i < rows.length; i++) {
 		var row = [], cols = rows[i].querySelectorAll("td, th");
 		
-        for (var j = 0; j < cols.length; j++) 
+        for (var j = 0; j < cols.length; j++)
+        
             row.push(cols[j].innerText);
         
 		csv.push(row.join(","));		
@@ -62,31 +63,28 @@ function getPlayerGames(){
     }
 </script>
     </head>
-    <body class = 'main'>
-    <h1> Statistics </h1>
+    <body class = 'main researchPadding'>
     <div class = 'statspage'>
-    
             <form method='get' action ='index.html'>
+        <h2> Statistics </h2>
         <h3 id ='researcher_text'> Current Researcher: {{r_id}}</h3>
             <p>
-                <button id = 'logout' >Log Out</button>
+                <button id = 'logout-researcher' >Log Out</button>
             </p>
         </form>
     <div id = "top" >
-    	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
-    		<p>
-                <div class = 'filterDiv'>
+    	
+            <div class = 'filterDiv'>
+            <form id='player_filter' method='post' action ='researcher_stats_filter.html'>
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' placeholder='Player' />
-                <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
                 <button id = 'filter_button' >Filter</button>
-                </div>
-    		</p>
-            
-        </form>
-        <script>
-        </script>
-        <button id ='export'>Export to Excel</button>
+                <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
+            </form> 
+            <button id ='export'>Export to Excel</button>            
+            </div>
+        
+
     </div>
     
     	<div id = 'table_div'>
@@ -98,15 +96,15 @@ function getPlayerGames(){
                 <th>ResearcherID</th>
                 <th>Package</th> 
                 <th>Layout</th>
-                <th># Selections</th>
-                <th># Deselections</th>
-                <th># Correct matches</th>
-                <th># Incorrect matches</th>
-                <th>Hints Enabled?</th>
+                <th># Selects</th>
+                <th># Deselects</th>
+                <th># Correct Matches</th>
+                <th># Wrong Matches</th>
+                <th>Hints on</th>
                 <th># Hints</th>
                 <th># Shuffles</th>
                 <th>Completion</th>
-                <th>Time taken</th>
+                <th>Time Taken</th>
             </tr>
         </table>
         </div>
