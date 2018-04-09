@@ -56,8 +56,11 @@ function fillDropBox ( json, elementId ) {
     dropBox.add(new Option ('Other', 'Other'))
 }
 function checkOther(name){
-  if(name=='Other')document.getElementById('otherDiv').innerHTML='Other: <input type="text" id="other" />'
-  else document.getElementById('otherDiv').innerHTML=''
+    if (name === 'Other') {
+        document.getElementById('otherDiv').innerHTML = 'Other: <input type="text" id="other" />'
+    } else {
+        document.getElementById('otherDiv').innerHTML = ''
+    }
 }
 /**
  * changes the Save Div to visible
