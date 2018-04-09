@@ -124,8 +124,6 @@ function showGame (practiceGame) {
                         document.getElementById('timerMinuteField').disabled = true
                         document.getElementById('timerSecondField').disabled = true
                         document.getElementById('timerText').innerText = 'Time Left in Session'
-                    } else {
-                        gameSession.timer.resumeTimer()
                     }
                 }
                 startGame()        
