@@ -3,7 +3,7 @@ var game
 var gameConfig = {
     width: screen.width,
     height: screen.height,
-    backgroundColor: '#000000',
+    backgroundColor: '#00422c',
     type: Phaser.AUTO,
     parent: 'gameDiv',
     scene: {

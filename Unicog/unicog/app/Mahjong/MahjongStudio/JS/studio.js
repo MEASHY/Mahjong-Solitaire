@@ -1,8 +1,8 @@
 var game
 
 var gameConfig = {
-    width: 1400,
-    height: 1000,
+    width: screen.width,
+    height: screen.height,
     backgroundColor: '#00422c',
     type: Phaser.AUTO,
     parent: 'gameDiv',
@@ -15,10 +15,6 @@ var gameConfig = {
 $.getJSON('Assets/Tilesets/studioTiles/tiles.json', function ( tileset ) {
     gameSession.tileset = tileset
 })
-var session = new StudioSession()
-//session.layout.header.numChildren = 4
-//session.layoutX = 4
-//session.layoutY = 4
 
 /**
  * Loads all necessary assets for the game
@@ -44,8 +40,6 @@ function create () {
     this.buttons = loadButtons(this)
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
-    
-    
     for (item in this.buttons) {
         if (item === 'overlay') {
             this.buttons[item].fillScreen()
@@ -116,6 +110,7 @@ function loadButtons (scope) {
                 gameSession.layout.header.height = i
             } 
         }
+        scope.buttons.overlay.toggleVisible()
         showSave()
     }, scope)
     

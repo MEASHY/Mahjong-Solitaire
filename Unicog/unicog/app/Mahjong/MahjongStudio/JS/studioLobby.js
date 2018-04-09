@@ -74,6 +74,7 @@ function showSave () {
  */
 function resumeStudio () {
     document.getElementById('saveDiv').style.display = 'none'
+    game.scene.scenes[0].buttons.overlay.toggleVisible()
 }
 /**
  * saves a layout to the server
@@ -83,6 +84,10 @@ function saveLayout () {
     session = new StudioSession()
     
     session.layout.header.name = document.getElementById('nameText').value
+    var alphanumers = /^[a-zA-Z0-9]+$/;
+    if(!alphanumers.test($(".name").val())){
+        alert("Name must be alphanumeric");
+    }
     if (session.layout.header.name === "") {
         alert("Name field must be filled")
         return
