@@ -85,7 +85,7 @@ function saveLayout () {
     
     session.layout.header.name = document.getElementById('nameText').value
     var alphanumers = /^[a-zA-Z0-9]+$/;
-    if(!alphanumers.test($(".name").val())){
+    if(!alphanumers.test($(".nameText").val())){
         alert("Name must be alphanumeric");
     }
     if (session.layout.header.name === "") {
