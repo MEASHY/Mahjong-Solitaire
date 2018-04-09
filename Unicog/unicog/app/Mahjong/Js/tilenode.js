@@ -85,7 +85,6 @@ class TileNode {
         this.tile.setPosition(xPos,yPos)
         this.tile.setScale(scale)
     }
-    
     /**
      * Initializes a sprite with a given image for this tile at the origin.
      * The img argument must specify a preloaded Phaser Sprite

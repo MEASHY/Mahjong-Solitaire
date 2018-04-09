@@ -6,6 +6,7 @@ from sqlalchemy.sql.expression import func
 import sys
 import json
 import datetime
+import os
 
 
 
@@ -171,3 +172,34 @@ def create_mahjong():
 	db.session.commit()
 
 	return jsonify({'session_created': "successfully created mahjong session"}) , 201
+    
+@app.route('/api/v1/save_mahjong_layout', methods=['POST'])
+def save_layout():
+    layout = request.get_json(force = True)
+    name = layout.get('header').get('name')
+    package = layout.get('header').get('package')
+    #print(str(layout).replace('u\'','\"').replace('\'','\"'))
+    
+    if os.path.isdir("Mahjong/Assets/Layouts/"+package):
+    	f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", "w+")
+        f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
+        f.close()
+        layoutsFile = json.load(open("Mahjong/Assets/Layouts/"+package+"/layouts.json"))
+        layoutsFile.append(name)
+        with open("Mahjong/Assets/Layouts/"+package+"/layouts.json", 'w') as outfile:  
+            json.dump(layoutsFile, outfile)
+    else:
+    	os.makedirs("Mahjong/Assets/Layouts/"+package)
+        packages = json.load(open("Mahjong/Assets/Layouts/PackageList.json"))
+        packages.append(package)
+        with open("Mahjong/Assets/Layouts/PackageList.json", 'w') as outfile:  
+            json.dump(packages, outfile)
+        f = open("Mahjong/Assets/Layouts/"+package+"/"+name+".json", 'w')
+        f.write(str(layout).replace('u\'','\"').replace('\'','\"'))
+        f.close()
+        nameList = [name]
+        with open("Mahjong/Assets/Layouts/"+package+"/layouts.json", 'w+') as outfile:
+    		json.dump(nameList, outfile)
+    
+    return jsonify({'Success': True}) , 201
+

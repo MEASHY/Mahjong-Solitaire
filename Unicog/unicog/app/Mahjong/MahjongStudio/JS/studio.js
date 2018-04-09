@@ -1,8 +1,8 @@
 var game
 
 var gameConfig = {
-    width: 1400,
-    height: 1000,
+    width: screen.width,
+    height: screen.height,
     backgroundColor: '#00422c',
     type: Phaser.AUTO,
     parent: 'gameDiv',
@@ -15,10 +15,6 @@ var gameConfig = {
 $.getJSON('Assets/Tilesets/studioTiles/tiles.json', function ( tileset ) {
     gameSession.tileset = tileset
 })
-var session = new StudioSession()
-//session.layout.header.numChildren = 4
-//session.layoutX = 4
-//session.layoutY = 4
 
 /**
  * Loads all necessary assets for the game
@@ -28,6 +24,7 @@ function preload () {
     var session = new StudioSession();
     
     this.load.image('tile', 'Assets/Tilesets/studioTiles/tile.png')
+    this.load.image('overlay' ,'Assets/Buttons/Overlay.png')
     this.load.image('quit' ,'Assets/Buttons/Quit.png')
     this.load.image('save' ,'Assets/Buttons/Save.png')
     this.load.image('toggle' ,'Assets/Buttons/Toggle.png')
@@ -44,8 +41,6 @@ function create () {
     this.buttons = loadButtons(this)
     resizeGame()
     game.scene.scenes[0].board.layout.positionSprites()
-    
-    
     for (item in this.buttons) {
         if (item === 'overlay') {
             this.buttons[item].fillScreen()
@@ -109,13 +104,14 @@ function loadButtons (scope) {
         }
         gameSession.layout.header.size = layout.size
         for (var i = 1; i <= layout.height; i++) {
-            json = layout.getJSONLayer(i)
+            json = layout.getLayerAsJSON(i)
             if(json !== null && json.length !== 0) {
                 console.log(JSON.stringify(json))
                 gameSession.layout["layer"+i] = json
                 gameSession.layout.header.height = i
             } 
         }
+        scope.buttons.overlay.toggleVisibility()
         showSave()
     }, scope)
     
