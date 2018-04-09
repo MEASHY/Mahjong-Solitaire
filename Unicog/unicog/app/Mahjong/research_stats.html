@@ -52,29 +52,25 @@ document.querySelector("#export").addEventListener("click", function () {
     </head>
     
     <body class = 'main'>
-    <h1> Statistics </h1>
+
     <div class = 'statspage'>
     
-            <form method='get' action ='index.html'>
-        <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
-            <p>
-                <button id = 'logout' >Log Out</button>
-            </p>
+        <form method='get' action ='index.html'>
+            <button id = 'logout-researcher' >Log Out</button>
         </form>
-   
+        
+        <h2> Statistics </h2>
+        <h3 id ='researcher_text'> Current Researcher: Bobby</h3>
     
     <div id = "top" >
     	<form id='player_filter' method='post' action ='researcher_stats_filter.html'>
-    		<p>
-                <div class = 'filterDiv'>
+            <div class = 'filterDiv'>
                 <label for='filter'>Search Player:</label>
                 <input id='filter' name='player' placeholder='Player' />
                 <button id = 'filter_button' >Filter</button>
                 <button id ='export'>Export to Excel</button>
                 <input type='hidden' id='researcher' name='r_id' value='{{r_id}}'>
-                </div>
-    		</p>
-            
+            </div>
         </form>
         
         
@@ -92,12 +88,12 @@ document.querySelector("#export").addEventListener("click", function () {
                 <th>Layout</th>
                 <th># Selects</th>
                 <th># Deselects</th>
-                <th># Correct matches</th>
-                <th># Wrong matches</th>
+                <th># Correct Matches</th>
+                <th># Wrong Matches</th>
                 <th># Hints</th>
                 <th># Shuffles</th>
                 <th>Completion</th>
-                <th>Time taken</th>
+                <th>Time Taken</th>
             </tr>
             <tr>
                 <td>58845</td>

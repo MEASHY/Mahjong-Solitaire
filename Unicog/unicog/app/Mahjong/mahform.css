@@ -1,18 +1,25 @@
 h1 {
-	font-size: 40px;
+	font-size: 2em;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
 }
 
 h2{
-	font-size: 24px;
+	font-size: 1.5em;
 	font-family: Arial;
 	font-weight: bold;
 	text-align: center;
     padding: 0px;
     margin-bottom 0px;
     margin-top 0px;
+}
+
+h3{
+	font-size: 1.2em;
+	font-family: Times New Roman;
+	font-weight: bold;
+	text-align: left;
 }
 
 
@@ -73,12 +80,10 @@ input[type="password"] {
 
 #player_filter {
     float: left;
-   
 }
 
 button {
     background-color: #f1800e;
-    border: none;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -103,7 +108,8 @@ button {
     border-radius: 25px;
     background: white;
     padding: 20px 20px 20px 20px;
-    width: 90%;
+    min-width: 70%;
+    width: 70%;
     align: center;
     margin-left: auto;
     margin-right: auto;
@@ -187,15 +193,13 @@ input[type="checkbox"] {
     transform:scale(2, 2);
 }
 
-#logout{
+#logout-researcher{
     float: right;
     vertical-align: top;
     display: inline-block;
     border-radius: 10px;
-    position: absolute;
-    top: 2%;
-    right: 2%;
-    font-size: 24px;
+    position: relative;
+    font-size: 1em;
 }
 
 .time{
@@ -244,7 +248,7 @@ select.language option {
     float: right;
     vertical-align: top;
     display: inline;
-    border-radius: 5px;
+    border-radius: 10px;
     position: relative;
     top: 8px;
     right: 12px;
@@ -297,13 +301,15 @@ select.language option {
 }
 
 #filter_button{
-    padding: 8px 8px;
+    padding: 1em 1.5em;
     border-radius: 10px;
+    margin-left: 1em;
 }
 
 #export{
-    padding: 8px 8px;
+    padding: 1em 1.5em;
     border-radius: 10px;
+    margin-left: 1em;
 }
 
 #filter_text {
@@ -318,12 +324,15 @@ select.language option {
 
 .filterDiv {
    float: left;
-   padding: 16px 16px;
+   padding-top: 1em;
+   padding-bottom: 2em;
+   padding-right: 2em;
+   font-size: 1.2em;
    width:100%;
 }
 
 #filter {
-    width:40%
+    width:30%
 }
 
 
