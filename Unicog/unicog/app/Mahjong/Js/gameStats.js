@@ -51,9 +51,9 @@ var GameStats = function () {
         
     }
     else {
-        //console.warn('Singleton already has an instance, here it is: ' + GameStats.instance);
+        //console.warn('Singleton already has an instance, here it is: ' + GameStats.instance)
         return GameStats.instance
     }
-};
+}
 
 var gameStats = new GameStats()

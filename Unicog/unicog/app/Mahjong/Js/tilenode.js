@@ -100,7 +100,7 @@ class TileNode {
         this.tile = this.state.add.sprite(0, 0, img).setInteractive()
         // Assures each tile has a unique depth per layout
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
-        var self = this;
+        var self = this
         this.tile.on('pointerdown', function () {  
             self.state.board.selectTile(self)
         })
@@ -120,7 +120,7 @@ class TileNode {
      * @param {TileNode} tilenode - The TileNode to remove
      */
     removeParent (tileNode) {
-        for( var i = 0; i < this.parents.length; i++) {
+        for (var i = 0; i < this.parents.length; i++) {
             if (tileNode === this.parents[i]) {
                 this.parents.splice(i,1)
             }

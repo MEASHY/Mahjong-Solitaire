@@ -54,7 +54,7 @@ var StudioSession = function () {
         return public_members
     }
     else {
-        //console.warn('Singleton already has an instance, here it is: ' + StudioSession.instance);
+        //console.warn('Singleton already has an instance, here it is: ' + StudioSession.instance)
         return StudioSession.instance
     }
 }

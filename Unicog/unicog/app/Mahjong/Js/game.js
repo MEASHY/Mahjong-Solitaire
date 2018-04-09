@@ -297,7 +297,7 @@ function resizeGame (background) {
         height = width * (3/4) - 16
     }
     
-    game.renderer.resize(width, height, 1);
+    game.renderer.resize(width, height, 1)
     game.config.width = width
     game.config.height = height
 
@@ -353,7 +353,7 @@ function postData() {
     var url = 'http://199.116.235.91:5000/api/v1/create_mahjong_session'
     var method = 'POST'
     var postData = JSON.stringify(gameStats)
-    var shouldBeAsync = true;
+    var shouldBeAsync = true
     var request = new XMLHttpRequest()
     request.open(method, url, shouldBeAsync)
     request.setRequestHeader('JSON', 'application/json;charset=UTF-8')

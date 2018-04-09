@@ -21,7 +21,7 @@ $.getJSON('Assets/Tilesets/studioTiles/tiles.json', function ( tileset ) {
  * @function Preload
  */
 function preload () {
-    var session = new StudioSession();
+    var session = new StudioSession()
     
     this.load.image('tile', 'Assets/Tilesets/studioTiles/tile.png')
     this.load.image('overlay' ,'Assets/Buttons/Overlay.png')
@@ -148,7 +148,7 @@ function resizeGame() {
         height = width * (3/4) - 16
     }
     
-    game.renderer.resize(width, height, 1);
+    game.renderer.resize(width, height, 1)
     game.config.width = width
     game.config.height = height
 

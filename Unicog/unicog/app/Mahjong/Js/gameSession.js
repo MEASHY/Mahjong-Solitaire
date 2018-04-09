@@ -48,9 +48,9 @@ var GameSession = function () {
         return public_members
     }
     else {
-        //console.warn('Singleton already has an instance, here it is: ' + GameSession.instance);
+        //console.warn('Singleton already has an instance, here it is: ' + GameSession.instance)
         return GameSession.instance
     }
-};
+}
 
 gameSession = new GameSession()

@@ -33,7 +33,7 @@ function initLobby () {
  */
 function fillDropBox ( json, elementId ) {
     var dropBox = document.getElementById(elementId).options
-    for (i = 0; i < json.length; i++) {
+    for (var i = 0; i < json.length; i++) {
         dropBox.add(new Option(json[i], json[i]), i)
     }
 }

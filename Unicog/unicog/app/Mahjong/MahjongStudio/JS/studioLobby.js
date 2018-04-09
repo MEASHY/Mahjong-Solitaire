@@ -50,14 +50,14 @@ function showGame () {
  */
 function fillDropBox ( json, elementId ) {
     var dropBox = document.getElementById(elementId).options
-    for (i = 0; i < json.length; i++) {
+    for (var i = 0; i < json.length; i++) {
         dropBox.add(new Option (json[i], json[i]), i)
     }
     dropBox.add(new Option ('Other', 'Other'))
 }
 function checkOther(name){
-  if(name=='Other')document.getElementById('otherDiv').innerHTML='Other: <input type="text" id="other" />';
-  else document.getElementById('otherDiv').innerHTML='';
+  if(name=='Other')document.getElementById('otherDiv').innerHTML='Other: <input type="text" id="other" />'
+  else document.getElementById('otherDiv').innerHTML=''
 }
 /**
  * changes the Save Div to visible
@@ -86,7 +86,7 @@ function saveLayout () {
     session = new StudioSession()
     
     session.layout.header.name = document.getElementById('nameText').value
-    var alphanumers = /^[a-zA-Z0-9 ]+$/;
+    var alphanumers = /^[a-zA-Z0-9 ]+$/
     if (!alphanumers.test($('#nameText').val())) {
         alert('Name must be alphanumeric')
         return
@@ -103,7 +103,7 @@ function saveLayout () {
             alert('Package field must be filled')
             return
         }
-        var alphanumers = /^[a-zA-Z0-9 ]+$/;
+        var alphanumers = /^[a-zA-Z0-9 ]+$/
         if (!alphanumers.test(session.layout.header.package)) {
             alert('Package must be alphanumeric')
             return
@@ -123,13 +123,13 @@ function saveLayout () {
     //downloadLayout('data:,'+json,session.layout.header.name+'.json')
 }
 function downloadLayout(json, name) {
-  var link = document.createElement('a');
-  link.download = name;
-  link.href = json;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  delete link;
+    var link = document.createElement('a')
+    link.download = name
+    link.href = json
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    delete link
 }
 /**
  * creates a prettyPrint of the layout
@@ -163,7 +163,7 @@ function postData(json) {
     var url = 'http://localhost:5000/api/v1/save_mahjong_layout'
     var method = 'POST'
     var postData = json
-    var shouldBeAsync = true;
+    var shouldBeAsync = true
     var request = new XMLHttpRequest()
     request.open(method, url, shouldBeAsync)
     request.setRequestHeader('JSON', 'application/json;charset=UTF-8')

@@ -152,12 +152,14 @@ class Layout {
         if (possible == null) {
             var possible = []
             while(possible.length < this.uniqueTiles){
-                var randomnumber = Math.floor(Math.random() * gameSession.tileset.size);
-                if(randomnumber  < 10) {
+                var randomnumber = Math.floor(Math.random() * gameSession.tileset.size)
+                if (randomnumber  < 10) {
                     randomnumber = '0' + randomnumber.toString()
                 }
-                if(possible.indexOf(randomnumber.toString()) > -1) {continue;}
-                possible.push(randomnumber.toString());
+                if (possible.indexOf(randomnumber.toString()) > -1) {
+                    continue
+                }
+                possible.push(randomnumber.toString())
             }
         }
         
