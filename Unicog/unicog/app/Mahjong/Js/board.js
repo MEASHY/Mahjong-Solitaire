@@ -48,8 +48,8 @@ class Board {
             
             this.playSound('click')
             
-            if (this.tileSelected != null) {
-                if (this.tileSelected == this.currentSelection) {
+            if (this.tileSelected !== null) {
+                if (this.tileSelected === this.currentSelection) {
                     if (this.hintedTiles && this.hintedTiles.indexOf(this.currentSelection) > -1) {
                         this.currentSelection.highlightTile(gameSession.colours.hint)
                     } else {
@@ -60,7 +60,7 @@ class Board {
                     if (!gameSession.practiceGame) {
                         // Statistics for deselections
                         gameStats.deselections += 1
-                        console.log("Deselect: ",gameStats.deselections)
+                        console.log('Deselect: ',gameStats.deselections)
                     }
                     
                 } else {
@@ -74,7 +74,7 @@ class Board {
                 if (!gameSession.practiceGame) {
                     // Statistics for selections
                     gameStats.selections += 1
-                    console.log("Select: ",gameStats.selections)
+                    console.log('Select: ',gameStats.selections)
                 }
             }
         }
@@ -92,7 +92,7 @@ class Board {
         if (!gameSession.practiceGame) {
             // Statistics for selections
             gameStats.selections += 1
-            console.log("Select: ",gameStats.selections)
+            console.log('Select: ',gameStats.selections)
         }
         
         // The two tiles match, remove them
@@ -117,7 +117,7 @@ class Board {
         if (!gameSession.practiceGame) {
             // Statistics for correct match
             gameStats.correctMatches += 1
-            console.log("CM: ",gameStats.correctMatches)
+            console.log('CM: ',gameStats.correctMatches)
         }
         
         // Keeps the layout updated
@@ -172,7 +172,7 @@ class Board {
         if (!gameSession.practiceGame) {
             // Statistics for incorrect match 
             gameStats.incorrectMatches += 1
-            console.log("ICM: ",gameStats.incorrectMatches)
+            console.log('ICM: ',gameStats.incorrectMatches)
         }
         
         //gives audio feedback to the player
@@ -266,7 +266,7 @@ class Board {
             // Statistics for time taken to complete game
             gameSession.timer.pauseTimer()
             gameStats.endGameTime = gameSession.timer.timeLeft
-            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            console.log('Duration: ', gameStats.startGameTime - gameStats.endGameTime)
             
             // Displays the proper message for ending a game
             if ((gameStats.startGameTime - gameStats.endGameTime) < 60) {              
@@ -274,7 +274,7 @@ class Board {
                           ' matches in\n' +  String(gameStats.startGameTime - gameStats.endGameTime) + 
                           ' seconds.'
             } else {
-                if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) == 1) {
+                if (Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60) === 1) {
                     var str = 'You\'ve made ' + gameStats.correctMatches + 
                               ' matches in\n' +  String(Math.floor((gameStats.startGameTime - gameStats.endGameTime) / 60)) + 
                               ' minute and ' + String((gameStats.startGameTime - gameStats.endGameTime) % 60) +
@@ -287,7 +287,7 @@ class Board {
                 }
             }
             if (timerDone) {
-                str = "The session has ended."
+                str = 'The session has ended.'
                 this.scene.buttons.shuffle.sprite.setVisible(false)
                 this.scene.buttons.shuffleText.sprite.setVisible(false)
             }

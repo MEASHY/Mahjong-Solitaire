@@ -148,7 +148,7 @@ function loadButtons (scope) {
             if (!gameSession.practiceGame) {
                 // Statistics for giving hint
                 gameStats.hintsUsed += 1
-                console.log("Hint: ",gameStats.hintsUsed)
+                console.log('Hint: ',gameStats.hintsUsed)
             }
             
         },scope.board)
@@ -227,7 +227,7 @@ function loadButtons (scope) {
         if (!gameSession.practiceGame) {
             // Statistics for time taken to complete game
             gameStats.endGameTime = gameSession.timer.timeLeft
-            console.log("Duration: ", gameStats.startGameTime - gameStats.endGameTime)
+            console.log('Duration: ', gameStats.startGameTime - gameStats.endGameTime)
             
             gameStats.completion = 'Quit'
         }
@@ -265,13 +265,13 @@ function loadButtons (scope) {
     buttons.shuffleText.sprite.setDepth(buttons.shuffleText.depth)
     
     buttons.endText = new Button(scope, 50, 30, 10)
-    buttons.endText.sprite = scope.add.text(0, 0, "Congratulations!", { font: '64px Arial', fill: '#000000'})
+    buttons.endText.sprite = scope.add.text(0, 0, 'Congratulations!', { font: '64px Arial', fill: '#000000'})
     buttons.endText.sprite.setVisible(false)
     buttons.endText.sprite.setOrigin(0.5,0.5)
     buttons.endText.sprite.setDepth(buttons.endText.depth)
     
     buttons.scoreText = new Button(scope, 50, 50, 10)
-    buttons.scoreText.sprite = scope.add.text(0, 0, "", { font: '64px Arial', fill: '#000000', align: 'center'})
+    buttons.scoreText.sprite = scope.add.text(0, 0, '', { font: '64px Arial', fill: '#000000', align: 'center'})
     buttons.scoreText.sprite.setVisible(false)
     buttons.scoreText.sprite.setOrigin(0.5,0.5)
     buttons.scoreText.sprite.setDepth(buttons.scoreText.depth)
@@ -297,7 +297,7 @@ function resizeGame (background) {
         height = width * (3/4) - 16
     }
     
-    game.renderer.resize(width, height, 1);
+    game.renderer.resize(width, height, 1)
     game.config.width = width
     game.config.height = height
 
@@ -324,7 +324,7 @@ function resizeGame (background) {
 function startGame () {
     game = new Phaser.Game(gameConfig, 'NL')
     if (!gameSession.practiceGame) {
-        console.log("Game: ", gameStats.gameNumber)
+        console.log('Game: ', gameStats.gameNumber)
         gameStats.startGameTime = gameSession.timer.timeLeft
     }
     console.log(game)
@@ -350,13 +350,13 @@ function endGame (timerDone) {
 
 function postData() {
     // method taken off of https://stackoverflow.com/questions/14873443/sending-an-http-post-using-javascript-triggered-event
-    var url = "http://199.116.235.91:5000/api/v1/create_mahjong_session"
-    var method = "POST"
+    var url = 'http://199.116.235.91:5000/api/v1/create_mahjong_session'
+    var method = 'POST'
     var postData = JSON.stringify(gameStats)
-    var shouldBeAsync = true;
+    var shouldBeAsync = true
     var request = new XMLHttpRequest()
     request.open(method, url, shouldBeAsync)
-    request.setRequestHeader("JSON", "application/json;charset=UTF-8")
+    request.setRequestHeader('JSON', 'application/json;charset=UTF-8')
     request.send(postData)
 
 }

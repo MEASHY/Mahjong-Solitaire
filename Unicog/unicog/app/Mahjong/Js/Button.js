@@ -48,7 +48,7 @@ class Button {
         // Assures each tile has a unique depth per layout
         this.sprite.setDepth(this.depth)
         this.sprite.setVisible(this.visible)
-        console.log("sprite set")
+        console.log('sprite set')
         this.setSpritePosition()
     }
     

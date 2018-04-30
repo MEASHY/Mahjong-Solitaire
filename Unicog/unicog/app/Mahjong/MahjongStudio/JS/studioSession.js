@@ -21,21 +21,21 @@ var StudioSession = function () {
                 'effects': []
             },
             layout: {
-                "header":{
-                    "name": null,
-                    "package": null,
-                    "size": 0,
-                    "height": 0,
-                    "uniqueTiles": null,
-                    "maxDuplicates": null,
-                    "numChildren": null
+                'header':{
+                    'name': null,
+                    'package': null,
+                    'size': 0,
+                    'height': 0,
+                    'uniqueTiles': null,
+                    'maxDuplicates': null,
+                    'numChildren': null
                 }
             },
             tileset: null,
             visible: true,
         
             logText: function () {
-            	// Console log the public member variable
+                // Console log the public member variable
                 console.info('Singleton>>Public Member: ' + this.text)
                 
                 // Console log the private member variable
@@ -54,7 +54,7 @@ var StudioSession = function () {
         return public_members
     }
     else {
-        //console.warn("Singleton already has an instance, here it is: " + StudioSession.instance);
+        //console.warn('Singleton already has an instance, here it is: ' + StudioSession.instance)
         return StudioSession.instance
     }
 }

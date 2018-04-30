@@ -30,7 +30,7 @@ class StudioTileNode extends TileNode{
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
         this.tile.setAlpha(0.6)
         this.dimTile()
-        var self = this;
+        var self = this
         this.tile.on('pointerdown', function (pointer,tilenode) {  
             if (pointer.buttons === 1) {
                 if (!self.placed) {

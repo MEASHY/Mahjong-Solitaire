@@ -1,75 +1,75 @@
 h1 {
-	font-size: 2em;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
+    font-size: 2em;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
 }
 
 h2{
-	font-size: 1.5em;
-	font-family: Arial;
-	font-weight: bold;
-	text-align: center;
+    font-size: 1.5em;
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
     padding: 0px;
     margin-bottom 0px;
     margin-top 0px;
 }
 
 h3{
-	font-size: 1.2em;
-	font-family: Times New Roman;
-	font-weight: bold;
-	text-align: left;
+    font-size: 1.2em;
+    font-family: Times New Roman;
+    font-weight: bold;
+    text-align: left;
 }
 
 
 p {
-	text-align: center;
+    text-align: center;
 }
 
 mainbutton {
-	width: 50%;
-	background-color: #f1800e;
-	border: none;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    width: 50%;
+    background-color: #f1800e;
+    border: none;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
 }
 
 input {
-	width: 50%;
+    width: 50%;
     border-radius: 5px;
 }
 
 input[type="login"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
     width: 20%;
     
 }
 
 input[type="submit"] {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
 }
 
 input[type="text"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
 }
 
 input[type="password"] {
-	font-size: 20px;
-	padding-left: 5px;
-	font-family: Arial;
+    font-size: 20px;
+    padding-left: 5px;
+    font-family: Arial;
 }
 
 /* set background*/
@@ -164,9 +164,9 @@ button {
 }
 
 .largeLabel{
-	font-size: 1.5em;
-	font-family: Arial;
-	font-weight: bold;
+    font-size: 1.5em;
+    font-family: Arial;
+    font-weight: bold;
     text-align: right;
     display: inline-block;
     width: 300px;
@@ -174,11 +174,11 @@ button {
 }
 
 .startgame{
-	background-color: #f1800e;
-	text-align: center;
-	padding: 1.2em;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 1.2em;
     font-size: 1.5em;
-	font-family: Arial;
+    font-family: Arial;
     color: #ffffff;
     width: 100%;
 }
@@ -230,11 +230,11 @@ input[type="checkbox"] {
 }
 
 .language{
-	background-color: #f1800e;
-	border: none;
-	text-align: center;
-	padding: 8px 8px;
-	color: #ffffff;
+    background-color: #f1800e;
+    border: none;
+    text-align: center;
+    padding: 8px 8px;
+    color: #ffffff;
     border-radius: 5px;
 }
 
@@ -260,11 +260,11 @@ select.language option {
 }
 
 .small {
-	background-color: #f1800e;
-	text-align: center;
-	padding: 25px 36px;
-	font-size: 24px;
-	color: #ffffff;
+    background-color: #f1800e;
+    text-align: center;
+    padding: 25px 36px;
+    font-size: 24px;
+    color: #ffffff;
     width: 25%;
     float: left;
 }
@@ -278,9 +278,9 @@ select.language option {
 }
 
 .genericLabel{
-	font-size: 100%;
-	font-family: Arial;
-	font-weight: bold;
+    font-size: 100%;
+    font-family: Arial;
+    font-weight: bold;
     display: inline-block;
 }
 

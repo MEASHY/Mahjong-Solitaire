@@ -6,8 +6,8 @@
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
         <link rel='stylesheet' type='text/css' href='studioStyle.css'>
         
-        <script> var user =  "{{user_id}}";</script>
-        <script> var researcher =  "{{r_id}}";</script>
+        <script> var user =  '{{user_id}}'</script>
+        <script> var researcher =  '{{r_id}}'</script>
         <script src='../js/phaser.js'></script>
         <script src='../js/jquery-3.3.1.js'></script>
         <script src='js/studioSession.js'></script>
@@ -26,7 +26,7 @@
 
     </head>
     
-    <body class = 'main' oncontextmenu="return false;">
+    <body class = 'main' oncontextmenu='return false'>
     
         <div class = 'center'>
         <div class='game' id='gameDiv'></div>
@@ -36,13 +36,13 @@
             <form id='StudioSetup'>
                 <p><div class='text'>
                     <label class = 'smallLabel' for='nameText'>Layout Name:</label>
-                    <input type="text" id="nameText"></input>
+                    <input type='text' id='nameText'></input>
                 </div>
                 <p><div class='pkgDrop'>
                     <label class = 'smallLabel' for='packageDropBox'>Layout Package:</label>
                     <select class = 'packageOption' type='text' id='packageDropBox' onChange='checkOther(this.value)'></select>
                 </div>
-                <p><div id="otherDiv"></div>
+                <p><div id='otherDiv'></div>
                 <p><div>
                     <label class = 'smallLabel' for='uniqueTiles'>Number of different tile symbols:</label>
                     <input class = 'saveNumber' type='number' id='uniqueTiles' min='1' max='44' value='32' >

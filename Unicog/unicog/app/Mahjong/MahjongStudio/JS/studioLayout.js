@@ -289,7 +289,7 @@ class StudioLayout extends Layout{
         var z = height - 1
         var x = this.layers[z][0].length
         var y = this.layers[z].length
-        var layer = Array(y).fill().map(() => Array(x).fill(0));
+        var layer = Array(y).fill().map(() => Array(x).fill(0))
         var found = false
         for (var i = 0; i < this.layers[z].length; i++) {
             for (var j = 0; j < this.layers[z][i].length; j++) {

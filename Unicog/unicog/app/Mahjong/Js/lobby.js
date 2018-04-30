@@ -33,7 +33,7 @@ function initLobby () {
  */
 function fillDropBox ( json, elementId ) {
     var dropBox = document.getElementById(elementId).options
-    for (i = 0; i < json.length; i++) {
+    for (var i = 0; i < json.length; i++) {
         dropBox.add(new Option(json[i], json[i]), i)
     }
 }
@@ -111,7 +111,7 @@ function showGame (practiceGame) {
         var tileset = document.getElementById('tilesetDropBox').value
         $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json?'+(new Date()).getTime(), function ( tileset ) {
             gameSession.tileset = tileset
-            console.log("Tileset loaded")
+            console.log('Tileset loaded')
             console.log(gameSession.theme)
             
             $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json?'+(new Date()).getTime(), function ( colours ){

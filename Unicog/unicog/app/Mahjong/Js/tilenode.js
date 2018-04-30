@@ -100,7 +100,7 @@ class TileNode {
         this.tile = this.state.add.sprite(0, 0, img).setInteractive()
         // Assures each tile has a unique depth per layout
         this.tile.setDepth(this.height*1000000 + this.y*1000 + this.x)
-        var self = this;
+        var self = this
         this.tile.on('pointerdown', function () {  
             self.state.board.selectTile(self)
         })
@@ -110,7 +110,7 @@ class TileNode {
      * @return {boolean} A boolean value 
      */
     isSet () {
-        if (this.tile == null) {
+        if (this.tile === null) {
             return false
         }
         return true
@@ -120,7 +120,7 @@ class TileNode {
      * @param {TileNode} tilenode - The TileNode to remove
      */
     removeParent (tileNode) {
-        for( var i = 0; i < this.parents.length; i++) {
+        for (var i = 0; i < this.parents.length; i++) {
             if (tileNode === this.parents[i]) {
                 this.parents.splice(i,1)
             }
@@ -163,20 +163,20 @@ class TileNode {
      * @return {TileNode} The current TileNode  
      */
     findChildren (layout, numChildren) {
-        if (this.height == 1) {
+        if (this.height === 1) {
             return this
         }
         
         //get the children for the current position
         var children = []
-        if (numChildren == 1) {
+        if (numChildren === 1) {
             children.push(layout.layers[this.z-1][this.y][this.x])
         }
-        if (numChildren == 2) {
+        if (numChildren === 2) {
             children.push(layout.layers[this.z-1][this.y][this.x])
             children.push(layout.layers[this.z-1][this.y][this.x+1])
         }
-        if (numChildren == 4) {
+        if (numChildren === 4) {
             children.push(layout.layers[this.z-1][this.y][this.x])
             children.push(layout.layers[this.z-1][this.y][this.x+1])
             children.push(layout.layers[this.z-1][this.y+1][this.x])

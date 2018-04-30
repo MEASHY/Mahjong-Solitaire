@@ -29,7 +29,7 @@ var GameSession = function () {
             offsetY: 0,
         
             logText: function () {
-            	// Console log the public member variable
+                // Console log the public member variable
                 console.info('Singleton>>Public Member: ' + this.text)
                 
                 // Console log the private member variable
@@ -48,9 +48,9 @@ var GameSession = function () {
         return public_members
     }
     else {
-        //console.warn("Singleton already has an instance, here it is: " + GameSession.instance);
+        //console.warn('Singleton already has an instance, here it is: ' + GameSession.instance)
         return GameSession.instance
     }
-};
+}
 
 gameSession = new GameSession()
