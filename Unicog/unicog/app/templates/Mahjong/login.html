@@ -5,6 +5,8 @@
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <link rel='stylesheet' type='text/css' href='mahform.css'>
+        <script src='Js/jquery-3.3.1.js'></script>
+        <script src='Js/login.js'></script>
     </head>
     <body class = 'main'>
     <div class = 'centerDiv'>
@@ -17,20 +19,20 @@
                 }
             </script>
         </p>
-        <form id='loginForm' method='post' action ='game.html'>
+        <form id='loginForm' method='post' onsubmit="return validateLogin();">
             <p>
-                <input type='text' placeholder ='Researcher ID'  name='researcher'/>
+                <input type='text' placeholder ='Researcher ID'  id='researcher' name='researcher' />
             </p>
             <p>
-                <input type='text' placeholder='Player ID' name='player' required/>
+                <input type='text' placeholder='Player ID' id='player' name='player' required/>
             </p>
             <p>
             <div> 
-                <input class = 'loginCheck' type='checkbox' name='useGenericID'>
+                <input class = 'loginCheck' type='checkbox' name='useGenericID' onchange='useGeneric(this.checked)' />
                 <label class = 'genericLabel' for='useGenericID'>Use Generic Researcher ID</label>
             </div>
             <div class = 'padding'>
-                <input class = 'loginCheck' type='checkbox' name='addNewPlayer'>
+                <input class = 'loginCheck' type='checkbox' name='addNewPlayer'/>
                 <label class = 'genericLabel' for='addNewPlayer'>Add New Player ID</label>
             </div>
             </p>

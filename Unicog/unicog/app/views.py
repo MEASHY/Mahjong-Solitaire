@@ -1,6 +1,7 @@
-from flask import render_template, send_file, request, send_from_directory, redirect, url_for
+from flask import render_template, send_file, request, send_from_directory, redirect, url_for, session
 from app import app, db
 from models import Sessions, Bejeweled_Sessions, Wordsearch_Sessions, Mole_Sessions, Researchers, Players, Mahjong_Games
+import os
 #from sqlalchemy.sql.expression import func
 
 SERVER_URL = 'http://199.116.235.91/'
@@ -44,48 +45,53 @@ def word_ind():
 @app.route('/mahjong_static/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
+
+@app.route('/mahjong_static/game.html')
+def mahjong_lobby():
+    if 'researcher' in session:
+        return render_template('Mahjong/game.html')
+    else:
+        return redirect('mahjong_static/index.html')
     
-@app.route('/mahjong_static/game.html', methods = ['POST'])
-def mahjong_game():
+@app.route('/mahjong_static/login.html', methods = ['POST'])
+def player_login():
     valid_r = None
     valid_p = None
-    id = request.form['researcher']
     player_id = request.form['player']
-    
-    if not ((id.isdigit() or id == '') and player_id.isdigit()):
-        return redirect(url_for('mahjong_player_login_failed3'))
-    
-    valid_r = db.session.query(Researchers.r_id).filter_by(r_id = id).first()
-    
+    try:
+        researcher_id = request.form['researcher']
+        valid_r = db.session.query(Researchers.r_id).filter_by(r_id = researcher_id).first()
+    except:
+        pass
+
     try:
         gID = request.form['useGenericID']
         if (gID == 'on'):
-            valid_r = True
-            id = 0          
+            id = 0        
     except:
-        pass
-    
-    if (valid_r == None):
-        return redirect(url_for('mahjong_player_login_failed')) #invalid case
-    
-    valid_p = db.session.query(Players.user_id).filter_by(user_id = player_id).first()
-    
-    try:
-        add_new_player = request.form['addNewPlayer']
-        if (add_new_player == 'on'):
-            newPlayer = Players(user_id = player_id)
-            db.session.add(newPlayer)
-            db.session.commit()
-            valid_p = True
-    except:
-        pass
-    
-    if (valid_p == None):
-        return redirect(url_for('mahjong_player_login_failed2'))
-        
-    return render_template('Mahjong/game.html',  
-        user_id=player_id, r_id = id)
+        if (not valid_r):
+            error_message = 'The Researcher ID you submmitted does not exist'
+            return render_template('Mahjong/login.html', error_message=error_message)
 
+    valid_p = db.session.query(Players.user_id).filter_by(user_id = player_id).first()
+    try:
+        if (request.form['addNewPlayer'] == 'on'):
+            if (not valid_p):
+                newPlayer = Players(user_id = player_id)
+                db.session.add(newPlayer)
+                db.session.commit()
+            else:
+                error_message = 'The Player you have entered already exists'
+                return render_template('Mahjong/login.html', error_message=error_message)
+    except:
+        if (not valid_p):
+            error_message = 'The Player ID you submmitted does not exist'
+            return render_template('Mahjong/login.html', error_message=error_message)
+
+    session['researcher'] = id
+    session['player'] = player_id
+    return redirect(url_for('mahjong_lobby')) 
+    
   
 @app.route('/mahjong_static/research_stats.html', methods = ['POST'])
 def mahjong_stats():
@@ -98,8 +104,7 @@ def mahjong_stats():
     if (valid == None):
         return redirect(url_for('mahjong_research_login_failed')) #invalid case
 
-    return render_template('Mahjong/research_stats.html',  
-        r_id = id)
+    return render_template('Mahjong/research_stats.html', r_id = id)
 
 @app.route('/mahjong_static/researcher_stats_filter.html', methods = ['POST'])        
 def mahjong_stats_get():
@@ -143,21 +148,6 @@ def mahjong_static_page(filename):
         return send_from_directory('Mahjong/', filename)
         
     return send_from_directory('Mahjong/', filename)
-
-@app.route('/mahjong_static/player_login_failed.html')
-def mahjong_player_login_failed():
-    return render_template('Mahjong/player_login.html', error_message =
-        'The Researcher ID you submmitted does not exist')
-        
-@app.route('/mahjong_static/player_login_failed2.html')
-def mahjong_player_login_failed2():
-    return render_template('Mahjong/player_login.html', error_message =
-        'The Player ID you submitted does not exist, make sure to add it to the database')
-
-@app.route('/mahjong_static/player_login_failed3.html')
-def mahjong_player_login_failed3():
-    return render_template('Mahjong/player_login.html', error_message =
-        'The Researcher and Player IDs must be numeric values')
         
 @app.route('/mahjong_static/research_login_failed.html')        
 def mahjong_research_login_failed():
@@ -225,35 +215,6 @@ def board():
 
 ## Wordsearch stuff
 
-@app.route('/wordsearch/js/phaser.min.js')
-def word_phaser():
-    return send_file('ECAWordSearchV2/js/phaser.min.js')
-
-@app.route('/wordsearch/js/stats.js')
-def word_stats():
-    return send_file('ECAWordSearchV2/js/stats.js')
-
-@app.route('/wordsearch/js/event.js')
-def word_event():
-    return send_file('ECAWordSearchV2/js/event.js')
-
-@app.route('/wordsearch/js/timer.js')
-def word_timer():
-    return send_file('ECAWordSearchV2/js/timer.js')
-
-@app.route('/wordsearch/js/counter.js')
-def word_counter():
-    return send_file('ECAWordSearchV2/js/counter.js')
-
-@app.route('/wordsearch/js/game.js')
-def word_game():
-    return send_file('ECAWordSearchV2/js/game.js')
-
-@app.route('/wordsearch/js/tile.js')
-def word_tile():
-    return send_file('ECAWordSearchV2/js/tile.js')
-
-@app.route('/wordsearch/js/board.js')
-def word_board():
-    return send_file('ECAWordSearchV2/js/board.js')
-
+@app.route('/wordSearch/js/<path:filename>')
+def send_wordSearch(filename):
+    return send_from_directory('/ECAWordSearchV2/js/', filename)
