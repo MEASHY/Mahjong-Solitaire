@@ -46,14 +46,14 @@ def word_ind():
 def send_mahjong_css():
     return send_file('static/mahform.css')
 
-@app.route('/mahjong_static/game.html')
+@app.route('/mahjong/game.html')
 def mahjong_lobby():
     if 'researcher' in session:
         return render_template('Mahjong/game.html')
     else:
-        return redirect('mahjong_static/index.html')
+        return redirect('mahjong/index.html')
     
-@app.route('/mahjong_static/login.html', methods = ['POST'])
+@app.route('/mahjong/login.html', methods = ['POST'])
 def player_login():
     valid_r = None
     valid_p = None
@@ -140,7 +140,7 @@ def mahjong_stats_get():
     results += ']}'
     return render_template('Mahjong/research_stats.html', r_id = researcher, user_id = filter_id, query_result = results)
 
-@app.route('/mahjong_static/<path:filename>')
+@app.route('/mahjong/<path:filename>')
 def mahjong_static_page(filename):
     try:
         return render_template('Mahjong/' + filename)
@@ -148,29 +148,29 @@ def mahjong_static_page(filename):
         return send_from_directory('Mahjong/', filename)
         
     return send_from_directory('Mahjong/', filename)
-        
-@app.route('/mahjong_static/research_login_failed.html')        
-def mahjong_research_login_failed():
-    return render_template('Mahjong/research_login.html', error_message =
-        'The Researcher ID you submmitted does not exist')
-    
-@app.route('/Assets/Layouts/<path:filename>')
+
+
+@app.route('/mahjong/assets/<path:filename>')
+def send_layout(filename):
+    return send_from_directory('Mahjong/Assets/', filename)
+	
+@app.route('/mahjong/assets/Layouts/<path:filename>')
 def send_layout(filename):
     return send_from_directory('Mahjong/Assets/Layouts/', filename)
 
-@app.route('/Assets/Tilesets/<path:filename>')
+@app.route('/mahjong/assets/Tilesets/<path:filename>')
 def send_tiles(filename):
     return send_from_directory('Mahjong/Assets/Tilesets/', filename)
 
-@app.route('/Assets/Themes/<path:filename>')
+@app.route('/mahjong/assets/Themes/<path:filename>')
 def send_backgrounds(filename):
     return send_from_directory('Mahjong/Assets/Themes/', filename)
 
-@app.route('/Assets/Buttons/<path:filename>')
+@app.route('/mahjong/assets/Buttons/<path:filename>')
 def send_buttons(filename):
     return send_from_directory('Mahjong/Assets/Buttons/', filename)
 
-@app.route('/Assets/Audio/<path:filename>')
+@app.route('/mahjong/assets/Audio/<path:filename>')
 def send_audio(filename):
     return send_from_directory('Mahjong/Assets/Audio/', filename)
     
