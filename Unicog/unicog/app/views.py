@@ -42,7 +42,7 @@ def word_ind():
     
 # Mahjong Stuff
 
-@app.route('/mahjong_static/mahform.css')
+@app.route('/mahjong/mahform.css')
 def send_mahjong_css():
     return send_file('static/mahform.css')
 
@@ -140,39 +140,42 @@ def mahjong_stats_get():
     results += ']}'
     return render_template('Mahjong/research_stats.html', r_id = researcher, user_id = filter_id, query_result = results)
 
-@app.route('/mahjong/<path:filename>')
-def mahjong_static_page(filename):
-    try:
-        return render_template('Mahjong/' + filename)
-    except:
-        return send_from_directory('Mahjong/', filename)
-        
-    return send_from_directory('Mahjong/', filename)
+#@app.route('/mahjong/<path:filename>')
+#def mahjong_static_page(filename):
+#    try:
+#        return render_template('Mahjong/' + filename)
+#    except:
+#        return send_from_directory('Mahjong/', filename)
+#       
+#    return send_from_directory('Mahjong/', filename)
+@app.route('/mahjong')
+def mahjong_index():
+    return render_template('Mahjong/index.html')
 
 
 @app.route('/mahjong/assets/<path:filename>')
 def send_layout(filename):
     return send_from_directory('Mahjong/Assets/', filename)
 	
-@app.route('/mahjong/assets/Layouts/<path:filename>')
-def send_layout(filename):
-    return send_from_directory('Mahjong/Assets/Layouts/', filename)
+#@app.route('/mahjong/assets/Layouts/<path:filename>')
+#def send_layout(filename):
+#    return send_from_directory('Mahjong/Assets/Layouts/', filename)
 
-@app.route('/mahjong/assets/Tilesets/<path:filename>')
-def send_tiles(filename):
-    return send_from_directory('Mahjong/Assets/Tilesets/', filename)
+#@app.route('/mahjong/assets/Tilesets/<path:filename>')
+#def send_tiles(filename):
+#    return send_from_directory('Mahjong/Assets/Tilesets/', filename)
 
-@app.route('/mahjong/assets/Themes/<path:filename>')
-def send_backgrounds(filename):
-    return send_from_directory('Mahjong/Assets/Themes/', filename)
+#@app.route('/mahjong/assets/Themes/<path:filename>')
+#def send_backgrounds(filename):
+#    return send_from_directory('Mahjong/Assets/Themes/', filename)
 
-@app.route('/mahjong/assets/Buttons/<path:filename>')
-def send_buttons(filename):
-    return send_from_directory('Mahjong/Assets/Buttons/', filename)
+#@app.route('/mahjong/assets/Buttons/<path:filename>')
+#def send_buttons(filename):
+#    return send_from_directory('Mahjong/Assets/Buttons/', filename)
 
-@app.route('/mahjong/assets/Audio/<path:filename>')
-def send_audio(filename):
-    return send_from_directory('Mahjong/Assets/Audio/', filename)
+#@app.route('/mahjong/assets/Audio/<path:filename>')
+#def send_audio(filename):
+#    return send_from_directory('Mahjong/Assets/Audio/', filename)
     
 
 #too be fixed up with this style http://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
