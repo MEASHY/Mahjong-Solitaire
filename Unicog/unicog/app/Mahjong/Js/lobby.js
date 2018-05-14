@@ -5,18 +5,18 @@
 function initLobby () {
     // From https://stackoverflow.com/a/46115659
     // Can add date to end of getJSON calls to cache bust
-    $.getJSON('/Assets/Layouts/PackageList.json?'+(new Date()).getTime(), function ( packages ) {
+    $.getJSON('mahjong/assets/Layouts/PackageList.json?'+(new Date()).getTime(), function ( packages ) {
         fillDropBox(packages, 'packageDropBox')
-        $.getJSON('/Assets/Layouts/'+packages[0]+'/layouts.json?'+(new Date()).getTime(), function ( layouts ) {
+        $.getJSON('mahjong/assets/Layouts/'+packages[0]+'/layouts.json?'+(new Date()).getTime(), function ( layouts ) {
             fillDropBox(layouts, 'layoutDropBox')
         })
     })
     
-    $.getJSON('/Assets/Tilesets/SetList.json?'+(new Date()).getTime(), function ( tilesets ) {
+    $.getJSON('mahjong/assets/Tilesets/SetList.json?'+(new Date()).getTime(), function ( tilesets ) {
         fillDropBox(tilesets, 'tilesetDropBox')
     })
     
-    $.getJSON('/Assets/Themes/ThemeList.json?'+(new Date()).getTime(), function ( backgrounds ) {
+    $.getJSON('mahjong/assets/Themes/ThemeList.json?'+(new Date()).getTime(), function ( backgrounds ) {
         fillDropBox(backgrounds, 'themeDropBox')
     })
     
@@ -44,7 +44,7 @@ function fillDropBox ( json, elementId ) {
  */
 function changePackage (name) {
     $('#layoutDropBox').empty()
-    $.getJSON('/Assets/Layouts/'+name+'/layouts.json?'+(new Date()).getTime(), function ( layouts ) {
+    $.getJSON('mahjong/assets/Layouts/'+name+'/layouts.json?'+(new Date()).getTime(), function ( layouts ) {
         fillDropBox(layouts, 'layoutDropBox')
     })
 }
@@ -105,16 +105,16 @@ function showGame (practiceGame) {
     }
     
     // getJSON is asynchronous, so nesting the rest inside it ensures everything is loaded when startGame is called   
-    $.getJSON('/Assets/Layouts/'+packageName+'/'+layoutName+'.json?'+(new Date()).getTime(), function ( layout ) {
+    $.getJSON('mahjong/assets/Layouts/'+packageName+'/'+layoutName+'.json?'+(new Date()).getTime(), function ( layout ) {
         gameSession.layout = layout
         
         var tileset = document.getElementById('tilesetDropBox').value
-        $.getJSON('/Assets/Tilesets/'+tileset+'/tiles.json?'+(new Date()).getTime(), function ( tileset ) {
+        $.getJSON('mahjong/assets/Tilesets/'+tileset+'/tiles.json?'+(new Date()).getTime(), function ( tileset ) {
             gameSession.tileset = tileset
             console.log('Tileset loaded')
             console.log(gameSession.theme)
             
-            $.getJSON('/Assets/Themes/' + gameSession.theme + '/Colours.json?'+(new Date()).getTime(), function ( colours ){
+            $.getJSON('mahjong/assets/Themes/' + gameSession.theme + '/Colours.json?'+(new Date()).getTime(), function ( colours ){
                 gameSession.colours = colours
             
                 if (!practiceGame) {

@@ -31,26 +31,26 @@ function preload () {
 
     // load UI elements
     var theme = gameSession.theme
-    this.load.image('background' ,'/Assets/Themes/' + theme + '/Background.png')
-    this.load.image('resume' ,'/Assets/Themes/' + theme + '/Resume.png')
-    this.load.image('continue' ,'/Assets/Themes/' + theme + '/Continue.png')
-    this.load.image('finish' ,'/Assets/Themes/' + theme + '/Finish.png')
-    this.load.image('hint' ,'/Assets/Themes/' + theme + '/Hint.png')
-    this.load.image('overlay' ,'/Assets/Themes/' + theme + '/Overlay.png')
-    this.load.image('pause' ,'/Assets/Themes/' + theme + '/Pause.png')
-    this.load.image('quit' ,'/Assets/Themes/' + theme + '/Quit.png')
-    this.load.image('shuffle' ,'/Assets/Themes/' + theme + '/Shuffle.png')
-    this.load.spritesheet('sound','/Assets/Themes/' + theme + '/Sound.png',{ frameWidth: 100, frameHeight: 100 })
+    this.load.image('background' ,'mahjong/assets/Themes/' + theme + '/Background.png')
+    this.load.image('resume' ,'mahjong/assets/Themes/' + theme + '/Resume.png')
+    this.load.image('continue' ,'mahjong/assets/Themes/' + theme + '/Continue.png')
+    this.load.image('finish' ,'mahjong/assets/Themes/' + theme + '/Finish.png')
+    this.load.image('hint' ,'mahjong/assets/Themes/' + theme + '/Hint.png')
+    this.load.image('overlay' ,'mahjong/assets/Themes/' + theme + '/Overlay.png')
+    this.load.image('pause' ,'mahjong/assets/Themes/' + theme + '/Pause.png')
+    this.load.image('quit' ,'mahjong/assets/Themes/' + theme + '/Quit.png')
+    this.load.image('shuffle' ,'mahjong/assets/Themes/' + theme + '/Shuffle.png')
+    this.load.spritesheet('sound','mahjong/assets/Themes/' + theme + '/Sound.png',{ frameWidth: 100, frameHeight: 100 })
 
     console.log('Assets loaded!')
 
     //load the sound files
-    this.load.audio('correct', '/Assets/Audio/correct.mp3')
-    this.load.audio('incorrect', '/Assets/Audio/incorrect.mp3')
-    this.load.audio('click', '/Assets/Audio/click.mp3')
-    this.load.audio('hint', '/Assets/Audio/hint.mp3')
-    this.load.audio('shuffle', '/Assets/Audio/shuffle.mp3')
-    this.load.audio('finishGame', 'Assets/Audio/finish_game.mp3')
+    this.load.audio('correct', 'mahjong/assets/Audio/correct.mp3')
+    this.load.audio('incorrect', 'mahjong/assets/Audio/incorrect.mp3')
+    this.load.audio('click', 'mahjong/assets/Audio/click.mp3')
+    this.load.audio('hint', 'mahjong/assets/Audio/hint.mp3')
+    this.load.audio('shuffle', 'mahjong/assets/Audio/shuffle.mp3')
+    this.load.audio('finishGame', 'mahjong/assets/Audio/finish_game.mp3')
 }
 /**
  * initializes the necessary data stuctures, resizes the game to match the viewing window and begins the Phaser Game 
