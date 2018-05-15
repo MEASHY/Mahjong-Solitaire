@@ -21,14 +21,14 @@ class Tile {
         this.y = gameProperties.topOffset + row * gameProperties.tileHeight * gameProperties.scaleRatio,
         this.crc = false,
         //console.log(this.x),
-        this.onClick = new Phaser.EventEmitter(),
+        //this.onClick = new Phaser.EventEmitter(),
         this.sprite,
         this.group = group
     }
 
     check () {
-        tile.onClick.dispatch(tile)
-        click()
+        this.onClick.emit("onclick")
+        console.log("chack")
     }
     
     setSprite (value) {
@@ -37,8 +37,10 @@ class Tile {
         this.group.add(this.sprite)
         this.sprite.setScale(gameProperties.scaleRatio)
         this.sprite.inputEnabled = true;
-        this.sprite.on('pointerdown', function () {  
-            this.check()
+        this.sprite.on('mouseover', function () {  
+            console.log("click")
+            //this.check()
+            console.log("click")
         }, this)
     }
     

@@ -168,6 +168,11 @@ var play = new Phaser.Class({
         window.onresize =  function () {
             resize() 
         };
+        this.input.on('pointerdown', function (pointer) {
+
+            console.log(this.board)
+
+        }, this);
 
     },
     
@@ -271,7 +276,7 @@ var play = new Phaser.Class({
 
     found: function(word){
         var wordBank = this.boardLeft * 0.25;
-        var temp = "word" + word;
+        //var temp = "word" + word;
         game.add.text(wordBank, (this.boardTop -20) + (35 * (1+word)), this.levelData[temp], fontStyles.foundFontStyle);
     }
 });
@@ -315,7 +320,7 @@ function resize() {
     scene.timer.repositionTimer()
     
     for (i = 0; i < uiElements.length; i++){
-        console.log(uiElements[i])
+        //console.log(uiElements[i])
         uiElements[i].setX(gameProperties.leftOffset * 0.25)
         uiElements[i].setY(gameProperties.topOffset + (35 * (i)))
     }
