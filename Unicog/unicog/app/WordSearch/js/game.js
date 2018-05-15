@@ -1,11 +1,16 @@
-var game
-
+var game;
+var scene;
 var gameProperties = {
+    screenWidth: window.innerWidth,
+    screenHeight: window.innerHeight,
     
     tileWidth: 268,
     tileHeight: 268,
 
     scaleRatio: window.devicePixelRatio/3,
+    topOffset: 0,
+    leftOffset: 0,
+    levelData: "",
 
     setScaleRatio: function(num){
         this.scaleRatio =  this.scaleRatio *(10/num);
@@ -14,8 +19,10 @@ var gameProperties = {
     revertScaleRatio: function(num){
         this.scaleRatio = this.scaleRatio / (10/num);
     },
+    
+    sideOffset: 0,
 
-    level: 0,
+    level: 1,
 
     vers: '0',
 
@@ -71,24 +78,24 @@ var gameState = function(game){
     
 };
 
-var gameConfig = {
+window.onload = function(){
+    var gameConfig = {
     width: screen.width,
     height: screen.height,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
     type: Phaser.AUTO,
     parent: 'gameDiv',
-    scene: [
-        game,
-        stats
-    ]
+    scene: [play]
+    }
+    game = new Phaser.Game(gameConfig);
 }
 
 
-var game = new Phaser.Class({
+var play = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize:
-    function game(){
-        Phaser.Scene.call(this, {key: "game"});
+    function play(){
+        Phaser.Scene.call(this, {key: "play"});
     },
     
     preload: function() {
@@ -113,25 +120,27 @@ var game = new Phaser.Class({
 
         gameProperties.setVersion(ver["version"]);
         
-        var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split();
+        this.load.json("levelData", "/static/wsAssets/level/level1/level"+grade+
+                                    "_version"+ver["version"]);
+        
+        var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-        for (letter in letters) {
-            this.load.image(letter, '/static/wsAssets/tile1_268_pixels/tile1_'+letter+'_268.png');
-            this.load.image('sel'+letter, '/static/wsAssets/tile_select/tile1_'+letter+'_268.png');
-            this.load.image('lock'+letter, '/static/wsAssets/tile_lock/tile1_'+letter+'_268.png');
+        console.log(this);
+        for (i in alph) {
+            this.load.image(alph[i], '/static/wsAssets/tile1_268_pixels/tile1_'+alph[i]+'_268.png');
+            this.load.image('sel'+alph[i], '/static/wsAssets/tile_select/tile1_'+alph[i]+'_268.png');
+            this.load.image('lock'+alph[i], '/static/wsAssets/tile_lock/tile1_'+alph[i]+'_268.png');
         }
-    }
+    },
     
     create: function () {
+        
+        scene = this
 
-
-        //var toPrint = game.cache.getText("the_level");
-        //console.log(toPrint);
-        this.levelData = JSON.parse(this.game.cache.getText("the_level"));
-        //console.log(this.levelData);
-
+        this.levelData = game.cache.json.get("levelData");
         //console.log(this.levelData.clue0);
 
+        //these are awfully specific numbers...
         if (gameProperties.scaleRatio == 0.875){
             gameProperties.scaleRatio = (gameProperties.screenWidth)/3216;
         }
@@ -141,63 +150,71 @@ var game = new Phaser.Class({
         else {
             gameProperties.scaleRatio = (gameProperties.screenHeight)/3216;
         }
-        //console.log("Scale ratio (dpr/3) " + gameProperties.scaleRatio);
-        gameProperties.setScaleRatio(this.levelData.row);
-        this.boardTop = (gameProperties.screenHeight - (gameProperties.tileHeight * gameProperties.scaleRatio * this.levelData.row)) * 0.5;
-        this.boardLeft = (gameProperties.screenWidth - (gameProperties.tileWidth * gameProperties.scaleRatio *this.levelData.columns)) * 0.5;
+        console.log("Scale ratio (dpr/3) " + gameProperties.scaleRatio);
+        gameProperties.setScaleRatio(this.levelData.rowcount);
+        gameProperties.topOffset = (gameProperties.screenHeight - (gameProperties.tileHeight * gameProperties.scaleRatio * this.levelData.rowcount)) * 0.5;
+        gameProperties.leftOffset = (gameProperties.screenWidth - (gameProperties.tileWidth * gameProperties.scaleRatio *this.levelData.columncount)) * 0.5;
         
 
         //console.log("Scale ratio (dpr/3) " + gameProperties.scaleRatio);
         //console.log("Screen height " + gameProperties.screenHeight);
         //console.log("Screen Width " + gameProperties.screenWidth);
        
-
+        console.log(game)
+        
         this.initBoard();
         this.initUI();
-        this.game.stage.backgroundColor = '#FFFFFF';
-
+        resize()
+        window.onresize =  function () {
+            resize() 
+        };
 
     },
-
-    update: function () {},
     
     initBoard: function() {
         
-        this.board = new Board(this.levelData.columns, this.levelData.row, this.boardTop, this.boardLeft, this.levelData);
-        this.board.moveTo(this.boardLeft, this.boardTop);
-        this.board.onTileClicked.addOnce(this.startGame, this);
-        this.board.onUpLevel.addOnce(this.updateLevel, this);
-        this.board.onWordFound.add(this.updateWords, this);
-        this.board.onEvent.add(this.newEvent, this);
-        this.board.onSelection.add(this.typeSelect, this);
-        this.board.onDeselection.add(this.typeDeSel, this);
-        this.board.onFinished.add(this.finished, this);
-        this.board.onFound.add(this.found, this);
+        this.board = new Board(this.levelData);
+        this.board.buildBoard();
+        console.log("offsets: "+gameProperties.topOffset+"   "+gameProperties.leftOffset)
+        this.board.repositionTiles();
+        console.log(this.board.onTileClicked)
+        this.board.onTileClicked.on("tileClick", this.startGame);
+        this.board.onUpLevel.once("levelUp", this.updateLevel, this);
+        this.board.onWordFound.emit("wordFound", this.updateWords, this);
+        this.board.onEvent.emit("onEvent", this.newEvent, this);
+        this.board.onSelection.emit("select", this.typeSelect, this);
+        this.board.onDeselection.emit("deselect", this.typeDeSel, this);
+        this.board.onFinished.emit("finish", this.finished, this);
+        this.board.onFound.emit("found", this.found, this);
         
     },
     
     initUI: function() {
-        var top = this.boardTop -20;
-        var left = this.boardLeft;
+        var top = gameProperties.topOffset -20;
+        var left = gameProperties.leftOffset;
         var right = left + (this.levelData.columns * gameProperties.scaleRatio* gameProperties.tileWidth);
         var wordBank = left * 0.25;
         
         this.timer = new Timer(left, top);
-        this.timer.onTimeUp.add(this.endGame, this);
+        this.timer.onTimeUp.on("timeUp",this.endGame, this);
         this.counter = new Counter(right, top, this.levelData.words);
         
-        this.tf_replay = game.add.text(left + gameProperties.scaleRatio * gameProperties.tileWidth * 5, top, "Replay?", fontStyles.counterFontStyle);
+        this.tf_replay = scene.add.text(left + gameProperties.scaleRatio * gameProperties.tileWidth * 5, top, "Replay?", fontStyles.counterFontStyle);
         //this.tf_replay.anchor.set(0.5, 0.5);
-        this.tf_replay.inputEnabled = true;
-        this.tf_replay.input.useHandCursor = true;
-        this.tf_replay.events.onInputDown.add(this.restartGame, this);
+        //this.tf_replay.inputEnabled = true;
+        //this.tf_replay.input.useHandCursor = true;
+        //this.tf_replay.events.onInputDown.add(this.restartGame, this);
         this.tf_replay.visible = false;
         
-        this.clues = game.add.text(wordBank, top, "Clues:", fontStyles.clueFontStyle);
-        var temp = "";
-        for (var i = 0; i < this.levelData.words; i ++) {
+        this.uiElements = [];
+        
+        this.clues = scene.add.text(wordBank, top, "Clues:", fontStyles.clueFontStyle);
+        this.uiElements.push(this.clues)
+        console.log(this.levelData.words)
+        for (var i = 0; i < this.levelData.wordcount; i++) {
             temp = "word" + i;
-            game.add.text(wordBank, top + (35 * (1+ i)), this.levelData[temp], fontStyles.clueFontStyle);
+            this.uiElements.push(scene.add.text(wordBank, top + (35 * (1+ i)), this.levelData.words[i], fontStyles.clueFontStyle))
+            
         }
         this.timer.start();
         
@@ -257,9 +274,50 @@ var game = new Phaser.Class({
         var temp = "word" + word;
         game.add.text(wordBank, (this.boardTop -20) + (35 * (1+word)), this.levelData[temp], fontStyles.foundFontStyle);
     }
-};
+});
 
-var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
-game.state.add(states.game, gameState);
-game.state.add(states.stats, stats);
-game.state.start(states.stats);
+function resize() {
+    var width;
+    var height;
+    if (window.innerWidth < window.innerHeight) {
+        width = window.innerWidth;
+        height = window.innerWidth;
+    } else {
+       width = window.innerHeight;
+       height = window.innerHeight;
+    }
+    game.renderer.resize(window.innerWidth, height-20, 1)
+    game.config.width = window.innerWidth
+    game.config.height = height -20
+    console.log(width+" "+height)
+    
+    var board = scene.board
+    var uiElements = scene.uiElements
+    gameProperties.screenHeight = height
+    gameProperties.screenWidth = window.innerWidth
+    
+    //these are awfully specific numbers...
+    if (gameProperties.scaleRatio == 0.875){
+        gameProperties.scaleRatio = (gameProperties.screenWidth)/3216;
+    }
+    else if (gameProperties.screenWidth < gameProperties.screenHeight){
+        gameProperties.scaleRatio =  (gameProperties.screenWidth )/3216;
+    }
+    else {
+        gameProperties.scaleRatio = (gameProperties.screenHeight)/3216;
+    }
+    gameProperties.setScaleRatio(board.levelData.rowcount);
+        
+    gameProperties.topOffset = (gameProperties.screenHeight - (gameProperties.tileHeight * gameProperties.scaleRatio * board.levelData.rowcount)) * 0.5;
+    gameProperties.leftOffset = (gameProperties.screenWidth - (gameProperties.tileWidth * gameProperties.scaleRatio * board.levelData.columncount)) * 0.5;
+    
+    board.repositionTiles()
+    scene.timer.repositionTimer()
+    
+    for (i = 0; i < uiElements.length; i++){
+        console.log(uiElements[i])
+        uiElements[i].setX(gameProperties.leftOffset * 0.25)
+        uiElements[i].setY(gameProperties.topOffset + (35 * (i)))
+    }
+    
+}

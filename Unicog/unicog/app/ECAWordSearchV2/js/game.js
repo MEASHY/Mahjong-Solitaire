@@ -286,8 +286,8 @@ gameState.prototype = {
         }
         //console.log("Scale ratio (dpr/3) " + gameProperties.scaleRatio);
         gameProperties.setScaleRatio(this.levelData.row);
-        this.boardTop = (gameProperties.screenHeight - (gameProperties.tileHeight * gameProperties.scaleRatio * this.levelData.row)) * 0.5;
-        this.boardLeft = (gameProperties.screenWidth - (gameProperties.tileWidth * gameProperties.scaleRatio *this.levelData.columns)) * 0.5;
+        gameProperties.boardTop = (gameProperties.screenHeight - (gameProperties.tileHeight * gameProperties.scaleRatio * this.levelData.row)) * 0.5;
+        gameProperties.boardLeft = (gameProperties.screenWidth - (gameProperties.tileWidth * gameProperties.scaleRatio *this.levelData.columns)) * 0.5;
         
 
         //console.log("Scale ratio (dpr/3) " + gameProperties.scaleRatio);

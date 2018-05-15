@@ -13,11 +13,11 @@ var itemStyle = {font: " 18px Arial", fill: "#000"};
 var c = document.cookie;
 
 
-var game = new Phaser.Class({
+var stats = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize:
-    function game(){
-        Phaser.Scene.call(this, {key: "game"});
+    function stats(){
+        Phaser.Scene.call(this, {key: "stats"});
         
         
         if (gameProperties.attempt != 0){
@@ -178,7 +178,7 @@ var game = new Phaser.Class({
 	exitGame: function() {
 		
 	}
-}
+});
 
 var eventList = function() {
 	var ans = [];

@@ -21,7 +21,7 @@ def bejeweled_quick():
 
 @app.route('/wordsearch_quick', methods = ['POST'])
 def wordsearch_quick():
-    return render_template('ECAWordSearchV2/game.html',
+    return render_template('WordSearch/game.html',
                             user_id = "quicktest",
                             r_id = "quicktest")
 
@@ -38,7 +38,7 @@ def bej_ind():
 
 @app.route('/wordsearch_index')
 def word_ind():
-    return render_template('ECAWordSearchV2/index.html')
+    return render_template('WordSearch/index.html')
     
 # Mahjong Stuff
 
@@ -218,6 +218,6 @@ def board():
 
 ## Wordsearch stuff
 
-@app.route('/wordSearch/js/<path:filename>')
+@app.route('/wordsearch/js/<path:filename>')
 def send_wordSearch(filename):
-    return send_from_directory('/ECAWordSearchV2/js/', filename)
+    return send_from_directory('WordSearch/js/', filename)

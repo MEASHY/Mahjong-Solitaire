@@ -1,19 +1,92 @@
+/** Class representing a WordSearch board. */
+class Board {
+    /**
+     * Create a Board 
+     * <p>
+     * Also initializes a layout
+     * @param {context} scene - The scene in which the sprite resides.
+     * @see Layout
+     */
+
+    constructor (levelData) {
+        
+        this.onWordFound = new Phaser.EventEmitter();
+        this.onUpLevel = new Phaser.EventEmitter();
+        this.onTileClicked = new Phaser.EventEmitter();
+        this.onEvent = new Phaser.EventEmitter();
+        this.onSelection = new Phaser.EventEmitter();
+        this.onDeselection = new Phaser.EventEmitter();
+        this.onFinished = new Phaser.EventEmitter();
+        this.onFound = new Phaser.EventEmitter();
+        
+        this.levelData = levelData
+        this.board = [];
+        this.group = scene.add.group();
+        
+        this.directions =  {
+            LR: 0,
+            UD: 1,
+            DU: 2,
+            DD: 3,
+            NA: 4,
+        };        
+    }
+    
+    buildBoard () {
+        for (var x = 0; x < this.levelData.columncount; x ++){
+            var row = [];
+            for (var y = 0; y < this.levelData.rowcount; y ++) {
+                var tile = new Tile(y, x, this.group);
+                tile.setSprite(this.levelData.rows[y][x])
+                tile.sprite.on("onClick", function () {
+                    this.eventController();
+                },this);
+                row.push(tile);
+            }
+            this.board.push(row);
+        }
+    }
+    
+    //this function is used to center the board within the game world
+    moveTo (x,y) {
+        this.repositionTiles()
+    }
+    
+    eventController (tile) {
+        this.onTileClicked.dispatch()
+        this.onEvent.dispatch(tile)
+        theTile = tile
+        conditionController()
+    };
+    
+    repositionTiles () {
+        for (var i = 0; i < this.board.length; i++) {
+            for (var j = 0; j < this.board[i].length; j++) {
+                //console.log(i +"  "+j)
+                //console.log(this.board[i][j].sprite.texture.key)
+                //console.log(this.board[i][j].row +"  "+this.board[i][j].column)
+                this.board[i][j].updatePosition()
+            }
+        }
+    }
+}
+/*
+
 var Board = function (columns, rows, top, left, levelData) {
 
-    
+    console.log(levelData)
     //initialize Signals
-    this.onWordFound = new Phaser.Signal();
-    this.onUpLevel = new Phaser.Signal();
-    this.onTileClicked = new Phaser.Signal();
-    this.onEvent = new Phaser.Signal();
-    this.onSelection = new Phaser.Signal();
-    this.onDeselection = new Phaser.Signal();
-    this.onFinished = new Phaser.Signal();
-    this.onFound = new Phaser.Signal();
+    this.onWordFound = new Phaser.EventEmitter();
+    this.onUpLevel = new Phaser.EventEmitter();
+    this.onTileClicked = new Phaser.EventEmitter();
+    this.onEvent = new Phaser.EventEmitter();
+    this.onSelection = new Phaser.EventEmitter();
+    this.onDeselection = new Phaser.EventEmitter();
+    this.onFinished = new Phaser.EventEmitter();
+    this.onFound = new Phaser.EventEmitter();
 
     //initialize direction properties
     this.directions =  {
-        
         LR: 0,
         UD: 1,
         DU: 2,
@@ -23,9 +96,6 @@ var Board = function (columns, rows, top, left, levelData) {
     
     //setting up variables for properties of events
     var theTile;
-
-    //this will hold the number of tiles selected at any given time
-    var tileSelected = 0;
 
     //this holds the direction of selection (default is NA)
     var direction = this.directions.NA;
@@ -40,80 +110,13 @@ var Board = function (columns, rows, top, left, levelData) {
     var self = this;
     
     var board = [];
-    var group = game.add.group();
     
-    //this is the logic for adding the scoring patterns to the board
-    //If we were to have multiple levels we would need to code away to replace this
-    var ascreen = {
-        size: 6,
-        firstx: 4,
-        firsty: 0,
-        lastx: 9,
-        lasty: 0,
-    };
-    var cubic = {
-        size: 5,
-        firstx: 9,
-        firsty: 1,
-        lastx: 9,
-        lasty: 5,
-    };
-    var width = {
-        size: 5,
-        firstx: 1,
-        firsty: 5,
-        lastx: 1,
-        lasty: 9,
-    };
-    var height = {
-        size: 6,
-        firstx: 4,
-        firsty: 3,
-        lastx: 9,
-        lasty: 8,
-    };
-    var image = {
-        size: 5,
-        firstx: 0,
-        firsty: 4,
-        lastx: 0,
-        lasty: 8,
-    };
-    var pixel = {
-        size: 5,
-        firstx: 1,
-        firsty: 4,
-        lastx: 5,
-        lasty: 8,
-    };
-    var dialog = {
-        size: 6,
-        firstx: 3,
-        firsty: 0,
-        lastx: 8,
-        lasty: 5,
-    };
-    var size = {
-        size: 4,
-        firstx: 2,
-        firsty: 6,
-        lastx: 2,
-        lasty: 9,
-    };
-    var figure = {
-        size: 6,
-        firstx: 2,
-        firsty: 4,
-        lastx: 7,
-        lasty: 9,
-    };
-    var answers = [ascreen, cubic, width, height, image, pixel, dialog, size, figure];
     
     // this is how we code the tile value of the tiles in the board
     // this would have to be replaced for multiple levels
     var row = [];
     var tile;
-    /*var one = ["I", "X", "N", "D", "S", "C", "R", "E", "E", "N"];
+    var one = ["I", "X", "N", "D", "S", "C", "R", "E", "E", "N"];
     var two = ["M", "T", "H", "T", "I", "N", "Y", "I", "M", "C"];
     var three = ["W", "R", "M", "M", "A", "A", "V", "X", "R", "U"];
     var four = ["V", "K", "F", "W", "H", "J", "L", "W", "A", "B"];
@@ -123,19 +126,12 @@ var Board = function (columns, rows, top, left, levelData) {
     var eight = ["G", "D", "I", "P", "E", "U", "H", "T", "H", "J"];
     var nine = ["E", "T", "Z", "M", "B", "L", "R", "J", "W", "T"];
     var ten = ["Q", "H", "E", "G", "L", "Q", "A", "E", "O", "W"];
-   */
-
+   
+    this.group;
     var temp = "";
     var temp1 = "";
-    var boardlines = [];
     var clues = [];
-    for (var x = 0; x < levelData.columns; x ++){
-        temp = "row" + x;
-        //console.log(temp);
-        //console.log(levelData[temp]);
-        boardlines.push(levelData[temp]);
-    }
-    for (var x = 0; x < levelData.words; x ++){
+    for (var x = 0; x < levelData.wordcount; x ++){
         temp1 = "clue" + x;
         //console.log(temp);
         //console.log(levelData[temp]);
@@ -147,10 +143,11 @@ var Board = function (columns, rows, top, left, levelData) {
     //var boardlines = [one,two,three,four,five,six,seven,eight,nine,ten];
 
     var init = function(){
-      for (var x = 0; x < levelData.columns; x ++){
-        for (var y = 0; y < levelData.row; y ++) {
-          tile = new Tile(y, x, group, (boardlines[x][y]), top, left);
-          tile.onClick.add(eventController, this);
+      group = scene.add.group();
+      for (var x = 0; x < levelData.columncount; x ++){
+        for (var y = 0; y < levelData.rowcount; y ++) {
+          tile = new Tile(y, x, this.group, levelData.rows[y][x]);
+          tile.onClick.on("onClick", eventController);
           row.push(tile);
         }
         board.push(row);
@@ -160,8 +157,8 @@ var Board = function (columns, rows, top, left, levelData) {
 
     //this function is used to center the board within the game world
     this.moveTo = function(x,y) {
-        group.x = x;
-        group.y = y;
+        console.log(this.group)
+        this.group.setXY(x,y);
     };
 
     var eventController = function (tile) {
@@ -484,3 +481,4 @@ var Board = function (columns, rows, top, left, levelData) {
     
     init();
 }
+*/

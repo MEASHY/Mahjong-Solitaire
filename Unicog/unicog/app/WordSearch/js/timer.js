@@ -1,15 +1,14 @@
 var Timer = function (x, y) {
 
-    this.onTimeUp = new Phaser.Signal();
+    this.onTimeUp = new Phaser.EventEmitter();
     var count = 60;
-    var tf_counter = game.add.text(x, y, "Time: " +count, fontStyles.counterFontStyle);
-    tf_counter.anchor.set(0, 0.5);
+    var tf_counter = scene.add.text(x, y, "Time: " +count, fontStyles.counterFontStyle);
     
-    var timer = game.time.events;
+    var timer = scene.time.addEvent();
     
     this.start = function () {
-        timer.loop(1000, update, this);
-        timer.start();
+        var timer = scene.time.addEvent({delay: 1000, callback:update, callbackScope: this, loop: true});
+        //timer.start();
     };
     
     this.stop = function () {
@@ -20,11 +19,16 @@ var Timer = function (x, y) {
         count -- ;
         tf_counter.text = "Time: " +  count;
         if (!count){
-            this.onTimeUp.dispatch();
+            this.onTimeUp.emit();
         }
     };
 
     this.getTime = function () {
         return count;
     };
+    
+    this.repositionTimer = function () {
+        tf_counter.setX(gameProperties.leftOffset)
+        tf_counter.setY(gameProperties.topOffset-20)
+    }
 }
