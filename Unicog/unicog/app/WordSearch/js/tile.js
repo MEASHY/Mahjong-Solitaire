@@ -16,12 +16,10 @@ class Tile {
         this.isTerm = false,
         this.column = column,
         this.row = row,
-        //console.log(gameProperties.topOffset+"   "+ gameProperties.leftOffset)
         this.x = gameProperties.leftOffset + column * gameProperties.tileWidth * gameProperties.scaleRatio,
         this.y = gameProperties.topOffset + row * gameProperties.tileHeight * gameProperties.scaleRatio,
         this.crc = false,
-        //console.log(this.x),
-        //this.onClick = new Phaser.EventEmitter(),
+        this.onClick = new Phaser.EventEmitter(),
         this.sprite,
         this.group = group
     }
@@ -32,16 +30,36 @@ class Tile {
     }
     
     setSprite (value) {
-        this.sprite = scene.add.sprite(this.x, this.y, value).setOrigin(0)
-        //console.log(this.sprite)
-        this.group.add(this.sprite)
+        this.sprite = scene.add.sprite(this.x, this.y, value).setOrigin(0).setInteractive()
+        //this.group.add(this.sprite)
         this.sprite.setScale(gameProperties.scaleRatio)
-        this.sprite.inputEnabled = true;
-        this.sprite.on('mouseover', function () {  
+        this.sprite.on('pointerdown', function () {  
             console.log("click")
-            //this.check()
-            console.log("click")
+            this.select()
         }, this)
+    }
+
+    click() {
+        if(sprite.inputEnabled){
+            if (!tile.status){
+                    tile.status = 1;
+                    currentState = selNames[tile.tileIndex];
+            } else if (tile.status ==1 && tile.isTerm){
+                tile.isTerm = false;
+                currentState = names[tile.tileIndex];
+                tile.status = 0;
+            }
+            sprite.loadTexture(currentState);
+        }
+    }
+
+    correct (correct) {
+        currentState = lockNames[tile.tileIndex];
+        tile.status = 3;
+        sprite.loadTexture(currentState);
+        
+        tile.enable(false);
+        tile.crc = true;
     }
     
     updatePosition () {
@@ -85,24 +103,6 @@ var Tile = function(column, row, group, value) {
         this.sprite.on('pointerdown', function () {  
             check()
         }, this)
-    };
-    
-    var rollOver = function() {
-        var tween = game.add.tween(sprite);
-        tween.to({x:tile.x-3, y:tile.y-3}, 100, Phaser.Easing.Exponential.easeOut);
-        tween.start();
-        
-        //console.log("rollover");
-        
-    };
-    
-    var rollOut = function() {
-        //console.log("rollOut");
-        var tween = game.add.tween(sprite);
-        tween.to({x:tile.x, y:tile.y}, 100, Phaser.Easing.Exponential.easeOut);
-        tween.start();
-        
-        
     };
     
     var check = function(){

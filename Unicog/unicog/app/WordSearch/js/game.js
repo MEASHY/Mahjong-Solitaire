@@ -120,7 +120,7 @@ var play = new Phaser.Class({
 
         gameProperties.setVersion(ver["version"]);
         
-        this.load.json("levelData", "/static/wsAssets/level/level1/level"+grade+
+        this.load.json("levelData", "/static/wsAssets/level/Level1/Level"+grade+
                                     "_version"+ver["version"]);
         
         var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -168,11 +168,11 @@ var play = new Phaser.Class({
         window.onresize =  function () {
             resize() 
         };
-        this.input.on('pointerdown', function (pointer) {
+        //this.input.on('pointerdown', function (pointer) {
 
-            console.log(this.board)
+            //console.log(this.board)
 
-        }, this);
+        //}, this);
 
     },
     
