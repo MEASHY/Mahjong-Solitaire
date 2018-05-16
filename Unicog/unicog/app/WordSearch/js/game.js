@@ -201,7 +201,6 @@ var play = new Phaser.Class({
         var wordBank = left * 0.25;
         
         this.timer = new Timer(left, top);
-        this.timer.onTimeUp.on("timeUp",this.endGame, this);
         this.counter = new Counter(right, top, this.levelData.words);
         
         this.tf_replay = scene.add.text(left + gameProperties.scaleRatio * gameProperties.tileWidth * 5, top, "Replay?", fontStyles.counterFontStyle);
@@ -231,12 +230,12 @@ var play = new Phaser.Class({
 
     updateLevel: function(){
         gameProperties.upLevel();
-        this.timer.stop();
+        this.timer.pause();
         game.state.start(states.stats);
     },
     
     endGame: function () {
-        this.timer.stop();
+        this.timer.pause();
         gameProperties.prev = gameProperties.level;
         //this.tf_replay.visible = true;
         game.state.start(states.stats);

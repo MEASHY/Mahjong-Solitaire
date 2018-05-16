@@ -1,13 +1,13 @@
-/** Class representing a WordSearch board. */
+/** Class representing a WordSearch grid. */
 class Board {
     /**
      * Create a Board 
+     * initialize event emitters
+     * store the level data
      * <p>
      * Also initializes a layout
-     * @param {context} scene - The scene in which the sprite resides.
-     * @see Layout
+     * @param {String} levelData - The JSON representation of the level.
      */
-
     constructor (levelData) {
         
         this.onWordFound = new Phaser.EventEmitter();
@@ -21,7 +21,6 @@ class Board {
         
         this.levelData = levelData
         this.board = [];
-        this.group = scene.add.group();
         
         this.directions =  {
             LR: 0,
@@ -32,11 +31,17 @@ class Board {
         };        
     }
     
+    /**
+     * Generate the ketter grid for the level
+     * <p>
+     * Read the grid layout from level data and generate a sprite
+     * for every letter on the grid. 
+     */
     buildBoard () {
-        for (var x = 0; x < this.levelData.columncount; x ++){
+        for (var y = 0; y < this.levelData.columncount; y ++){
             var row = [];
-            for (var y = 0; y < this.levelData.rowcount; y ++) {
-                var tile = new Tile(y, x, this.group);
+            for (var x = 0; x < this.levelData.rowcount; x ++) {
+                var tile = new Tile(x, y);
                 tile.setSprite(this.levelData.rows[y][x])
                 tile.sprite.on("onClick", function () {
                     this.eventController();
@@ -47,7 +52,7 @@ class Board {
         }
     }
     
-    //this function is used to center the board within the game world
+    //depreciated function
     moveTo (x,y) {
         this.repositionTiles()
     }

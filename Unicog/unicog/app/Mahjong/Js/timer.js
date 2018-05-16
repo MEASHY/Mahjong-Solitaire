@@ -1,7 +1,7 @@
 /** Class representing a Timer. */
 class Timer {
     /**
-     * Create a TileNode
+     * Create a timed event
      * @param {number} duration - Timer duration (seconds).
      */
     constructor (duration) {

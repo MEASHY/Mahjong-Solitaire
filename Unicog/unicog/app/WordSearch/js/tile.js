@@ -11,55 +11,54 @@ class Tile {
      */
      
      
-    constructor(column, row, group) {
+    constructor(column, row) {
 
         this.isTerm = false,
+        this.value = "",
         this.column = column,
         this.row = row,
         this.x = gameProperties.leftOffset + column * gameProperties.tileWidth * gameProperties.scaleRatio,
         this.y = gameProperties.topOffset + row * gameProperties.tileHeight * gameProperties.scaleRatio,
-        this.crc = false,
+        this.correct = false,
+        this.selected = false,
         this.onClick = new Phaser.EventEmitter(),
-        this.sprite,
-        this.group = group
+        this.sprite
     }
 
     check () {
         this.onClick.emit("onclick")
-        console.log("chack")
+        this.click()
+        //console.log("chack")
     }
     
     setSprite (value) {
+        this.value = value
         this.sprite = scene.add.sprite(this.x, this.y, value).setOrigin(0).setInteractive()
-        //this.group.add(this.sprite)
         this.sprite.setScale(gameProperties.scaleRatio)
         this.sprite.on('pointerdown', function () {  
-            console.log("click")
-            this.select()
+            this.click()
         }, this)
     }
 
     click() {
-        if(sprite.inputEnabled){
-            if (!tile.status){
-                    tile.status = 1;
-                    currentState = selNames[tile.tileIndex];
-            } else if (tile.status ==1 && tile.isTerm){
-                tile.isTerm = false;
-                currentState = names[tile.tileIndex];
-                tile.status = 0;
-            }
-            sprite.loadTexture(currentState);
+        if (!this.selected){
+            this.selected = true
+            this.sprite.setTexture("sel"+this.value)
+            this.isTerm = true
+        } else if (this.selected && this.isTerm){
+            this.isTerm = false
+            this.sprite.setTexture(this.value)
+            this.selected = false
         }
+
     }
 
     correct (correct) {
         currentState = lockNames[tile.tileIndex];
-        tile.status = 3;
         sprite.loadTexture(currentState);
         
         tile.enable(false);
-        tile.crc = true;
+        tile.correct = true;
     }
     
     updatePosition () {
