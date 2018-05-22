@@ -99,7 +99,7 @@ var play = new Phaser.Class({
     },
     
     preload: function() {
-        var levelString = '/static/wsAssets/level/';
+        var levelString = '/wordsearch/assets/level/';
         var grade = gameProperties.level;
         var xhr = new XMLHttpRequest();
         var url = "/api/v1/get_level_version";
@@ -120,16 +120,16 @@ var play = new Phaser.Class({
 
         gameProperties.setVersion(ver["version"]);
         
-        this.load.json("levelData", "/static/wsAssets/level/Level1/Level"+grade+
+        this.load.json("levelData", "/wordsearch/assets/level/Level1/Level"+grade+
                                     "_version"+ver["version"]);
         
         var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
         console.log(this);
         for (i in alph) {
-            this.load.image(alph[i], '/static/wsAssets/tile1_268_pixels/tile1_'+alph[i]+'_268.png');
-            this.load.image('sel'+alph[i], '/static/wsAssets/tile_select/tile1_'+alph[i]+'_268.png');
-            this.load.image('lock'+alph[i], '/static/wsAssets/tile_lock/tile1_'+alph[i]+'_268.png');
+            this.load.image(alph[i], '/wordsearch/assets/tile1_268_pixels/tile1_'+alph[i]+'_268.png');
+            this.load.image('sel'+alph[i], '/wordsearch/assets/tile_select/tile1_'+alph[i]+'_268.png');
+            this.load.image('lock'+alph[i], '/wordsearch/assets/tile_lock/tile1_'+alph[i]+'_268.png');
         }
     },
     

@@ -221,3 +221,7 @@ def board():
 @app.route('/wordsearch/js/<path:filename>')
 def send_wordSearch(filename):
     return send_from_directory('WordSearch/js/', filename)
+
+@app.route('/wordsearch/assets/<path:filename>')
+def send_wsAssets(filename):
+    return send_from_directory('WordSearch/assets/', filename)
