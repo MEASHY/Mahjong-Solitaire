@@ -133,6 +133,14 @@ var play = new Phaser.Class({
             this.load.image('sel'+alph[i], '/wordsearch/assets/tile_select/tile1_'+alph[i]+'_268.png');
             this.load.image('lock'+alph[i], '/wordsearch/assets/tile_lock/tile1_'+alph[i]+'_268.png');
         }
+
+        //load the sound files
+        this.load.audio('correct', 'wordsearch/assets/Audio/correct.mp3')
+        this.load.audio('incorrect', 'wordsearch/assets/Audio/incorrect.mp3')
+        this.load.audio('click', 'wordsearch/assets/Audio/click.mp3')
+        this.load.audio('hint', 'wordsearch/assets/Audio/hint.mp3')
+        this.load.audio('shuffle', 'wordsearch/assets/Audio/shuffle.mp3')
+        this.load.audio('finishGame', 'wordsearch/assets/Audio/finish_game.mp3')
     },
     
     create: function () {
