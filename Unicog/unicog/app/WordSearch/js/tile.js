@@ -15,31 +15,36 @@ class Tile {
 
         this.isTerm = false,
         this.value = "",
-        this.column = column,
-        this.row = row,
-        this.x = gameProperties.leftOffset + column * gameProperties.tileWidth * gameProperties.scaleRatio,
-        this.y = gameProperties.topOffset + row * gameProperties.tileHeight * gameProperties.scaleRatio,
+        this.y = row,
+        this.x = column,
+        this.xPos = gameProperties.leftOffset + this.x * gameProperties.tileWidth * gameProperties.scaleRatio,
+        this.yPos = gameProperties.topOffset + this.y * gameProperties.tileHeight * gameProperties.scaleRatio,
         this.correct = false,
         this.selected = false,
-        this.onClick = new Phaser.EventEmitter(),
+        this.onSelect = new Phaser.EventEmitter(),
+        this.onEnter = new Phaser.EventEmitter(),
+        this.onSubmit = new Phaser.EventEmitter(),
         this.sprite
-    }
-
-    check () {
-        this.onClick.emit("onclick")
-        this.click()
-        //console.log("chack")
     }
     
     setSprite (value) {
         this.value = value
-        this.sprite = scene.add.sprite(this.x, this.y, value).setOrigin(0).setInteractive()
+        this.sprite = scene.add.sprite(this.xPos, this.yPos, value).setOrigin(0).setInteractive()
         this.sprite.setScale(gameProperties.scaleRatio)
-        this.sprite.on('pointerdown', function () {  
-            this.click()
+        this.sprite.on('pointerdown', function () { 
+            console.log("Ponterdown") 
+            emitter.emit("tileSelect", this)
+        }, this)
+        this.sprite.on('pointerover', function () {  
+            //console.log("Enter Tile")
+            emitter.emit("tileEnter", this)
+        }, this)
+        this.sprite.on('pointerup', function () {  
+            //console.log("Submit")
+            emitter.emit("tileSubmit")
         }, this)
     }
-
+    //depreciated old even function
     click() {
         if (!this.selected){
             this.selected = true
@@ -52,6 +57,18 @@ class Tile {
         }
 
     }
+    
+    select(select = true) {
+        if(select){
+            this.sprite.setTexture("sel"+this.value)
+        } else {
+            if(this.correct) {
+                this.sprite.setTexture("lock"+this.value)        
+            } else {
+                this.sprite.setTexture(this.value)            
+            }
+        }   
+    }
 
     correct (correct) {
         currentState = lockNames[tile.tileIndex];
@@ -62,9 +79,9 @@ class Tile {
     }
     
     updatePosition () {
-        this.x = this.column * gameProperties.tileWidth * gameProperties.scaleRatio + gameProperties.leftOffset
-        this.y = this.row * gameProperties.tileHeight * gameProperties.scaleRatio + gameProperties.topOffset
-        this.sprite.setPosition(this.x, this.y)
+        this.xPos = this.x * gameProperties.tileWidth * gameProperties.scaleRatio + gameProperties.leftOffset
+        this.yPos = this.y * gameProperties.tileHeight * gameProperties.scaleRatio + gameProperties.topOffset
+        this.sprite.setPosition(this.xPos, this.yPos)
         this.sprite.setScale(gameProperties.scaleRatio)
     }
 }

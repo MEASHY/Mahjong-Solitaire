@@ -51,6 +51,8 @@ var currentEvent;
 var startingScore;
 var endingScore;
 
+var emitter = new Phaser.EventEmitter();
+
 var fontStyles = {
     counterFontStyle:{font: '20px Arial', fill : '#000000'},
     clueFontStyle:{font: "bold 30px Arial", fill: "#000"},

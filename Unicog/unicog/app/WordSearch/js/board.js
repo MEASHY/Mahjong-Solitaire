@@ -10,18 +10,30 @@ class Board {
      */
     constructor (levelData) {
         
-        this.onWordFound = new Phaser.EventEmitter();
-        this.onUpLevel = new Phaser.EventEmitter();
-        this.onTileClicked = new Phaser.EventEmitter();
-        this.onEvent = new Phaser.EventEmitter();
-        this.onSelection = new Phaser.EventEmitter();
-        this.onDeselection = new Phaser.EventEmitter();
-        this.onFinished = new Phaser.EventEmitter();
-        this.onFound = new Phaser.EventEmitter();
+        //Depreciated EventEmitters
+        this.onWordFound = new Phaser.EventEmitter(),
+        this.onUpLevel = new Phaser.EventEmitter(),
+        this.onTileClicked = new Phaser.EventEmitter(),
+        this.onEvent = new Phaser.EventEmitter(),
+        this.onSelection = new Phaser.EventEmitter(),
+        this.onDeselection = new Phaser.EventEmitter(),
+        this.onFinished = new Phaser.EventEmitter(),
+        this.onFound = new Phaser.EventEmitter(),
+        
+        this.handler = new Phaser.EventEmitter(),
+        emitter.on("tileSelect",this.tileSelected,this),
+        emitter.on("tileEnter",this.tileEnter,this),
+        emitter.on("tileSubmit",this.tileSubmit,this),
+        
+        
+        this.firstTile = null,
+        this.lastTile = null,
+        this.selectedTiles = new Array,
         
         this.levelData = levelData
         this.board = [];
         
+        //Depreciated constants
         this.directions =  {
             LR: 0,
             UD: 1,
@@ -32,7 +44,7 @@ class Board {
     }
     
     /**
-     * Generate the ketter grid for the level
+     * Generate the getter grid for the level
      * <p>
      * Read the grid layout from level data and generate a sprite
      * for every letter on the grid. 
@@ -43,20 +55,116 @@ class Board {
             for (var x = 0; x < this.levelData.rowcount; x ++) {
                 var tile = new Tile(x, y);
                 tile.setSprite(this.levelData.rows[y][x])
-                tile.sprite.on("onClick", function () {
-                    this.eventController();
-                },this);
                 row.push(tile);
             }
             this.board.push(row);
         }
     }
     
+    tileSelected (tile){
+        //console.log("Tile Selected by board")
+        this.toggleTiles(false)
+        this.firstTile = tile
+        this.selectedTiles = new Array()
+        this.selectedTiles.push(tile)
+        this.toggleTiles(true)
+        //console.log(this.selectedTiles)
+    }
+    
+    tileEnter (tile){
+        if(this.firstTile === null){
+            return        
+        }
+        if(this.firstTile === tile){
+            this.toggleTiles(false)
+            return      
+        }
+        if (this.validLine(tile)) {
+            this.toggleTiles(false) 
+            this.lastTile = tile
+            this.selectedTiles = new Array()
+            this.getSelectedTiles()
+            this.toggleTiles(true)    
+        }
+    }
+    
+    tileSubmit () {
+        var words = this.levelData.words
+        var word = "" 
+        for(var tile in this.selectedTiles){
+            word += this.selectedTiles[tile].value 
+        }
+        var revWord = word.split("").reverse().join("")
+        var index = Math.max(words.indexOf(word), words.indexOf(revWord))
+        console.log(word)
+        console.log(revWord)
+        console.log(words)
+        if(index > -1){
+            console.log("Correct Word!")
+            emitter.emit("foundWord",words[index])
+            for(var tile in this.selectedTiles){
+                this.selectedTiles[tile].correct = true            
+            }
+        } else {
+            console.log("False!")   
+        }
+        this.toggleTiles(false)
+        this.firstTile = null
+    }
+    
+    validLine (tile) {
+        if(this.firstTile.x === tile.x) {
+            return true        
+        }    
+        if(this.firstTile.y === tile.y) {
+            return true        
+        }    
+        var xp = this.firstTile.x - tile.x
+        var yp = this.firstTile.y - tile.y
+        var slope = xp/yp
+        if(Math.abs(slope) === 1) {
+            return true        
+        }    
+        return false
+    }
+    
+    toggleTiles (on = true){
+        for(var tile in this.selectedTiles) {
+            this.selectedTiles[tile].select(on)                  
+        }            
+    }
+    
+    getSelectedTiles(){
+        var x = this.firstTile.x
+        var y = this.firstTile.y
+        var xDiff = (this.lastTile.x - this.firstTile.x)
+        if (xDiff !== 0){
+            xDiff = xDiff / Math.abs(xDiff)
+        }
+        var yDiff = (this.lastTile.y - this.firstTile.y)
+        if (yDiff !== 0){
+            yDiff = yDiff / Math.abs(yDiff)
+        }
+        
+        this.selectedTiles.push(this.firstTile)
+        //console.log("xDiff: "+xDiff)
+        //console.log("yDiff: "+yDiff)
+        //console.log(x+", "+y)
+        //console.log(this.lastTile.x+", "+this.lastTile.y)
+        while(x !== this.lastTile.x || y !== this.lastTile.y) {
+            x = x + xDiff
+            y = y + yDiff
+            //console.log(x+", "+y)
+            this.selectedTiles.push(this.board[y][x])
+        }
+    }
+    
+    
     //depreciated function
     moveTo (x,y) {
         this.repositionTiles()
     }
-    
+    //Depreciated even function
     eventController (tile) {
         this.onTileClicked.dispatch()
         this.onEvent.dispatch(tile)
